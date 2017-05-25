@@ -1,0 +1,20 @@
+Http1.1 
+1.Text based protocol
+2.Disadvantage  hack 1.domain sharding(?) 2.resourse inlining 3. image spriting
+
+Http2
+1. binary protocol 
+2. multiplexing of requests.
+3. header compression
+4. push cache(need push enabled at browser)
+
+How to enable for browser
+1. TLS require --> https
+for tls need certificate check lets encrypt
+
+How to enable for between backends
+1. TLS not required dont need encryption - clear text can be used
+2. also verify all intermediaries(load balancer) use http2.
+
+Disadvantage
+TCP packet loss -> make http2 expensive than http1.1
