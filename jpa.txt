@@ -1,0 +1,19 @@
+1.The entity class must have a no-arg constructor.	
+2. use Access type getter method
+
+
+CREATE TABLE `transaction_product_mapping` (
+  `id` varchar(255) NOT NULL,
+  `base_amount` double NOT NULL,
+  `tax_amount` double NOT NULL,
+  `total_amount` double NOT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `transaction_id` varchar(50) NOT NULL,
+  `tenure_months` int(11) NOT NULL,
+  `product_fulfilment_status` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `updated_on` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `transaction_product_mapping_fk` (`transaction_id`),
+  CONSTRAINT `transaction_product_mapping_fk` FOREIGN KEY (`transaction_id`) REFERENCES `transactions` (`transaction_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
