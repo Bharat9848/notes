@@ -1,0 +1,3 @@
+Cost function. Use : it predict the Theta parameters.Using derivative we can find the minimum of cost function.
+Case 1 : linear Regression hypothesis = [1/m (summation from i=0 to m(1/2(h(x(i))-y(i))^2))]
+case 2 : binary logistic Regression hypothesis =[1m(summation from i=0 to m (Cost(hθ(x(i)),y(i))) where Cost(hθ(x),y)=−ylog(hθ(x))−(1-y)log(1−hθ(x))]
