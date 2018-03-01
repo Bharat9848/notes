@@ -1,0 +1,1 @@
+Sigmoid function : used in mapping of classification of data in between 0 and 1. Formula = 1/(1+e^(-z)).
