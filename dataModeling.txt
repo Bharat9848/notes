@@ -1,0 +1,9 @@
+NoSql schema
+1. If the objects you are going to embed may be accessed in a isolated way (it makes sense to access it out of the document context) 
+you have a reason for not embedding.
+2. If the array with embedded objects may grow in an unbounded way, you have another reason for not embedding.
+3. Embedding one to many relationship on the one side can help in saving extra queries. But gain can quickly turn into lose if those objects are getting updated very frequently.   
+4.three basic One-to-N schema designs:
+4.1. Embed the N side if the cardinality is one-to-few and there is no need to access the embedded object outside the context of the parent object.
+4.2. Use an array of references to the N-side objects if the cardinality is one-to-many or if the N-side objects should stand alone for any reasons.
+4.3. Use a reference to the One-side in the N-side objects if the cardinality is one-to-squillions.
