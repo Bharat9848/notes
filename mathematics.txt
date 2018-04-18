@@ -1,1 +1,3 @@
 Sigmoid function : used in mapping of classification of data in between 0 and 1. Formula = 1/(1+e^(-z)).
+SET 
+Jaccard similarity : measures similarity between two sets = (A intersection B)/ (A union B) 
