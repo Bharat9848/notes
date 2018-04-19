@@ -1,3 +1,7 @@
 Sigmoid function : used in mapping of classification of data in between 0 and 1. Formula = 1/(1+e^(-z)).
 SET 
 Jaccard similarity : measures similarity between two sets = (A intersection B)/ (A union B) 
+
+Probability
+1.P(A ∩ B) = P(A and B) = P(A) · P(B|A)
+Why do we use B|A instead of B? This is because it is possible that B depends on A. If this is the case, then just multiplying P(A) and P(B) does not give us the whole picture.
