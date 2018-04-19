@@ -1,0 +1,1 @@
+1. Returned Optional as null. Never declare local variable to be returned as a Optional, instead return Optional in return statement itself.
