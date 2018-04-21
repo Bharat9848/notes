@@ -1,7 +1,11 @@
-Cost function. Use : it predict the Theta parameters.Using derivative we can find the minimum of cost function.
-Case 1 : linear Regression hypothesis = [1/m (summation from i=0 to m(1/2(h(x(i))-y(i))^2))]
-case 2 : binary logistic Regression hypothesis =[1m(summation from i=0 to m (Cost(hθ(x(i)),y(i))) where Cost(hθ(x),y)=−ylog(hθ(x))−(1-y)log(1−hθ(x))]
+
 
 
 SUPPORT VECTOR MACHINES
 1. Support vector machines work on a range of different types of data, but they are most effective on data sets with very high dimensions relative to the observations
+
+
+Practical Suggestions.
+
+1. Before training your ML algo on a large dataset (e.g. one million data), train your algorithm on small dataset with let say 1000 rows data. And plot error vs data size for the cost function of traing data and cross validation data. If plotted graph shows sign of high bias then training on large data set would not help. On the other hand if shows sign of high variance then you should go ahead.
+
