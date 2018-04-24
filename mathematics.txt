@@ -18,4 +18,18 @@ A Poisson Random Variable represent a variable for an event that has a small pro
 
 A continuous random variable can take on an infinite number of possible values, not just a few countable ones. They are defined using probablity density(y axis) over range of possible values.
 
+Statistics
+
+Measuring center of dataset : mean is sensitive to outliers its beneficial to use mean if dataset member are close to each other or variation in dataset is minimum.On the other hand median of sorted dataset is not sensitive to outliers, then its a good measurement of center if your dataset is suffering from outliers. 
+
+The coefficient of variation is defined as the ratio of the data's standard deviation to its mean.We use this measure frequently when attempting to compare means, and it spreads across populations that exist at different scales.
+
+The z-score is a way of telling us how far away a single data value is from the mean.By replacing each value with its z-score is same as original data value. It is a very effective way of normalizing data that exists on very different scales, and also to put data in context of their mean.
+
+Correlation cofficient between two variable: they might go from linear to polynomial based on level of fitness that can be find out by  mapping different model on testing data. Also it is important to realize that causation is not implied by correlation. The hypothesis relationship between two variable must be tested further.We will need to use more sophisticated statistical methods and machine learning algorithms to solidify these assumptions and hypotheses.
+
+Assumption : Many statistical tests and hypotheses require the underlying data to come from a normally distributed population.
+
+
+
 
