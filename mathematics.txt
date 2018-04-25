@@ -30,6 +30,8 @@ Correlation cofficient between two variable: they might go from linear to polyno
 
 Assumption : Many statistical tests and hypotheses require the underlying data to come from a normally distributed population.
 
+central limit theorem states that the sampling distribution (the distribution of point estimates) will approach a normal distribution as we increase the number of samples taken. A sampling distribution is a distribution of several point estimates.
+
 
 
 
