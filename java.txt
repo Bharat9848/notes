@@ -1,0 +1,16 @@
+
+JVM
+
+Each thread in JVM comes with its own stack where it holds frames of method invocations that are currently happening on that thread.Each mehtod invocation frame consist of local variable array and operand stack. The frame is popped when a method terminates, either by returning normally or if an uncaught exception is thrown. Local variable array is used to store parameters and other local variables that are defined in that method. Operand stack is used to store temporarily other method operands that will be called from this function. And It also store the return values from any other method called from this method.
+
+Java has a exception table in non heap storage for each method for each exception declared. It has a four fields as follows
+1. From field represent bytecode location of immediate command following try clause.
+2. To field represent bytecode location of last command for that exception block. It typically the last command in finally block or catch block.
+3. Target field represent handler code's starting bytecode location. Its typically the location of first bytecode in catch block of that exception.
+4. Type field represent the type of exception. For finally block its value is any.
+
+If a non caught exception occurs just because there is no entry in exception table, it will pop out all the method frames from thread's stack and Thread will die. That’s why it’s always recommended to set a last resort uncaught exception handler, to capture whatever is left from the context of that error.
+
+iconst_X / iload_X / getstatic java bytecode command store value in operand stack.
+invokestatic / iadd / ireturn /invokevirtual java bytecode command pops from operand stack multiple times based on argument it need to invoke command's method. 
+istore pop the return value from operand stack and set it to crossponding local variable array location.
