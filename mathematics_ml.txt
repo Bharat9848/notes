@@ -37,6 +37,10 @@ A confidence interval is a range of values based on a point estimate that contai
 
 Hypothesis tests' framework to determine whether the observed sample data deviates from what was to be expected from the population itself.A hypothesis test generally looks at two opposing hypotheses about a population. We call them the null hypothesis and the alternative hypothesis. The null hypothesis is the statement being tested and is the default correct answer.The alternative hypothesis is the statement that opposes the null hypothesis. Our test will tell us which hypothesis we should trust and which we should reject.
 
+Graphs : scatter plot :It is made by creating two quantitative axes and using data points to represent observations
+Line graph : A line graph simply uses lines to connect data points and usually represents time on the x axis.
+Bar chart : It is used when we try to compare some quatitative variable accross different group. Here X-axis does not represent any quatitative variable, it generally represent a category variable. While the y-axis is quantitative.
+
 
 
 
