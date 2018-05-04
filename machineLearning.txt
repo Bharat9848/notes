@@ -12,3 +12,4 @@ Practical Suggestions.
 
 1. Before training your ML algo on a large dataset (e.g. one million data), train your algorithm on small dataset with let say 1000 rows data. And plot error vs data size for the cost function of traing data and cross validation data. If plotted graph shows sign of high bias then training on large data set would not help. On the other hand if shows sign of high variance then you should go ahead.
 
+2. To use qualitative data e.g. enums true/false etc. in our model as a feature we should use dummy variable. dummy variable are true/false variable for each qualitative value. e.g single day column can break into seven columns with names such as sunday, mon,... sat.
