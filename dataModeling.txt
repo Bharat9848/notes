@@ -7,3 +7,20 @@ you have a reason for not embedding.
 4.1. Embed the N side if the cardinality is one-to-few and there is no need to access the embedded object outside the context of the parent object.
 4.2. Use an array of references to the N-side objects if the cardinality is one-to-many or if the N-side objects should stand alone for any reasons.
 4.3. Use a reference to the One-side in the N-side objects if the cardinality is one-to-squillions.
+
+
+What to choose sql or nosql
+Nosql
+  pros:
+       flexible and evolving schema.
+       suitable for big volume of data.
+       suitable where eventual consistency can be tolerated.
+       
+  cons:
+ Sql
+  pros:
+        RDBMS are at their best when performing intensive read/write operations on small or medium sized data sets.
+        Need strong consistency.
+       
+  cons:
+        Does not scale well in horizontal scalability bcause of ACID rules
