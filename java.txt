@@ -14,3 +14,12 @@ If a non caught exception occurs just because there is no entry in exception tab
 iconst_X / iload_X / getstatic java bytecode command store value in operand stack.
 invokestatic / iadd / ireturn /invokevirtual java bytecode command pops from operand stack multiple times based on argument it need to invoke command's method. 
 istore pop the return value from operand stack and set it to crossponding local variable array location.
+
+
+
+
+JAVA 8
+1. Instead of hunting enums usage in your code every time you add new enum constant, move your enum logic in enum class itself as a propery (which can be a Method reference) or (abstract) functions. This will prevent any accidental logic left out for your new enum constant.
+
+2. Template Pattern can be replaced with more readable Loan pattern. Loan pattern can be seen as wherein a resource(e.g. File) has passed on to some specific logic to run on it.
+
