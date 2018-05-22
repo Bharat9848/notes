@@ -1,0 +1,1 @@
+JOIN FETCH tells your persistence provider to not only join the tables of the two associated entities within your uery but also to initialize the association.
