@@ -9,3 +9,8 @@ Java has a exception table in non heap storage for each method for each exceptio
 4. Type field represent the type of exception. For finally block its value is any.
 
 If a non caught exception occurs just because there is no entry in exception table, it will pop out all the method frames from thread's stack and Thread will die. That’s why it’s always recommended to set a last resort uncaught exception handler, to capture whatever is left from the context of that error.
+
+
+
+HOTSPOT JVM
+There is direct mapping between java thread and native os thread.
