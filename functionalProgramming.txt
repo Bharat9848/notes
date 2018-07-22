@@ -1,0 +1,3 @@
+Applicative is a type class that can be mapped over. And is has two operations called pure and ap.
+
+Donot throw exceptions. Try to code function with strict contract i.e. for valid input to valid output. e.g in divide finction instead of throwing exception return optional of int or some data type that capture error.
