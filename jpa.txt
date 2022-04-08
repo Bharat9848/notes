@@ -1,8 +1,8 @@
 
 1.The entity class must have a no-arg constructor.	
-2. use Access type getter method
+2. use Access type getter 3
 
-3. Bidirectional @OneToMany association is the best way to map a one-to-many database relationship when we really need the collection on the parent side of the association.Additionally parent side should have addChild and removeChild method.
+method. Bidirectional @OneToMany association is the best way to map a one-to-many database relationship when we really need the collection on the parent side of the association.Additionally parent side should have addChild and removeChild method.
 
 4. Use Set to map a Many-to-many relationship instead of List. If you used List and remove one entry from the association then hibernate removes all the association and inserts left out association again. Its due to some bug in hibernate<5.0.8.
 To map a to-many relationship we can use Set,List,Bag and Map data structures.
