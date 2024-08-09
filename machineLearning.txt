@@ -1,0 +1,15 @@
+
+Linear Regression :
+To test how well is our predicting model is doing, we can compare it with null model. Null model is a model where model always predict the mean of y variable. And to compare it with null model we can take root mean sqare error on y test dataset and y mean. And similarly we can take root mean square eror of our model's predicted test data set and actual y test dataset. If our model is good then its root mean square error should be less than root mean square error of null model.
+
+
+
+SUPPORT VECTOR MACHINES
+1. Support vector machines work on a range of different types of data, but they are most effective on data sets with very high dimensions relative to the observations
+
+
+Practical Suggestions.
+
+1. Before training your ML algo on a large dataset (e.g. one million data), train your algorithm on small dataset with let say 1000 rows data. And plot error vs data size for the cost function of traing data and cross validation data. If plotted graph shows sign of high bias then training on large data set would not help. On the other hand if shows sign of high variance then you should go ahead.
+
+2. To use qualitative data e.g. enums true/false etc. in our model as a feature we should use dummy variable. dummy variable are true/false variable for each qualitative value. e.g single day column can break into seven columns with names such as sunday, mon,... sat.

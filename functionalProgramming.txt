@@ -1,0 +1,10 @@
+Applicative is a type class that can be mapped over. And is has two operations called pure and ap.
+
+Donot throw exceptions. Try to code function with strict contract i.e. for valid input to valid output. e.g in divide finction instead of throwing exception return optional of int or some data type that capture error.
+
+functor is any generic type that have map function in it.
+
+Monoid : is generic type which abides rules of 
+associatity: this helps in parallelization or applying divide and conquer algorithm on data.
+Identity element
+closure : combining of two values of same type and give out value of same type 

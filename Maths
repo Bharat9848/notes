@@ -1,0 +1,4 @@
+why we check factor of a prime till floor(sqrt(m)) -->sieve of Eratosthenes Finally, we observe that the first number crossed out in each iteration is the square of the prime factor being used.	
+
+
+summation from i=1 to n(i) × i! = (n + 1)! − 1

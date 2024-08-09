@@ -1,0 +1,7 @@
+sar -n DEV 30 6 - network related info
+
+sar –P ALL –u 30 6 -  cpu realated info
+
+sar –b 30 6 - disk io related info
+
+sar -q 30 6   cpu load related info

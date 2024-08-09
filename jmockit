@@ -1,0 +1,9 @@
+By default, JMockit does not care on which object a mocked instance method is called. This is what allows the transparent mocking of instances created directly inside code under test, when said code invokes constructors on brand new instances using the new operator. 
+
+Every instance of a mocked type - whether created by JMockit or not - is mocked (by default, as single-instance mocking is also supported), for as long as that type remains mocked.
+
+By default, none of these constraints apply to non-strict expectations, which are usually explicitly verified through verification blocks written with mockit.Verifications or one of its subclasses.
+
+note that when no expectations are recorded in the test for a given mocked type/instance, it is automatically assumed to be fully non-strict.
+
+Strict expectations are verified implicitly, so there is no point in re-verifying them in a explicit verification block. Non-strict expectations, on the other hand, are usually verified through explicit invocations to mocked types in a verification block or verified implicitly. 

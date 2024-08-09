@@ -1,0 +1,30 @@
+
+1.The entity class must have a no-arg constructor.	
+2. use Access type getter 3
+
+method. Bidirectional @OneToMany association is the best way to map a one-to-many database relationship when we really need the collection on the parent side of the association.Additionally parent side should have addChild and removeChild method.
+
+4. Use Set to map a Many-to-many relationship instead of List. If you used List and remove one entry from the association then hibernate removes all the association and inserts left out association again. Its due to some bug in hibernate<5.0.8.
+To map a to-many relationship we can use Set,List,Bag and Map data structures.
+
+5.Use primitive classes for non nullable coloumn And Wrapper classes for nullable coloumn.Name 	
+
+6. Things to monitor in connection pool
+concurrentConnections : This indicates how many connections are being used at once.
+
+concurrentConnectionRequests: This indicates how many connection are being requested at once.
+
+connectionAcquireMillis : A time histogram of the target data source connection acquire interval.
+
+connectionLeaseMillis : The lease time is the duration between the moment a connection is acquired and the time it gets released.
+
+maxPoolSize : A histogram of the target pool size.
+
+overallConnectionAcquireMillis : A time histogram of the total connection acquire interval.
+
+overflowPoolSizeHistogram : A histogram of the pool size overflowing.
+
+retryAttemptsHistogram : A histogram of the retry attempts number.
+
+7.Dont use CASCADEType.DELETE in many to many relationships.
+

@@ -1,0 +1,5 @@
+Configure Stack
+
+step 1. configure stacktop and stackbootom tags with some reserved memory.
+step 2.  point stackpointer register to stack top
+

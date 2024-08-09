@@ -1,0 +1,18 @@
+monitoring stats http://www.confluent.io/blog/how-we-monitor-and-run-kafka-at-scale-signalfx
+
+
+ it’s most useful to notify on alerts for the two leading indicators: Log Flush Latency (95P) and Under Replicated Partitions.
+Any under replicated partitions at all constitute a bad thing. So for this we use a simple greater-than-zero threshold against the metric exposed from Kafka.
+
+
+Scaling and Capacity
+
+Scaling Kafka is involved.
+
+The adding capacity part is easy. But re-balancing topics/partitions across brokers can be quite hard. For smaller, or simpler, set ups, Kafka can generate an assignment plan for you that  - provides even distribution across brokers. Which is fine if your brokers are homogenous and co-located. This does not work well if your brokers are heterogenous or spread across data centers. So we manually manage the process. Fortunately, Kafka takes care of the actual movement of data, given the partition to broker assignments. And with the expected addition of rack/region awareness, Kafka will soon allow for this kind of spreading of replicas across racks and regions.
+
+This is where the pain comes in. Say you have a lot of traffic on one topic and are adding capacity for it. The topic partitions have to get spread across the new brokers. Although Kafka currently can do quota-based rate limiting for producing and consuming, that’s not a applicable to partition movement.Kafka doesn’t have a concept of rate limiting during partition movement. If we try to migrate many partitions, each with a lot of data, it can easily saturate our network. So trying to go as fast as possible can cause migrations to take a very long time and increase the risk of message loss.
+
+This issue will be obviated soon, as we’re expecting Kafka’s built-in rate-limiting capability to be extended to cover partition data balancing. In the meantime, to reduce migration time and the risks, we end up moving one partition at a time, watching the bytes in/out on the source and target brokers, as well as message loss. We use those metrics to control the pace of rebalancing to minimize message loss and resource starvation, thus minimizing service impact.
+
+Here’s the dashboard we observe, with the network in/out in the charts on the top right.

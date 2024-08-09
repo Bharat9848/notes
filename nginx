@@ -1,0 +1,79 @@
+start/stop/restart -  sudo service nginx start/stop/restart
+conf file - /etc/nginx/nginx.conf
+
+A. CORE Modules : Directive/Context	Syntax and description
+
+1.daemon	
+Accepted values: on / off
+Syntax: daemon on;
+Enables or disables daemon mode (starts the program in the background or the foreground, respectively). Useful to troubleshoot issues.
+
+2.env	
+Syntax: env MY_VARIABLE=my_value;
+Allows us to define or define environment variables.
+error_log	Context: main, http, server, and location Syntax: error_log /path/to/file level (where level can be one of the following values: debug, info, notice, warn, error, and crit, depending on the type of errors that we want to save in the log file). To disable error logging, redirect the log output to /dev/null:
+error_log /dev/null crit;
+
+3.master_process
+Accepted values: on / off
+Default value: on
+If enabled (on) Nginx will start both the master process and worker processes. If disabled, Nginx will work with a unique process. This is used for debugging purposes only and will cause that clients won’t be able to connect to the server.
+
+4.pid	
+Syntax: file path
+Default value: defined at compile time.
+Path of the file where the PID of Nginx will be stored.
+user	Syntax: user username groupname;
+user username;
+Lets you define the user account, and optionally the user group used for starting the worker processes. For security reasons, a user / group with limited privileges must be used for this.
+
+5.worker_processes	
+Syntax: numeric or auto, for example:
+worker_processes 4;
+Defines the amount of worker processes. If a process is blocked for some reason, future requests can be served by other worker processes. If the value auto is used, Nginx selects an appropriate value (which by default it is the amount of CPU cores detected).
+
+6.worker_priority
+Syntax: Numeric
+worker_priority 0;
+Defines the priority, as the operating system sees it, of the worker processes from -20 (highest) to 19 (lowest).
+
+
+
+
+B. Event modules : Directive/Context	Syntax and description
+
+1.worker_connections
+Syntax: Numeric
+Defines the amount of connections that a worker process may handle simultaneously.
+debug_connection	Syntax: IP address or CIDR block.
+debug_connection 192.168.0.100
+debug_connection 192.168.0.0/24
+Writes detailed log for clients matching this IP address or CIDR block. The information is saved in the file defined in the error_log directive (it must be enabled with the debug level, and Nginx must be compiled with the --debug switch in order to enable this directive).
+
+
+2.debug_connection	
+
+Syntax: IP address or CIDR block.
+debug_connection 192.168.0.100
+debug_connection 192.168.0.0/24
+Writes detailed log for clients matching this IP address or CIDR block. The information is saved in the file defined in the error_log directive (it must be enabled with the debug level, and Nginx must be compiled with the --debug switch in order to enable this directive).
+
+
+
+
+C. The configuration module enables file inclusions with the include directive. This directive is used to insert the contents of the specified file at this exact location. The name of the file can be specified either by an absolute path or a relative path to the current directory (as it is in this case). As a plus, it works recursively in that an included file can reference another file and so on, and it also supports filename globbing, which means it recognizes and expands the standard wild card characters (* and ?) and character lists in square brackets,
+example 
+include adc*.conf
+
+
+
+
+
+D.The http Directive 
+conf : /etc/nginx/available-sites/default
+
+The web server itself is configured using the directives found in the HTTP Core module. This module is the essential component of the HTTP configuration and will allow us –among other things- to serve multiple websites, which are referred to as virtual hosts. It is organized into three major blocks (see Fig. 7):
+
+http: must be placed at the root of the configuration file. It is used to define directives and blocks related to the web server functionality of Nginx.
+server: must be inserted inside the http block and is used to declare a specific website.
+location: allows us to define a group of settings to be applied to certain sections of the web site. This block can either be used within a server block or nested inside another location block.

@@ -1,0 +1,19 @@
+For Db manager gui
+java -cp ../lib/hsqldb.jar org.hsqldb.util.DatabaseManagerSwing or org.hsqldb.util.DatabaseManager
+
+
+Each HyperSQL database is called a catalog. There are three types of catalog depending on how the data is stored.
+Types of catalog data
+• mem: stored entirely in RAM - without any persistence beyond the JVM process's life
+• file: stored in filesystem files
+• res: stored in a Java resource, such as a Jar and always read-only
+
+
+DB namespaces 
+e.g. file : jdbc:hsqldb:file:/opt/db/testdb
+     mem  : jdbc:hsqldb:mem:mydb
+     res  : jdbc:hsqldb:res:myresdb
+
+
+server modes
+
