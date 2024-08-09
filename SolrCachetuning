@@ -1,0 +1,15 @@
+Eviction count and hit ratio are interrelated, as a high eviction count will lead to a suboptimal hit ratio.
+
+Filters can be expensive to create and store in memory if you have a large number of documents in your index, or if the filter criteria are complex.In addition.Reapplication of filters on new searcher to build filter cache and consequently,autowarming the filter cache can be a source of performance and resource utilization problems in Solr.It will get worse if indexing frequency is high.As an upper limit, you can figure that any filter that matches many documents in your index will require MaxDoc (the number of documents in the index) bits of memory.
+
+To warm the query result cache, Solr needs to re-execute queries, which can beexpensive. The same advice we gave about keeping the autowarmCount attribute small for the filter cache applies to the query result cache.
+
+QueryResultCache :The <queryResultWindowSize> element allows you to prepare additional pages when you execute a query.The <queryResultMaxDocsCached> element allows you to limit the number of documents cached for each entry in the query result cache.
+
+Query result cache uses the document cache to find cached versions of documents in the cached result set.
+
+
+If you are constantly indexing, and the documents a query returns are constantly changing, you could be spending time recreating documents that may not benefit your warmed filter and query result caches. On the other hand, if most of your index is relatively static, the document cache may provide value.
+
+
+Document cache is always recommended to set the value of size as the product of the maximum number of results returned by a query and the number of concurrent queries.

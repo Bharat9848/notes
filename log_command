@@ -1,0 +1,9 @@
+0 45 3 * * *
+
+
+
+cat ~/code/SnapdealSellerSearch/SnapdealSellerSearchIndexerServices/src/test/resources/supc.csv | sort -r | uniq  | wc -l
+
+
+ grep "Input-Data" server.log | sed 's/,//' | awk '{si+=$8} {sc+=$10} {su+=$12} END {print si " " sc " " su}'
+

@@ -1,0 +1,4 @@
+-pPID - give analysis of specific program with give pid.
+H - toggle between thread mode/program mode.
+E - toggle memory usage unit Kib/Mib/Gib
+1 - display individual cpu stat for multicore devices.

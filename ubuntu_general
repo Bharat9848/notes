@@ -1,0 +1,11 @@
+
+
+    The Apt-get installation will install all the required files in the following folder structure
+
+    /usr/bin --- binaries
+
+    /usr/share or /usr/lib ---- installed softwres
+
+    /etc/ ---- contain the configurations
+
+

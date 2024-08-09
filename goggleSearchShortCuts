@@ -1,0 +1,13 @@
+1.for indepth articles : &tbs=ida:1&gl=us
+
+2.around(n) : search words with words limit b/w them e.g. cool AROUND(2) books list.
+
+3.(-)word : doesnot include word in search result. e.g. -site:goodreads.com.
+
+4.Just add &tbs=qdr: to the end of the URL, along with the time you want to search (which can include h5 for 5 hours, n5 for 5 minutes, or s5 for 5 seconds (substituting any number you want). So, to search within th past 10 minutes, you'd add&tbs=qdr:n10to your URL. 
+
+5.use google translate as a proxy : http://translate.google.com/translate?sl=ja&tl=en&u=http://example.com/
+
+											
+
+ 
