@@ -15,6 +15,8 @@
 
 3. Graph Traversal
   1. Breadth first
+   - It is used to find shortest path in a unweighed graph.
+   - Performance is `O(n + m)` where `n` is number of nodes and `m` is number of edges.  
   2. Depth first
 
 4.
