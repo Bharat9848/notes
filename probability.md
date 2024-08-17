@@ -11,4 +11,3 @@
 - one of the possiblity or outcome e.g. rolling dice gives six.
 - probability can be calculated using count.
 
-## 
