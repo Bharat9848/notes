@@ -21,7 +21,9 @@ iconst_X / iload_X / getstatic java bytecode command store value in operand stac
 
 istore pop the return value from operand stack and set it to crossponding local variable array location.
 
-
+Java 7
+ - Read about phasers
+ - read about fork-join
 
 
 JAVA 8

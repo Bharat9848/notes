@@ -1,9 +1,11 @@
 ## GC
 ## General
+- GC works best for short-lived and immortal objects.
 - GC is a computationally heavy operation.
 - GC runs parallely to application threads and cause pauses in all running threads.
-- efficient object reallocation
+- It also do efficient object reallocation in between its minor and major cycles
 - One quick trick for optimizing GC operation based on this is to adjust the sizes of heap areas to best fit your applications’ needs.
+
 - Garbage collection cycle events contain three phases – 
    1. marking = GC runs through the heap and marks everything either as live (referenced) objects, unreferenced objects or available memory space. 
    2. deletion = Unreferenced objects are then deleted
