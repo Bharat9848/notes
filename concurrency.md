@@ -1,6 +1,7 @@
 # books
  - Lmax disruptor
  - Concurrency in practice
+ - JSR-166
 
 # Concurrency
  - Mutual exclusion is unnecessary if only thread is accessing the contended resource. This strategy is used in Akka.
@@ -31,7 +32,11 @@
 ## Memory Barrier
 
 
+## lockless 
+ - uses techniques like atomic variables, retrying operations and achieve algorithm etc to achieve same functionality as a locking algorithm
 
+
+   
 
 
 

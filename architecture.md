@@ -56,10 +56,13 @@ of system software elements."
      Measure: wall clock time required to build, test and deploy the changes
 
   2. **Performance** 
-    1. Latency: 
+    1. **Latency**: 
       - time each component, use of shared resources, inter element communication frequency and volume.
       - e.g. Stock exchange etc
-    2. Throughput
+    2. **Throughput**
+      - Batching of messages in messages exchange system like kafka
+      - binary messaging alongwith compression
+      - no copy of data in different system in between intermediateries.
        
   3. **Security** 
     - introduce safeguards against your critical data. 
