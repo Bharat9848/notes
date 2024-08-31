@@ -16,6 +16,12 @@ requested changes all require broad insight into the relationships, performance,
 of system software elements."  
  3. Architecture decides organizational structure through work-decomposition. Hence it is very costly due to managerial and business aspect once it is fixed.
 
+## Glossary
+ - **Component**: runtime of a module/static piece of code.
+ - **Failure**: occures when system does not behave according to it's functional or non-functional specification
+ - **Fault**: an errorneous event that may cause a system failure
+ - **Errors**: occurs due intermittently or cascading effects of some faults.
+
 ## General 
  - The software architecture of a system is the **set of structures** needed to reason about the system. These structures comprise software elements, relations among them, and properties of both. A structure is architectural if it supports reasoning about the system and the system’s properties. The reasoning should be about an attribute of the system that is important to some stakeholders meanwhile supressing the non-important attributes. There are three categories of structures: 
    1. Module structures show the system as a set of code or data units that have to be constructed or procured. 
@@ -50,22 +56,47 @@ of system software elements."
      Measure: wall clock time required to build, test and deploy the changes
 
   2. **Performance** 
-    1. Latency: 
+    1. **Latency**: 
       - time each component, use of shared resources, inter element communication frequency and volume.
       - e.g. Stock exchange etc
-    2. Throughput
+    2. **Throughput**
+      - Batching of messages in messages exchange system like kafka
+      - binary messaging alongwith compression
+      - no copy of data in different system in between intermediateries.
        
   3. **Security** 
     - introduce safeguards against your critical data. 
     - special authorization policy
 
   4. **Safety**
-  5. Availibility
-   - It encompasses reliability, failure recovery and robustness
-   - It prevents fault manifestion into failure(errors). Fault can be prevented, tolerated, removed and forecast.
+   - keep part of the system functional even though part of system is under fault.
+   - keep the system out of hazardous state.
+
+  5. **Availibility**
+   - It encompasses reliability, failure recovery and robustness.
+   - It prevents fault manifestion into failure with lot of intermediatory/cascading errors. 
+   Fault can be prevented, tolerated, removed and forecast.
    - Security/Safety (Denial of service attack) are related qualities as their attacks are targeted to make system unavailable. Performance also related to availibility as slow system is equivalent to unavailable system.
    - Measured in term of SLA MeanTimeBetweenFailure/ (MeanTimeBetweenFailure + MeanTimeToRepair)
    - Availability tactics includes 1. Fault detection 2. Fault recovery 3. Fault prevention
+   - Detecting faults includes 
+     1. **Monitoring** for CPU, memory, bandwidth, disk etc.
+     2. **ping/echo** pinging component checks the availability of 3rd party system/other component and is it within the network round trip time ?
+     3. **Heartbeat** -  Component sends it's heartbeat periodically to system monitor.
+     4. Timestamp/last read offset - detects incorrect sequence of events.
+     5. conditional monitoring - validate any assumption made by the system.
+     6. Sanity checking
+     7. Voting - checks the results from multiple components. Replication called when multiple component belong to same deployment. Functional redundancy - when components are deployed differently to check against any design issue. Output of different component should still be same for same input. Analytic redundancy - check specification errors as well, output can be different from different components which are running different logic for same input e.g. Avionics system compute altitude using barometeric pressure, geometric distance calculation etc. 
+     8. Exception detection includes timeout, message protocol checking and self tests.
+   - Fault recovery includes
+     1. Redundant spare: warm(backup component in passive state), hot(same state in backup component), cold(requires warming up before made available) component replace the faulty one.
+     2. Rollback: rollback to saved good state, checkpointing etc.
+     3. Recovery through exception handling.
+     4. Software upgrade: function/class patch etc
+     5. Retry
+     6. Ignore fault
+     7. graceful degradation 
+     8. Reconfiguration it tries to switch to non-fault one
 
   6. Usability
   7. Testability
