@@ -11,7 +11,12 @@
  - for case where read/write ordering is required coherency is maintained using cohrency exchange messages."Store buffers" exchange message write to these caches ??? "invalide queues" to mark invalidation to these caches.
  - Cache lines are not of byte or word size. They are in between range of 32-256 bytes. Given two different independent variables and happen to fall in same cache line are changed by different threads/processors. Then it would require cache coherency protocol for ordering as if these two variable are a single variable. This is called **false sharing**.     
 
+## OS threads
+ - Scheduling class
+ - **priority inheritance**
+ - complex priority inheritance method.
 
+ 
 ## System calls
  - select() ?
  - poll() ?

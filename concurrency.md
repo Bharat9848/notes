@@ -36,7 +36,9 @@
  - uses techniques like atomic variables, retrying operations and achieve algorithm etc to achieve same functionality as a locking algorithm
 
 
-   
+ ## practice
+  - implement segmented concurrent hashmap
+  - implement delayQueue for producer and consumer - data available after specific time. 
 
 
 

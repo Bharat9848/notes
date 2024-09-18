@@ -101,4 +101,12 @@ of system software elements."
   6. Usability
   7. Testability
   8. Deployability
+   - Manage Deployment pipeline
+     1. scripted commands
+     2. scale/incremental rollout
+     3. rollback
+   - Manage deployed service
+     1. version compatibility
+     2. Feature toggle
+     3. package dependencies
   9. Portability
