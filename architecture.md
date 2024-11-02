@@ -1,20 +1,27 @@
 ## Books and references
- - Software architecture in practice.
+ 1 Software architecture in practice.
+  - On safety - a sensor is important to determine whether a state is safe or unsafe, that sensor should be replicated.    
  - Software Fundamentals: Collected Papers by David L. Parnas
  - Pattern-Oriented Software Architecture [Buschmann 96 and others]
  - George Fairbanks’ Just Enough Software Architecture [Fairbanks 10], 
  - Woodsand Rozanski’s Software Systems Architecture [Woods 11],
  - Martin’s Clean Architecture: A Craftsman’s Guide to Software Structure and Design [Martin 17].
  - The Software Architect Elevator: Redefining the Architect’s Role in the Digital Enterprise by Gregor Hohpe
+ - Software Systems Architecture: Working With Stakeholders Using Viewpoints and Perspectives
+### Performance
+ - Foundations of Software and System Performance Engineering: Process, Performance Modeling, Requirements, Testing, Scalability, and Practice [Bondi 14].
+ - Software Performance and Scalability: A Quantitative Approach [Liu 09].
+ - Performance Solutions: A Practical Guide to Creating Responsive, Scalable Software[Smith 01].
+ - Real-Time Design Patterns: Robust Scalable Architecture for Real-Time Systems [Douglass 99]
+ - Pattern-Oriented Software Architecture Volume 3: Patterns for Resource Management [Kircher 03].
+
 
 
 ## Architect responsibility
  1. Architect should clearly define the rules against the resources used by component if resource is a matter of concern. e.g. if latency is the resource then architect should layout guidelines for each component time budget.
- 2. "Deciding when changes are essential, determining which change paths have the least risk,
-assessing the consequences of proposed changes, and arbitrating sequences and priorities for
-requested changes all require broad insight into the relationships, performance, and behaviors
-of system software elements."  
+ 2. Deciding when changes are essential, determining which change paths have the least risk, assessing the consequences of proposed changes, and arbitrating sequences and priorities for requested changes all require broad insight into the relationships, performance, and behaviors of system software elements.
  3. Architecture decides organizational structure through work-decomposition. Hence it is very costly due to managerial and business aspect once it is fixed.
+ 4. Use tools like fitness function to measure the qualities of the software.
 
 ## Glossary
  - **Component**: runtime of a module/static piece of code.
@@ -40,44 +47,104 @@ of system software elements."
    4. Response: fault detection, new feature, software response etc
    5. response measure: time measurement, developement effort, cost etc.
    6. environment: startup etc.
+ - Architecture focuses on why part of system, while design focuses on how part of the system.
+
 
  - Documentation of quality attribute using architecture pattern tactics should document where tactics are present, assumptions and rationale behind using or not using it.
 
+## Tools
+### Architectural Decision record
+### Fitness functions 
+ - part of build and continous deployment. 
 
+### Immutability
+ - storage and compute is cheap. Immutabile data store provide semantic updates based on copy-on-write, Log-structured file system and LSM trees. 
 
 ### Module structure 
  - Separation of concern
  - information hiding module should hide the changeable aspect and expose the well defined interface to other module.
+ - Fitness function `jdepends`, `SonarQube` and `ArchUnit` 
 
 ### Component and connectors structure
 
 ### non functional qualities
-  1. **Modifiability** producer should be separated from consumer. Contract changes between modules should happen incremently. Changes should affect minimum modules. 
-     Measure: wall clock time required to build, test and deploy the changes
+#### Modifiability 
+  - producer should be separated from consumer. Contract changes between modules should happen incremently. Changes should affect minimum modules. 
+  - Measure: wall clock time required to build, test and deploy the changes
+  - Changing part frequently without introducing modifiability mechanism can incur technical debt.
+  - high cohesion, low coupling, size of the system and binding time of modification are properties which helps in modifiability of the system.
+  - For high cohesion - splitting module cohesively and putting similar functionality in a single module, are tactics.
+  - For reduce coupling - encapsulation, use an intermediary, abstract common service and restrict dependencies are some of the tactics.
+  - For defer binding - component replacemnt, compile-time parameterization, Aspects, configuration-time binding, resouce files, discovery, interpret parameters, shared repositories and polymorphism 
 
-  2. **Performance** 
-    1. **Latency**: 
-      - time each component, use of shared resources, inter element communication frequency and volume.
-      - e.g. Stock exchange etc
-    2. **Throughput**
-      - Batching of messages in messages exchange system like kafka
-      - binary messaging alongwith compression
-      - no copy of data in different system in between intermediateries.
+#### Performance 
+  - Response time comprises of two major factor - processing time and blocking time.
+  - Blocking time can be futher attributed to some resource contention, non-availability of resource or dependency on some other computation.
+  - Tactics can be characterized by controlling the demand on resource or managing resource more effectively.
+    1. controlling the demand
+     - SLAs constraint the client as well as server. It defines the processing of X messages within Y amount of time. If client sends more than X messages than it breaks the SLA.
+     - Reduce Event Sampling : Given there is some quality degradation but it is still good enough. System can reduce or sample requests.
+     - limit event response: log and discard extra events
+     - priortize events
+     - increase computational effeiciency: reduce use of intermediaries, co-locating components and periodic cleanup.
+     - Bound execution time: can be time bound on intermediatory computations or no of loops in data driven algorithms
+     - Improve algorithms to make more efficient programs. 
+    2. Manage resource:
+     - increase resources, use concurrency, Caching and replication, bound queue size, and schedule resources. 
+  - Pattern for performance
+    1. service mesh: side car deployed with microsevices for implementation, management and maintainence of cross cutting concerns like interservice communication, security, monitoring etc.
+
+  1. **Latency**: 
+    - time each component, use of shared resources, inter element communication frequency and volume.
+    - e.g. Stock exchange etc
+  2. **Throughput**
+    - Batching of messages in messages exchange system like kafka
+    - binary messaging alongwith compression
+    - no copy of data in different system in between intermediateries.
        
-  3. **Security** 
-    - introduce safeguards against your critical data. 
-    - special authorization policy
+#### Security
+ - security are defined using three common principle - Confidentiality, Integrity and Availability.
+ - introduce safeguards against your critical data. 
+ - special authorization policy.
+ - **Attack Tree** that defines from the root - successful attact to leave nodes - shows breakdown on CIA properties of the system as a result of the attack.
+ - Tactics includes - Detect, resist, react and recover
+ - Detect
+  - detect some malicious pattern in data or traffic.
+  - Detect service denial compares current network of traffic to historical traffic pattern.
+  - Checksum to check message integrity
+  - Detect man-in-the-middle attack by comparing message delivery times or abnormal connection drops.
+ - Resist
+  - Authenticate, Authorize, Encryption
+  - Limit accessibility using limited allowed API, internal firewall, validate input, regular security settings updation
+  - Limit exposure - resources are siloed in such a way that demage from a attack is minimum
+ - React
+  - Revoke access, lock an account and inform actual user.
+     
 
-  4. **Safety**
-   - keep part of the system functional even though part of system is under fault.
-   - keep the system out of hazardous state.
+#### Safety
+ - keep part of the system functional even though part of system is under fault.
+ - keep the system out of hazardous state.
+ - occurs due to wrong timing of event or series of events, omission or commission of right or wrong event respectively.
+ - safety tactics broadly classified in unsafe state avoidance, unsafe state detected and unsafe state remediation.
+ - Subsitution - removing something complicated and dangerous requirement with simple solution like hardware instead of software solution
+ - Predictive model runs to figure out unhealthy state before its occurance.
+ - Substitution and predictive model are tatics for unsafe state avoidance.
+ - Unsafe state detection tatics include timeout, timestamp, condition monitoring (assumption checking using assertions etc), sanity checking and comparison( with redundant components).
+ - Containment tactics include replication, functional redundancy(to counter software implementation error by having different implementation), analytical redundancy (to counter implementation and specification error).
+ - Limit consequences tactics include abort, degradation and masking (masking by overriding redundant voting participents)
+ - Barrier tatics include firewall and interlock
+ - Recovery tactics include repair, rollback and reconfiguration. 
+ - **Redundant sensor** 
+ - **Monitor/actuator** are software elements actuator controller calculate the values before sending it to physical actuator and monitor do the testing of value before sending it to physical actuator.
+ - **Separate safety** In safety critical systems it is best to have separate safety critical and non critical part of system. safety critical system should be certified from some authorized agency. In safety critical system component-safety are divided into categories based on hazardous level.
 
-  5. **Availibility**
-   - It encompasses reliability, failure recovery and robustness.
-   - It prevents fault manifestion into failure with lot of intermediatory/cascading errors. 
-   Fault can be prevented, tolerated, removed and forecast.
-   - Security/Safety (Denial of service attack) are related qualities as their attacks are targeted to make system unavailable. Performance also related to availibility as slow system is equivalent to unavailable system.
-   - Measured in term of SLA MeanTimeBetweenFailure/ (MeanTimeBetweenFailure + MeanTimeToRepair)
+
+#### Availibility
+ - It encompasses reliability, failure recovery and robustness.
+ - It prevents fault manifestion into failure with lot of intermediatory/cascading errors. 
+ - Fault can be prevented, tolerated, removed and forecast.
+ - Security/Safety (Denial of service attack) are related qualities as their attacks are targeted to make system unavailable. Performance also related to availibility as slow system is equivalent to unavailable system.
+ - Measured in term of SLA MeanTimeBetweenFailure/ (MeanTimeBetweenFailure + MeanTimeToRepair)
    - Availability tactics includes 1. Fault detection 2. Fault recovery 3. Fault prevention
    - Detecting faults includes 
      1. **Monitoring** for CPU, memory, bandwidth, disk etc.
@@ -109,4 +176,44 @@ of system software elements."
      1. version compatibility
      2. Feature toggle
      3. package dependencies
+   - Service deployment
+    1. blue/green deployment: N instances of new service are deployed against N instances of old service. Discovery service is updated with new service instances. Once everything looks good old service's instances are deleted. 
+    2. rolling upgrade  
   9. Portability
+
+  10. Integrability
+   - A system can depend on other through various paradigm
+    1. syntatically: module A uses B or A inherits B or A calls B
+    2. temporally: time based dependency
+    3. semantically: protocol based dependency.
+   - Interfaces of a component help integration better as it encapsulate a component to specific functionality. Wrapper, bridge and mediator are encapsulator.
+   - Intermediatries like publisher-subscriber remove the syntatic barrier, discovery-service removes the syntatic barrier
+   - **Restricting communication pattern** to adhere/force to a common protocol among components.
+
+
+
+## Scheduling algorithm
+ - FIFO
+ - Fixed priority
+  1. Semantic importance
+  2. Deadline monotonic
+  3. Rate monotonic
+ - Dynamic prioriy 
+  1. Round robin
+  2. Earliest deadline first
+  3. Least slack first
+  4. static scheduling? 
+
+
+
+
+
+
+
+
+
+
+
+
+
+

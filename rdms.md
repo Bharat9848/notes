@@ -16,7 +16,7 @@
 - Read Skew / Nonrepeatable Read: Repeated query on database gives different result within a span of transaction.
 - Lost Updates: 
 - Write Skew
-- Phantom Read.
+- Phantom Read: A transaction reads different set of row in between subsequent read which is based on some predicate or non-Id based search condition. 
 
 ## ACID
 

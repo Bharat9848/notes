@@ -1,31 +1,22 @@
 ## Books
 - Java NIO (O’Reilly)
+- Netty in action (Manning)
 
-JAVA Bytecode.
-
-
-1.aload_0
-This opcode is one of a group of opcodes with the format aload_<n>. They all load an object reference into the operand stack. The <n> refers to the location in the local variable array that is being accessed but can only be 0, 1, 2 or 3. There are other similar opcodes for loading values that are not an object reference iload_<n>, lload_<n>, float_<n> and dload_<n> where i is for int, l is for long, f is for float and d is for double. Local variables with an index higher than 3 can be loaded using iload, lload, float, dload and aload. These opcodes all take a single operand that specifies the index of local variable to load.
-2.ldc
-This opcode is used to push a constant from the run time constant pool into the operand stack.
-
-3.getstatic
-This opcode is used to push a static value from a static field listed in the run time constant pool into the operand stack.
-
-4.invokespecial, invokevirtual
-These opcodes are in a group of opcodes that invoke methods these are invokedynamic, invokeinterface, invokespecial, invokestatic, invokevirtual. In this class file invokespecial and invokevirutal are both used the difference between these is that invokevirutal invokes a method based on the class of the object. The invokespecial instruction is used to invoke instance initialization methods as well as private methods and methods of a superclass of the current class.
-
-invokestatic / iadd / ireturn /invokevirtual java bytecode command pops from operand stack multiple times based on argument it need to invoke command's method. 
-
-5.return
-This opcode is in a group of opcodes ireturn, lreturn, freturn, dreturn, areturn and return. Each of these opcodes are a typed return statement that returns a different type where i is for int, l is for long, f is for float, d is for double and a is for an object reference. The opcode with no leading type letter return only returns void.
-
-
-iconst_X / iload_X / getstatic java bytecode command store value in operand stack.
-
-istore pop the return value from operand stack and set it to crossponding local variable array location.
+# JAVA Bytecode.
+  1. `aload_0`: This opcode is one of a group of opcodes with the format `aload_<n>`. They all load an object reference into the operand stack. The `<n>` refers to the location in the local variable array that is being accessed but can only be 0, 1, 2 or 3. There are other similar opcodes for loading values that are not an object reference `iload_<n>`, `lload_<n>`, `fload_<n>` and `dload_<n>` where i is for int, l is for long, f is for float and d is for double. Local variables with an index higher than 3 can be loaded using iload, lload, float, dload and aload. These opcodes all take a single operand that specifies the index of local variable to load.
+  2. `ldc`: This opcode is used to push a constant from the run time constant pool into the operand stack.
+  3. `getstatic`: This opcode is used to push a static value from a static field listed in the run time constant pool into the operand stack.
+  4. `invokespecial` and `invokevirtual`: These opcodes are in a group of opcodes that invoke methods these are invokedynamic, invokeinterface, invokespecial, invokestatic, invokevirtual. In this class file invokespecial and invokevirutal are both used the difference between these is that invokevirutal invokes a method based on the class of the object. The invokespecial instruction is used to invoke instance initialization methods as well as private methods and methods of a superclass of the current class.
+  5. `invokestatic` / `iadd` / `ireturn` /`invokevirtual` java bytecode command pops from operand stack multiple times based on argument it need to invoke command's method. 
+  6. `return`: This opcode is in a group of opcodes ireturn, lreturn, freturn, dreturn, areturn and return. Each of these opcodes are a typed return statement that returns a different type where i is for int, l is for long, f is for float, d is for double and a is for an object reference. The opcode with no leading type letter return only returns void.
+  7. `iconst_X` / `iload_X` / `getstatic`:  java bytecode command store value in operand stack.
+  8. `istore` pop the return value from operand stack and set it to crossponding local variable array location.
 
 ## Java Thread
+ - **Thread Groups** are hierarchial. Root thread group is system thread group. System has one child called main thread group. `main` thread which starts the process belongs to `main` thread group. All thread groups which are created part of executor services are child of main thread group.
+ - Thread group's `interrupt` function interrupt all the threads of thread group.
+ - **Security Manager** authorizes certain operation done by a thread to another thread like interrupt using `checkAccess(thread)`.  
+ - Thread/ Thread group have `UncaughtExceptionHandler` to catch all exception thrown during run execution. By default `UncaughtExceptionHandler` prints exception.
  - Thread states - new, Running, blocked, wait
  - Synchronization prevents reordering of statements by compiler and instruction.
  - Java objects act as mutexs, in addition they have `wait()` and `notify()` to provide a thread a parking area and notification mechanism. Note that `wait()` and `notify` should be only called from synchronized block using same object.
@@ -63,6 +54,7 @@ istore pop the return value from operand stack and set it to crossponding local 
  ## Countdownlatch / CyclicBarrier
 
  # Locks
+
  ## Best practice
   1. Multiple locks should be acuired in same order.
   2. In case of exception synchronized block automatically release the lock. But for manually lock, lock's release should be done in finally block.
@@ -81,7 +73,15 @@ istore pop the return value from operand stack and set it to crossponding local 
 
  ## Java NIO
   - Design: ServerSocketChannel have serverSocket and allow registering of selector with particular mode that are READ|WRITE|LISTEN. Selector is a thread which selects among many sockets whichever is data ready. Selector listens to server socket for any new client connection. ServerSocketChannel.accept returns a new SocketChannel(client connection). we can register same selector to new client socketChannel as well.  SocketChannel get notified whenever ready by selector. SocketChannel have read and write API whenever it's ready to send or recieve in ByteBuffer. 
-
+  - `FileChannel` have `transferTo` method which avails linux zero-copy functionality. It allows data to be transfered to socket without crossing kernel to user space for file reading and then again user to kernel space for socket writing.
+ 
+ ## JVM Parameter
+  - `-Xss` specifies stack size for threads.
+ 
+ ## Just In-Time compilation
+  - It does most of the performance optimization in few minutes or equivalent of 10000 cycle of an operation.  
+  - It inline more and more methods for long running programs
+  - Unroll loops: JIT compilation unrolls a loop to make it sequential.
 
 ## Java 7
  - Read about phasers
@@ -94,6 +94,15 @@ istore pop the return value from operand stack and set it to crossponding local 
 2. Template Pattern can be replaced with more readable Loan pattern. Loan pattern can be seen as wherein a resource(e.g. File) has passed on to some specific logic to run on it.
 
 
+## Java performance tools
+ - Jprofiler - CPU, thread, and memory usage
+ - yourkit
+ - VisualVM - realtime monitoring for GC, heap dump and memory usage
+ - Actuator with micrometer - application metrics
+ - Zipkin/elastic APM - distributed tracing tools
+
 
 ## Problems
  - Write deadlock detection algortitm
+ - How lock prevent variable visibility and contention problem internally across multiple core
+ - infinite loop in atomic variables.

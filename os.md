@@ -1,9 +1,28 @@
 # OS
+# Books and resources
+- https://www.linuxjournal.com/article/6345
+- papers/zeroCopy.pdf
+
+
+
+
+
+
+
+ - what is `ulimit`
+
 ## CPU instructions
  - `cmpxchg`
 
+## Kernel
+ - handles I/O managment, process management, device management and resource management.
+ - **Monolithic** - Separate memory space between kernel and user services. User processes use system call to avail kernel services.
+
 ## Processors
  - User mode is non previleged means program can be preemptied at any time. Kernel mode is previliged means kernel programs are non preemptive.
+ - have execution unit and registers.
+ - Modern CPU single core additionally have load/store/WC buffer and L1/L2 cache.
+ - L3 cache is shared between all the cores.
 
 ### Registers
 ### Shared Cache system
@@ -32,6 +51,7 @@
 
 ## Further reading
  - How memory barrier works in mutliprocessor cpus?
+ - what is difference between DMA copy and cpu copy
 
 
 

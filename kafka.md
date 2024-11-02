@@ -1,3 +1,18 @@
+# Kafka
+## Consumer
+ - group management API 
+ - group coordinator - Kafka broker that maintains group membership of a group.
+ - load balancing done by consumers themselves
+ - Embedding protocol in group managment API that does rebalancing or load balancing withing group. Rebalancing is stop-the-world rebalancing, which can have serious drawbacks as trigger can be temporary like intermittent interruption or k8 scaling up (new node with security batch applied) etc.
+### Incremental cooperative protocol  
+ - New incremental cooperative protocol replaces stop-the-world rebalancing kafka client protocol. 
+ - Two basic tenent 1.to not to reach new global state in a single go. 2. Cooperating client should volutarily reliquish control on their resources to rebalance again.
+
+## Kafka connect
+ - connector- keeps the bookkeeping with external system.
+ - worker 
+ - connector task- do the data transfer
+
 monitoring stats http://www.confluent.io/blog/how-we-monitor-and-run-kafka-at-scale-signalfx
 
 

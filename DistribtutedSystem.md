@@ -1,3 +1,13 @@
+## Glossary
+  - Byzantine fault: Node behaves differently than protocol rules. 
+
+## Consistency, Availability and Partition tolerance - CAP theorem
+ - Consistency in CAP theorem means linearizability.
+ - Partition tolerance is not a choice and It only considers case for network partitions. 
+ - System can only choose between availability or consistency in case of network partition.
+ - Disadvantage
+  - it does not say anything about network delay, dead nodes or other trade off.
+
 ## Fault tolerance
  - Replication 
  - Recovery need idempotency 
@@ -14,20 +24,82 @@
     2. single leader
     3. multi leader
 
-## Consistency
- - **Casual ordering**
+## Replication
+ 1. Single leader replication
+  - linearlizability can affect availability in case of network issues.
 
- - **Total Order broadcast** 
-  - Every message is applied in same order to all replicas.
-  - **Linearizability** read your own update.
-  - Drawbacks:
-   1. not scalable beyond a point. scalability would requires the usecase to be handle by multi nodes. 
+ 2. Multileader replication
+  - useful for multi-datacenter operation.
+  - linearlizability can affect availability in case of network issues.
  
+ 3. leaderless
+
+
+# Consistency
+ - **Split brain** - when two nodes simentaneously behave that they are the only leader.
+ - Strong consistency is for strict usecases where some form of ordering is required otherwise situations like split-brain may arise. But implementing stronger consistency is not very performance friendly and make system less resilient to faults.
+
+## Ordering
+  1. **Casual ordering**
+    - It is a partial ordering of events, especially in case of events are related in "happen-before" or "happen-after" relationship.
+    - Concurrent events are not related.
+    - More performance friendly than total ordering.
+
+  2. **Total Ordering** 
+    - Every message is applied in same order to all replicas.
+    - Not performance friendly.
+
+## Type
+  1. **Eventual Consistency**
+    - Its a weaker gaurantee as it does not gaurantee read your own write.
+    - Different replica returns different results. There may be cases where it seems that data is going back in time.
+
+  2. **Linearizability**/**Strong consistency**
+    - it is consistency from CAP theorem.
+    - It is a stronger gaurantee than eventual consistency. It make all replica and leader behave as a single entity.
+    - Once a replica returned a value that means other replica cannot return values which are older than that value. 
+    - all the changes happened to a register are atomic.
+    - Defintion does not entail multiple row/key-value/register. Linearlizability only covers a single row/key-value/register. 
+    - read your own update.
+    - usecases include leader election, distributed locks and unique constraint like unique username etc.
+  - **Drawbacks**:
+    1. Performance hinderess - not scalable beyond a point. Scalability would requires the usecase to be handle by multi nodes. 
+    2. Make system unavailable in cases of network partitions and other faults.
+  - There may be a case that even after linearizability you get to see values which are not latest. But as they are returned by any replica, it is okay.  
+ 
+ 3. Casual consistency
+   - It is lighter version of consistency.
+   - It serve casual ordering usecases and hence more performant than linearlizability.
+
+ 4. **Total order broadcast**
+   - Messages are delieverd exactly once and in the same order.
+   - it is equivalent to repeated round of consensus.
+
+  ## How
+   - **Lamport clock**: 
+     - it can define the casual ordering where each node and client sets its sequence to maximum sequence it have seen.
+     - logical clock comprises of tuple (nodeId, sequenceId). 
+     - Each time client writes or reads form the node they get/send maximum sequenceId.
+     - unique NodeId act as tie breaker in case of concurrent events, higher nodeId be considered first. 
+     - Disadvantage: Though it gives total ordering to events but in case like unique constraint across multiple nodes lamport clock first accept both concurrent event and then provide the order which will be misleading as system have to reject the event after accepting successfully.
+     - useful in cases of multileader replication.
+
+   - Single-leader replication
+     - events will be casually ordered as they come to single leader. Leader can choose simple montonically increasing sequence to order them. 
+     - cannot scale beyond a single node.
+
  - **Exactly-once semantics**
   1. Idempotent operation and retrying: 
    a. Using offset
    b. idempotent operation by nature
   2. Distributed transaction
+
+## Consensus Algorithm 
+  - Assumes safety property which includes following properties 
+    1. Integrity - Node does not change its decision.
+    2. Validity - Node chooses some valid values
+    3. Uniform Agreement - no two nodes decides differently
+  - Assumes Termination property - every node that does not die eventually proposed by some node.   
    
 ## Batching
  - output of batch system can be database files directly.

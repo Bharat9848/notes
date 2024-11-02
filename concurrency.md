@@ -30,10 +30,15 @@
   - CAS operations for muliple lines of codes in critical section is extermely difficult to write than conventional locking.
 
 ## Memory Barrier
+## Fence
 
 
 ## lockless 
  - uses techniques like atomic variables, retrying operations and achieve algorithm etc to achieve same functionality as a locking algorithm
+
+## ?
+- The most common technique employed by CPUs to hide memory latency is to pipeline instructions and then spend significant effort, and resource, on trying to re-order these pipelines to minimise stalls related to cache misses.
+- Modern single CPU contains multiple execution unit which can do combination of arithmatic, conditional and memory manipulation 
 
 
  ## practice
