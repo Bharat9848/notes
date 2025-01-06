@@ -2,15 +2,15 @@
 - Java NIO (O’Reilly)
 - Netty in action (Manning)
 
-# JAVA Bytecode.
-  1. `aload_0`: This opcode is one of a group of opcodes with the format `aload_<n>`. They all load an object reference into the operand stack. The `<n>` refers to the location in the local variable array that is being accessed but can only be 0, 1, 2 or 3. There are other similar opcodes for loading values that are not an object reference `iload_<n>`, `lload_<n>`, `fload_<n>` and `dload_<n>` where i is for int, l is for long, f is for float and d is for double. Local variables with an index higher than 3 can be loaded using iload, lload, float, dload and aload. These opcodes all take a single operand that specifies the index of local variable to load.
-  2. `ldc`: This opcode is used to push a constant from the run time constant pool into the operand stack.
-  3. `getstatic`: This opcode is used to push a static value from a static field listed in the run time constant pool into the operand stack.
-  4. `invokespecial` and `invokevirtual`: These opcodes are in a group of opcodes that invoke methods these are invokedynamic, invokeinterface, invokespecial, invokestatic, invokevirtual. In this class file invokespecial and invokevirutal are both used the difference between these is that invokevirutal invokes a method based on the class of the object. The invokespecial instruction is used to invoke instance initialization methods as well as private methods and methods of a superclass of the current class.
-  5. `invokestatic` / `iadd` / `ireturn` /`invokevirtual` java bytecode command pops from operand stack multiple times based on argument it need to invoke command's method. 
-  6. `return`: This opcode is in a group of opcodes ireturn, lreturn, freturn, dreturn, areturn and return. Each of these opcodes are a typed return statement that returns a different type where i is for int, l is for long, f is for float, d is for double and a is for an object reference. The opcode with no leading type letter return only returns void.
-  7. `iconst_X` / `iload_X` / `getstatic`:  java bytecode command store value in operand stack.
-  8. `istore` pop the return value from operand stack and set it to crossponding local variable array location.
+# Library
+  - `Awaitability`
+  - `Arch-unit`
+  - `joccoo test`
+  - `pittest`
+  - `testcontainers`
+  - `gatling`
+  - `openrewrite`
+
 
 ## Java Thread
  - **Thread Groups** are hierarchial. Root thread group is system thread group. System has one child called main thread group. `main` thread which starts the process belongs to `main` thread group. All thread groups which are created part of executor services are child of main thread group.
@@ -52,6 +52,7 @@
  ## Semaphores
   - ??? If a semaphore is constructed with its fair flag set to true, the semaphore tries to allocate the permits in the order that the requests are made—as close to first-come- first-serve as possible. The downside to this option is speed: **it takes more time for the virtual machine to order the acquisition of the permits than to allow an arbitrary thread to acquire a permit.**
  ## Countdownlatch / CyclicBarrier
+
 
  # Locks
 
@@ -101,6 +102,8 @@
  - Actuator with micrometer - application metrics
  - Zipkin/elastic APM - distributed tracing tools
 
+## File operations:
+ - upload large file in chunks in parallely
 
 ## Problems
  - Write deadlock detection algortitm
