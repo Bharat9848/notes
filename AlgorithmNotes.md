@@ -1,3 +1,10 @@
+# Array
+ - local/global maxima minima 
+   1. stocks problem 2. swap integer to make maximum  
+ - Anagrams
+ - String concatenation
+ 
+
 # Graph algorithm
 
 1. General approaches
@@ -19,4 +26,7 @@
    - Performance is `O(n + m)` where `n` is number of nodes and `m` is number of edges.  
   2. Depth first
 
-4.
+
+# Advanced
+ - SkipList -sorted list logN insertion logN searching
+ - OrdSet/sortedSet - it is kind of skiplist- one cell have some sorted elements. cells are connected to some cells  [1](https://discord.com/blog/using-rust-to-scale-elixir-for-11-million-concurrent-users)

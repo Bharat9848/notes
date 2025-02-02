@@ -7,7 +7,11 @@
  - System can only choose between availability or consistency in case of network partition.
  - Disadvantage
   - it does not say anything about network delay, dead nodes or other trade off.
+ - **PACELC** theorem extends the CAP theorem. In addition to CAP theorem, in case of no network partition system can only choose **Latency/Performace** or consistency.   
 
+## Failure Detection
+ - **Gossip protocol**
+ 
 ## Fault tolerance
  - Replication 
  - Recovery need idempotency 
@@ -121,3 +125,19 @@ bandwidth, etc.) unchanged, how is performance of your system affected?
 
 
 If your application does use many-to-many relationships, the document model becomes less appealing.
+
+
+## Sidecar pattern
+ - Additional containers colocated with an application container to augment functionality for application. It usually share some of the system resources like network, disk etc.
+ - Usecases of sidcar pattern
+   - Legacy application needs additonal functionality.
+   - Team do not want to horizontal concerns like security, monitoring to spill in application logic. Thus makes the code more modular.
+   - e.g. Nginx sidecar pattern to terminate HTTPS traffic and send HTTP traffic to application container.
+   - e.g. Push dynamic configuration using sidecars save it common disk location which is read by application. Sidecar after updating changes on local disk can trigger updates to the application container using some mechanism e.g. SIGHUP, SIGTERM, API etc.
+ - Create your own sidecar
+   1. parameterize your sidecar e.g. for SSL terminating nginx sidecar it will application port and path to certificate.
+   2. Expose the sidecar API
+   3. documentation
+
+## Excercise
+ - run sidecar topz alongside your container

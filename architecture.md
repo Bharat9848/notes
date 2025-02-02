@@ -64,6 +64,10 @@
  - Separation of concern
  - information hiding module should hide the changeable aspect and expose the well defined interface to other module.
  - Fitness function `jdepends`, `SonarQube` and `ArchUnit` 
+#### Microservices
+  - Size of microservices
+  - Bounded contexts are microservices design principle which make transactionality its primary concern.
+  - microservices granalurity vs deployability tradeoff
 
 ### Component and connectors structure
 
@@ -75,7 +79,8 @@
   - high cohesion, low coupling, size of the system and binding time of modification are properties which helps in modifiability of the system.
   - For high cohesion - splitting module cohesively and putting similar functionality in a single module, are tactics.
   - For reduce coupling - encapsulation, use an intermediary, abstract common service and restrict dependencies are some of the tactics.
-  - For defer binding - component replacemnt, compile-time parameterization, Aspects, configuration-time binding, resouce files, discovery, interpret parameters, shared repositories and polymorphism 
+  - For defer binding - component replacemnt, compile-time parameterization, Aspects, configuration-time binding, resouce files, discovery, interpret parameters, shared repositories and polymorphism.
+
 
 #### Performance 
   - Response time comprises of two major factor - processing time and blocking time.
@@ -119,7 +124,7 @@
   - Limit exposure - resources are siloed in such a way that demage from a attack is minimum
  - React
   - Revoke access, lock an account and inform actual user.
-     
+
 
 #### Safety
  - keep part of the system functional even though part of system is under fault.
@@ -167,18 +172,22 @@
 
   6. Usability
   7. Testability
-  8. Deployability
-   - Manage Deployment pipeline
-     1. scripted commands
-     2. scale/incremental rollout
-     3. rollback
-   - Manage deployed service
-     1. version compatibility
-     2. Feature toggle
-     3. package dependencies
-   - Service deployment
+
+#### Deployability
+  - Manage Deployment pipeline
+    1. scripted commands
+    2. scale/incremental rollout
+    3. rollback
+  - Manage deployed service
+    1. version compatibility
+    2. Feature toggle
+    3. package dependencies
+  - Service deployment
     1. blue/green deployment: N instances of new service are deployed against N instances of old service. Discovery service is updated with new service instances. Once everything looks good old service's instances are deleted. 
     2. rolling upgrade  
+  - Architectural quantum is independent deployable unit with high functional cohesion, high static coupling and synchronus dynamic coupling.  
+
+
   9. Portability
 
   10. Integrability
@@ -189,6 +198,15 @@
    - Interfaces of a component help integration better as it encapsulate a component to specific functionality. Wrapper, bridge and mediator are encapsulator.
    - Intermediatries like publisher-subscriber remove the syntatic barrier, discovery-service removes the syntatic barrier
    - **Restricting communication pattern** to adhere/force to a common protocol among components.
+  
+#### Testability
+1. Increase observable state/reporting
+  - record/playback : Especially helpful in case of highly parallel system.
+  - Localize state storage
+  - Abstract data sources
+  - Sandboxing
+  - executatble assertion
+
 
 
 
@@ -203,6 +221,12 @@
   2. Earliest deadline first
   3. Least slack first
   4. static scheduling? 
+
+## Communication protocols
+ - polling
+ - long polling
+ - Websocket 
+ - Server Sent events 
 
 
 

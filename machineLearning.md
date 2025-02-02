@@ -1,10 +1,13 @@
 # Machine learning
-
+ 
 ## Types
  - Supervised learning: Features + target 
  - Unsupervised learning: features
  - Semi supervised learning
-
+ 
+## Kubeflow
+ - deploy tensorflow model to Kubernetes.
+  
 ## Books
  - machine learning by Tom Mitchell
  - Data science for business understanding by Foster Provost and Tom Fawcett

@@ -5,10 +5,10 @@
 - GC runs parallely to application threads and cause pauses in all running threads.
 - It also do efficient object reallocation in between its minor and major cycles
 - One quick trick for optimizing GC operation based on this is to adjust the sizes of heap areas to best fit your applications’ needs.
-
+- **safepoints**
 - Garbage collection cycle events contain three phases – 
-   1. marking = GC runs through the heap and marks everything either as live (referenced) objects, unreferenced objects or available memory space. 
-   2. deletion = Unreferenced objects are then deleted
+   1. marking = GC runs through the heap starting from the root objects and marks everything either as live (referenced) objects. Marking performance is inversely proportional to the live data set. It is agnostic to size of the heap. GC roots are static variables 
+   2. sweep = Unreferenced objects are then deleted. Its performance is proportional to heap size. 
    3. copying/compaction. Remaining objects are compacted. In generational garbage collections, objects “age” and are promoted through 3 spaces in their lives – Eden, Survivor space and Tenured (Old) space. This shifting also occurs as a part of the compaction phase.
 - Collection Type
   1. Minor collection: GC runs on eden space. 
@@ -24,7 +24,8 @@
 ### General type of collectors
  - Stop the world collector
  - concurrent collector
- - copying collector : They are best for immutable objects workload but disaster for object pooling optimization
+ - copying collector : They are best for immutable objects workload but disaster for object pooling optimization. They do mark/sweep/compact in a simple go.
+
 ### G1 
   - The Garbage first collector (commonly known as G1) utilizes multiple background threads to scan through the heap that it divides into regions. It works by scanning those regions that contain the most garbage objects first, giving it its name (Garbage first).
 

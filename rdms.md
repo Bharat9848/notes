@@ -45,9 +45,20 @@
   2. Database level lock
   3. table level lock
 
-Most relational database systems execute the ALTER TABLE statement in a few milliseconds—with the exception of MySQL, which copies the entire table on ALTER TABLE, which can mean minutes or even hours of downtime when altering a large table. Various tools exist to work around this limitation of MySQL.
+## Mysql
+- Most relational database systems execute the ALTER TABLE statement in a few milliseconds—with the exception of MySQL, which copies the entire table on ALTER TABLE, which can mean minutes or even hours of downtime when altering a large table. Various tools exist to work around this limitation of MySQL.
+- Running the UPDATE statement on a large table is likely to be slow on any database, since every row needs to be re-written.
 
-Running the UPDATE statement on a large table is likely to be slow on any database, since every row needs to be re-written.
+## Postgres
+- postgres have lot of plugins/extension support. famous ones- pgbouncer , pgpartman(for table partitioning)
+- postgres have two format for JSON field - `json` and `jsonb`. `json` is stored as simple input text as it was provided whereas `jsonb`  is semi parsed json structured which is very fast for query and make json fields indexable.
+- Postgres does not have true replica MVCC support. The fact that replicas apply WAL updates results in them having a copy of on-disk data identical to the master at any given point in time. This design poses a problem for Uber.??
+
+## Database migration
+1. Enable dual writes into our metadata APIs from clients of media metadata.
+2. Backfill data from older databases to our metadata store
+3. Enable dual reads on media metadata from our service clients
+4. Monitor data comparisons for each read and fix data gaps
+5. Slowly ramp up the read traffic to our database to make sure it can scale
 
 
-Postgres does not have true replica MVCC support. The fact that replicas apply WAL updates results in them having a copy of on-disk data identical to the master at any given point in time. This design poses a problem for Uber.??
