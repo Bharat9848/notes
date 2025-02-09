@@ -22,3 +22,6 @@
 2. Linear DA: same covariance matrix for all classes,
 3. Gaussian Naive Bayes: different diagonal covariance matrices per class, and
 4. Diagnol Linear DA: same diagonal covariance matrix for all classes.
+
+# Distributions
+1. **Geometric distribution** measures the probability of getting a choice in a given set of trials. 

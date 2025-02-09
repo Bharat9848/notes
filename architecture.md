@@ -170,7 +170,12 @@
      7. graceful degradation 
      8. Reconfiguration it tries to switch to non-fault one
 
-  6. Usability
+#### Usability
+ - Anticipate user behaviour or human friendly feedbacks.
+ - support user initiative: includes cancel, undo, aggregate, pause/resume
+ - support system initiative: maintain task model, maintain user model and maintain system model.
+ - Pattern of usability includes Model-view-controller, observer and memento. see designPattern.md for more details
+
   7. Testability
 
 #### Deployability
