@@ -119,3 +119,29 @@
 
 
 
+## Rough
+    Rate Limitter
+    URL Shortener
+    Web Crawler
+    Notification System
+    News Feed System (Instgaram, Facebook, Twitter)
+    Chat System (1:1 and group)
+    Search Autocomplete system
+    Youtube
+    Google Drive
+    Uber
+    Tinder
+    Spotify
+    Bookmyshow
+    Goibibo/Skyscanner
+    Flipkart/E-commerce
+    Leetcode
+    Logging System
+    Zoom
+    Google Pay/UPI
+    Nearby Friends
+    Google Maps
+    Ad Click Event aggregation
+    Airbnb
+    Real time Gaming Leaderboard
+    Stock Exchange

@@ -1,7 +1,12 @@
+# Glossary
+- Market order: buy or sell at current best price. 
+- Limit order: 
+- 
+
 # Requirement
 - limit order/market order
 - order book/trade book
-- watchlist
+- multiple watchlist
 - market depth
 - 
 
