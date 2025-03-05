@@ -13,11 +13,22 @@
 - **Inheritance**:
 - **Polymorphism**
 
+# Interface:
+- interface provide access to resource.
+- It consist of operations, event and properties.
+- operation is synchronus 
+- event for aysnchronus
+- properties is metadata like access rights, unit of measure or formatting assumption.
+- Interface should follow **principle of least surprise**(consistent), **small interface principle**, **uniform access principle**(no implementation details) 
 # SOLID principle
 - Single responsibility
 - Open-closed principle
 - L
-- Interface segragation
+- **Interface segragation**: Dividing of interfaces can have following reasons
+ - multiple actor needs access to subset of functionality.
+ - different policy require for subset of functionality.
+ - different supporting interfaces for debuggabilty
+ - same functionality for non-authenticated users etc. 
 - Dependency
 
 ## UML

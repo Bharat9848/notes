@@ -223,6 +223,15 @@ Extension to CAP theorem is PACELC theorem where PAC is from cap theorem which s
 ### Try-confirm/cancel
 ### Saga
 
+## Time
+- NTP
+- Vector clock
+
+## consensus
+1. Paxos
+ - see paxos.md
+2. Apache zookeeper, consul and etcd implements consensus algorithm 
+
 ## Rough notes
 - read about Try-confirm/cancel algo for distributed transaction
 

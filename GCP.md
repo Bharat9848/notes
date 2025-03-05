@@ -1,3 +1,8 @@
+# Glossary
+- Data centers are organized into regions
+- regions are grouped into availability zones with probability of datacenters failing in same availability zone are very low.
+- For systems running with a single data center, timeouts and thresholds can be set aggressively, since network delays are minimal and missed responses are likely due to software crashes or hardware failures.
+
 # Loadbalancer
 ## categories
  - Layer 4 or Layer 7

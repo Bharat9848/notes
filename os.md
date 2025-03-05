@@ -60,3 +60,9 @@ Configure Stack
 step 1. configure stacktop and stackbootom tags with some reserved memory.
 step 2.  point stackpointer register to stack top
 
+## Virtualization
+ 1. container vs vm
+  container is optimized on image transfer time and startup time. Image transfer time is reduced as compared to VM as it does not contain the operating system.
+  container runtime engine like docker act as virtualized operating system
+
+The interface between the container runtime engine and the container has been standardized by the Open Container Initiative,

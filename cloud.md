@@ -3,6 +3,8 @@
  - In "pay as you go model" cost can be estimated using price calculator.
 
 ## Glossary
+ - **hypervisor** operating system for all vms runs on a physical machine. Hypervisor does not translate hosted vms instruction set to host instruction set. Type1/type2 hypervisor.
+ - **Emulator** translate or map the instruction set to different instruction set.
  - Infrastructure as a service: include ip, firewall, vpc, storage and compute engine
  - Platform as a service: well defined and managed environment eg. cloud sql, app engine etc.
  - Software as a service: software services like map, email etc without installing it anywhere.

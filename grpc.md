@@ -1,0 +1,3 @@
+- uses http2.0 for transport
+- uses blocking or nonblocking binding
+- Asynchronus bidirectional streaming and flow control

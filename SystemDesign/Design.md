@@ -27,7 +27,7 @@
     1. container - video, audio and metadata
     2. Codec like H.264 which compresses while preserving quality.
    - Transcoding subtask includes audio/video encoding, thumbnail generation, watermarks which can be parallalized. video encoding is for different resolution, bitrates and codecs.
-
+ - However, if we were building an API for a streaming service, then supporting different devices could be considered a separate functional requirement because different devices support the playback of different encodings, and we may have to transcode the data to the appropriate one for each device.
 # Ticket master problem
 
 # Car ride app
@@ -49,6 +49,7 @@
  ## scale
   - segregate upload/download functionality
   - segregate upload to two steps 1. store file directly to AWS S3 through block server 2. And then use upload metadata-server API to commit the file with its metadata.
+  - Alternatively client -> file server(store in temp storage, persists metadata) -> processing server(encode/decode data) -> blob storage
   
 # Notification server
 - polling mechanism - lot of idle connection
