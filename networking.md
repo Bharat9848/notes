@@ -1,4 +1,7 @@
 ## Glossary
+- POP - point of presence where two different network meets. e.g ISP traffic is merging with general internet traffic
+- IXP - Internet exchange points
+
 - Path MTU is the largest packet size that a source can send on the network beyond which packet fragmentation will happen. This number is equal to the smallest MTU on the network path.
 # IP address
  - global anycast address

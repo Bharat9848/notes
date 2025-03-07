@@ -22,8 +22,11 @@
 - Interface should follow **principle of least surprise**(consistent), **small interface principle**, **uniform access principle**(no implementation details) 
 # SOLID principle
 - Single responsibility
+  - A class should have a single reason to change
+  - no god classes
+
 - Open-closed principle
-- L
+- Liskov substitution principle
 - **Interface segragation**: Dividing of interfaces can have following reasons
  - multiple actor needs access to subset of functionality.
  - different policy require for subset of functionality.

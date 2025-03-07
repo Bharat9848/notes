@@ -10,6 +10,11 @@
 
 ## Scale calculation
 
+# Sequencer
+## Requirement
+- provide globally time sortable unique Ids
+
+
 # Social media app
 
 # Streaming server - youtube/netflix
@@ -117,6 +122,7 @@
    3. Use unix `mmap` for sharing data between different system. 
 
  6. Trending service  
+
 
 
 

@@ -1,3 +1,7 @@
+# Glossary
+- bitrate
+- Encoding
+
 # Requirements
 - upload video
 - stream video
@@ -25,11 +29,11 @@ Usage assumption
 
 2. Bandwidth estimation
 - Upload Bandwidth
-  - upload stats: 500 video-Hour/hr = 30000 video-min/min (basic fact)
+  - upload stats: 500 video-Hour/min = 30000 video-min/min (basic fact)
   - size of a 5min video: 600MB/5min = 120 MB/min = 2MB/sec 
-  - bandwidth requirement = upload video minutes * video size/min = 60000 MB/min = 480000MB/sec = 480 Gb/sec
+  - bandwidth requirement = upload video minutes * video size/min = 3600000 MB/min 
 - Download Bandwidh
-  - download stats: 150000 video-hour/min = 900000 video-min/min
+  - download stats: (download/upload) view ratio * upload stats =  150000 video-hour/min = 900000 video-min/min
   - avg bandwidth req: 10 MB/min 
   - badwidth required/min = 9000000 MB/min = 1500000 MB/sec = 12000000 Mb/sec = 12Tb/sec
 
@@ -99,28 +103,39 @@ channel_videos(channel_id, video_id)
 Comment(user_id, video_id, text, flagged, posted_on, like, dislike)
 
 ## Deep dive
-- Thumbnail service : BigTable for storing thumbnail.
-- Search
+1. Thumbnail service : BigTable for storing thumbnail.
+2. Search
   - video data is extracted from (channel_name, playlist_name, video_title, video_description, content_transcript, video_length, tags)
   - ranking algorithm based on view_count, watched_minute, like, dislike, user_id
-- Stream service
-  - interact with Ad service, user data service, encoding service.
+3. Stream service
+  - interacts with Ad service, user data service, encoding service.
   - Server sends a manifest file to user. Manifest file contains the information about the different video segment based on different bitrate that user device can fetch based on user device's network and other condition.
-  - Video is decoded and decompressed on client device. 
-- Ad service
-  - updates a manifest file to decide which ad is apt to show against a video
-  - decides the frequency cap for an ad to be shown to user.
   - **mainfest files**: Static (one-time) manifest files are pre-generated and delivered to clients as soon as the streaming session begins. This means that the same manifest file is shared with all the users requesting the stream. In contrast, dynamic manifest files are generated on-the-fly as soon as the request is placed on the server. Each generated manifest file takes into consideration the client’s location, device specifications, network conditions, preferences, etc., to generate a tailored response. Although dynamic manifest files produce a better user experience and are suitable for dynamic ad insertion, their generation is resource-intensive and complex as compared to the static approach.
-
-- Scalability
+  - Video is decoded and decompressed on client device. 
+  - Ad service
+    - updates a manifest file to decide which ad is apt to show against a video
+    - decides the frequency cap for an ad to be shown to user.
+  
+4. Scalability
  - Adaptive bit rate
  - caching at various level using Http1.1 etag and caching feature
  - prefetching
  - compression
+ - Storing famous content at ISP/IXP so that origin servers face less burden and less network congestion. 
+
+5. Intelligent encoding
+ - Storing entire video in different encoding formats os less storage friendly then store and encode video in smaller chunks where each chunk can be stored in different encoding technique.
+ - Video is divided into segments. Segments can be choosen intelligently and divide an entire video in segments with minimum dynmics frames, medium dynamic frames and high dynamic frames. Then for each type of seqment, different encoding might be choosen for optimal quality and minimum storage.
+
+6. Recommendation service
+- ML algorithm to pick and choose videos that should be placed at edge(CDN/ISP) to save cost and better user experience.
+
 
 ## Streaming
 - flow
- user device -> streaming server -> cdn -> viewer device
+ user device -> streaming server -> cdn 
+ cdn <-> viewer device
+
 - protocols 
 1. **RTMP** is widely used for ingesting live streaming with the help of different encoders. So, it would be useful for sending the raw video to the server.
 
@@ -129,5 +144,8 @@ Comment(user_id, video_id, text, flagged, posted_on, like, dislike)
 
 - Streaming server
 
+## Rough
+In the context of the lesson, using lossless but fast compression like Google Snappy on the client end before uploading videos to YouTube is suggested to decrease the amount of data that needs to be transmitted over the internet. 
+- Live stream
 
 ## References

@@ -62,14 +62,26 @@
 - provide reliable networking for group of pods. K8 gaurantees that the DNS name, Ip address and port never changes.
 - Service is a contract to guide the traffic to backend healthy pods. To achieve the same, each service have an `EndpointSlice` controller which tracks all the healthy pods.  
 - For services with clusterIP it adds a DNS entry `<service-name>.<namespace>.svc.cluster.local` for assigned clusterIP.
-- `ExternalTrafficPolicy: local` means traffic from cloud LB directly goes to node which have the destination service's pod running.
-- `ExternalTrafficPolicy: cluster` means traffic from cloud LB can go to node which do not have destination service's pod running. The load balancer uses a health check to determine which nodes have the appropriate Pods.
+
+- **Properties**
+  - `ExternalTrafficPolicy: local` means traffic from cloud LB directly goes to node which have the destination service's pod running.
+  - `ExternalTrafficPolicy: cluster` means traffic from cloud LB can go to node which do not have destination service's pod running. The load balancer uses health checks to determine which nodes have the appropriate Pods. It obscures source IP address.
+  - `sessionAffinity:ClientIP`: will make all the call from same client to a particular node.
+
 - `NodePort` service type is also `ClusterIP` service as well. In addition to `ClusterIP` features it additionally opens up a port on cluster node which allows external traffic to passthrough via node's port. It requires external client to be aware of cluster nodes and their health.
-- `LoadBalancer` service type configures an cloud provider loadbalancer to sit on the `NodePort` service. Cloud provider loadbalancer take cares of health protocol and guides external traffic via its public Ip to node's port then to Sevice's pods. 
+- `LoadBalancer` service type configures an cloud provider loadbalancer to sit on the `NodePort` service. Cloud provider loadbalancer take cares of health protocol and guides external traffic via its public Ip to node's port then to Sevice's pods.
+
 
 ## ingress
 - Applicable to L7 load balancer as ingress specfies the rules at URI level.
-- needs k8 service of type nodeport
+- needs k8 service of type nodeport.
+- `ingress` resource defines the rules. User have to install explicit **ingress controller** to handle those rules. 
+- `ingress` rule can be based on different domain names or path prefixes.
+- Ingress is more flexible in cases of multiple services that needs to be exposed through a single load balancer.
+- `ingressClass` binds the ingress with ingress controller. We can have multiple ingress-controller by having multiple ingress.
+- ingress default backend defines the behaviour in case none of the rules matches the coming traffic.
+- `nginx.ingress.kubernetes.io/rewrite-target: /` ??
+
 
 ### Namespace
 - namespace to have soft partition between clusters.
