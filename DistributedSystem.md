@@ -1,5 +1,12 @@
 ## Glossary
-  - Byzantine fault: Node behaves differently than protocol rules. 
+ 
+
+## Distributed system failures
+- Fail-stop: node stopped working and other nodes can detect failure.
+- omission failure: node fail to send and receive some of the messages.
+- crash: node failed silently, other nodes cannot detect.
+- Temporal failure: request/response too late to be any useful. It is caused by clock skew, high load etc.
+- Byzantine fault: Node behaves differently than protocol rules. 
 
 ## Consistency, Availability and Partition tolerance - CAP theorem
  - Consistency in CAP theorem means linearizability.
@@ -57,23 +64,24 @@
   1. **Eventual Consistency**
     - Its a weaker gaurantee as it does not gaurantee read your own write.
     - Different replica returns different results. There may be cases where it seems that data is going back in time.
+    - It provides high availability
 
-  2. **Linearizability**/**Strong consistency**
+  2. Casual consistency
+   - It is lighter version of consistency defines relationship between event as dependent and independent events. Dependent events are called casual events.
+   - It serve casual ordering usecases and hence more performant than linearlizability.
+
+  3. **Linearizability**/**Strong consistency**/**Sequential**
     - it is consistency from CAP theorem.
     - It is a stronger gaurantee than eventual consistency. It make all replica and leader behave as a single entity.
     - Once a replica returned a value that means other replica cannot return values which are older than that value. 
-    - all the changes happened to a register are atomic.
-    - Defintion does not entail multiple row/key-value/register. Linearlizability only covers a single row/key-value/register. 
+    - all the changes happened to a register are atomic.Defintion does not entail multiple row/key-value/register. Linearlizability only covers a single row/key-value/register- ???)
     - read your own update.
-    - usecases include leader election, distributed locks and unique constraint like unique username etc.
+    - usecases include leader election, distributed locks and unique constraint like unique username, password change in banking system etc.
   - **Drawbacks**:
     1. Performance hinderess - not scalable beyond a point. Scalability would requires the usecase to be handle by multi nodes. 
     2. Make system unavailable in cases of network partitions and other faults.
   - There may be a case that even after linearizability you get to see values which are not latest. But as they are returned by any replica, it is okay.  
  
- 3. Casual consistency
-   - It is lighter version of consistency.
-   - It serve casual ordering usecases and hence more performant than linearlizability.
 
  4. **Total order broadcast**
    - Messages are delieverd exactly once and in the same order.
@@ -224,7 +232,9 @@ Extension to CAP theorem is PACELC theorem where PAC is from cap theorem which s
 ### Saga
 
 ## Time
-- NTP
+- NTP: This protocol have shortcoming of time drifting and repeated correction can make it look that events are happening in future
+- Lamport clock: each node will have a id and increment unique number. It does not identify casual events
+
 - Vector clock
 
 ## consensus

@@ -14,6 +14,7 @@
  - Performance Solutions: A Practical Guide to Creating Responsive, Scalable Software[Smith 01].
  - Real-Time Design Patterns: Robust Scalable Architecture for Real-Time Systems [Douglass 99]
  - Pattern-Oriented Software Architecture Volume 3: Patterns for Resource Management [Kircher 03].
+ - Just Enough Software Architecture: A Risk-Driven Approach[Fairbanks 10].
 
 
 
@@ -143,6 +144,9 @@
  - **Monitor/actuator** are software elements actuator controller calculate the values before sending it to physical actuator and monitor do the testing of value before sending it to physical actuator.
  - **Separate safety** In safety critical systems it is best to have separate safety critical and non critical part of system. safety critical system should be certified from some authorized agency. In safety critical system component-safety are divided into categories based on hazardous level.
 
+#### Reliability
+- It is quality which enables a service to able perform some action in specified time.
+- Mean time to repair(MTTR) and Mean Time Between Failure are the reliability measures. 
 
 #### Availibility
  - It encompasses reliability, failure recovery and robustness.

@@ -1,5 +1,5 @@
 # General
- - In some cases interviewer tries to hide some major requirement 
+ - In some cases interviewer tries to hide some major requirement.
  - Simplify requirements and system interfaces
  - Consistent Hashing vs Normal hashing
 
@@ -123,7 +123,8 @@
 
  6. Trending service  
 
-
+ 8. Transactional system
+  1. use uuid to deduplicate or make calls idempotent.
 
 
 ## Rough

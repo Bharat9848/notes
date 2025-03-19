@@ -16,16 +16,22 @@
 # Interface:
 - interface provide access to resource.
 - It consist of operations, event and properties.
-- operation is synchronus 
-- event for aysnchronus
+- operation is synchronus ? 
+- event for aysnchronus ?
 - properties is metadata like access rights, unit of measure or formatting assumption.
 - Interface should follow **principle of least surprise**(consistent), **small interface principle**, **uniform access principle**(no implementation details) 
-# SOLID principle
+- Interface method names should not specific about resource properties. e.g calculateTotalForCategory - category is internal property of transaction, modifying it will require changes in interface.
+- Interface method return type should be a generic wrapper domain class. Helps in reducing multiple flavor return type methods.
+
+# SOLID principled
 - Single responsibility
   - A class should have a single reason to change
   - no god classes
 
-- Open-closed principle
+- **Open-closed principle** 
+ - class/method should be open to extend but closed for modification. Class/method should not be changed but we should strive for to extend it using new interfaces which can be extendable.
+ - class should have most common part as methods which have more general implementation and non-common part is define as interface, it can be passed on as an argument.
+
 - Liskov substitution principle
 - **Interface segragation**: Dividing of interfaces can have following reasons
  - multiple actor needs access to subset of functionality.
@@ -85,6 +91,8 @@
   - `diamond` to represent merge paths
   - **Fork and join** two solid line vertical bars can be used to show concurrent and parllel activity.  
 
+## DAO pattern
+- Data access object pattern: abstract the low level details of persistence mechanism which can be a db or file or in-memory. It uses an ID field to identify object.
 
 # Practice question
  - Design tic-tac-toe: Classes - GamePlay
