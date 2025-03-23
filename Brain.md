@@ -1,3 +1,11 @@
+- To learn quickly take short breaks while learning. beta waves are seen from the frontal brain to concerned area when we take break. In your break refrain from any mental activity.
+
+- Brain is like a child which needs care in terms of feeding, cleaning, excercising and prevention from harm. For feeding it needs healthy food containing  antioxidants (compounds that have a protective effect in the brain), fibre, unsaturated fats (including Omega-3 fatty acids), B vitamins and an adequate amount of complex carbohydrates. and avoidance of unhealthy food full of sugar, saturated fat, and salt. 
+- For cleaning it needs necessary sleep. 
+- For excercising it needs good mental excercise. 
+- And for prevention from harm means preventing any harm be in physical or emotional.
+
+
 1.PFC - 
 	1.1 Problems - Problems in the inferior orbital cortex often lead to poor impulse control(Y), mood control problems(Y) (due to its connections with the limbic system), decreased social skills(Y), and decreased control over behavior(Y).they do not share their feelings(Y).	
 

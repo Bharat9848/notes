@@ -44,6 +44,9 @@
   1. Row level lock
   2. Database level lock
   3. table level lock
+ - Bitmap index
+   - suitable for cloumns which have low cardinality like male/female
+   - Each cardinal value stores a bit for all the rows e.g. bitmap index for value male and female for table containing 4 records `M -> [0,0,1,0] F -> [1,1,0,1]` 
 
 ## Mysql
 - Most relational database systems execute the ALTER TABLE statement in a few milliseconds—with the exception of MySQL, which copies the entire table on ALTER TABLE, which can mean minutes or even hours of downtime when altering a large table. Various tools exist to work around this limitation of MySQL.

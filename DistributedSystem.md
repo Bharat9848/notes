@@ -120,13 +120,7 @@
  - output of batch system can be database files directly.
  - Map and reduce
  1. map stage - requires immutability of input, no side effects, output will be sent to different partition in distributed database based on a key, output will again be sorted by SST.
- 2. Reduce
-
-
-## Streaming 
- 1. map and reduce stages are blurry they are called operator. 
- 2. Operator maintain managed fault tolerant state.
- 3. fault tolerance require mini batching and checkpoint mechanisms. 
+ 2. Reduce 
 
 Reads are more frequent than writes than do more work with each write to compensate less work to be done when read request comes.- Example Twitter to make it more scalable.
 
