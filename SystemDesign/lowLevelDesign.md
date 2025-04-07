@@ -16,6 +16,7 @@
 # Interface:
 - interface provide access to resource.
 - It consist of operations, event and properties.
+- interface have semantics like transaction is abstraction which guarantee atomicity
 - operation is synchronus ? 
 - event for aysnchronus ?
 - properties is metadata like access rights, unit of measure or formatting assumption.

@@ -11,7 +11,7 @@
 - Answer record: contains IP against a domain name. 
 - NS record: provides the hostname that is authorative DNS for a host name.
 - MX record: provides mail server alias CNAME against a host name.
-
+- SRV record: ??
 ## tools
  1. dig
  - `dig <hostname>`

@@ -36,18 +36,57 @@
     3. multi leader
 
 ## Replication
+- Replication is used for scalability, Availability and performance.
+
+- Synchronus Replication is where data is replicated synchronusly to replicas. 
+  1. It makes write slow.
+  2.  If replica node crashes it will fail the write request itself. It will make system unavailable for write.
+
+- Asynchronus Replication is where data is replicated asynchronusly to replicas. 
+  1. It make the read replica to have stale data.
+  2. If primary fails before data is replicated it will result in data loss.
+
+- Type of replication
  1. Single leader replication
   - linearlizability can affect availability in case of network issues.
+  - replication can be done using 
+    1. command based replication where `insert/update/delete` were replicated to replicas. System nondeterministic functions like `now()` can lead to different results.
+    2. WAL based replication. Primary WAL logs are replicated to secondary it help in preventing non-deteminism. But It lock the db engine of primary and secondary - any maintainence would require node to be move out of cluster.
+    3. Logical based replication - instead of actual physical value of WAL, this approach capture the primary node changes in term of `Insert/update` with all the changed values. 
 
- 2. Multileader replication
+ 2. Multi-leader replication
   - useful for multi-datacenter operation.
   - linearlizability can affect availability in case of network issues.
+  - Conflict can happen in case of simentanoues write on a single key. Conflict avoidance, last-write-win or custom logic can be used in such situations.
+  - star /circular/ all-to-all topology is used for replication
  
  3. leaderless
+ - all nodes can receive read and write for any key
+ - quorum is used to break the incosistency of data.
 
+# Partitions
+ - **Vertical sharding**: 
+ 1. a table is divided such that few columns are in one table while others are in different table. 
+ 2. It is useful in cases where one table have very wide text or binary column. By breaking it one table with only id and wide text or binary column. we can make read and write faster.
+ 3. Also vertical sharding includes partitioning some tables in one physical server while some other set of tables in different server. One caveat is to make sure that tables with joins queries should be grouped together in one shard.
 
+ - **Horizontal sharding**:
+ 1. Each db server will have all the tables of schema but the tables shard will only have data for some set of keys.
+ 2. Keys can be divided on the basis of range or hash. 
+ 3. **Key range based shards** can be lead to data load imbalance in longer run. Range queries will be difficult across different shards.
+ 4. **Hash based sharding** uses an hash range assigned to a partition. A key whose hash falls into a partitions hash range will assigned to that partition. keys will randomly distributed which leads more load balanced across different partition as compare to key range based shards. Range queries would fall on all partitions.
+
+### Consistent Hashing
+- DB nodes and keys are assigned to positions in a ring. keys will get stored in first node while traveling clockwise on the ring.
+- randomly assign nodes on the ring may lead to data imbalance and load imbalance. This can be resolved by using concept of virtual function. Instead of using single hash function for a node we can use three hash functions. Each hash function places the nodeId into three random places which helps in distributing data more.  
+
+## problems
+- range queries
+- secondary indices
+- ACID properties
+- hotspot
 # Consistency
- - **Split brain** - when two nodes simentaneously behave that they are the only leader.
+ - **Split brain** - when two nodes simentaneously behave that they are the only leader. Quorum is used to resolve the split brain.
  - Strong consistency is for strict usecases where some form of ordering is required otherwise situations like split-brain may arise. But implementing stronger consistency is not very performance friendly and make system less resilient to faults.
 
 ## Ordering
@@ -81,7 +120,10 @@
     1. Performance hinderess - not scalable beyond a point. Scalability would requires the usecase to be handle by multi nodes. 
     2. Make system unavailable in cases of network partitions and other faults.
   - There may be a case that even after linearizability you get to see values which are not latest. But as they are returned by any replica, it is okay.  
- 
+  
+  4. Quorum based consistency
+   - `r + w > n` and `w>r` is used to achieve high consistency.
+   
 
  4. **Total order broadcast**
    - Messages are delieverd exactly once and in the same order.
@@ -100,11 +142,18 @@
      - events will be casually ordered as they come to single leader. Leader can choose simple montonically increasing sequence to order them. 
      - cannot scale beyond a single node.
 
+### Delievery Semantics
  - **Exactly-once semantics**
   1. Idempotent operation and retrying: 
    a. Using offset
    b. idempotent operation by nature
   2. Distributed transaction
+ 
+ - **At least once**
+  1. Consumer is just failed before sending ack to the sender. In this case message will be retried and consumed multiple times.
+
+ - **At most once** 
+
 
 ## Consensus Algorithm 
   - Assumes safety property which includes following properties 
@@ -147,59 +196,8 @@ If your application does use many-to-many relationships, the document model beco
 ## Excercise
  - run sidecar topz alongside your container
 
- ## NoSql
-### NoSql Database types
-1. Document Based 
-2. Column based 
-  Usecases: Write-large number of small updates Read - read sequentially. 
-  Example: HBase
-
-### NoSql schema designing
-1. When to have multiple collections in nosql.
- - If the objects you are going to embed may be accessed in a isolated way (it makes sense to access it out of the document context) you have a reason for not embedding.
- - If the array with embedded objects may grow in an unbounded way, you have another reason for not embedding.Embedding one to many relationship on the one side can help in saving extra queries. But gain can quickly turn into lose if those objects are getting updated very frequently.
-
-2. Three basic different schema design One-to-N relationship in NoSql:
-  1. Embed the N side if the cardinality is **one-to-few** and there is no need to access the embedded object outside the context of the parent object.
-  2. Use an array of references to the N-side objects if the cardinality is one-to-many or if the N-side objects can be queried independently of 1 side.
-  3. Use a reference to the One-side in the N-side objects if the cardinality is one-to-squillions(large indefinte size)
-
-### What to choose - sql or nosql
-
-1. Nosql
-  When to use : 
-  - **Schema structure** If the data in your application has a document like structure(i.e. a tree with one to many relationships where typically the entire tree is loaded at once) then its probabily is good idea to use document model. However the relational technique of shreddig- splitting the document into multiple tables can lead to cumbersome schema and unnecessay complicated application code.
-  - flexible and evolving schema.
-  - **size** Suitable for big volume of data.
-  - **Compliance** Suitable where eventual consistency can be tolerated.
-  - JSON schema has better locality than the multi table schema.
-
-  cons: 1. Many to one and Many to many relatioships are very weakly supported.. As projects get bigger they tend to have more usecases. And subobjects in a document are queried independently of the main object. As soon as these usecases start to have many-to-many and many-to-one queries. It does not fit well in Json schema. This leads to breaking of hierarchial model(JSON) to relational model.
-  2. querying a small piece of data from a big document will fetch the whole document.
-  3. updation of document size form some update in  some field require rewritten of whole document again. information.
-
-2. Sql
-   when to use : 
-   - **size** : RDBMS are at their best when performing intensive read/write operations on small or medium sized data sets.
-        Need strong consistency.
-   - **Compliance** : Usecases that require strict ACID compliance e.g. finance, Banking, ecommerce etc
-   - **Schema structure** if the schema is consistent and does not change much. Also data size is limited. 
-       
-  cons:
-        Does not scale well in horizontal scalability bcause of ACID rules
-
-Notes : For highly interconnected data the document model is awkward, the relational model is acceptable and graph model are most neutral.
-
-There is an implicit schema because the application need some kind of structure but it is not enforced by the database. A more accurate term is schema-on-read(the structure of the data is implicit and only interpreted when data is read) , in contrast to schema on write (the traditional approach of relational database where schema is explicit and the database ensures all written conforms to all).
-
-Scheama on read advantages:
-Case1: there are many different type of objects and it is not practical to put each type of object in its own table.
-case2:The structue of data is determined by external systems over which you have no control and which may change at any time.
-
-### Famous Non sql Database
-Cassandra: Records are sharded based on partition keys. Within same partition key records are sorted based on a key. 
-BigTable: It combines multiple files in a single block to store on disk. And is very efficient in reading a small amount of data.
-HDFS/GlusterFS: Distributed File storage system.Suggested for Video binary stroage
+## SQL vs nosql
+-see sql.md and nosql.md
 
 ### Bloom filter
 - It gives definite answer in case a particular key is not present and it may give false positive in which case key might also not be present.
@@ -229,7 +227,7 @@ Extension to CAP theorem is PACELC theorem where PAC is from cap theorem which s
 - NTP: This protocol have shortcoming of time drifting and repeated correction can make it look that events are happening in future
 - Lamport clock: each node will have a id and increment unique number. It does not identify casual events
 
-- Vector clock
+- Vector clock: vector clock is used for conflict resolution in case of multi version of objects were written during network partition. Each object is associated with version `<nodeId, version>`. `Get` call returns the version alongwith value. `put` call also take version as input. In case of conflict `Get` returns the values alongwith their object versions and client have to resolve conflict before writing new version. 
 
 ## consensus
 1. Paxos

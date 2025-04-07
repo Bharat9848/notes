@@ -9,6 +9,23 @@
  - System load
 
 ## Scale calculation
+ - QPS handled by MySQL: 1000
+ - QPS handled by key-value store: 10000
+ - QPS handled by cache server: 100,000–1 M
+ - L1 cache reference: 0.9ns 
+ - L2 cache reference: 2.8ns 
+ - L3 cache reference: 12.9ns
+ - Main memory reference: 100ns 
+ - Compress 1KB with Snzip: 3,000ns (3 microseconds)
+ - Read 1 MB sequentially from memory: 9,000ns (9 microseconds)
+ - Read 1 MB sequentially from SSD: 200,000ns (200 microseconds)
+ - Round trip within same datacenter: 500,000ns (500 microseconds)
+ - Read 1 MB sequentially from SSD with speed ~1GB/sec SSD: 1,000,000 (1 milliseconds)
+ - Disk seek 4,000,000ns (4 milliseconds)
+ - Read 1 MB sequentially from disk: 2,000,000ns (2 milliseconds) 
+ - Send packet SF->NYC: 71,000,000 (71 milliseconds)
+ - If cpu bound workload have performance X then memory based workload will have 10X slower and IO based workload will be 100X slower.
+ - Per request time `CPU(time per program)=Instructions per program × CPU Cycles Per Instruction × CPU time per clock cycle` e.g. lets say we are running million instruction per request. cycle per instruction is 1. cpu time per clock is 1/3.5Ghz will give 0.001 sec. Or 1000 request per sec.   
 
 # Sequencer
 ## Requirement

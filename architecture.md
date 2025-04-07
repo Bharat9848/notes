@@ -166,12 +166,12 @@
      8. Exception detection includes timeout, message protocol checking and self tests.
    - Fault recovery includes
      1. Redundant spare: warm(backup component in passive state), hot(same state in backup component), cold(requires warming up before made available) component replace the faulty one.
-     2. Rollback: rollback to saved good state, checkpointing etc.
+     2. Rollback: rollback to saved good state, checkpointing etc. Checkpointing is a mechanism where processes in the system can be in consistent view - when all of the process reached a safe state where no message in between transit or being processed. Or they can be inconsistent view when they were some state which is in transit or message exchanged between snapshots.
      3. Recovery through exception handling.
      4. Software upgrade: function/class patch etc
      5. Retry
      6. Ignore fault
-     7. graceful degradation 
+     7. graceful degradation - circuit breaker and throttling
      8. Reconfiguration it tries to switch to non-fault one
 
 #### Usability
@@ -180,7 +180,6 @@
  - support system initiative: maintain task model, maintain user model and maintain system model.
  - Pattern of usability includes Model-view-controller, observer and memento. see designPattern.md for more details
 
-  7. Testability
 
 #### Deployability
   - Manage Deployment pipeline
