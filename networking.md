@@ -1,16 +1,19 @@
 ## Glossary
+- **Routing**: route traffic from one network to other network.
+- **Gateway**: default route if no other route criteria matches. It is usually send the traffic to other node on different network node. or if it is set to no route then kernel process the traffic
+
 - POP - point of presence where two different network meets. e.g ISP traffic is merging with general internet traffic
 - IXP - Internet exchange points
 
 - Path MTU is the largest packet size that a source can send on the network beyond which packet fragmentation will happen. This number is equal to the smallest MTU on the network path.
+
+
 # IP address
  - global anycast address
 
 # Protocols
-
 ## DNS 
 - see DNS.md
-
 ## Layer 7
 ### HTTP
 1. Http1.1
@@ -38,8 +41,6 @@
 - keep_alive
 ### UDP
 ### ICMP  
-
-
 ### IP tables
 
 ## Rough
@@ -47,3 +48,5 @@
 - `brctl show cfbr0` shows root namespaces in veth pair attached to `cfbr0`
 - DR/DSR is typically used for non-HTTPS traffic because when TLS termination is involved, responses need to be encrypted before reaching the client, requiring them to pass back through the Layer 7 load balancer for encryption.
 - **Internet exchange points** are common grounds of IP networking, allowing participant Internet service providers to exchange data destined for their respective networks. 
+- The concept of routing and default gateways is fundamental in networking, ensuring that data packets find their way across complex networks of devices and subnets.
+

@@ -12,7 +12,7 @@
  
 ### Race conditions by parallel transactions
 - Dirty Read: Read uncommitted data of a transaction and make decision.
-- Dirty Write: Before commiting the transaction, write on commited data. It does not happen in reality as it can lead to atomicity violation. It can only happen if transaction see each other write before commits
+- Dirty Write: Before commiting the transaction, write on committed data. It does not happen in reality as it can lead to atomicity violation. It can only happen if transaction see each other write before commits
 - Read Skew / Nonrepeatable Read: Repeated query on database gives different result within a span of transaction.
 - Lost Updates: 
 - Write Skew

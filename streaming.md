@@ -1,7 +1,3 @@
-## Resources
-- Millwheel paper
-- Streaming system book
-
 # Design principles and requirements
 
 ## Handle stream imprefection
@@ -49,6 +45,8 @@
 - leverage multi threading 
 - load balacing over multiple machine.
 
+
+
 ## Glossary
 - Watermarks: signals the completeness of arriving of event with respect to some specific event time.
 - Accumulation: overlapping or non-overlapping deltas of accumulation from same windows.
@@ -57,12 +55,14 @@
  5. correctness and reasoning about time required for streaming to outperform batch.
  - Think in terms of time-lapse diagram
  - If external systems are contacted, it is up to the user to ensure that the effects of their code on these systems is idempotent.
+ - Watermark and punctuation provides the overall skew between event time and processing time.
 
 ## Details to be captured before pipeline 
 - **What** results are calculated.
 - **where** in event time results are being calculated. Answer can be time-agnostic/event time/ processing time/time-agnostic approximattion as well.
 - **when** in processing time results are materialized - usually at time when majority of events are believed to be already gathered. materialization for a single window can be done at multiple times.
 - **how** do the refinement of results are accumulated.
+- Above question are also very helpful in defining expressiveness of the APIs.
 
 ### Streaming Usecases generalization
   - Anomaly detection
@@ -133,9 +133,30 @@
  - allowed lateness
 
  ### Watermark
- - **low watermark**: the latest unprocessed event time - helps in detecting that if event before t will never arrive or lag.
- - when in processing time we mark the completeness of event window
- 1. wm based on oldest in-flight/unprocessed in event time domain. If the oldest unpocessed packet is stuck then pipeline will not proceed. 
+ - global event time metric for progression in overall pipeline. It created at time of data ingress, it propagate through data pipeline and how it affect output timestamp.
+ - **watermark**: the oldest unprocessed event's time among all the pipeline stages.
+  1. watermark completeness helps in detecting that if event before `t` will never arrive. It is safe to emit any meteric before watermark's time
+  2. Visibility if watermark is not making progress it means some event is causing slowness or stuck
+ - Types
+   - Perfect watermark: It knows about all the data means it proceeds only when it sees all the data at a given timestamp. It can be achieved if It have perfect knowledge of input ingress. E.g. If ingress time is the event time. Or System like apache kafka which assigned event time as data get stored, then watermark will the minimum of event time across all the latest read from all the partitions.
+   - Heuristic watermark: It is an estimate that once watermark passed `t` it will never see data from before `t`. But lag events happen. System needs to put some mechanism in place to handle late data.
+ - Watermark can be defined at every individual stage of the pipeline. Stages that are nearer to sink will have practically older timestamp as compared to stages which are nearer to input source. 
+ - Watermark at each stage can be defined in term of input watermark and output watermark. Input watermark is min of all the output watermark of all the parent stages. output watermark is min of input watermark and the buffered/unprossesed data's min event time. Output watermark miuns input watermark typically gives us the lag/processing delay of that stage. 
+
+ - watermark can be fast or slow.
+ - "As we’ve made very clear above, notions of com-
+pleteness are generally incompatible with correctness, so we
+won’t rely on watermarks as such. They do, however, pro-
+vide a useful notion of when the system thinks it likely that
+all data up to a given point in event time have been observed,
+and thus find application in not only visualizing skew, but
+in monitoring overall system health and progress, as well as
+making decisions around progress that do not require com-
+plete accuracy, such as basic garbage collection policies."
+- Read again watermark progression and output timestamp from book streaming system page 75.
+
+- Percentile watermark
+
  #### Type of watermark
  1. perfect watermark - watermark accounts for all data.
  2. Heruistic based watermark - admits some (not all) late data.
@@ -180,19 +201,11 @@ There can be multiple solution
 
 ## Rough
 
-
-Here are some excellent resources for understanding watermarks and windowing concepts in streaming systems:
-
 **Articles & Blog Posts:**
-- "The Dataflow Model" paper by Google - The foundational paper that introduced many modern streaming concepts including watermarks
 - Confluent's "Stream Processing with Apache Kafka" series - Clear explanations of windowing concepts with practical examples
 - Flink's official documentation on "Windowing" and "Event Time" - Comprehensive coverage with great diagrams
 - Databricks' "A Deep Dive into Structured Streaming" - Excellent for understanding windowing in Spark Streaming
 
-**Books:**
-- "Streaming Systems" by Tyler Akidau, Slava Chernyak, and Reuven Lax - The definitive resource for understanding streaming fundamentals
-- "Kafka Streams in Action" by Bill Bejeck - Great practical examples of windowing concepts
-- "Streaming Data" by Andrew Psaltis - Good coverage of streaming concepts across different systems
 
 **Videos & Courses:**
 - "Fundamentals of Stream Processing with Apache Beam" on YouTube by Tyler Akidau
@@ -209,6 +222,11 @@ Here are some excellent resources for understanding watermarks and windowing con
 - Google Cloud Dataflow Codelabs
 - Azure Stream Analytics online tutorials
 
-The "Streaming Systems" book by Akidau et al. is particularly recommended if you want a deep, thorough understanding of these concepts, as it covers the theoretical foundations along with practical applications across different streaming platforms.
-
 - "In some cases, it’s desirable to phase-shift the windows for different subsets of the data (e.g., per key) to spread window completion load more evenly over time, which instead is an example of unaligned windows because they vary across the data"
+
+## Resources
+- Millwheel paper
+- Streaming system book
+- Kafka stream in action book
+- The Dataflow Model paper
+- "Streaming Data" by Andrew Psaltis

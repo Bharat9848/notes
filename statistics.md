@@ -25,3 +25,7 @@
 
 # Distributions
 1. **Geometric distribution** measures the probability of getting a choice in a given set of trials. 
+
+# Poisson distribution
+- it calculate the probabilty of discrete number of events given the avg rate.
+- it is used to calculate probabilty of rare events and queueinng theory. 

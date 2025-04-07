@@ -1,3 +1,6 @@
+## books and resources
+- kubernetes pattern
+
 ## Overview
  - k8 provides automatic scale up and down, self healing, automated updates, deploy and rollback.
  - can deploy across multiple region ? 
@@ -30,6 +33,12 @@
 ### Cluster store 
  - cluster store is an etcd distributed store which stores the cluster desired state.
  - etcd uses RAFT for consensus.
+### core DNS
+ - responsible for resolving service name to IP address of the service.
+ - core DNS is an service application with some no of pods in `kube-system` namespace.
+ - it watches API server for any new service registration and adds entry for newly registered enteries
+ - Each containers `/etc/resolv.conf` have core-DNS service clusterIP.
+
 
 ### Controllers
 #### Types of controller  
@@ -58,6 +67,14 @@
 - It interacts with cloud and provide cloud host provided components like load-balancer etc. 
 
 ## K8 components
+### registration flow
+ 1. user register service to API server
+ 2. API server create service and assign a clusterIP to service
+ 3. API server saves the config in cluster store
+ 4. coreDNS discover new service and create an DNS entry for the same
+ 5. Endpoint slices are created with POD ips
+ 6. Kube-proxy pull service config
+ 7. IPVS rule created in worker node  
 ### Service
 - provide reliable networking for group of pods. K8 gaurantees that the DNS name, Ip address and port never changes.
 - Service is a contract to guide the traffic to backend healthy pods. To achieve the same, each service have an `EndpointSlice` controller which tracks all the healthy pods.  
@@ -130,6 +147,7 @@
 ## K8 components - Worker Node internal
 - Each node have single pod for kublet and kube-proxy
 ### Kubelet
+- configure each container `/etc/resolv.conf` with core-DNS cluster IP.
 - communicate with control plane and API server
 - communicate downstream with Container runtime to execute tasks
 - report status of task to API server 
@@ -155,6 +173,8 @@
  - Service type is required to be of `LoadBalancer` type and cloud provider automatically provision a L4 SLB with public IP exposed.
  - Or service type can be of `Ingress` type
 
+## Kubernetes Networking
+- containers-> default gateway -> node gateway -> no route -> kernel interception -> IPVS rule -> destination pod IP  
 
 ## Container
  - Container runtime interface - abstract over containter runtime like docker,containerd etc ???
@@ -167,9 +187,9 @@
 ### Rough
 - Kube-proxy is implemented as daemonset.
 - kube-proxy is implemented as static pod on a node.
-#### Kube-DNS
 
-### Geteway
+
+### Gateway
 - breaks the components into role based topology- Gateway controller(cloud provider), gateway(infra team), Route(svc owner)
 - traffic weighing
 - header based matching
