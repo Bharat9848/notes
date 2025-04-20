@@ -1,18 +1,53 @@
 # Kafka
-## Consumer
+
+
+## Run kafka locally
+1. `K8 run --rm --image apache/kafka:latest` 
+
+## Kafka producer
+
+### Availability
+- `acks=all` makes partition leader wait for all the in-sync replica to return acks, only then it send ack to producer. This config allows the most safe mechanism for delievery and least performant. 
+
+### Kafka producer-broker delievery
+
+#### Exactly-once
+- Writing to kafka broker log is idempotent operation with the help of (producerId, sequenceId) metadata at each bulk write msg. Repeated message are checked in log if message with (producerId, sequenceId) is present then it is discarded and acknowledged.
+
+#### At-least once
+
+#### At-most once 
+- `enable-idempotence=true` will make producer `send` operation idempotent means the message will be written in broker logs only once, even if producer retry. It also make sure of in-order semantics. Kafka uses an incremental sequence number which is assigned by the producer to each message. Broker and replicas check their partition log to see if seqence number is already received and do deduplication.
+
+## Kafka transaction
+
+
+
+## Kafka Consumer
+
  - group management API 
  - group coordinator - Kafka broker that maintains group membership of a group.
  - load balancing done by consumers themselves
  - Embedding protocol in group managment API that does rebalancing or load balancing withing group. Rebalancing is stop-the-world rebalancing, which can have serious drawbacks as trigger can be temporary like intermittent interruption or k8 scaling up (new node with security batch applied) etc.
+
 ### Incremental cooperative protocol  
  - New incremental cooperative protocol replaces stop-the-world rebalancing kafka client protocol. 
  - Two basic tenent 1.to not to reach new global state in a single go. 2. Cooperating client should volutarily reliquish control on their resources to rebalance again.
+
+### kafka broker-consumer delievery mechanism
+- Kafka guarntees the in-order delivery of a partition but not across partitions.
+- `isolation.level=read_committed`
+- `isolation.level=read_uncommitted`
 
 ## Kafka connect
  - connector- keeps the bookkeeping with external system.
  - worker 
  - connector task- do the data transfer
 
+## Kafka stream
+- `processing.guarntee=exactly-once`
+
+## Rough
 monitoring stats http://www.confluent.io/blog/how-we-monitor-and-run-kafka-at-scale-signalfx
 
 

@@ -1,7 +1,7 @@
 # DNS
 - Name server: replay to DNS queries
 - ttl: it instructs DNS client to cache DNS reply till ttl expiration.
-- caching can be done at os level, local server, browser etc.
+- DNS caching can be done at os level, local server, browser etc.
 - servers are replicated across different part of the world.
 - UDP protocol is typically used for DNS queries. But it can happen over TCP in case packet size is greater than 512 bytes. HTTPS is used in case of sercure requests.
 - The root server’s IP addresses are within the special software. Typically, the Berkeley Internet Name Domain (BIND) software is used on DNS resolvers. The InterNIC maintains the updated list of 13 root servers.
@@ -12,6 +12,7 @@
 - NS record: provides the hostname that is authorative DNS for a host name.
 - MX record: provides mail server alias CNAME against a host name.
 - SRV record: ??
+- **DNS redirect**: intelligently maps the user to nearest edge CDN server. DNS reply contains another URL instead of an IP. Second DNS lookup for new URL gives the IP address of proxy server. DNS keeps track of failing server and network congestion and route client to a appropriate server. 
 ## tools
  1. dig
  - `dig <hostname>`

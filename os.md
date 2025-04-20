@@ -48,6 +48,8 @@
  - Security: One program should not interfere the integrity of other program i.e. its resources should not be changed maliciously by other rogue program. Program's instructions are coded in virtual addresses. 
  - Fairness: Process got preemption based on time.
  - Throughput: Processes blocked due to IO get preemptied to give control to other running programs.
+ - swap space/ virtual memory : In case of less amount of RAM to load a new process, OS put an existent memory pages to disk. For memory pages a part of disk is allocated called swap space. It is tradeoff between OS killing a process and perfromance penality. Lot of server software turn off the this feature as it causes performance penality.   
+ - disk cache: It is part of RAM which caches disk pages. Its process agnostic as any process can avail the disk pages irrespective of process which loads those pages. It is very helpful in cases where some producer and consumer process are sharing resources. 
 
 ## Further reading
  - How memory barrier works in mutliprocessor cpus?

@@ -1,10 +1,22 @@
-# Design principles and requirements
+# Glossary
+- Data cardinality: bounded and unbounded
+- data constitution: stream or table
 
+# Design principles and requirements
 ## Handle stream imprefection
 1. Delay
 2. Missing
 3. Duplicated
 4. out of order
+
+## Exactly-once
+- see exactly-once in fault-tolerance section
+
+## Completeness
+- It refers to the all the events the were processed in time resulted in accurate processing meterics. All the events that arrived after deadline were explicitly dropped. It is common to batch and streaming system. In batch late events refers to data thats never collected or arrived after the batch job has run. 
+
+## Accuracy
+- It is common fallacy that batch system are more accruate than streaming system. Batch system have large lateness threshold while for streaming system it can be unpracticle. With exactly once semantic supported it in various streaming system, accuracy should be at par with batching system.
 
 ## Correctness
 - Same predicatable result can be obtained by replaying. Note that for some usecases out-of-order processing might result in different result.
@@ -14,14 +26,33 @@
 - polling based system cause processing delays. We can safetly add half polling interval to processing delays.
 - timeout on potentially blocking operations.
 
+## Glossary
+- **Shuffle**: reordering of data in case data is partitioned according to some key. It makes sure that single worker receive data for a particular key
+
 ## StreamSQL 
 ### operators
  1. when map and reduce stages are blurry they are called operator. 
  2. Operator maintains managed fault tolerant state???
- 3. type- aggregate, join, merge
+ 3. type- aggregate, join, merge, count 
+#### count
+- uses `groupByKey` internally 
+
 ### window 
 - It defines where in the time(snapshot) result are getting calculated.
 - Window of some interval range can be marked closed once the event with event time more than window endtime arrives.
+
+#### Event Time Windowing
+- observation order agnostic
+- suffered with skew
+- more contextual and correctness than processing time
+
+#### process time windowing
+- suffered with lag
+- observation order dependent
+- It can be achieved using the following
+1. **Using trigger**: ignore event time and take window of infinite size and then trigger snapshots
+2. **Ingress time**: Assign or override event time with ingress time and then use normal event time windowing.
+
 #### Type 
 - windows can be categorized using length criteria or overlapping criteria
  1. Fixed window/Tumbling window: fixed length of time and non-overlapping.
@@ -32,9 +63,18 @@
 ### Fault-tolerance
 #### Issues
 #### Solution
-- checkpointing
+- checkpointing: output of an processing stage is checkpointed(persisted) with its unique id before it get send downstream. This way processing never done again on retry. If output is not checkpointed then retrying might cause non-determinism in case processing is using some side effects. 
 - microbatching
-- Exactly-once semantics
+- Exactly-once semantics: 
+1. why: at-least semantics suffers from duplication which results in inaccurate results. While at-most semantic results in lost events which also result in inaccurate events. Aggregations are also done in memory which may cause data loss at node crash. 
+2. Performance of deduplication by checking record ids for a key can be improved by using bloom-filter. Bloom-filter are generated repeatedly based on time window.
+3. Performance of stages can be improved by using fusion of stages.  
+4. Acknowleged record Ids can be garbage collected using watermarks.
+- non-idempotent side effects does not come under exactly-once semantics.
+- late events (as batch system can also have it in form of delay in data collection) are not part of exactly-once
+
+
+
 - idempotent
 
 ## Integration
@@ -86,12 +126,6 @@
    - best suited when events are replayed as processing time will not be very meaningful. Value of late data diminishes over time.
    - Anomaly detection
 
-## Event time
-- suffered with skew
-- more contextual and correctness than processing time
-## Process time
-- suffered with lag
-
 ## Batching
 - correctness is ensured when all the input is consumed
 ### Joins
@@ -133,10 +167,14 @@
  - allowed lateness
 
  ### Watermark
+ - Basic properties: 
+  1. They are monotonically increasing.
+  2. watermark completeness helps in detecting that if event before `t` will never arrive. It is safe to emit any meteric before watermark's time
+
  - global event time metric for progression in overall pipeline. It created at time of data ingress, it propagate through data pipeline and how it affect output timestamp.
+
  - **watermark**: the oldest unprocessed event's time among all the pipeline stages.
-  1. watermark completeness helps in detecting that if event before `t` will never arrive. It is safe to emit any meteric before watermark's time
-  2. Visibility if watermark is not making progress it means some event is causing slowness or stuck
+  1. Visibility if watermark is not making progress it means some event is causing slowness or stuck
  - Types
    - Perfect watermark: It knows about all the data means it proceeds only when it sees all the data at a given timestamp. It can be achieved if It have perfect knowledge of input ingress. E.g. If ingress time is the event time. Or System like apache kafka which assigned event time as data get stored, then watermark will the minimum of event time across all the latest read from all the partitions.
    - Heuristic watermark: It is an estimate that once watermark passed `t` it will never see data from before `t`. But lag events happen. System needs to put some mechanism in place to handle late data.

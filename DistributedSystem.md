@@ -79,6 +79,11 @@
 ### Consistent Hashing
 - DB nodes and keys are assigned to positions in a ring. keys will get stored in first node while traveling clockwise on the ring.
 - randomly assign nodes on the ring may lead to data imbalance and load imbalance. This can be resolved by using concept of virtual function. Instead of using single hash function for a node we can use three hash functions. Each hash function places the nodeId into three random places which helps in distributing data more.  
+- Virtual nodes have several benefits 
+1. Adding a physical node and recovery of physical node need data sync. Using virtual nodes allow this load to spread on other nodes equally.
+2. Deleting a physical node cause node's virtual node's data to redistributed to all other nodes equally.
+3. handle hetrogenity: More number of virtual nodes can be assigned to a big machine as compared to other nodes. 
+
 
 ## problems
 - range queries
@@ -149,10 +154,11 @@
    b. idempotent operation by nature
   2. Distributed transaction
  
- - **At least once**
+ - **At-least once**
   1. Consumer is just failed before sending ack to the sender. In this case message will be retried and consumed multiple times.
 
- - **At most once** 
+ - **At-most once** 
+ 1. Publisher of message does not do redelievery in case ack is missing.
 
 
 ## Consensus Algorithm 
@@ -227,7 +233,14 @@ Extension to CAP theorem is PACELC theorem where PAC is from cap theorem which s
 - NTP: This protocol have shortcoming of time drifting and repeated correction can make it look that events are happening in future
 - Lamport clock: each node will have a id and increment unique number. It does not identify casual events
 
-- Vector clock: vector clock is used for conflict resolution in case of multi version of objects were written during network partition. Each object is associated with version `<nodeId, version>`. `Get` call returns the version alongwith value. `put` call also take version as input. In case of conflict `Get` returns the values alongwith their object versions and client have to resolve conflict before writing new version. 
+- **Vector clock**: 
+1. It preserves casuality information history of data. This helps in conflict resolution in case of multi version history of an object is present. It can happen during network partition or concurrent write. 
+2. Each object is associated with version `<nodeId, version>`. 
+3. `Get` call returns the version alongwith value or return multiple values alongwith their versions. Client have to resolve conflict with an update in case of multiple values.
+4. `put` call also take version as an input.
+5. Syntatically reconcillation ??
+6. Semantic reconcillation 
+7. Maintenance of vector clock ?
 
 ## consensus
 1. Paxos

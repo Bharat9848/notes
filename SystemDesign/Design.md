@@ -50,6 +50,8 @@
     2. Codec like H.264 which compresses while preserving quality.
    - Transcoding subtask includes audio/video encoding, thumbnail generation, watermarks which can be parallalized. video encoding is for different resolution, bitrates and codecs.
  - However, if we were building an API for a streaming service, then supporting different devices could be considered a separate functional requirement because different devices support the playback of different encodings, and we may have to transcode the data to the appropriate one for each device.
+ - DASH protocol: Manifest file is shared with client have multiple urls on different bit rate. Client adapts the video sttream quality based on network bandwidth of client device.
+  
 # Ticket master problem
 
 # Car ride app
@@ -143,6 +145,49 @@
  8. Transactional system
   1. use uuid to deduplicate or make calls idempotent.
 
+## Monitoring system
+### Components
+ - Data collector system: it pulls the data from various services that we want to monitor.
+ - Timeseries database: It is the resting place of all the meterics. It is backed up by an blob storage which natively stores the DB data files. Blob storage is very cost effective than a server node with persistent volume. 
+ - querying system: It provides an API through which we can query a meterics database.
+ - Alert Manager: It repeteadly query the metrics on a set of frequency set on the detail definition using query service.
+ - Alert and action db: It stores the alert and action notification details
+ - service discoverer
+
+### deep dive
+- cleaning up old data
+- remove single point of failures
+- scale Local monitoring system to global monitoring system: Use push based approach from local to global. local monitoring system or global monitoring system uses blob store as backup.
+
+
+## Distributed cache
+- **Locality of principle** can be temporal and spatial. Temporal locality of principle says data access pattern is temporal means same data is accessed repeatedly for short duration of time. Spatial locality of principle says frequently access data maintains the locality relationship e.g. pagination, array or list loops etc. 
+- server type
+  1. dedicated cache server
+  2. embedded cache server
+- write policies: 
+  1. write-through cache
+  2. write-back cache
+  3. write arround cache
+- Eviction policies
+  1. Least recently used
+  2. Least frequently used
+  3. Most recently used
+  4. most frequently used
+- Cache Invalidation policy
+  1. Active expriration
+  2. passive expiration
+- Data partitioning
+  1. consistent hashing
+- Data storage
+  1. hashing of data
+  2. Data structure: 
+     1. doubly Linked list         
+     2. Bloom filter
+  3. Persistent might be optional in case cache data is an expensive query or data from various sources.   
+- Cache client API
+  1. `GET`
+  2. `PUT`     
 
 ## Rough
     Rate Limitter

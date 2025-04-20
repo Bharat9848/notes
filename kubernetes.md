@@ -6,7 +6,7 @@
  - can deploy across multiple region ? 
  - Kubernetes architecture have two broad categories of objects - A resource and controller.
 
-
+# Local setup
 ## Minikube
  - `minikube start|stop|status`
  - `minikube ssh`
@@ -14,6 +14,11 @@
  - `minikube dashboard --url`
 ## config
  - `.kube/config` contains cluster information, context and user information.
+## use image
+`kubectl run --image apache/kafka:latest -name kafka-broker`
+## crate namespace
+`kubectl create namespace my-namespace`
+
 
 ## Control plane
  - Control plane nodes runs - API server, the schedular and controllers.

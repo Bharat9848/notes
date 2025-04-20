@@ -216,6 +216,12 @@
   - executatble assertion
 
 
+## Client side error
+- We cannot observe client side errors at a server, as mostly in these error client is not able to reach servers. 
+- They are mainly ISP or route related errors. 
+- Clients are embedded with agents those gather localized error and send error reports to collector service. Error can be Unknown host exception, Third party CDN errors and timeouts etc.
+- Collector service provides API to agents to send error reports. Collector service are deployed independently from main service. It deployed near to client as much as possible.
+- Agent can be browser based or application based. In case of browser based it is crucial to not to use any user specific information including traceroute etc.
 
 
 ## Scheduling algorithm

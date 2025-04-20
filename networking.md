@@ -1,17 +1,19 @@
 ## Glossary
 - **Routing**: route traffic from one network to other network.
-- **Gateway**: default route if no other route criteria matches. It is usually send the traffic to other node on different network node. or if it is set to no route then kernel process the traffic
+- **Gateway**: default route if no other route criteria matches. It is usually send the traffic to other node on different network node. or if it is set to no route then kernel process the traffic.
+- Latency have several subcomponent - transmission delay (due to less bandwidth), processing delay, queuing delay (due to network congestion) and propagation delay (due to physical distance).
 
-- POP - point of presence where two different network meets. e.g ISP traffic is merging with general internet traffic
-- IXP - Internet exchange points
+- POP - point of presence where two different network meets. e.g ISP traffic is merging with general internet traffic. POP usually have CDN servers
+- IXP - Internet exchange points. Companies tend to deploy on-premise smaller datacenter near the IXP. This helps in holding more data nearer to client. In case of youtube, client connection ends at IXP servers but if data is not there then it is forwarded to origin server on a TCP connection with low-latency, persistent, huge tcp window.   
 
 - Path MTU is the largest packet size that a source can send on the network beyond which packet fragmentation will happen. This number is equal to the smallest MTU on the network path.
 
 
 # IP address
- - global anycast address
+ - global anycast address: Single address used globally for a set of servers. It uses BGP is a network-level protocol used by Internet edge routers to share routing and reachability information so that every node on the network, even if independent, is aware of the status of their closest network neighbors.
 
 # Protocols
+## BGP
 ## DNS 
 - see DNS.md
 ## Layer 7
@@ -43,6 +45,8 @@
 ### ICMP  
 ### IP tables
 
+## Resources
+Real-time Messaging Protocol (RTMP), HTTP Live Streaming (HLS), Real-time Streaming Protocol (RTSP), 
 ## Rough
 - `arp -n` shows pods mac address.
 - `brctl show cfbr0` shows root namespaces in veth pair attached to `cfbr0`
