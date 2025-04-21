@@ -168,15 +168,16 @@
 - write policies: 
   1. write-through cache
   2. write-back cache
-  3. write arround cache
+  3. write around cache
 - Eviction policies
   1. Least recently used
   2. Least frequently used
   3. Most recently used
   4. most frequently used
-- Cache Invalidation policy
+- Cache Invalidation policy/ 
   1. Active expriration
-  2. passive expiration
+  2. passive expiration: This strategy do cache eviction in a separate thread. It is favourable in high volume and high concurrent cache. As in Active expiration evicting same key candidate in different threads will present a race condition and requires some locking mechanism. 
+  Cache coherence: invalidated data should get reflected in all the data copies across replicas.
 - Data partitioning
   1. consistent hashing
 - Data storage
@@ -188,6 +189,15 @@
 - Cache client API
   1. `GET`
   2. `PUT`     
+- service discovery: Configuration service to get the server location
+### deep dive
+- hot key:  
+  1. Further Sharding of Hotkeys: This involves dividing the data associated with a hotkey into smaller, more manageable pieces across different cache servers or shards. By distributing the load, no single server becomes overwhelmed with requests for that key.
+  2. Intelligent Cache Client Behavior: Cache clients can be designed to recognize potential hotkeys and adjust their access patterns or request distribution to minimize contention. This might involve spreading requests more evenly across the cluster or using algorithms to predict and mitigate hotspots before they occur.
+  3. Dynamic Replication for Specific Keys: This strategy involves creating additional copies of data associated with hotkeys and distributing these copies across the cluster. By having multiple access points for hot data, the load is balanced, reducing the pressure on any single node.
+
+- data replication: synchronus replication in all the replica in same data center.
+- cache warming: Validation check to do before allowing client read.
 
 ## Rough
     Rate Limitter
@@ -215,3 +225,6 @@
     Airbnb
     Real time Gaming Leaderboard
     Stock Exchange
+
+
+
