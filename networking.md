@@ -1,7 +1,11 @@
 ## Glossary
 - **Routing**: route traffic from one network to other network.
 - **Gateway**: default route if no other route criteria matches. It is usually send the traffic to other node on different network node. or if it is set to no route then kernel process the traffic.
-- Latency have several subcomponent - transmission delay (due to less bandwidth), processing delay, queuing delay (due to network congestion) and propagation delay (due to physical distance).
+- Latency have several subcomponent - 
+ 1. transmission delay (due to less bandwidth), one solution - zero-copy optimization in kafka.
+ 2. processing delay, 
+ 3. queuing delay (due to network congestion) and 
+ 4. propagation delay (due to physical distance).
 
 - POP - point of presence where two different network meets. e.g ISP traffic is merging with general internet traffic. POP usually have CDN servers
 - IXP - Internet exchange points. Companies tend to deploy on-premise smaller datacenter near the IXP. This helps in holding more data nearer to client. In case of youtube, client connection ends at IXP servers but if data is not there then it is forwarded to origin server on a TCP connection with low-latency, persistent, huge tcp window.   
@@ -34,6 +38,7 @@
 
 
 
+
 ## Layer 4
 
 ### TCP
@@ -41,9 +46,14 @@
 - Congestion control mechanism: TCP congestion protocols are Tahoe and Reno.
 - TCP_NODELAY : Tcp will not buffer.
 - keep_alive
+- Nagle's algorithm: delays the outbound packet for a certain amount of time and merge all the accumulated packets in single packet.
 ### UDP
+- unbounded UDP socket
 ### ICMP  
 ### IP tables
+
+## Layer 1
+- NIC interrupt coalescing feature
 
 ## Resources
 Real-time Messaging Protocol (RTMP), HTTP Live Streaming (HLS), Real-time Streaming Protocol (RTSP), 
@@ -53,4 +63,6 @@ Real-time Messaging Protocol (RTMP), HTTP Live Streaming (HLS), Real-time Stream
 - DR/DSR is typically used for non-HTTPS traffic because when TLS termination is involved, responses need to be encrypted before reaching the client, requiring them to pass back through the Layer 7 load balancer for encryption.
 - **Internet exchange points** are common grounds of IP networking, allowing participant Internet service providers to exchange data destined for their respective networks. 
 - The concept of routing and default gateways is fundamental in networking, ensuring that data packets find their way across complex networks of devices and subnets.
+- BSD Socket API
+
 

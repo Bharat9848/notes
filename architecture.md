@@ -86,13 +86,15 @@
 #### Performance 
   - Response time comprises of two major factor - processing time and blocking time.
   - Blocking time can be futher attributed to some resource contention, non-availability of resource or dependency on some other computation.
+  - critical path should be analyzed for unnecessary memory allocation, make batch calls wherever possible and minimum no of system call and good concurrency model. 
+  - small data structured should be copied from stack to stack, whereas big data structure are allocated on heap and shared by reference.
   - Tactics can be characterized by controlling the demand on resource or managing resource more effectively.
     1. controlling the demand
      - SLAs constraint the client as well as server. It defines the processing of X messages within Y amount of time. If client sends more than X messages than it breaks the SLA.
      - Reduce Event Sampling : Given there is some quality degradation but it is still good enough. System can reduce or sample requests.
      - limit event response: log and discard extra events
      - priortize events
-     - increase computational effeiciency: reduce use of intermediaries, co-locating components and periodic cleanup.
+     - increse computational effeiciency: reduce use of intermediaries, co-locating components and periodic cleanup.
      - Bound execution time: can be time bound on intermediatory computations or no of loops in data driven algorithms
      - Improve algorithms to make more efficient programs. 
     2. Manage resource:

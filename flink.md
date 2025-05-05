@@ -22,3 +22,10 @@
 ## Resources
 ## Rough
 - Chandy Lamport distributed snapshots
+
+## Flink filesystem
+- what is flink filesystem connector
+
+
+## Excercise
+- read generic zip file with metadata which gives the format information 

@@ -32,6 +32,7 @@
 - Monitor communication to essential service ???
 - Monitor responsiveness to essential services - plot p99 of response time, other server error codes
 - Intergrate and monitor cloud service using Cloud service providers provide a health status of their services:
+
     AWS: https://health.aws.amazon.com/health/status
     Azure: https://status.azure.com/en-us/status
     Google: https://status.cloud.google.com/

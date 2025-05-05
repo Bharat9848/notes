@@ -1,34 +1,84 @@
 # Kafka
 
-
 ## Run kafka locally
 1. `K8 run --rm --image apache/kafka:latest` 
 
-## Kafka producer
+## Kafka vs traditional messaging system
+- transaction across multiple queues.
+- not data partition across different machines.
+- less offline capability.
+- No batch APIs.
+- Message acknowledgement one by one.
 
+## Kafka producer
 ### Availability
 - `acks=all` makes partition leader wait for all the in-sync replica to return acks, only then it send ack to producer. This config allows the most safe mechanism for delievery and least performant. 
 
 ### Kafka producer-broker delievery
-
 #### Exactly-once
-- Writing to kafka broker log is idempotent operation with the help of (producerId, sequenceId) metadata at each bulk write msg. Repeated message are checked in log if message with (producerId, sequenceId) is present then it is discarded and acknowledged.
-
+  - Writing to kafka broker log is idempotent operation with the help of (producerId, sequenceId) metadata at each bulk write msg. Repeated message are checked in log if message with (producerId, sequenceId) is present then it is discarded and acknowledged.
 #### At-least once
-
 #### At-most once 
 - `enable-idempotence=true` will make producer `send` operation idempotent means the message will be written in broker logs only once, even if producer retry. It also make sure of in-order semantics. Kafka uses an incremental sequence number which is assigned by the producer to each message. Broker and replicas check their partition log to see if seqence number is already received and do deduplication.
 
 ## Kafka transaction
 
+## Cluster management
+### Cluster Management through zookeeper
+- detection of removal and addition of broker and consumer. Removes their respective ownership registry and notified the watchers. 
+- Each broker watches other broker's ownership registries.
+- trigger rebalance when above notification comes from zk
+- saves the consumer offset data against partition, 
+  - ownership registry `consumer_group/topic/partition1/owner cons1`
+  - offset registry `consumer_group/topic/partition1/offset x`
+- saves broker metadata
+  - broker registry `broker/topic/owner br1`
 
+
+## Kafka broker
+- keeps sorted list of offset of each segment's first message
+- intentionally no caching of messages in kafka broker process. Instead kafka rely on OS page cache. It has multiple benefit of less garbage, warm cache in event of broker restart, catched up consumer with producer can benefit from OS cache write through heuristics.
+- uses OS `sendFile` API to skip steps of copy data from os page cache to application buffer and then from application buffer to socket buffer. `sendFile` api sends data directly from os page cache directly to socket buffer.
+- broker does not maintain consumer offset.
+
+
+### Storage
+- partition data is stored in segments file of 1GB
+- No explicit message Id, No primary index of Ids vs location, No random seek
+- Message id is offset of msg in a file. offset are not consecutive but increasing in nature. Next msg offset is previous message offset plus the previous message length.
+- Message are stored with CRC to check msg integrity during any I/O error and network error during production or consumption.
 
 ## Kafka Consumer
+ - Consumer message acknowledgment to broker means it has acknowledge current as well as all the previous offsets.
+ - consumer can call `commitSync` to acknowledge the message synchronously before receiving next set of messages.
+ - consumer can call `commitAsync` to send acknowledgement independent of `poll`. 
+ - consumer `poll(<msgs>)` is batch read api. Internally consumer sends the offset id and number of bytes it want to receive. Broker keeps a sorted list of first message offsets from each segment file in memory. Broker locate the segment file using sorted list. And send data from the file to the consumer. After receiving message, consumer do the next offset calculation using the number of bytes it have received for next poll call.  
 
+### Consumer rebalancing 
+ - consumer watch zookeeper registry for consumer ownership registry. It gets notified if any consumer added or removed. 
  - group management API 
  - group coordinator - Kafka broker that maintains group membership of a group.
  - load balancing done by consumers themselves
  - Embedding protocol in group managment API that does rebalancing or load balancing withing group. Rebalancing is stop-the-world rebalancing, which can have serious drawbacks as trigger can be temporary like intermittent interruption or k8 scaling up (new node with security batch applied) etc.
+
+ #### Rebalancing algorithm
+ ````
+ Algorithm 1: rebalance process for consumer Ci in group G
+For each topic T that Ci subscribes to {
+remove partitions owned by Ci from the ownership registry
+read the broker and the consumer registries from Zookeeper
+compute PT = partitions available in all brokers under topic T
+compute CT = all consumers in G that subscribe to topic T
+sort PT and CT
+let j be the index position of Ci in CT and let N = |PT|/|CT|
+assign partitions from j*N to (j+1)*N - 1 in PT to consumer Ci
+for each assigned partition p {
+set the owner of p to Ci in the ownership registry
+let Op = the offset of partition p stored in the offset registry
+invoke a thread to pull data in partition p from offset Op
+}
+}
+ ````
 
 ### Incremental cooperative protocol  
  - New incremental cooperative protocol replaces stop-the-world rebalancing kafka client protocol. 
@@ -39,13 +89,24 @@
 - `isolation.level=read_committed`
 - `isolation.level=read_uncommitted`
 
+
 ## Kafka connect
  - connector- keeps the bookkeeping with external system.
  - worker 
  - connector task- do the data transfer
 
+
+
 ## Kafka stream
+- read general streaming.md notes
 - `processing.guarntee=exactly-once`
+### Assumptions and design choices
+- no backpressure: As buffering is done at consumer and bulk-write before writing by producer. Each stage work on a single element at a time.
+- No support for asynchronus operation. It require that user do not do blocking operation.
+- No resource manager
+- `KStream` abstraction for stream indepenent k-v pairs while `KTable` is an abstraction for a table changelog.
+- Out-of-order events are processed in case it comes before window retention period and then window emits an next entry in changelog. `window` operator returns a `KTable` as output. 
+
 
 ## Rough
 monitoring stats http://www.confluent.io/blog/how-we-monitor-and-run-kafka-at-scale-signalfx
@@ -66,3 +127,7 @@ This is where the pain comes in. Say you have a lot of traffic on one topic and 
 This issue will be obviated soon, as we’re expecting Kafka’s built-in rate-limiting capability to be extended to cover partition data balancing. In the meantime, to reduce migration time and the risks, we end up moving one partition at a time, watching the bytes in/out on the source and target brokers, as well as message loss. We use those metrics to control the pace of rebalancing to minimize message loss and resource starvation, thus minimizing service impact.
 
 Here’s the dashboard we observe, with the network in/out in the charts on the top right.
+
+## Resources
+- kafka paper
+- kafka the definitive guide book

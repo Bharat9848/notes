@@ -159,6 +159,56 @@
 - remove single point of failures
 - scale Local monitoring system to global monitoring system: Use push based approach from local to global. local monitoring system or global monitoring system uses blob store as backup.
 
+## Distributed Queue
+- Strict ordering
+  - Approaches
+    1. client side monotonically increasing sequence no
+    2. client side casuality ordering
+    3. timestamp based on synchronized clock
+  - How to handle late event: situations where consumer have already received msg after current timestamp message. We can put late message in other queue and client should handle it based on it own semantics.
+  - sorting before enqueue using timed window approach.
+- concurrent multiple writer
+  1. use single writer thread can only write to queue and writers put their msg in single writer thread queue.
+- High Level Diagram
+  LB ->FrontEndService -> (MetadataCache <-> MetadataService) -> Queue
+- Frontend service
+  1. Authentication and authorization
+  2. Data validation
+  3. Deduplication
+  4. auditing
+  5. user level caching
+  6. metadata caching
+- Metadataservice
+  1. stores the mapping of queue to storage node/clusters
+  2. stores queue metadata
+- Cluster Management
+  1. Primary-secondary model
+  2. External cluster management
+  - see distibuted system cluster management.
+- Dead letter queue 
+  1. special queue used if delievery of message failed repeatedly.
+  2. For non existent queues/ or length limit reached
+- Message deletion
+ - deletion after delievery via explicit/implicit consumer call. parallel consumers do not see the message.  
+ - no deletion. msg are garbage collected. Consumer have to maintain its position.  
+
+## Pub/sub
+- see kafka.md
+- Strict ordering of msgs
+  - topic will have partitions. Write can be done with given partition id to maintain strict ordering.
+- Components
+  - produer -> broker (topic)-> topic metadata db,  consumerManager -> topic metadata db -> consumer, consumer -subscribe---> consumer Manager.
+- Brokers
+  - topic will have partition. Each partition will be assigned to different broker
+- Cluster Manager
+  - Manages broker 
+  - topic and partition assignment to different brokers
+  - data replication
+- consumer Manager
+  - consumer authorization
+  - message retention mechanism
+  - consumer offset management
+  - consumer msg delivery according to consumer push/pull strategy          
 
 ## Distributed cache
 - **Locality of principle** can be temporal and spatial. Temporal locality of principle says data access pattern is temporal means same data is accessed repeatedly for short duration of time. Spatial locality of principle says frequently access data maintains the locality relationship e.g. pagination, array or list loops etc. 
@@ -225,6 +275,11 @@
     Airbnb
     Real time Gaming Leaderboard
     Stock Exchange
+
+The concept revolves around managing message visibility in a queue to ensure that once a message is consumed, it is not immediately available to other consumers, thus preventing duplicate processing. This is achieved through a visibility_timeout attribute, which sets a period during which the message is invisible to all consumers except the one that initially retrieved it. During this invisible period, the consuming application has the opportunity to process the message. If processing is successful, the consumer explicitly deletes the message from the queue using an API call. If the consumer fails to delete the message before the visibility_timeout expires, the message becomes visible again in the queue and can be consumed by another worker. This mechanism is crucial for distributed systems to ensure reliable message processing, especially in scenarios where tasks may fail or take longer than expected. It supports the at-least-once delivery guarantee, ensuring that messages are not lost even in the face of consumer failures.
+
+
+
 
 
 
