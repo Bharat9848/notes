@@ -1,8 +1,23 @@
 # Glossary
 - Data cardinality: bounded and unbounded
 - data constitution: stream or table
+- stream vs table: each key value pair is independent while table each key-value pair is a changelog happened over time on a table means later key-value pair overrides the before data in given key-value pair.
+- **Shuffle**: reordering of data in case data is partitioned according to some key. It makes sure that single worker receive data for a particular key
 
-# Design principles and requirements
+
+## Questions
+- how exactly-once
+- how backpressure
+
+- why stateful streaming is required ? 
+Unlike batching system the streaming system are unbounded. In batching in presence of faults, we can restart the failed stage as input to the state are immutable files. On the other hand streaming we have to save state in order to recover from failure.
+
+- what is a state in stream processing
+State in a streaming system can be offsets (ids from source event stream) or aggregation state of stream like sum, average etc or any combination of stage metadata, offset and state   
+
+- how out of order events are handled.
+
+# Requirements
 ## Handle stream imprefection
 1. Delay
 2. Missing
@@ -21,13 +36,41 @@
 ## Correctness
 - Same predicatable result can be obtained by replaying. Note that for some usecases out-of-order processing might result in different result.
 
+## Result consistency
+- for result consistency we would require exactly-once in all component including source and sink.
+
+## High throughput
+- Streaming system should be able to process large amount of data.
+
 ## low latency
-- persistence of msgs can cause extra latency
+- persistence of messages can cause extra latency
 - polling based system cause processing delays. We can safetly add half polling interval to processing delays.
 - timeout on potentially blocking operations.
+- Performance of stages can be improved by using fusion of stages.
 
-## Glossary
-- **Shuffle**: reordering of data in case data is partitioned according to some key. It makes sure that single worker receive data for a particular key
+### Fault-tolerance
+- checkpointing: output of an processing stage is checkpointed(persisted) with its unique id before it get send downstream. This way processing never done again on retry. If output is not checkpointed then retrying might cause non-determinism in case processing is using some side effects. 
+- microbatching
+- Exactly-once semantics: 
+1. why: at-least semantics suffers from duplication which results in inaccurate results. While at-most semantic results in lost events which also result in inaccurate events. Aggregations are also done in memory which may cause data loss at node crash. 
+2. Performance of deduplication by checking record ids for a key can be improved by using bloom-filter. Bloom-filter are generated repeatedly based on time window.   
+3. Acknowleged record Ids can be garbage collected using watermarks.
+- non-idempotent side effects does not come under exactly-once semantics.
+- late events (as batch system can also have it in form of delay in data collection) are not part of exactly-once
+
+## Integration
+- common language for live data as well as stored data.
+
+## Strong programming model
+- User should not be constraint with the framework and should be able to design the pipeline as per his requirement.
+
+## Scalability
+- partition application state to more commodity server
+- leverage multi threading 
+- load balacing over multiple machine.
+
+## Flow control
+- System should handle backpressure from slow stage all the way to the source.
 
 ## StreamSQL 
 ### operators
@@ -60,30 +103,6 @@
  3. Sliding window: length is fixed and overlaping with current window
  4. Hopping window
 
-### Fault-tolerance
-#### Issues
-#### Solution
-- checkpointing: output of an processing stage is checkpointed(persisted) with its unique id before it get send downstream. This way processing never done again on retry. If output is not checkpointed then retrying might cause non-determinism in case processing is using some side effects. 
-- microbatching
-- Exactly-once semantics: 
-1. why: at-least semantics suffers from duplication which results in inaccurate results. While at-most semantic results in lost events which also result in inaccurate events. Aggregations are also done in memory which may cause data loss at node crash. 
-2. Performance of deduplication by checking record ids for a key can be improved by using bloom-filter. Bloom-filter are generated repeatedly based on time window.
-3. Performance of stages can be improved by using fusion of stages.  
-4. Acknowleged record Ids can be garbage collected using watermarks.
-- non-idempotent side effects does not come under exactly-once semantics.
-- late events (as batch system can also have it in form of delay in data collection) are not part of exactly-once
-
-
-
-- idempotent
-
-## Integration
-- common language for live data as well as stored data.
-
-## Scalability
-- partition application state to more commodity server
-- leverage multi threading 
-- load balacing over multiple machine.
 
 
 
@@ -263,7 +282,9 @@ There can be multiple solution
 - "In some cases, it’s desirable to phase-shift the windows for different subsets of the data (e.g., per key) to spread window completion load more evenly over time, which instead is an example of unaligned windows because they vary across the data"
 
 ## Resources
-- Millwheel paper
+- ~~Millwheel paper~~ 
+- ~~Adam Warski: “Kafka Streams – How Does It Fit the Stream Processing Landscape?[https://softwaremill.com/kafka-streams-how-does-it-fit-stream-landscape/]~~ 
+- ~~low latency [https://www.ververica.com/blog/high-throughput-low-latency-and-exactly-once-stream-processing-with-apache-flink]~~
 - Streaming system book
 - Kafka stream in action book
 - The Dataflow Model paper

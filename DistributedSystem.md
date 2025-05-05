@@ -152,13 +152,15 @@
   1. Idempotent operation and retrying: 
    a. Using offset
    b. idempotent operation by nature
-  2. Distributed transaction
+  2. Distributed transactions: see transactions in Dataflow model notes
  
  - **At-least once**
-  1. Consumer is just failed before sending ack to the sender. In this case message will be retried and consumed multiple times.
-
+  1. Consumer is just failed before sending ack to the sender or network failure happened. In this case message will be retried and consumed multiple times.
+  2. Implementation requires store of event or buffer of event permananently or temporarily till we get acknowledgement from consumer 
+  3. read about Apache storm "upstream backup and record ack"
+  
  - **At-most once** 
- 1. Publisher of message does not do redelievery in case ack is missing.
+ 1. Publisher of message does not attempt to redeliever in case ack is missing.
 
 
 ## Consensus Algorithm 
@@ -247,6 +249,17 @@ Extension to CAP theorem is PACELC theorem where PAC is from cap theorem which s
  - see paxos.md
 2. Apache zookeeper, consul and etcd implements consensus algorithm 
 
+## Cluster management 
+### Primary-Secondary Model
+- Designated primary and secondary. primary is responsible for sending data to secondary nodes via synchronus or asynchronus replication 
+- Data consistency is simpler
+- Failover is simpler - secondary takes over
+### Cluster of Independent Hosts
+- Hosts are not aware of each other
+- Data consistency is done via replication using consensus paxos and raft algorithm
+- Failover is not applicable as any node capable of read/write
+- More scalable than primary-secondary approach
+- More complex than primary-secondary approach
+
 ## Rough notes
 - read about Try-confirm/cancel algo for distributed transaction
-
