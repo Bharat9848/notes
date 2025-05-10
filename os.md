@@ -3,12 +3,7 @@
 - https://www.linuxjournal.com/article/6345
 - papers/zeroCopy.pdf
 
-
-
-
-
-
-
+## Glossary
  - what is `ulimit`
 
 ## CPU instructions
@@ -50,11 +45,18 @@
  - Throughput: Processes blocked due to IO get preemptied to give control to other running programs.
  - swap space/ virtual memory : In case of less amount of RAM to load a new process, OS put an existent memory pages to disk. For memory pages a part of disk is allocated called swap space. It is tradeoff between OS killing a process and perfromance penality. Lot of server software turn off the this feature as it causes performance penality.   
  - disk cache: It is part of RAM which caches disk pages. Its process agnostic as any process can avail the disk pages irrespective of process which loads those pages. It is very helpful in cases where some producer and consumer process are sharing resources. 
+ - Throttling of resource to rogue process
+
+## Throttling
+ - Namespaces:
+ - control group: 
+   - defines the limit, account for, isolate the resources, prioritization.
+   - resources are CPU time, system memory, disk storage, I/o and network bandwidth,
+   - system memory include file system cache, 
 
 ## Further reading
  - How memory barrier works in mutliprocessor cpus?
  - what is difference between DMA copy and cpu copy
-
 
 
 Configure Stack
@@ -66,7 +68,7 @@ step 2.  point stackpointer register to stack top
  1. container vs vm
   container is optimized on image transfer time and startup time. Image transfer time is reduced as compared to VM as it does not contain the operating system.
   container runtime engine like docker act as virtualized operating system
-
+ 
 
 
 The interface between the container runtime engine and the container has been standardized by the Open Container Initiative,

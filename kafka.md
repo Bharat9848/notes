@@ -129,5 +129,5 @@ This issue will be obviated soon, as we’re expecting Kafka’s built-in rate-l
 Here’s the dashboard we observe, with the network in/out in the charts on the top right.
 
 ## Resources
-- kafka paper
+- kafka paper - Done
 - kafka the definitive guide book

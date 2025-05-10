@@ -249,6 +249,46 @@
 - data replication: synchronus replication in all the replica in same data center.
 - cache warming: Validation check to do before allowing client read.
 
+## Rate Limiter
+- Functional requirements: should be configurable, return appropriate error message, should rate limit, rejected request can be replayed if usecase allows. 
+- Non functional Requirements: Availibility, low latency and scalable with client
+- Concept: Throttling type- 
+  - Hard: hard stop after the configured limit.
+  - Soft: allow configurable x% more requests.
+  - Elastic/dynamic: no limit defined. Request are throttled according to system availability.
+- placement:
+  - at client: can be affected by malicious behaviour
+  - At server
+  - At middleware: more generic rate limiter, might affect performance
+- 1st hld
+  - set of nodes -> update counter -> central database
+  - Not very scalable as contention    
+- 2nd hld
+  - nodes with independent distributed db having its own count.
+  - not latency friendly: it needs to collate current api hit count from all other nodes
+  - can be improved upon with sticky session but that will not be scalable and fault tolerant
+- Components
+  1. Rule cache <--periodic update--- Rule database
+  2. Client Id generator
+  3. Desicion maker
+  4. Rejection queue
+  5. Distributed database (clientID - count)
+- Deep dive
+  1. Contention:
+    - locking can be used for modest and hard limiting usecases. It is not scalable
+    - Atomic locks can be used. It is more performant and scalable than locking.
+    - For high throughput cases, limit can be divided among the nodes as quotas. Every node will update and maintain their quota. More node can further divide the quotas.
+  2. Optimization:
+    - count increment can be done in offline path/asynchronusly.
+  3. Rate limiting algorithm
+     1. Token bucket 
+     2. Leaky bucket
+     3. fixed window counter algorithm
+     4. sliding window log algorithm: 
+        - smoothen out burst bcas of sliding window
+     5. sliding window counter
+        - further smoothen out sliding-window-log algorithm by calculating remaining capacity through rate.       
+  
 ## Rough
     Rate Limitter
     URL Shortener
