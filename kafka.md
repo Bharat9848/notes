@@ -22,7 +22,31 @@
 - `enable-idempotence=true` will make producer `send` operation idempotent means the message will be written in broker logs only once, even if producer retry. It also make sure of in-order semantics. Kafka uses an incremental sequence number which is assigned by the producer to each message. Broker and replicas check their partition log to see if seqence number is already received and do deduplication.
 
 ## Kafka transaction
-
+- do not support transaction with external system. Instead rely on idempotence to propagate from an output topic to external system through kafka connect.
+- `transactional.id=fundsAssempe` uniquely identify the application
+- `processing.guarntee=exactly_once_v2` for streaming with consumer having `isolation_level=read_committed`
+- A typical transaction can consist of processor, multiple consumer partition and multiple producer offset. 
+- Transaction need to be serialized as messages belong to a transaction committed before other transaction should come first.
+- Each transaction explicit commit will cause too much lag in kafka pipeline
+- consumer group coordinator = `__consumer_offset`
+- **Transaction coordinator**
+  - Each producer group is assigned a broker as a transactional coordinator
+  - `__transaction_offset` is an internal topic maintained by transaction-coordinator. 
+  - Processor will be the producer for this topic.
+ - **Happy Transaction workflow** 
+  1. Processor finds its transaction coordinator.
+  2. processor sends new transaction request to transaction coordinator.
+  3. At start of a transaction, coordinator uses Producer ID and epoch time tuple as unique identifier for a transaction and communicate it back to processor after putting an entry into this `__transaction_offset` topic.
+  4. processor consumes data from input topic.
+  5. After processing just before processer about to write to output topic, it informs transaction coordinator about its intention.
+  6. processor write processed output to output topic in uncommitted state.
+  7. processor also writes to internal `__consumer_offset` topic in uncommitted state
+  8. Once all the output is written to all output topics, processor request transaction commit request to transaction coordinator.
+  9. Transaction sends the committed marker to all output topics and `__transaction_offset`. it marks the transaction complete. 
+ - **Failed and recover transaction flow** 
+- special message - `Abort` `commit`
+- Recovery after failed transaction 
+- 
 ## Cluster management
 ### Cluster Management through zookeeper
 - detection of removal and addition of broker and consumer. Removes their respective ownership registry and notified the watchers. 
@@ -53,6 +77,8 @@
  - consumer can call `commitSync` to acknowledge the message synchronously before receiving next set of messages.
  - consumer can call `commitAsync` to send acknowledgement independent of `poll`. 
  - consumer `poll(<msgs>)` is batch read api. Internally consumer sends the offset id and number of bytes it want to receive. Broker keeps a sorted list of first message offsets from each segment file in memory. Broker locate the segment file using sorted list. And send data from the file to the consumer. After receiving message, consumer do the next offset calculation using the number of bytes it have received for next poll call.  
+### consumergroup-offset-management
+ "The consumer offset manager associates each key (consumergroup-topic-partition) to the last checkpointed offset and metadata for that partition."  
 
 ### Consumer rebalancing 
  - consumer watch zookeeper registry for consumer ownership registry. It gets notified if any consumer added or removed. 
