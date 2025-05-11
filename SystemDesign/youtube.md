@@ -1,4 +1,4 @@
-# Glossary
+# Concepts
 - bitrate
 - Encoding
 
@@ -20,12 +20,13 @@
 Usage assumption
 - upload no = 500Hr of video per minute
 - 1.5Million users - 500K Active user every day
-
-1. Storage estimation: 
 - avg video duration: 5min
 - uncompressed video size 5min: 600MB
 - compressed video size 5min: 30MB.
 - upload/view ratio = 1/300
+
+1. Storage estimation: 
+
 
 2. Bandwidth estimation
 - Upload Bandwidth
@@ -48,10 +49,16 @@ Usage assumption
 - client device -> load balancer -> web server -> upload server(DB for temp storage) and metadata service(DB) -> Encoder -> Blob storage and thumbnail Bigtable-> CDN(optional) and colocation server
 
 - components
- - upload server: temporarily store the videos and additionally do the validation like check for malicious user, duplicate video. Breaks the video and audio in segments.  
- - encoder: encode the video in different resolution and store it
- - blob storage: resting place for all the uploaded videos
- - CDN: act as recent frequent/hit cache
+1. upload server: 
+  - temporarily store the videos 
+  - validation like check for malicious user and duplicate video. 
+  - Breaks the video and audio in segments.  
+2. encoder: 
+  - encode the video in different resolution and store it
+3. blob storage: 
+  - resting place for all the uploaded videos
+4. CDN: 
+  - act as recent frequent/hit cache
 
 2. Streaming flow
 - client <-> CDN
