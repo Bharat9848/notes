@@ -3,21 +3,35 @@
 ## Run kafka locally
 1. `K8 run --rm --image apache/kafka:latest` 
 
-## Kafka vs traditional messaging system
-- transaction across multiple queues.
+## traditional messaging system
+- No transaction across multiple queues.
 - not data partition across different machines.
 - less offline capability.
 - No batch APIs.
 - Message acknowledgement one by one.
+## Design
+1. Partition: it serves two purpose
+   - Ordering is maintain in a single partition
+   - Filtering/routing : Partition's data is sticky based on its key. This prevents rerouting of data among brokers after materializing state in the brokers.
+2. Consumer group
+   - Set of coordinating process which allow data partitioned.
+3. Fault tolerance: Message replays can be used by consumer       
 
 ## Kafka producer
+- Producer do the load balancing across different brokers either using round-robin or predefined key based partitioning
+- `linger.ms` If set to zero, publisher will not wait for additional messages for batching it will send the message as soon as it arrives.
+
 ### Availability
 - `acks=all` makes partition leader wait for all the in-sync replica to return acks, only then it send ack to producer. This config allows the most safe mechanism for delievery and least performant. 
+- `request.required.acks` ??
+- Ack without Fsync 
 
 ### Kafka producer-broker delievery
 #### Exactly-once
   - Writing to kafka broker log is idempotent operation with the help of (producerId, sequenceId) metadata at each bulk write msg. Repeated message are checked in log if message with (producerId, sequenceId) is present then it is discarded and acknowledged.
-#### At-least once
+#### At-least once:
+  - need acks when data is written to disk or quorum of replicas
+
 #### At-most once 
 - `enable-idempotence=true` will make producer `send` operation idempotent means the message will be written in broker logs only once, even if producer retry. It also make sure of in-order semantics. Kafka uses an incremental sequence number which is assigned by the producer to each message. Broker and replicas check their partition log to see if seqence number is already received and do deduplication.
 
@@ -48,7 +62,9 @@
 - Recovery after failed transaction 
 - 
 ## Cluster management
-### Cluster Management through zookeeper
+### Zookeeper
+ - Maintans session with brokers with `zookeeper.session.timeout.ms`. 
+1. Cluster Management 
 - detection of removal and addition of broker and consumer. Removes their respective ownership registry and notified the watchers. 
 - Each broker watches other broker's ownership registries.
 - trigger rebalance when above notification comes from zk
@@ -57,13 +73,18 @@
   - offset registry `consumer_group/topic/partition1/offset x`
 - saves broker metadata
   - broker registry `broker/topic/owner br1`
-
+2. controller management
+3. Topic and partition management
+4. in-sync data replication
+5. data configuration like quota and ACL.
 
 ## Kafka broker
+- log compactions: keep the latest data for each key
 - keeps sorted list of offset of each segment's first message
 - intentionally no caching of messages in kafka broker process. Instead kafka rely on OS page cache. It has multiple benefit of less garbage, warm cache in event of broker restart, catched up consumer with producer can benefit from OS cache write through heuristics.
 - uses OS `sendFile` API to skip steps of copy data from os page cache to application buffer and then from application buffer to socket buffer. `sendFile` api sends data directly from os page cache directly to socket buffer.
 - broker does not maintain consumer offset.
+- `log.flush.interval.messages` and `log.flush.interval.ms` are used for Fsync data from memory to the disk
 
 
 ### Storage
@@ -81,9 +102,9 @@
  "The consumer offset manager associates each key (consumergroup-topic-partition) to the last checkpointed offset and metadata for that partition."  
 
 ### Consumer rebalancing 
- - consumer watch zookeeper registry for consumer ownership registry. It gets notified if any consumer added or removed. 
+ - For (`<v0.8.2`) consumer watch zookeeper registry for consumer ownership registry. It gets notified if any consumer added or removed. 
  - group management API 
- - group coordinator - Kafka broker that maintains group membership of a group.
+ - group coordinator(>v0.8.2) - Kafka broker that maintains group membership of a group.
  - load balancing done by consumers themselves
  - Embedding protocol in group managment API that does rebalancing or load balancing withing group. Rebalancing is stop-the-world rebalancing, which can have serious drawbacks as trigger can be temporary like intermittent interruption or k8 scaling up (new node with security batch applied) etc.
 
@@ -157,3 +178,4 @@ Here’s the dashboard we observe, with the network in/out in the charts on the 
 ## Resources
 - kafka paper - Done
 - kafka the definitive guide book
+- Jaspen - kafka
