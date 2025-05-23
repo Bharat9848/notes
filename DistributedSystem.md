@@ -37,15 +37,17 @@
 
 ## Replication
 - Replication is used for scalability, Availability and performance.
+- modes
+  - Synchronus Replication is where data is replicated synchronusly to replicas. 
+    1. It makes write slow.
+    2. If replica node crashes it will fail the write request itself. It will make system unavailable for write.
 
-- Synchronus Replication is where data is replicated synchronusly to replicas. 
-  1. It makes write slow.
-  2.  If replica node crashes it will fail the write request itself. It will make system unavailable for write.
-
-- Asynchronus Replication is where data is replicated asynchronusly to replicas. 
-  1. It make the read replica to have stale data.
-  2. If primary fails before data is replicated it will result in data loss.
-
+  - Asynchronus Replication is where data is replicated asynchronusly to replicas. 
+    1. It make the read replica to have stale data.
+    2. If primary fails before data is replicated it will result in data loss.
+  
+  - Multiple nodes are given same task. Each node will create same artifacts and data according to same logic running on each of them.
+  
 - Type of replication
  1. Single leader replication
   - linearlizability can affect availability in case of network issues.
@@ -55,6 +57,7 @@
     3. Logical based replication - instead of actual physical value of WAL, this approach capture the primary node changes in term of `Insert/update` with all the changed values. 
 
  2. Multi-leader replication
+  - explain ??
   - useful for multi-datacenter operation.
   - linearlizability can affect availability in case of network issues.
   - Conflict can happen in case of simentanoues write on a single key. Conflict avoidance, last-write-win or custom logic can be used in such situations.
@@ -156,12 +159,13 @@
  
  - **At-least once**
   1. Consumer is just failed before sending ack to the sender or network failure happened. In this case message will be retried and consumed multiple times.
-  2. Implementation requires store of event or buffer of event permananently or temporarily till we get acknowledgement from consumer 
-  3. read about Apache storm "upstream backup and record ack"
+  2. Implementation requires store of event or buffer of event permananently or temporarily till we get acknowledgement from consumer. 
+  3. read about Apache storm "upstream backup and record ack".
+  4. It may cause out-of-ordering in case of failures.
   
  - **At-most once** 
  1. Publisher of message does not attempt to redeliever in case ack is missing.
-
+ 2. It requires exensive end-to-end two phase commit.
 
 ## Consensus Algorithm 
   - Assumes safety property which includes following properties 
@@ -250,11 +254,12 @@ Extension to CAP theorem is PACELC theorem where PAC is from cap theorem which s
 2. Apache zookeeper, consul and etcd implements consensus algorithm 
 
 ## Cluster management 
+- distribute work using some hashing, memory and computation limit of nodes etc among the nodes by creating dags like flink's Job manager.
 ### Primary-Secondary Model
 - Designated primary and secondary. primary is responsible for sending data to secondary nodes via synchronus or asynchronus replication 
 - Data consistency is simpler
 - Failover is simpler - secondary takes over
-### Cluster of Independent Hosts
+### cluster of Independent Hosts
 - Hosts are not aware of each other
 - Data consistency is done via replication using consensus paxos and raft algorithm
 - Failover is not applicable as any node capable of read/write

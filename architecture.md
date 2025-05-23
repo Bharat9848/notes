@@ -244,6 +244,30 @@
  - Websocket 
  - Server Sent events 
 
+## Publisher/subscibe
+- Temporal decouplng: producer and consumer are not actively participating in communication in timely manner.
+- Entity decoupling: producer and consumer should not be aware of each other.
+- Synchronization decoupling: publisher/Subscribe should not need to block producer and consumer thread.
+- Routing logic
+  - simple topic based
+  - regex topic based
+  - message's data/metadata field based.
+- correctness is based on delievery semantics and ordering guarntees.
+  - Delievery semantics: check `delievery semantic` in DistributedSystem.md
+  - Ordering gurantees:
+    - No order
+    - Partition-order: casual ordering is maintained at a partition level but not across partitions
+    - Total order: Ordering across all partitions
+  - latency: calculated by time between message entering and message leaving the pub/sub infra.
+    - compute cycles for metadata handling e.g. validation, routing etc.   
+    - compute cycles for packet copy
+    - storage class access - write vs read, DRAM vs disk, seq vs random access
+    - persistence and ordering overhead
+    - dequeuing latency: dependent on consumer speed
+ ### Activemq
+  - Disadvantage
+    1. heavy penality of random access in case queue extend beyond RAM
+    2. separate queue for each consumer.   
 
 
 
