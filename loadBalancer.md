@@ -43,14 +43,17 @@
 ## Some well know algorithms
 1. Equal cost Multi Path (ECMP) - tier 1 LB
 2. Random:
+   - have same problems as round-robin.
 3. Random best of two: two random choice but we further choose best between the two.
 4. Round-robin
+   - best suited for apis that have uniform payload - hence approximately take same amount of time
+   - creates overload or underload in cases where load on different machines are varying.
 5. Weighted round-robin: higher infra servers were given higher weights
 6. Least connection: new requests are sent to server with least connection. Even if servers of same configuration uneven load balancing can happen.
 7. Least response time.
 8. IP hash: user hash
 9. Url hash: LB based urls params
-
+10. Custom metrics based balancing
 ## proxy based
  - for cookie manipulation each time proxy will reject/ignore `Keep-Alive` connections.
 
