@@ -28,6 +28,19 @@
  - Per request time `CPU(time per program)=Instructions per program × CPU Cycles Per Instruction × CPU time per clock cycle` e.g. lets say we are running million instruction per request. cycle per instruction is 1. cpu time per clock is 1/3.5Ghz will give 0.001 sec. Or 1000 request per sec.   
  - No of user(assume in millions) can be used as proxy for request per sec.
  - capacity of single commodity server - assume 500 request/sec
+
+## Design interview
+1. requirement gathering
+2. Estimation
+3. storage schema
+4. high level design
+5. APIs
+6. Deep dives
+7. Evaluation
+8. Distinctive feature/components.
+
+
+
 # Sequencer
 ## Requirement
 - provide globally time sortable unique Ids
@@ -278,6 +291,28 @@
   - How to keep size under control for large scale applications
     - use sampling to log only few samples
     - categorizes logs e.g. use more stricter logs like error or trace etc.
+
+
+## Distributed Counter
+### Requirement
+- create counter
+- read counter
+- write counter
+### concepts
+- Use shared counter distributed to no of shards.
+### Deep dives
+1. how to process millions of likes/view in a short amount of time.
+   - sends write to any shards
+   - put a load balancer which can forward the calls to appropriate shard based on its load.
+2. Read a counter
+   - add all the counter from all the shards put it in a cache periodically in some cases where stale data is allowed. Otherwise we have to wait for all shards and then sum up the counters.
+ 
+### APIs
+- `createCounter(counter_seq_id, shards)`
+- `writeCounter(counter_id, increment/decrement)`
+- `readCounter(counter_id)`    
+
+
 
 
 
