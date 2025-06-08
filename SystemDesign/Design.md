@@ -28,7 +28,9 @@
  - Per request time `CPU(time per program)=Instructions per program × CPU Cycles Per Instruction × CPU time per clock cycle` e.g. lets say we are running million instruction per request. cycle per instruction is 1. cpu time per clock is 1/3.5Ghz will give 0.001 sec. Or 1000 request per sec.   
  - No of user(assume in millions) can be used as proxy for request per sec.
  - capacity of single commodity server - assume 500 request/sec
-
+ - cache or inmemory server operation 64000 request/sec
+ - Use daily active user as total QPS required
+ 
 ## Design interview
 1. requirement gathering
 2. Estimation

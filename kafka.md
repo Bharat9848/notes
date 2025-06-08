@@ -26,6 +26,15 @@
 - `request.required.acks` ??
 - Ack without Fsync 
 
+### Kafka Producer API
+1. Request object is `producerRecord`. `topic` and `value` byteArray is mandatory. While `key` and `partition` is optional.
+2. Response is `RecordMetadata`. It have offset
+3. client side exception occurs even before sending message to kafka
+   1. SerializerException
+4. Remote exceptions can be broken into recoverable and non-recoverable
+   - Recoverable exception includes 1. No Leader 2. Connect exception
+   - Non recoverable include - Message too long 
+
 ### Kafka producer-broker delievery
 #### Exactly-once
   - Writing to kafka broker log is idempotent operation with the help of (producerId, sequenceId) metadata at each bulk write msg. Repeated message are checked in log if message with (producerId, sequenceId) is present then it is discarded and acknowledged.

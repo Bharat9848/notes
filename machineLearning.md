@@ -13,6 +13,37 @@
  - Data science for business understanding by Foster Provost and Tom Fawcett
  - Fawcett, Tom (2004). “ROC Graphs: Notes and Practical Considerations for Researchers.” Pattern Recognition Letters 27 (8): 882–891.
  - Hand, David J. and Till, Robert J. (2001). “A Simple Generalisation of the Area Under the ROC Curve for Multiple Class Classification Problems.” Machine Learning 45 (2): 171–186.
+ - Deep Learning Architectures: A mathematical approach 
+
+
+    Elements of Statistical Learning
+
+    Understanding Machine Learning
+
+    Foundations of Machine Learning
+
+    Deep Learning Architectures: A mathematical approach
+
+    A probabilistic theory of pattern recognition.
+Machine Learning: A First Course for Engineers and Scientists
+Data Mining and Machine Learning" - Zaki
+Probabilistic Machine Learning an Introduction by Kevin P Murphy. 
+Ovidiu Calin - Deep Learning Architectures 
+ love the two new books by kevin murphy. (and this is my limit subject to worldly constraints but it has broad coverage in those 2000 pages)
+
+You could also get into optimization book by nemirovski since you have math background.
+
+Boyd is also a pretty good book for optimization.
+
+Vapnik's book is another book on theory of ML.
+
+PGM book by daphne koller also has proofs related to graphical models but there are better books for applied stuff.
+
+Wainwright & jordan has another book on graphical models and variational inference.
+
+Combinatorial Optimization by Alexander Schrijver. 
+
+
 
 ## Gloassary
  - **Principle component analysis**
