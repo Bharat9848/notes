@@ -1,5 +1,7 @@
 ## Concepts
 1. **Contraction hierarchies** is a speed-up method optimized to exploit the properties of graphs representing road networks. The speed-up is achieved by creating shortcuts in a preprocessing phase, which are then used during a shortest-path query to skip over unimportant vertices
+2. supply: can be of car/seat granality
+3. demand: can be of car/seat granuality
 
 ## requirement
  1. As a rider
@@ -19,6 +21,9 @@
 - scalability 
 - consistent view
 - security and data privacy
+- Fraud detections
+  - Driver drives intentionally slow
+  - Driver uses malicious GPS or fradulent trips etc  
 
 ## Resource estimation
 ### Base facts
@@ -49,14 +54,25 @@
 6. tripUpdates(tripId, riderId, driverId, lat, long, timeElapsed, timeRemaining)
 7. endTrip(tripId, riderId, driverId, timestamp, lat, long)
 
+## Flows
+ 1. Dispatcher asks the location service for nearby drivers
+ 2. Then dispatcher asks ETA service to find how really nearby above drivers.(There might be non connected spaces b/w two nearby locations like river etc)
+ 3. send signals to driver service about new rides. 
+
 ## Components
 - Dispatcher
   - match logic
+  - asks location service for nearby drivers
+  - routing/eta service
 - Location service
+ - "Geo by supply" API sends geo location of driver
+ - "geo by demand" API sends geo location of rider.
  - updates the position of driver to rider irrespective of the trip.
- - work in tendem with quad tree map service
+ - work in tendem with quad-tree map service.
+ - Do the driver matching
+ - proximity data also helps in dynamic pricing calculation.
 - QuadTreeMap service
-  - Map the current location of drivers in the quadtree
+  - Map the current location of drivers in the quadtree.
   - quadtree stores the driveId in a segment dynamically
   - split the nodes if driver moves to busy location. Updation is latency heavy so it is done offline. Hash table is used to temporarily cache the location of driver.
 - Trip Manager service
@@ -72,3 +88,8 @@
 
 ## Rough
 - driver partner sharded by the city 
+
+
+## Resources
+- Uber design- educative
+- [Scaling Uber's Real-time Market Platform](https://www.infoq.com/presentations/uber-market-platform/?ref=highscalability.com)

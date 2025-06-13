@@ -1,10 +1,15 @@
 ## Proximity Service
 ## Concepts
 - Quad tree
-- segments - fixed size area of `5*5` miles. We can assign segment before storing a location in the database.
-- static segments
+- static segments - fixed size area of `5*5` miles. We can assign segment before storing a location in the database.
 - dynamic segment: helps in dividing the area more dynamically. It helps in preventing hotspot creation in densely populated areas. Google s2 library can help in its creation.    
 - Google maps: helps in connecting all the segments
+- Google s2 library:
+  - divide earth into circular cells
+  - lat-long belongs to cells
+  - cells have different level based on zoom level.
+  - Every cm2 is represented by 64 bit integer.
+  - uber uses level 12 cells
 
 ## requirements
 1. search user
@@ -13,21 +18,19 @@
 - provide rating to place
 2. Business user
 - adding/removing/updating businesses
-
-3. Redistribution of segments.
-- can be policy based 
-
+3. Redistribution of segments -- applicable only in case of dynamic segments to handle scalability
+ 
 ## non functional requirement
-- latency
+- latency: read should be very fast.
 - availablity
 - scalability
-- consistency 
+- consistency: business data changes very slowly. We can live with eventual consistency of data 
 
 ## Estimation
 - Facts and assumption
   - Assumes 500 million places
   - 60 million active users daily
-  - 100 million total users
+  - 600 million total users
   - Earth land area: 60 million square miles
 - Server required
   - total active user/ server qps capacity

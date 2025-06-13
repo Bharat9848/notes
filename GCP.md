@@ -31,3 +31,9 @@
 - takes traffic from multi-cloud, on premise cluster
 - have advanced network capabilities.
 
+## BigTable
+- Nosql solution
+## BigQuery
+- Data warehouse
+## GCS
+## cloud dataflow

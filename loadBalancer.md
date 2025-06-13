@@ -44,7 +44,9 @@
 1. Equal cost Multi Path (ECMP) - tier 1 LB
 2. Random:
    - have same problems as round-robin.
-3. Random best of two: two random choice but we further choose best between the two.
+3. Random best of two: 
+   - two random choice but we further choose best between the two.
+   - exponentially better than random.
 4. Round-robin
    - best suited for apis that have uniform payload - hence approximately take same amount of time
    - creates overload or underload in cases where load on different machines are varying.
