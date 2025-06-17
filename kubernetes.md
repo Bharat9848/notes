@@ -199,3 +199,5 @@
 - traffic weighing
 - header based matching
 
+## Excercise
+- figure out container memory through linux cgroup, container live process should have 70% of the container memory

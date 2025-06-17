@@ -1,4 +1,5 @@
 ## Concepts
+- Directory based structure is namespaces.
 - Reed Solomon based encoding
 - RAID
 - NFS: network file system protocol
@@ -18,3 +19,5 @@
 ## HDFS
 - data can be compressed using LZO algorithm.
 
+## GFS
+-- see gfs.md
