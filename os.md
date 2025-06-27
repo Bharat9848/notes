@@ -80,3 +80,18 @@ The interface between the container runtime engine and the container has been st
 Wasm is a binary instruction set architecture (ISA) like ARM, x86, MIPS, and RISC-V. This means programming languages can compile source code into Wasm binaries that will run on any system with a Wasm runtime. Wasm apps execute inside a deny-by-default secure sandbox that distrusts the application, meaning access to everything is denied and must be explicitly allowed. This is the opposite of containers that start with everything wide open.
 
 WASI interface sandbox wasm apps to run outside browser
+
+
+
+## Rough
+- "    In operating systems, there are four necessary conditions if a deadlock happens:
+
+        Bounded resources: Only a finite number of client requests can access a resource concurrently.
+
+        No preemption: Once a lock is acquired, its ownership can only be changed by the thread that acquired the lock.
+
+        Waiting while holding locks: When a client needs multiple locks, it acquires one, then waits for the next ones to be acquired by keeping the previously locked resources.
+
+        Circular waiting: There is a circular wait between different threads.
+
+    The four conditions listed above are necessary for a deadlock. This means that if we don't let any one of them happen, we can prevent the deadlock. GFS primarily targets circular waiting. With its well-defined locking order, it never lets a circular waiting happen and avoids deadlocks."
