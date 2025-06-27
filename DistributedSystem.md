@@ -255,10 +255,13 @@ Extension to CAP theorem is PACELC theorem where PAC is from cap theorem which s
 
 ## Cluster management 
 - distribute work using some hashing, memory and computation limit of nodes etc among the nodes by creating dags like flink's Job manager.
+
 ### Primary-Secondary Model
 - Designated primary and secondary. primary is responsible for sending data to secondary nodes via synchronus or asynchronus replication 
 - Data consistency is simpler
 - Failover is simpler - secondary takes over
+- Primary is chosen by cluster manager through lease based. Lease is fault tolerant mechanism where in case of primary failure lease will be given to other operation replica, once lease is expired. Therefore lease period should be appropriate. Lease will be granular to the resource. E.g. in GFS lease provide authorization for one of the chunkId stored in a replica.
+
 ### cluster of Independent Hosts
 - Hosts are not aware of each other
 - Data consistency is done via replication using consensus paxos and raft algorithm

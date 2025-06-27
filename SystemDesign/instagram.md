@@ -35,6 +35,11 @@
 ## Component
 
 ## Deep dive
+- celebrity posts
+- Optimization of reads
+  - lazy load the timeline page by page as user is viewing it.
+- Story feature
+  - post remain online for 24hour  
 
 ## Resources
 - [highscalability](https://highscalability.com/designing-instagram/) - Done

@@ -5,8 +5,8 @@
 
 ## requirement
  1. As a rider
-   - search cabs before journey start: after destination selection system shows the driver location
-   - show cab before journey start system should show location of cab once driver accepts the trip
+   - search cabs before journey starts: after destination selection system shows the driver locations
+   - show cab before journey starts: system should show location of cab once driver accepts the trip
    - start/stop of trip notification once driver starts/stops the trip.
    - During the trip, system should show the ETA and trip location
    - payment of the trip
@@ -54,10 +54,19 @@
 6. tripUpdates(tripId, riderId, driverId, lat, long, timeElapsed, timeRemaining)
 7. endTrip(tripId, riderId, driverId, timestamp, lat, long)
 
+- Entities
+  1. trip(sourcewaypoint, destwaypoint, viaWaypoint)
+  2. supply(driver, optionalTrip, orderListOfWaypoint, isOnline)
+
+- Cassandra as data store
+- Redis as cache  
 ## Flows
+1. Booking
  1. Dispatcher asks the location service for nearby drivers
  2. Then dispatcher asks ETA service to find how really nearby above drivers.(There might be non connected spaces b/w two nearby locations like river etc)
- 3. send signals to driver service about new rides. 
+ 3. send signals to driver service through supply service about new ride. 
+ 4. Driver accepts the ride
+ 5. send notification about booking to rider.
 
 ## Components
 - Dispatcher
@@ -70,7 +79,7 @@
  - updates the position of driver to rider irrespective of the trip.
  - work in tendem with quad-tree map service.
  - Do the driver matching
- - proximity data also helps in dynamic pricing calculation.
+ - proximity data of other drivers also helps in dynamic pricing calculation.
 - QuadTreeMap service
   - Map the current location of drivers in the quadtree.
   - quadtree stores the driveId in a segment dynamically
@@ -86,6 +95,12 @@
 - Rider service
   - exposes `requestRide` API and calls driver service to find matching driver   
 
+## New features
+- virtual queue at airports
+- 3-side marketplace at uber eat
+- reservation of car
+- batch trip of trip by a driver
+
 ## Rough
 - driver partner sharded by the city 
 
@@ -93,3 +108,5 @@
 ## Resources
 - Uber design- educative
 - [Scaling Uber's Real-time Market Platform](https://www.infoq.com/presentations/uber-market-platform/?ref=highscalability.com)
+
+
