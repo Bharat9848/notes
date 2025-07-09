@@ -59,6 +59,10 @@
 ## proxy based
  - for cookie manipulation each time proxy will reject/ignore `Keep-Alive` connections.
 
+## What are the problems of global server load balancing.
+- If data is sharded then there are two solutions - we need to route traffic to appropriate datacenter server or we need to leverage globally distributed database.
+
+
 ## Rough
 
 - What is stunnel

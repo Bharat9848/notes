@@ -15,17 +15,18 @@
 
 # Interface:
 - interface provide access to resource.
-- It consist of operations, event and properties.
-- interface have semantics like transaction is abstraction which guarantee atomicity
+- It consists of operations, event and properties.
+- Interface can also have semantics e.g. transaction is an abstraction which guarantee atomicity.
 - operation is synchronus ? 
 - event for aysnchronus ?
-- properties is metadata like access rights, unit of measure or formatting assumption.
+- properties can be metadata like access rights, unit of measure or formatting assumption.
 - Interface should follow **principle of least surprise**(consistent), **small interface principle**, **uniform access principle**(no implementation details) 
 - Interface method names should not specific about resource properties. e.g calculateTotalForCategory - category is internal property of transaction, modifying it will require changes in interface.
-- Interface method return type should be a generic wrapper domain class. Helps in reducing multiple flavor return type methods.
+- Interface method return type should be a generic wrapper domain class. Helps in reducing multiple flavor return type methods. 
+- `void` should be avoided as return type from an interface method. As it is difficult to reason about and test.
 
-# SOLID principled
-1. Single responsibility
+# SOLID principle
+1. **Single responsibility**
   - A class should have a single reason to change
   - no god classes
 
@@ -37,7 +38,7 @@
 3. **Liskov substitution principle**
  - System should not break in case of subclasses references are substituted with superclass reference. It means system is not only working with substituted subclass. It is also working with all the subclasses of the superclass.
  - E.g. of violation is `Vehicle::startEngine` is not working in case of vehicle type `bicycle`. In this case it is better to break the vehicle interface to `Motorized` and `Manual` 
-
+ - Precondition, postcondition, invarient should be completely abided by the subclass. 
 4. **Interface segragation principle**: 
  - Dividing of interfaces can have following reasons
     - multiple actor needs access to subset of functionality.
@@ -48,6 +49,17 @@
 5. **Dependency Inversion**
   - higher class module should dependent upon lower class module through abstraction, instead of knowing internal details of lower module classes.
 
+## Genral good practice
+- control flow mixed with business logic.
+- Validation should be a separate class in case we want to run multiple logic across various properties of an entity.
+- Validation exception should use **Notification** pattern. In notification pattern we capture all the error in string format and append them in a list and return to user in a single go.
+- Dont use exceptions for control flow.
+- **Where to put common code in a hierarchy**
+  1. Putting common code in a util class from a hierarchy is bad design as it eventually lead to cross pollution from different requirement and make classes as god classes eventually.
+  2. It is bad to use inheritance (using abstract classes) for common code from a hierarchy. It makes code less flexible for future changes. 
+  3. Using a domain class is the best which mapped to real-world domain as much as possible. Every subclass can leverage the domain class common behavior.
+- Test method names should start from a verb which should signify the behaviour under test. It should not be named as `test1`, `textFile` or exactly same as method under test.
+ 
 
 ## UML
 - UML is composed of three main building blocks: things, relationships, and diagrams. 
@@ -61,13 +73,13 @@
  - It is used to depict flow and objective of all the usecases.
  - **Actor** interacts with the system, it can be human, hardware/machine and other external system. Primary actor interacts with the system. Any secondary actor is put on the right side of the system while primary is put on the left side of diagram.
  - **Usecase** it is typically mentioned in an oval shape
- - **package**: groups different elements and it is represented through a folder icon. 
+ - **package**: groups different elements(what is element ?) and it is represented through a folder icon. 
  - **Notes**
  - Relationship between usecases
-  1. **Include** relationship: to include a usecase in other usercase
+  1. **Include** relationship: to include a usecase in other usercase e.g. online payment includes credit card validation usecase. It is a always-happen relationship.
   2. **Generalization** relationship: ??
-  3. **Extends** relationship: a usecase extends other usecase e.g. Cash withdrawal extends transaction usecase.
-
+  3. **Extends** relationship: a usecase extends other usecase e.g. Cash withdrawal usecase extends to enhance transaction usecase. It is shown by dashed arrow with `extends` keyword. It is a may-happen releationship 
+ 
 ## Class diagram
  - it is used to show static representation of classes for their roles and responsibities.
  - Class have three section - name, attributes and methods

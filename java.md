@@ -2,6 +2,18 @@
 - Java NIO (O’Reilly)
 - Netty in action (Manning)
 
+## Exceptions
+- It helps in distinguish control flow from business logic. Try/catch block separates out the business logic in try part where catch is supposed to handle exception's logic.
+
+1. Checked exception: 
+ - These type of exception should be used in case of recoverable situations.
+ - It should be used sparingly as they clutter the code.
+ - Sometimes use of checked exception is depending on the product requirement. It is decided upon whether we want to force our user to take a recovery exception or there is alternate mechanism available to recover from the error.
+
+2. Unchecked exception
+ - Errors and RuntimeException are not supposed to be recoverable and hence should not be catched.
+ - Validation exception should be non-recoverable.
+
 # Library
   - `Awaitability`
   - `Arch-unit`
@@ -109,3 +121,11 @@
  - Write deadlock detection algortitm
  - How lock prevent variable visibility and contention problem internally across multiple core
  - infinite loop in atomic variables.
+
+## Build tools
+### Gradle
+- have captured the inspiration of`convention over configuration` from maven.
+- DSL based tool using groovy or kotlin
+- files for specification
+1. `build.gradle` it is just like `pom.xm1`.
+2. `settings.gradle` it is for setting up multiproject

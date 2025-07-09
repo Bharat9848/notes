@@ -1,4 +1,5 @@
 # Cassandra
+## Rough
 - Sloppy quorums
 - Hinted handoff
 - read repair and anti-entropy

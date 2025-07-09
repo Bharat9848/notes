@@ -57,6 +57,7 @@
 
 ## Resources
 Real-time Messaging Protocol (RTMP), HTTP Live Streaming (HLS), Real-time Streaming Protocol (RTSP), 
+
 ## Rough
 - `arp -n` shows pods mac address.
 - `brctl show cfbr0` shows root namespaces in veth pair attached to `cfbr0`
@@ -64,5 +65,5 @@ Real-time Messaging Protocol (RTMP), HTTP Live Streaming (HLS), Real-time Stream
 - **Internet exchange points** are common grounds of IP networking, allowing participant Internet service providers to exchange data destined for their respective networks. 
 - The concept of routing and default gateways is fundamental in networking, ensuring that data packets find their way across complex networks of devices and subnets.
 - BSD Socket API
-
+- **IP Multicast**: protocol for a node to talk to its peers.
 

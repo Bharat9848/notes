@@ -269,5 +269,10 @@ Extension to CAP theorem is PACELC theorem where PAC is from cap theorem which s
 - More scalable than primary-secondary approach
 - More complex than primary-secondary approach
 
+
+# How to deal with hotspots
+- Caching layer
+- Replication of hotspot data and provide read through read replica
+- consistent hashing
 ## Rough notes
 - read about Try-confirm/cancel algo for distributed transaction

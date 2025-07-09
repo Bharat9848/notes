@@ -2,9 +2,12 @@
 
 ## general
  - sleep well before interview
- - find all the scenarios
+ - find all the scenarios.
+ - do low level designing for all type questions, before jumping to the code.
  - dont be eager on writing code if you are not sure about solution just try to work on examples.
- - HR divided in sourcerer and recruiter. Sourcerer find the relevant candidate 
+ - start timer at each interview
+ - do proper setup 5 min before starting of interview.
+  
 ## Mental models
 
 ## Problem brainstorming
@@ -20,6 +23,8 @@
  - use lingua franca of design which includes terms like scalability, availability, resiliance, consistency, perfomace, CAP theorem, Gossip protocol etc.
  - Ask for non-functional requirement in b/w interview
  - Ask data releated questions like current size, future requirement, consumption, consistency, durability and privacy and regulatory
+ - Always speak of tradeoff for every component.
+ - Give verbose details about data querying and writing data. 
 
 ## LLD
  - use bottom up approach
@@ -47,7 +52,10 @@
   4. Hashmap implementation and low level design for the same with concurrency
   5. Architecture round - It was majorly about the Redis internal and database internals. Not to complex. Just focused on indexing and transaction handling in microservice env where high consistency is required.
   6. given array string return min number of character change required such that no two adjacent character are same.
-  
+  - Stripe
+    1. programming excercise time was up.Candidate didnt complete all the required parts of the problem statement. Candidate was not very fluent in the chosen language. Candidate was not able to complete Part 1, even after extended time. Candidate didn't have any questions related to edge cases and didnt discuss the approach or what they have understood until asked.
+    2. Design round: Metric collector- misses mentioning kafka for fault tolerance. DEsign - Had one positive moment when working through a method of allocating pod ips to metric collector instances, but didn't articulate the downsides of such an approach, the rest of the interview was slow going, running out of time and ending up with mostly a solution that doesn't work, with some obvious holes around what data we are collecting and how we intent to use it, story around failure modes was weak too and how we would handle failures in various components.
+
 
 
 - Wayfair

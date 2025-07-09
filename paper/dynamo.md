@@ -5,8 +5,8 @@
 - Eventual data store where availability and reliability is paramount.
 
 ## Client
-- Client can be topology aware it will find the nodes responsible for storing keys and calls the server directly.
-- Client can be dumb and sit behind an loadbalancer and request goes to random node. Most of the time random node is not the node where the data resides. Node will find the nodes responsible for storing data. Node can forward the requests to top N node in prefrence list. This strategy is beneficial in case of read intensive and help in reducing hotkey problem.
+- Client can be topology aware it will findthe nodes responsible for storing keys and calls the server directly.
+- Client can be dumb and sit behind an loadbalancer and request goes to random node. Most of the time random node is not the node where the data resides. Node will find the nodes responsible for storing data. Node can forward the requests to top N node in prefrence list. This strategy is beneficial in case of read intensive and help in reducing hotkey problem
 
 ## Requirement 
 - Reliability is paramount from key-value store irrespective of node failures. In case of failures and network partition the store should always allow write. SLA is defined with 99.9% calls to return in tens of millisec of latency at a peek load of `x` request/sec. 
