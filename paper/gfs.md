@@ -2,7 +2,7 @@
 ## Usecases
 1. applications with large number of small files.
 2. applications with small number of big files.
-3. data should be done in writes in fixed lengths. It can also be writen with checksum.
+3. data should be written in chunks of fixed lengths. It can also be writen with checksum.
 
 ## Requirement
 1. custom consistency model: Non POSIX compliant(require random access and strong consistency model)
@@ -21,7 +21,7 @@
 
 ## Architecture
 - GFS client
-  - Client ask for chunkIds and location of all chunkservers for a file.
+  - Client asks Manager for chunkIds and location of all chunkservers for a file.
   - client connect with chunkserver for data.
   - client buffers a complete chunk while application reads it.
   - Client to chunkserver communication is called data flow. While client to manager flow is called control flow.
@@ -31,19 +31,19 @@
 - GFS Manager
   - **Placement strategy**  assign chunkIds to chunkservers spawned on possibly on different racks. In case of multiple chunkserver failure, then the chunk is re-replicated on higher priority. 
   - stores mapping of file and list of chunkId with their chunk server names.
-  - For performance put all metadata in memory.
-  - data replication and rebalancing
-  - Garbage collection of deleted data
-  - operation lock for data consistency
+  - For performance It put all metadata in memory.
+  - manages data replication and rebalancing
+  - triggers garbage collection of deleted data
+  - provides operation lock for data consistency
   - stores location of chunkserver
-  - namespace management and access control.
+  - manages namespace management and access control.
   - choose write replica for write.
   - migration among chunkservers: to rebalance the load and disk usage or health check failure.
   - Handle chunkserver health management which includes how much space is left.
   - **failure and recovery**: Manager save its metadata in form of operation log which provides the sequencing of operation using logical clock. These logs are persisted on node. In case of temporay failures Manager restore the state from checkpoints and reapply any pending operation from the operation log. In case of permanent failure the new manager comes at different node form the checkpoint and operation log stored at remote location.
   - **Shadow manager**: reads the operation log of primary and applies to itself. Shadow manager lags behind the primary. It can serve the read queries in case usecase allow stale data tolerance.
   - **Manager state** 
-   1. It have `soft-state` which is rebuild after restart and it is not part of data which is stored persistently. Manager soft state is chunk-to-chunkLocation mapping as it will be returned by chunkservers in their heartbeat messages.
+   1. It have `soft-state` which is rebuild after restart and it is not part of data which is stored persistently. Manager soft state is chunkId-to-chunk location mapping as it will be returned by chunkservers in their heartbeat messages.
    2. persisted metadata is backed up using checkpointing and operation log for recovery. It is synced to a remote location via synchronus replication. 
 
 - GFS Chunkserver
@@ -100,4 +100,26 @@ stale chunkserver in its metadata response.
 
 ## Drawbacks
 - single control plane
-- scale up to petabytes(10^6 GB)
+- scale up to petabytes(10^6 GB). Due to this scalability issue whenever an application breaches the limit, a new GFS cluster was being used. 
+- scale upto million of files only
+- not good for latency friendly applications because of chunkserver failures and Manager failure. 
+- For applications with large number of small files, have metadata equals to the data. Managing the big metadata in manager memory is a risky and this increases the recovery latency.
+
+# Colossus
+## Requirements
+- scale beyond exabyte (1000 petabyte)
+- low latency: GFS was not good for latency friendly applications like online-gaming, video confrencing etc. To counter GFS drawback google launched colossus.
+## Architecture
+### Components
+- client library
+  - choose storage pattern either full replication vs Reed-solomon erasure encoding.
+- Curator
+  - manages metadata mapping for different clients.
+  - multitanent and provides data isolation
+  - horizontally scalable.
+  - store data in bigTable datastore.
+  - Metadata sharding must have been done using some version of consistent hashing
+  - Partitions splitting and merging is done by bigtable.
+- D-file server
+- BigTable data storage
+- Control plane  

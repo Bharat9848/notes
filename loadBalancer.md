@@ -1,9 +1,9 @@
 # Load Balancer
-- DNS geolocation
-- Anycast IP
+- DNS geolocation:??
+- Anycast IP:??
 - Best practice
  - HAProxy
-    (backend)* -> (DNS/VRRP) -> 2 (HAProxy) -> (backend)*
+    (backend)* -> (DNS/VRRP) -> 2 (HAProxy) -> (backend)*??
 - add firewall rules to a VPC to expose external IP of a K8 service to outside and then using a forwarding rule it sends the traffic to a node running cluster.
 
 ## DNS Load balancing
@@ -19,7 +19,18 @@
 - Availability: LB should be able to handle backend server failure gracefully.
 
 ## Load balancer failure
-- LBs are deployed as part of disaster failure recovery. LB clusters are deployed with heart beat communication.
+- LBs are deployed as part of disaster failure recovery. LB clusters are deployed with heartbeat communication.
+
+## Client-side load balancing
+### Question
+- client side load balancing is effective as in on basis of which parameter it balances on ?
+
+- Advantages
+  - less latency as no additional hop of centralized LB is required
+  - less point of failure in the system.
+  - Eliminate bandwidth bottleneck. In contrast all traffic went through single node chocking all the network bandwidth when traffic scales.
+  - less hardware infrastructure/layers to do load balancing
+
 
 ## type
 - Global serving load balancing: Automatic failover to other zones based on user geographic location, server availability etc.
