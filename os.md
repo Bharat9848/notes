@@ -46,7 +46,11 @@
  - swap space/ virtual memory : In case of less amount of RAM to load a new process, OS put an existent memory pages to disk. For memory pages a part of disk is allocated called swap space. It is tradeoff between OS killing a process and perfromance penality. Lot of server software turn off the this feature as it causes performance penality.   
  - disk cache: It is part of RAM which caches disk pages. Its process agnostic as any process can avail the disk pages irrespective of process which loads those pages. It is very helpful in cases where some producer and consumer process are sharing resources. 
  - Throttling of resource to rogue process
+ - **Virtual memory**: Process is put under the illusion that it has a single memory space form 0 to Max required. It helps in memory allocation.
 
+## Process scheduling
+ - NICE value
+ - multilevel feedback queues
 ## Throttling
  - Namespaces:
  - control group: 
@@ -65,6 +69,15 @@ step 1. configure stacktop and stackbootom tags with some reserved memory.
 step 2.  point stackpointer register to stack top
 
 ## Virtualization
+ - Drawbacks of traditional OS
+   1. Virtual memory manangement happen at a global scope. It allows memory hungary process to page out other processes pages. 
+   2. CPU scheduling also happen at global scope. Modern applications creates sets of processes to accomplish a task. More number of processes cause CPU scheduler to allocate more CPU to sister processes.
+   3. kernel memory is also global shared resource.
+## Hypervisor
+- run different os on each VM.
+- resource isolation
+- cleaner service statistics.
+
  1. container vs vm
   container is optimized on image transfer time and startup time. Image transfer time is reduced as compared to VM as it does not contain the operating system.
   container runtime engine like docker act as virtualized operating system
