@@ -53,7 +53,8 @@
 ## Deep dive
 ````
 
-
+## Design Keep in mind
+- if solution have caches, be vocal about cache invalidation.
 
 # Sequencer
 ## Requirement

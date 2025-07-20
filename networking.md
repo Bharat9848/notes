@@ -1,3 +1,6 @@
+## Blog
+- [networking, k8 etc](https://blog.scottlowe.org)
+
 ## Glossary
 - **Routing**: route traffic from one network to other network.
 - **Gateway**: default route if no other route criteria matches. It is usually send the traffic to other node on different network node. or if it is set to no route then kernel process the traffic.

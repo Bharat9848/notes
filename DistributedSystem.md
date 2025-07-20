@@ -68,6 +68,14 @@
  - quorum is used to break the incosistency of data.
 
 # Partitions
+ ## Data partitioning
+ ### Key-range partitioning
+ - Depending of key range distribution, key range should be dynamic to give better partitioning.
+ - uniform partitioning will not give good load balancing. 
+ - Partitions data should be maintained in light weight CP key-value store like apache-zookeeper.
+ 
+
+ ## Table partition
  - **Vertical sharding**: 
  1. a table is divided such that few columns are in one table while others are in different table. 
  2. It is useful in cases where one table have very wide text or binary column. By breaking it one table with only id and wide text or binary column. we can make read and write faster.
@@ -106,14 +114,18 @@
   2. **Total Ordering** 
     - Every message is applied in same order to all replicas.
     - Not performance friendly.
+  3. **Total order broadcast**
+    - Messages are delieverd exactly once and in the same order.
+    - it is equivalent to repeated round of consensus.
 
-## Type
+## Consistency Types
   1. **Eventual Consistency**
-    - Its a weaker gaurantee as it does not gaurantee read your own write.
+    - It's a weaker gaurantee as it does not gaurantee read your own write.
     - Different replica returns different results. There may be cases where it seems that data is going back in time.
-    - It provides high availability
+    - It provides high availability as it is highly performant.
+    - DNS is an example of eventual consistency as it is controlled by some propagation pattern and timed caches.
 
-  2. Casual consistency
+  2. **Casual consistency**
    - It is lighter version of consistency defines relationship between event as dependent and independent events. Dependent events are called casual events.
    - It serve casual ordering usecases and hence more performant than linearlizability.
 
@@ -124,18 +136,26 @@
     - all the changes happened to a register are atomic.Defintion does not entail multiple row/key-value/register. Linearlizability only covers a single row/key-value/register- ???)
     - read your own update.
     - usecases include leader election, distributed locks and unique constraint like unique username, password change in banking system etc.
-  - **Drawbacks**:
-    1. Performance hinderess - not scalable beyond a point. Scalability would requires the usecase to be handle by multi nodes. 
-    2. Make system unavailable in cases of network partitions and other faults.
-  - There may be a case that even after linearizability you get to see values which are not latest. But as they are returned by any replica, it is okay.  
+    - **Drawbacks**:
+      1. Performance hinderess - not scalable beyond a point. Scalability would requires the usecase to be handle by multi nodes. 
+      2. Make system unavailable in cases of network partitions and other faults.
+    - There may be a case that even after linearizability you get to see values which are not latest. But as they are returned by any replica, it is okay.  
   
-  4. Quorum based consistency
-   - `r + w > n` and `w>r` is used to achieve high consistency.
-   
+  4. **Quorum based consistency**
+    - `r + w > n` and `w>r` is used to achieve high consistency.
+  5. **Read your own write** consistency
+    - it is a special form of casual consistency where if a node update some item then it should always see updated value.
+    - It can be achieved by client sticking to same server node.   
+  6. **Session consistency**
+    - System will behave like read-your-own-write consistency during the session. In case of session invalidation user can see stale data.
+    - It can be achieved by client sticking to same server node.   
+  7. **Monotonic read consistency**: 
+    - once a client has read some value it cannot go back in time and see some old value.
+    - It can be achieved by client sticking to same server node.   
+  8. **Monotonic write consistency**
+    -  In this case the system guarantees to serialize the writes by the same process.
+    - It can be achieved by client sticking to same server node.   
 
- 4. **Total order broadcast**
-   - Messages are delieverd exactly once and in the same order.
-   - it is equivalent to repeated round of consensus.
 
   ## How
    - **Lamport clock**: 

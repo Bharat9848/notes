@@ -1,5 +1,15 @@
 # Hashing
-- hash function should be random i.e. independent and uniformly.
+- hash function should be random i.e. independent and uniformly. 
+- In practice, hash functions with limited independence are more plausible since they economize on space and randomness. ?
+
+## Asymptotic analysis
+ - `O`
+ - Theta
+ - Gamma
+
+## Master theoram
+## Asymptotic analysis
+ 
 
 # Array
  - local/global maxima minima 

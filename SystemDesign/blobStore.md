@@ -12,6 +12,7 @@
 - store the data
 - reterieve the data
 - data cleanup after configured expiry.
+## Non functional requirements
 - highly durable- no data loss
 - highly available
 - highly scalable

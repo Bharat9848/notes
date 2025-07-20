@@ -8,6 +8,7 @@
  - Martin’s Clean Architecture: A Craftsman’s Guide to Software Structure and Design [Martin 17].
  - The Software Architect Elevator: Redefining the Architect’s Role in the Digital Enterprise by Gregor Hohpe
  - Software Systems Architecture: Working With Stakeholders Using Viewpoints and Perspectives
+ - (Optimizing compute across cluster) [https://www.uber.com/en-IN/blog/compute-cluster-management/?ref=highscalability.com]
 ### Performance
  - Foundations of Software and System Performance Engineering: Process, Performance Modeling, Requirements, Testing, Scalability, and Practice [Bondi 14].
  - Software Performance and Scalability: A Quantitative Approach [Liu 09].
