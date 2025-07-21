@@ -39,7 +39,12 @@
 
 ### QUIC
 
-
+## Container networking
+1. **virtual ethernet**: 
+  - Always get used in pairs.
+  - `linuxcmd.md` on how to create
+2. Bridge:
+  - connets global/physical namespace with container namespace.  
 
 
 ## Layer 4

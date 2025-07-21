@@ -35,9 +35,9 @@
 -
 
 ## Hypervisor
-- Hypervisor is a oprating system that emulates hardware access primitives.
+- Hypervisor is a software that emulates hardware access primitives which allows to create guest stack over it.
 - Not very performant as it runs two kernel stack- host operating system and guest operating system.
-- control system runs at hardware level.
+- control system runs at hardware level.???
 
 ## Container
 - control system runs at shared operating system kernel level.
@@ -46,10 +46,6 @@
 - Beacuse of shared kernel resource efficiency is high as compared to hypervisor
 ## Rough
 - Modern CPUs recently started to support expanding virtualization instruction. ???
-- POSIX RLIMIT
-"The namespace separation is applied as part of the clone() flags
-and is inherited across forks. The big difference from chroot()
-is that namespaces tag resources and any tagged resources may
-disappear from the parent namespace altogether (although
-some namespaces, like PID and user are simply remappings of
-resources in the parent namespace)."
+- POSIX RLIMIT 
+ - "The namespace separation is applied as part of the clone() flagsand is inherited across forks. The big difference from chroot() is that namespaces tag resources and any tagged resources may disappear from the parent namespace altogether (although some namespaces, like PID and user are simply remappings of resources in the parent namespace)."
+ - "However, in practice, the distinction between containers and virtual machines is more of a spectrum than a binary divide. Techniques common to one can be effectively applied to the other, such as using system call filtering with containers, or using seccomp sandboxing or user namespaces with virtual imachines."

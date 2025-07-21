@@ -52,6 +52,10 @@
 
 ## Deep dive
 ````
+## Multi tanent applications
+1. User data isolation - Role Based Access Control
+ 
+
 
 ## Design Keep in mind
 - if solution have caches, be vocal about cache invalidation.
