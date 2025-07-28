@@ -7,6 +7,8 @@
 - crash: node failed silently, other nodes cannot detect.
 - Temporal failure: request/response too late to be any useful. It is caused by clock skew, high load etc.
 - Byzantine fault: Node behaves differently than protocol rules. 
+- communication medium failure:
+- secondary storage failure:
 
 ## Consistency, Availability and Partition tolerance - CAP theorem
  - Consistency in CAP theorem means linearizability.

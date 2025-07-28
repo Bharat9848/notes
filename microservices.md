@@ -12,7 +12,10 @@
 ## Communication protocol
 - Never trust the failure status message especially timeout in synchronus communication as there are possibilities of success owing to receiver is slow, ack packet is lost etc.
 - see delivery semantics in distributed system notes
-
+### Websocket
+- fully duplex.
+- long lasting connection.
+- no overhead of request/response headers.
 ### RPC
 - client stub, server stub, 
 - RPC runtime retransmit, acknowledgement and encryption.

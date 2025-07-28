@@ -1,24 +1,51 @@
 ## Questions
 - How hypervisor or containers give the resource isolation ?
+
+## Glossary
+- `cpuset`: binds processes to set of processors. ???
+- `process container`: group of processes with common parameters that are used by different subsystem
 # Namespace
 - ipc namespace
+  - System V IPC identifiers ???
+  - virtual filesystem in the implementation of POSIX message queues. 
 - net namespace
   - separate network devices and port range for isolated set of processes.
   - packet filtering is easier due to separated network devices.
 - pid namespace
+  - PID namespaces also allow techniques such as freezing the processes in a container and then restoring them on another system while maintaining the same PIDs.
 - mnt namespace
   - processes see isolated view of filesystem.
   - before mount namespace, `chroot` system call limits a process to see a part of filesystem. But other can see that part of filesystems. 
 - uts namespace
+ - isolate nodename and domainname
 - user namespace
-  - create userid which is visible to only set of processes.
-  - user can have root privileges to isolated set of resources.
+  - "Finally, the recent changes in the implementation of user namespaces are something of a game changer in terms of how namespaces can be used: starting with Linux 3.8, unprivileged processes can create user namespaces in which they have full privileges, which in turn allows any other type of namespace to be created inside a user namespace. " ???
+  - creates userid which is visible to only set of processes.
+  - user can be root inside the namespace but it will not have root privileges outside the namespace.
+- syslog namespace
+  - isolation of kernel logs.
 
 # Control group
 - logical grouping of processes for resource management.
-- Each control group have set of controllers
+- Each control group have set of controllers, that control the resource allocation to group processes.
 - CPU controller mechanism make sure the minimum CPU allocation that will be allocated to processes. It also set an upper limit of CPU that can be used by cgroup. CPU scheduling is first done at a cgroup level then it happen across the processes in a cgroup.
-- cgroup can be nested.
+- cgroup can be nested. Each hierarchy represents a different subsystem.
+- cgroup subsystems:
+    1. cpuset - assigns individual processor(s) and memory nodes to task(s) in a group;
+    2. cpu - uses the scheduler to provide cgroup tasks access to the processor resources;
+    3. cpuacct - generates reports about processor usage by a group;
+    4. io - sets limit to read/write from/to block devices;
+    5. memory - sets limit on memory usage by a task(s) from a group;
+    6. devices - allows access to devices by a task(s) from a group;
+    7. freezer - allows to suspend/resume for a task(s) from a group;
+    8. net_cls - allows to mark network packets from task(s) from a group;
+    9. net_prio - provides a way to dynamically set the priority of network traffic per network interface for a group;
+    10. perf_event - provides access to perf events) to a group;
+    11. hugetlb - activates support for huge pages for a group;
+    12. pid - sets limit to number of processes in a group.
+- `/proc/cgroup` file contains enteries for supported cgroup subsystem.
+- `/sys/fs/cgroup/<subsystem>` each substem folder contains the files and required setting for each subsystem.
+- `systemd-cgls`: systemd-cgls recursively shows the contents of the selected Linux control group hierarchy in a tree.  
 
 ## Package manager
 - `apt-get install <software>`
@@ -40,10 +67,16 @@
 - control system runs at hardware level.???
 
 ## Container
+- container is group of technologies - cgroup, namespace, seccomp and capabilities.
 - control system runs at shared operating system kernel level.
 - Container uses shared operating system virtualization techniques instead of emulating hardware instructions.
 - "In simplistic terms, OS virtualization means separating static resources (like memory or network interfaces) into pools, and dynamic resources (like I/O bandwidth or CPU time) into shares that are allotted to the virtual system."
 - Beacuse of shared kernel resource efficiency is high as compared to hypervisor
+
+## System calls
+- mount()
+- umount()
+
 ## Rough
 - Modern CPUs recently started to support expanding virtualization instruction. ???
 - POSIX RLIMIT 

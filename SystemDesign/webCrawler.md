@@ -2,8 +2,8 @@
 - Web crawler takes some seeds url and scale the whole web. Potential problem while doing these are as follow:
   1. How do you deal with content duplicity
   2. how to deal with url duplicity
-  3. how to honour a domain crawl policy as defined by hosted `robot.txt`.
-  4. how to honour sites rate limiting
+  3. politeness: how to honour a domain crawl policy as defined by hosted `robot.txt`.
+  4. politeness: how to honour sites rate limiting.
   5. how will you extend the crawler to accept more MIME protocol like ftp etc.
   6. how will you extend the crawler to accept more file formats like images, videos etc.
   7. how will you defend web crawler against crawler strategies.
@@ -81,6 +81,9 @@
         G ---> B
         G ---> H[(url storage)]
    ```
+### Initialization   
+  ```mermaid
+  ``` 
 
 ## Component
    - Scheduler/URL frontier
@@ -124,8 +127,8 @@
          H ---> A[QueueRouter]
          A ---> B[(mapping table)]
          A ---> DomainQueue1
-         B ---> DomainQueue2
-         C ---> DomainQueue3
+         A ---> DomainQueue2
+         A ---> DomainQueue3
          DomainQueue1 ---> D[QueueSelector]
          DomainQueue2 ---> D
          DomainQueue3 ---> D

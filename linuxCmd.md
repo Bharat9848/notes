@@ -1,4 +1,13 @@
 ## commands
+## Folders 
+`/dev` is device folders.
+## Files
+-
+### Process related commands
+1. `pidof <name>` return the pid of given process.
+  
+
+## Network
 1. Network namespace
   - `ip netns add <name>`
   - `ip netns list`
