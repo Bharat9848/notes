@@ -33,7 +33,7 @@
   2. Ready: 
   3. Block: process was in running state when it starts an I/O operation and then it have to wait. After I/O is complete it will come back to ready state.
   4. Final(zoombie): process has exited but its `machine state` not cleaned up 
-- parent-child process cleanup proces: parent process calls `wait()` to wait on child process to finish. `wait()` suspends the parent process and retuns finished child process returned state. After this child process is cleaned up from its `final` state.
+- parent-child process cleanup proces: parent process calls `wait()` to wait on child process to finish. `wait()` suspends the parent process and retuns finished child process returned state. After this ??? child process is cleaned up from its `final` state.
 - `process list` contains information about all the process in the system, in form of `process control block`.
 
 ## context-switch 

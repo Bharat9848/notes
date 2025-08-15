@@ -74,4 +74,4 @@ Real-time Messaging Protocol (RTMP), HTTP Live Streaming (HLS), Real-time Stream
 - The concept of routing and default gateways is fundamental in networking, ensuring that data packets find their way across complex networks of devices and subnets.
 - BSD Socket API
 - **IP Multicast**: protocol for a node to talk to its peers.
-
+- `link-state` routing: each router help its neighbour about its local area.

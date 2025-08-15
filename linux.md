@@ -76,9 +76,11 @@
 ## System calls
 - mount()
 - umount()
+- wait() parent process wait for child process.return error code `ECHILD` denotes empty child. It blocks the cleaning of parent till child completes. Or return with some status if its already complete.
 
 ## Rough
 - Modern CPUs recently started to support expanding virtualization instruction. ???
 - POSIX RLIMIT 
  - "The namespace separation is applied as part of the clone() flagsand is inherited across forks. The big difference from chroot() is that namespaces tag resources and any tagged resources may disappear from the parent namespace altogether (although some namespaces, like PID and user are simply remappings of resources in the parent namespace)."
  - "However, in practice, the distinction between containers and virtual machines is more of a spectrum than a binary divide. Techniques common to one can be effectively applied to the other, such as using system call filtering with containers, or using seccomp sandboxing or user namespaces with virtual imachines."
+ - "For process groups, we will accept a much more vague concept and a different role for an "operation", but still there must be some operation within Unix which can affect, or be affected by, a particular process group."
