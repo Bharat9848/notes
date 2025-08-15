@@ -69,26 +69,40 @@
  - all nodes can receive read and write for any key
  - quorum is used to break the incosistency of data.
 
-# Partitions
- ## Data partitioning
+
+# Partitioning
+
+- It requires supporting pillars for: indexing, request routing and rebalancing,
+- It suffers form the problems- hotspot due to skew in data partitioning, rebalancing paritions
+- Hotspot due to single key is not resolved using key-range or hash partitioning. It requires extra bookeeping to recognize the hotspot keys, provide data distribution strategy e.g. prepending random two decimal number in keys, and strategy to query hotspot data.
+
+## Data partitioning
  ### Key-range partitioning
- - Depending of key range distribution, key range should be dynamic to give better partitioning.
- - uniform partitioning will not give good load balancing. 
- - Partitions data should be maintained in light weight CP key-value store like apache-zookeeper.
- 
+  - Depending of data skewness, key range should be dynamic to give better partitioning. Uniform partitioning will not give good load balancing. 
+  - Partitions data should be maintained in light weight CP key-value store like apache-zookeeper.
+  - Supports range queries within partitions
+  - Suffer from hotspot access pattern if some key-range is in demand.
+
+ ### Hash-range partitioning
+  -  keys are hashed so keys which are closer might get end up in different partitions, this helps in resolving of hotspot access pattern.
+  - Range partitioning is not supported except Cassandra compound primary key approach.
+
+## Request/data partitioning
+### Shuffle partitioning
+ - More useful in case of stateless load balancing.
+ - Objective to parition failure isolation in case of multitanet services.
+ - Each user requests are shuffled among the fixed hashed set of servers. Number of hashed set equals to combination of servers. No of combination surpasses the number of users. Each user have different set of partition servers, hence malicious user will impact only some partial capacity allocated to other users.
 
  ## Table partition
  - **Vertical sharding**: 
  1. a table is divided such that few columns are in one table while others are in different table. 
  2. It is useful in cases where one table have very wide text or binary column. By breaking it one table with only id and wide text or binary column. we can make read and write faster.
  3. Also vertical sharding includes partitioning some tables in one physical server while some other set of tables in different server. One caveat is to make sure that tables with joins queries should be grouped together in one shard.
-
  - **Horizontal sharding**:
  1. Each db server will have all the tables of schema but the tables shard will only have data for some set of keys.
- 2. Keys can be divided on the basis of range or hash. 
- 3. **Key range based shards** can be lead to data load imbalance in longer run. Range queries will be difficult across different shards.
- 4. **Hash based sharding** uses an hash range assigned to a partition. A key whose hash falls into a partitions hash range will assigned to that partition. keys will randomly distributed which leads more load balanced across different partition as compare to key range based shards. Range queries would fall on all partitions.
+ 2. Keys can be divided on the basis of range or hash. See key-range and hash-based partiting section.
 
+ 
 ### Consistent Hashing
 - DB nodes and keys are assigned to positions in a ring. keys will get stored in first node while traveling clockwise on the ring.
 - randomly assign nodes on the ring may lead to data imbalance and load imbalance. This can be resolved by using concept of virtual function. Instead of using single hash function for a node we can use three hash functions. Each hash function places the nodeId into three random places which helps in distributing data more.  
@@ -103,7 +117,10 @@
 - secondary indices
 - ACID properties
 - hotspot
+
+
 # Consistency
+
  - **Split brain** - when two nodes simentaneously behave that they are the only leader. Quorum is used to resolve the split brain.
  - Strong consistency is for strict usecases where some form of ordering is required otherwise situations like split-brain may arise. But implementing stronger consistency is not very performance friendly and make system less resilient to faults.
 
@@ -298,3 +315,4 @@ Extension to CAP theorem is PACELC theorem where PAC is from cap theorem which s
 - consistent hashing
 ## Rough notes
 - read about Try-confirm/cancel algo for distributed transaction
+- what are the authorative server

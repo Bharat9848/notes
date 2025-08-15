@@ -154,5 +154,6 @@ Comment(user_id, video_id, text, flagged, posted_on, like, dislike)
 ## Rough
 In the context of the lesson, using lossless but fast compression like Google Snappy on the client end before uploading videos to YouTube is suggested to decrease the amount of data that needs to be transmitted over the internet. 
 - Live stream
+- Building custom data stores like Vitess and BigTable to meet scalability needs???
 
 ## References
