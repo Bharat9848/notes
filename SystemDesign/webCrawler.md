@@ -135,6 +135,8 @@
          D ----> Worker1
          D ----> Worker2 
   ```
+  - Bloom filter of already crawled domain is maintained. If we do not want to crawl the URL again as it was last crawled within set politeness interval, then url is reenqueued or discarded if it is not allowed to crawl according to `robot.txt`.
+
 
 4. Priority queue in URL frontier is distributed or centralized?
   - centralized queue is SPOC and not scale friendly. It will be very helpful deduplication

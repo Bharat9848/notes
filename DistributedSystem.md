@@ -1,5 +1,5 @@
 ## Glossary
- 
+- **Tail-latency amplification** 
 
 ## Distributed system failures
 - Fail-stop: node stopped working and other nodes can detect failure.
@@ -72,9 +72,23 @@
 
 # Partitioning
 
-- It requires supporting pillars for: indexing, request routing and rebalancing,
-- It suffers form the problems- hotspot due to skew in data partitioning, rebalancing paritions
-- Hotspot due to single key is not resolved using key-range or hash partitioning. It requires extra bookeeping to recognize the hotspot keys, provide data distribution strategy e.g. prepending random two decimal number in keys, and strategy to query hotspot data.
+- **request routing**
+- **Rebalancing**:
+  1. it is required in case of new capacity addition to the cluster due to performance degradation over time.
+  2. Automatic rebalancing due to machine failures.
+  3. Goals are that data should be available while rebalancing is happening, Data should be balanced after rebalancing and minimum data should be moved to keep it resources friendly.
+   
+- **Hotspot** 
+  1. due to single key is not resolved either in key-range or hash partitioning. It requires extra bookeeping - to recognize the hotspot keys, provide data distribution strategy e.g. prepending random two decimal number in keys and partition the data and strategy to query hotspot data.
+  2. Hotspot due to data skewness can be resolved using dynamic-range partitioning in key-range partitioning and by hashing in case of hash-range partitioning.  
+- **Range queries:** 
+  1. It is not supported in case of hash-range partitioning. 
+  2. If range is limited to a single partition then the range query would be limited to single partition otherwise it is scattered to different partitions and results are gathered.
+- **Secondary indexes**:
+  1. Each part maintains their secondary indexes copy. Scatter-gather pattern is used to query all the partitions and results is gathered. But it suffers from tail-latency amplification.
+  2. Term partitioning/ global indexes: Global indexes is partitioned to various nodes. It means the searching key will require answer from only one partition. Data is then gathered according to primary-keys. It makes read faster but write slower as seconday indexes are updated asynchronously. 
+- ACID properties
+
 
 ## Data partitioning
  ### Key-range partitioning
@@ -93,7 +107,16 @@
  - Objective to parition failure isolation in case of multitanet services.
  - Each user requests are shuffled among the fixed hashed set of servers. Number of hashed set equals to combination of servers. No of combination surpasses the number of users. Each user have different set of partition servers, hence malicious user will impact only some partial capacity allocated to other users.
 
- ## Table partition
+### Consistent Hashing
+- DB nodes and keys are assigned to positions in a ring. keys will get stored in first node while traveling clockwise on the ring.
+- randomly assign nodes on the ring may lead to data imbalance and load imbalance. This can be resolved by using concept of virtual function. Instead of using single hash function for a node we can use three hash functions. Each hash function places the nodeId into three random places which helps in distributing data more.  
+- Virtual nodes have several benefits 
+  1. Adding a physical node and recovery of physical node need data sync. Using virtual nodes allow this load to spread on other nodes equally.
+  2. Deleting a physical node cause node's virtual node's data to redistributed to all other nodes equally.
+  3. handle hetrogenity: More number of virtual nodes can be assigned to a big machine as compared to other nodes. 
+
+
+## Table partition
  - **Vertical sharding**: 
  1. a table is divided such that few columns are in one table while others are in different table. 
  2. It is useful in cases where one table have very wide text or binary column. By breaking it one table with only id and wide text or binary column. we can make read and write faster.
@@ -102,21 +125,6 @@
  1. Each db server will have all the tables of schema but the tables shard will only have data for some set of keys.
  2. Keys can be divided on the basis of range or hash. See key-range and hash-based partiting section.
 
- 
-### Consistent Hashing
-- DB nodes and keys are assigned to positions in a ring. keys will get stored in first node while traveling clockwise on the ring.
-- randomly assign nodes on the ring may lead to data imbalance and load imbalance. This can be resolved by using concept of virtual function. Instead of using single hash function for a node we can use three hash functions. Each hash function places the nodeId into three random places which helps in distributing data more.  
-- Virtual nodes have several benefits 
-1. Adding a physical node and recovery of physical node need data sync. Using virtual nodes allow this load to spread on other nodes equally.
-2. Deleting a physical node cause node's virtual node's data to redistributed to all other nodes equally.
-3. handle hetrogenity: More number of virtual nodes can be assigned to a big machine as compared to other nodes. 
-
-
-## problems
-- range queries
-- secondary indices
-- ACID properties
-- hotspot
 
 
 # Consistency
