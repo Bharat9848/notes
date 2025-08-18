@@ -4,11 +4,12 @@
 1. `K8 run --rm --image apache/kafka:latest` 
 
 ## traditional messaging system
-- No transaction across multiple queues.
+- No transaction across multiple queues except IBM websphere MQ.
 - not data partition across different machines.
-- less offline capability.
+- Message are assumed to be consumed online - as near time as possible. Less offline capabilities like batch apis or replaying etc.
 - No batch APIs.
-- Message acknowledgement one by one.
+- Message acknowledgement one by one like in JMS.
+
 ## Design
 1. Partition: it serves two purpose
    - Ordering is maintain in a single partition
@@ -17,11 +18,15 @@
    - Set of coordinating process which allow data partitioned.
 3. Fault tolerance: Message replays can be used by consumer       
 
-## Kafka producer
+---
+
+# Kafka producer
+
+## Partitioner
 - Producer do the load balancing across different brokers either using round-robin or predefined key based partitioning
 - `linger.ms` If set to zero, publisher will not wait for additional messages for batching it will send the message as soon as it arrives.
 
-### Availability
+## Availability
 - `acks=all` makes partition leader wait for all the in-sync replica to return acks, only then it send ack to producer. This config allows the most safe mechanism for delievery and least performant. 
 - `request.required.acks` ??
 - Ack without Fsync 
@@ -44,7 +49,9 @@
 #### At-most once 
 - `enable-idempotence=true` will make producer `send` operation idempotent means the message will be written in broker logs only once, even if producer retry. It also make sure of in-order semantics. Kafka uses an incremental sequence number which is assigned by the producer to each message. Broker and replicas check their partition log to see if seqence number is already received and do deduplication.
 
-## Kafka transaction
+
+# Kafka transaction
+
 - do not support transaction with external system. Instead rely on idempotence to propagate from an output topic to external system through kafka connect.
 - `transactional.id=fundsAssempe` uniquely identify the application
 - `processing.guarntee=exactly_once_v2` for streaming with consumer having `isolation_level=read_committed`
@@ -69,8 +76,10 @@
  - **Failed and recover transaction flow** 
 - special message - `Abort` `commit`
 - Recovery after failed transaction 
-- 
-## Cluster management
+
+--- 
+
+# Cluster management
 ### Zookeeper
  - Maintans session with brokers with `zookeeper.session.timeout.ms`. 
 1. Cluster Management 
@@ -87,7 +96,17 @@
 4. in-sync data replication
 5. data configuration like quota and ACL.
 
-## Kafka broker
+### No zookeeper
+- Each broker maintains the partition to primary broker assignment. So any producer and consumer can ask for metadata from any broker.
+---
+
+# Kafka broker
+
+## Cluster controller
+- one of the cluster is selected as cluster controller which helps in partition assigment to primary brokers. 
+- It monitors broker failures.
+
+## internals
 - log compactions: keep the latest data for each key
 - keeps sorted list of offset of each segment's first message
 - intentionally no caching of messages in kafka broker process. Instead kafka rely on OS page cache. It has multiple benefit of less garbage, warm cache in event of broker restart, catched up consumer with producer can benefit from OS cache write through heuristics.
@@ -102,7 +121,9 @@
 - Message id is offset of msg in a file. offset are not consecutive but increasing in nature. Next msg offset is previous message offset plus the previous message length.
 - Message are stored with CRC to check msg integrity during any I/O error and network error during production or consumption.
 
-## Kafka Consumer
+---
+
+# Kafka Consumer
  - Consumer message acknowledgment to broker means it has acknowledge current as well as all the previous offsets.
  - consumer can call `commitSync` to acknowledge the message synchronously before receiving next set of messages.
  - consumer can call `commitAsync` to send acknowledgement independent of `poll`. 
