@@ -1,7 +1,9 @@
 # Zookeeper
-## Usecase
+## Usecases
+- **Service discovery** Some nodes try to claim for a partition. Partition is given to nodes which claims first. This will keep single view of cluster. Routing tier subscribes to watch the path and get notified when cluster partition configuration changes.
+- **coordination service**
 - used for leader election and distributed locks.
-- provide linearizable writes.
+- Provide linearizable writes??
 - provide stale reads by default. For linearizable read we need to call `sync` before read.
 
 ## Path API

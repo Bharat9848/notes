@@ -72,12 +72,30 @@
 
 # Partitioning
 
-- **request routing**
+
+- **Request routing**
+  - How did it work when rebalancing is in progress?
+  - How to make sure that there are no two different cluster view because this would lead to data corruption.
+  - **Service discovery**:
+    1. Client-aware routing: client is intelligent and cached partition assignment to the nodes. 
+    2. Dedicated routing tier: client connects to a set of machines like zk nodes/ DNS which are aware of partition assignments. Consensus protocols are used to keep single cluster view. 
+    3. Server nodes rerouting: Client connects to any node of server cluster which routes the request appropriately. Each node participates in goosip protocol to keep a single cluster view.
 - **Rebalancing**:
   1. it is required in case of new capacity addition to the cluster due to performance degradation over time.
   2. Automatic rebalancing due to machine failures.
   3. Goals are that data should be available while rebalancing is happening, Data should be balanced after rebalancing and minimum data should be moved to keep it resources friendly.
-   
+  4. Partitioning type
+    1. Fixed number of partitions:
+      - care should be given before declaring number of partitions as big number of partitions leads to rebalancing overhead and less number of partitions will cause the data in each partition to bloat up and goes beyond the size a node can manage.
+      - Rebalancing cause the some number of partitions to move from old nodes to new nodes.
+    2. Dynamic partitioning
+      - Key-range partitioning database like Hbase and RethinkDb allows dynamic partitioning which allows new partition to split up or old partitions to merge based on their data size.
+      - Each partition can be assigned a configurable size, beyond which the partitions are split up.
+      - Since each partition is configured with data size limit. Each partitions within the limit of a size.
+    3. Fixed number of partition per node.
+      - Introduced in Cassandra, it keeps the number of partition on the node stable.
+      - Rebalacing: When new nodes are added some random partitions are split up in two halves, and one half from old nodes are moved to new node. while other half is kept in place. This will decrease the size of partitions.
+
 - **Hotspot** 
   1. due to single key is not resolved either in key-range or hash partitioning. It requires extra bookeeping - to recognize the hotspot keys, provide data distribution strategy e.g. prepending random two decimal number in keys and partition the data and strategy to query hotspot data.
   2. Hotspot due to data skewness can be resolved using dynamic-range partitioning in key-range partitioning and by hashing in case of hash-range partitioning.  
@@ -101,6 +119,8 @@
   -  keys are hashed so keys which are closer might get end up in different partitions, this helps in resolving of hotspot access pattern.
   - Range partitioning is not supported except Cassandra compound primary key approach.
 
+ ### Hybrid partitioning
+  - it make use of compound keys where one part is used for partition and other for sort ordering to support range queries.
 ## Request/data partitioning
 ### Shuffle partitioning
  - More useful in case of stateless load balancing.
@@ -126,8 +146,8 @@
  2. Keys can be divided on the basis of range or hash. See key-range and hash-based partiting section.
 
 
-
 # Consistency
+
 
  - **Split brain** - when two nodes simentaneously behave that they are the only leader. Quorum is used to resolve the split brain.
  - Strong consistency is for strict usecases where some form of ordering is required otherwise situations like split-brain may arise. But implementing stronger consistency is not very performance friendly and make system less resilient to faults.
@@ -317,10 +337,18 @@ Extension to CAP theorem is PACELC theorem where PAC is from cap theorem which s
 - More complex than primary-secondary approach
 
 
-# How to deal with hotspots
-- Caching layer
-- Replication of hotspot data and provide read through read replica
-- consistent hashing
+# Questions
+1. How to deal with hotspots
+  - Caching layer
+  - Replication of hotspot data and provide read through read replica
+  - consistent hashing
+2. How do we manage multi-tanet system.
+  - Use shuffle sharding
+  - set quotas. Tenents can go beyond the quota if free resources available according to some predefined policy.
+  - Request throttling if tenets are going beyond their quotas.
+  - fair queuing
+
+
 ## Rough notes
 - read about Try-confirm/cancel algo for distributed transaction
 - what are the authorative server
