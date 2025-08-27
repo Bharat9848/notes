@@ -13,7 +13,7 @@
 
 ## producer
 - publish messages with routing key
-
+- single message API
 ## Exchange
 - routing decision then sends the message to different queues
 - routing logic supports 
@@ -45,3 +45,12 @@
 
 ## Multicasting
  - per queue per consumer but single copy of data but keep multi indexes and maintains them per consumer.
+
+---
+
+# Apache ActiveMQ
+- open source implementation of JMS
+- Large header message
+- indexing structures
+- ActiveMQ broker maintain the delivery state of each message.
+- ActiveMQ's threads in broker get busy writing KahaDB pages to the disk.

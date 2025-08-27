@@ -169,19 +169,6 @@
  8. Transactional system
   1. use uuid to deduplicate or make calls idempotent.
 
-## Monitoring system
-### Components
- - Data collector system: it pulls the data from various services that we want to monitor.
- - Timeseries database: It is the resting place of all the meterics. It is backed up by an blob storage which natively stores the DB data files. Blob storage is very cost effective than a server node with persistent volume. 
- - querying system: It provides an API through which we can query a meterics database.
- - Alert Manager: It repeteadly query the metrics on a set of frequency set on the detail definition using query service.
- - Alert and action db: It stores the alert and action notification details
- - service discoverer
-
-### deep dive
-- cleaning up old data
-- remove single point of failures
-- scale Local monitoring system to global monitoring system: Use push based approach from local to global. local monitoring system or global monitoring system uses blob store as backup.
 
 ## Distributed Queue
 - Strict ordering

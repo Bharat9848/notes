@@ -21,3 +21,14 @@
 
 # Excercise
  - leader election and distributed lock through using Apache curator.
+
+ ## Rough
+  1. "APIs-Create a node.
+    Delete a node.
+    Set the value of the node.
+    Get the value of the node.
+    Get the children of the node.
+    Create ephemeral nodes that get removed when their creating client is gone.
+    Replicate data across multiple servers, making it highly reliable and available.
+    Register a watcher on a node notifying whenever children or the value of a path has changed."
+

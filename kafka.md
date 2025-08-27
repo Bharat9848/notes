@@ -77,23 +77,34 @@
 - special message - `Abort` `commit`
 - Recovery after failed transaction 
 
+### kafka broker-consumer delievery mechanism
+- Kafka guarntees the in-order delivery of a partition but not across partitions.
+- `isolation.level=read_committed`
+- `isolation.level=read_uncommitted`
+
 --- 
 
 # Cluster management
 ### Zookeeper
  - Maintans session with brokers with `zookeeper.session.timeout.ms`. 
-1. Cluster Management 
-- detection of removal and addition of broker and consumer. Removes their respective ownership registry and notified the watchers. 
-- Each broker watches other broker's ownership registries.
-- trigger rebalance when above notification comes from zk
-- saves the consumer offset data against partition, 
-  - ownership registry `consumer_group/topic/partition1/owner cons1`
-  - offset registry `consumer_group/topic/partition1/offset x`
-- saves broker metadata
-  - broker registry `broker/topic/owner br1`
+ - watcher nodes - broker and consumer can trigger rebalance.     
+1. Cluster Management
+- Consumer metadata
+ - detection of removal and addition of consumer. Removes their respective ownership registry and notified the watchers. 
+ - consumer registry: comsumer saves the consumer information like which consumer group it belongs to and topics it is subscribed to. It is a ephemeral registry.
+ - saves the consumer offset data against partition, 
+  - **ownership registry**: it is ephemeral - `consumer_group/topic/partition1/owner cons1`
+  - **offset registry** It is permanent - `consumer_group/topic/partition1/offset x`
+
+
 2. controller management
-3. Topic and partition management
+
+3. Topic and partition management: Saves broker partition ownership metadata
+  - Each broker watches other broker's ownership registries. Broker registries are destroyed when owner dies.
+  - **broker registry** ephemeral nodes for broker partition ownership `broker/topic/<partition>/owner br1`
+
 4. in-sync data replication
+
 5. data configuration like quota and ACL.
 
 ### No zookeeper
@@ -124,21 +135,23 @@
 ---
 
 # Kafka Consumer
- - Consumer message acknowledgment to broker means it has acknowledge current as well as all the previous offsets.
+ - Consumer messages acknowledgment to broker means it has acknowledge current as well as all the previous offsets.
  - consumer can call `commitSync` to acknowledge the message synchronously before receiving next set of messages.
  - consumer can call `commitAsync` to send acknowledgement independent of `poll`. 
  - consumer `poll(<msgs>)` is batch read api. Internally consumer sends the offset id and number of bytes it want to receive. Broker keeps a sorted list of first message offsets from each segment file in memory. Broker locate the segment file using sorted list. And send data from the file to the consumer. After receiving message, consumer do the next offset calculation using the number of bytes it have received for next poll call.  
-### consumergroup-offset-management
- "The consumer offset manager associates each key (consumergroup-topic-partition) to the last checkpointed offset and metadata for that partition."  
 
-### Consumer rebalancing 
+## Kafka coordination
+### consumergroup-offset-management
+ - **consumer checkpointing**The consumer offset manager associates each key (consumergroup-topic-partition) to the last checkpointed offset and metadata for that partition and stores them in zookeeper. Zookeeper maintains the latest offset of a consumer in case of consumer failures.
+
+### Consumer rebalancing ??
  - For (`<v0.8.2`) consumer watch zookeeper registry for consumer ownership registry. It gets notified if any consumer added or removed. 
  - group management API 
  - group coordinator(>v0.8.2) - Kafka broker that maintains group membership of a group.
- - load balancing done by consumers themselves
+ - load balancing done by consumers themselves ???
  - Embedding protocol in group managment API that does rebalancing or load balancing withing group. Rebalancing is stop-the-world rebalancing, which can have serious drawbacks as trigger can be temporary like intermittent interruption or k8 scaling up (new node with security batch applied) etc.
 
- #### Rebalancing algorithm
+ #### New Rebalancing algorithm
  ````
  Algorithm 1: rebalance process for consumer Ci in group G
 For each topic T that Ci subscribes to {
@@ -161,17 +174,14 @@ invoke a thread to pull data in partition p from offset Op
  - New incremental cooperative protocol replaces stop-the-world rebalancing kafka client protocol. 
  - Two basic tenent 1.to not to reach new global state in a single go. 2. Cooperating client should volutarily reliquish control on their resources to rebalance again.
 
-### kafka broker-consumer delievery mechanism
-- Kafka guarntees the in-order delivery of a partition but not across partitions.
-- `isolation.level=read_committed`
-- `isolation.level=read_uncommitted`
-
+---
 
 ## Kafka connect
  - connector- keeps the bookkeeping with external system.
  - worker 
  - connector task- do the data transfer
 
+---
 
 
 ## Kafka stream

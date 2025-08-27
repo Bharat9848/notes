@@ -1,3 +1,5 @@
+## Optimization
+- `sendFile` API send data directly from disk to network buffer.
 # MMap
 
   # CPU

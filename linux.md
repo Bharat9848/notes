@@ -78,6 +78,16 @@
 - umount()
 - wait() parent process wait for child process.return error code `ECHILD` denotes empty child. It blocks the cleaning of parent till child completes. Or return with some status if its already complete.
 
+## Filesystem
+- `/sys` for system information e.g. firmware, modules etc.
+- `/dev` for mounting device's filesystem.
+## Devices
+- type of devices
+  1. block devices e.g. disk, network card, CD-ROM etc.
+  2. character devices e.g printer etc.
+- `major` number each device is represented more generally as serial port, parallel port, disk or tape etc.
+- `minor` number which particular type of class device belong to within its major number class.  
+
 ## Rough
 - Modern CPUs recently started to support expanding virtualization instruction. ???
 - POSIX RLIMIT 
