@@ -1,6 +1,7 @@
 ## Optimization
 - `sendFile` API send data directly from disk to network buffer.
-# MMap
+- `mmap` loads file directly in process virtual memory instead of loading it into RAM.
+
 
   # CPU
   perf record -F 99 -a -g -- sleep 10; perf report -n --stdio   # and flamegraphs
