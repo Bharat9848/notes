@@ -1,5 +1,5 @@
-## Glossary
-- Multiple columns are grouped in a **column family**
+## Brief summary
+
 
 ---
 
@@ -10,11 +10,19 @@
   B[Master Node] ---> C[(tablet servers)]
   A --data?-> D
 ```
-2. Read/write data
+2. write data
 ```mermaid
  client ---> tablet server
+ tablet server -data--> commit log
+ tablet server --data-> Memtable
 ```
-3. Caching client data
+3. read data
+```mermaid
+ client ---> tablet server
+ tablet server -query--> index
+ tablet server --data--> SSTable lookup/memtable.
+```
+4. Caching client data
 
 ### Paritioning
 - Rows are sorted lexicographically. Then row ranges are dynamically partitioned. Each partition is called **Tablet**.
@@ -38,6 +46,8 @@
 - Each cell holds the unique version of data based on timestamp.
 - Each column is referred with column family qualifier `<columnFamily:column>` .
 - Each cell stores multiple version in form of having different timestamp.	
+- Multiple columns are grouped in a **column family**
+- Tablets are merged and split on the basis of volume of data.
 
 ### Metadata data model
 
@@ -50,6 +60,15 @@
   - each row stores 1KB of data.
 - USERTABLE tablet
   - stores the tablet server locations. 	
+- all the above tablets are also stored in tablet servers alongwith chubby
+---
+## storage
+ - multiple SSTable make a single tablet.
+ - SSTable is a series of 64KB blocks and index file where each block starting index are stored. Index file is searched using binary search to find the appropriate block and loaded from the disk.
+ - Memtable is in-memory data buffer where data is stored in sorted order and when it reaches a limit it is flushed to disk as SSTable.
+ - SSTable is stored in GFS. 
+ - Multiple column family can be combined to form a **locality group**. Locality group stores all the column to get stored together. It helps in increasing performance overall. Locality group can be marked as in-memory. In-memory locality group are kept in RAM and loaded lazily without refering to disk.
+ - **compression** : SSTables blocks are the unit of compression. Client can opt for compression.
 
 ---
 
@@ -63,35 +82,54 @@
   - `load tablet request`: sends request to new tablet server to load a new tablet.
   - Maintains set of live tablet server nodes against a tablets.
   - Assigning and unassigning of tablet server
+#### Master init sequence
+  - Master create master file in chubby
+  - Master looks for all the alive tablet server in chubby servers directory.
+  - Master takes note all the alive tablet servers about their assigned tablets.
+  - Master checks bootstrap `metadata` data to check if there are any unassigned tablets and take note of them. 
+#### Master node failure
+  - If master loss its exclusive lock because of network partition or its chubby session expires it tries to delete its master data. To avoid problems like split brain etc.  
 
 ## cluster management
 ### Google Chubby
  - bootstrap location of bigtable data: Stores of all the usertables tablet using a hierarchical tree. see Metadata data table section.
  - store bigtable schema ?
- - Discover new tablet server?
+ - Service discovery of new tablet server.
  - remove tablet server due to issues ?
  - one active server at a time ?
-
+ - Single Master node: Master election
 ---
+
 ## fault tolerance
-### Tablet server Issues
-1. Graceful shutdown: When tablet server deallocated by cluster management, tablet server tries to release its exclusive lock. Master noticed this as it watches the directory, then it immediately start assigning its tablet to other nodes.
-2. Network partitioned b/w chubby server and tablet server: On recovert tablet server tries to retake exclusive lock. If lock directory is not there it will kill itself. Otherwise it recovers???.
-3. Network partitioned b/w chubby server and master node: Master node repeatedly ask for chubby server file lock status from all the tablet server. Master node checks the chubby server for its server file and tries to take a lock on it. If 
-### Master node
-1. Chubby session expired: Manager kill itself.
-2. Master restart algo sequence
+1. Tablet server Issues
+  1. Graceful shutdown: When tablet server deallocated by cluster management, tablet server tries to release its exclusive lock. Master noticed this as it watches the directory, then it immediately start assigning its tablet to other nodes. 
+  2. Network partitioned b/w chubby server and tablet server: On recovert tablet server tries to retake exclusive lock. If lock directory is not there it will kill itself. Otherwise it recovers???.
+  3. Network partitioned b/w chubby server and master node: Master node repeatedly ask for chubby server file lock status from all the tablet server. Master node checks the chubby server for its server file and tries to take a lock on it. If 
+2. Master node
+  1. Chubby session expired: Manager kill itself.
+  2. Master restart algo sequence.
+3. Tablet recovery
+  1. Tablet server reads Bootstrap metadata table for all the tablets assigned to it. Additionally it contains list of SSTables and redo points. 
+  2. redo points to the commit log location from which server needs updates to be replayed to the memtable.
+  3. server loads all the SSTable indexes and prepare Memtable from commit log.  
 
 ## concurrency
 - Each row irrespective of number of columns are updated atomically. Transactions across multiple row keys are not allowed.
 
 ## consistency
+## performance
+ - Locality group optimization can make performance faster if data is segragated into locality group smartly.
+ - Caching: 
+   - Scan cache:
+     - stores famous key-value pairs.
+   - Block cache:  
+     - stores recenly fetched blocks. It helps in fetching nearest neighbor blocks.
+ ## Latency
+ - Client caches the metadata and talk to tablet server directly.
+ - Client prefetches the metadata.
+ - Bloom filter decrease the latency of read in case false positive/ true negative and it is maintained at locality group level.
 
-## Latency
-- Client caches the metadata and talk to tablet server directly.
-- Client prefetches the metadata.
-
-## Throughput
+ ## Throughput
 
 ## Rough
 - Based on Google File System/colossus.

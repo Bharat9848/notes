@@ -28,3 +28,8 @@ Where perf-tools is https://github.com/brendangregg/perf-tools.
 lsof -c firefox
 lsof -p pid
 lsof -i tcp
+
+
+## Tools
+- strace
+- tcpdump

@@ -15,6 +15,7 @@
 - CPU statistics like cache hits and misses?
 
 ### Memory meterics 
+ - Resident memory
  - RAM usage by OS and processes,
  - page faults, 
    swap space usage, and so on. 

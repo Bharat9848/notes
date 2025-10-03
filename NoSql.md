@@ -65,3 +65,15 @@ case2:The structue of data is determined by external systems over which you have
 Cassandra: Records are sharded based on partition keys. Within same partition key records are sorted based on a key. 
 BigTable: It combines multiple files in a single block to store on disk. And is very efficient in reading a small amount of data.
 HDFS/GlusterFS: Distributed File storage system.Suggested for Video binary stroage
+
+---
+### storage
+1. Sorted String Table
+  1. Compactions
+    - **Minor compaction**: finalize the Memtable and transform into SSTable and flushed to disk.
+    - **Merging compaction**: merge few SSTables and Memtable to write a new SSTable
+    - **Major compaction**: Merge all SSTables to write one single SSTable. It deletes all the enteries marked for deletion.
+---
+
+### Questions:
+- how read and write can happen without interruption when compactions are happening 
