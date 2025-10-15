@@ -1,0 +1,3 @@
+- Term Frequency-Inverse Document Frequency (TF-IDF)
+- lucene / BM25 
+- lexical search: exact keyword search in sparse vector

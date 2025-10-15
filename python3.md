@@ -8,9 +8,14 @@
    # starting virtual env
    source ./bin/activate
    # stop virtual env
-   source ./bin/deactivate
+   deactivate
   ```
 
+## class inheritence
+ - ````
+   class subClass(superclass):
+
+ ````
 ## Typical structure of a python project
   1. `requirement.txt`
 ## python script/main program.
@@ -22,9 +27,6 @@
   4. `shlex`: This library allows us to safely parse user input into parts, handling quoted strings like "Alan Turing" as a single argument. It’s especially useful for parsing command-line style input.
 
 ## Rough
- pip install mcp 
-pip install langchain
-pip install langgraph
-pip install langchain-openai
-pip install langchain-mcp-adapters  
+- type `str`, `dict`, `TypedDict`
+ 
 

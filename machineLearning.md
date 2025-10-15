@@ -104,6 +104,9 @@ Combinatorial Optimization by Alexander Schrijver.
  - Hyperparameter is K(number of nearest neighbors) which can only be set before the training.
  - find the distance from the nearest clusters. Less distance should be given more weightage. Hence the weight is closness which equals 1/distance.
  - To normalize the weights to one we divide each closeness/sum(closeness)
+ - distance are based on euclidean distance, cosine distance and hamming distance.
+
+## Aproximate nearest neighbour 
    
 ### Naive Bayes
  - text classification
