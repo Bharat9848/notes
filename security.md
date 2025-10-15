@@ -1,1 +1,154 @@
+## Glossary
+- `Client`: can be third party or non user id requesting access to a user's resources on behalf of owner user.
+- `client-id` and `client-secret` belongs to an App through which user with his own credential wants to connect.
+- `Resource`: an object that needs to be protected
+- `Resource server`: capable to check the access token validity and send back the requested resource.
+- `scope`: defines the action request on the resource. It is part of a auth request.
+- `state`: The application generates a random string and includes it in the request. It should then check that the same value is returned after the user authorizes the app. This is used to prevent CSRF attacks.
+- `principal`: an entity which claims to be some org, service, user etc.
+- `access token`: jwt for authorization, it is for resource manager consumption.
+- `identity token`
+- `session cookies`
+
+
+---
+
+
+# Attacks
+ - Attack surface can be input of the program which includes http protocol properties like header, parameters cookies, filesystem, system property. Similar it can be the output of the program like responses, write to filesystem, database execute query etc
+ - Man in the middle attack
+ - replay attack
+ - sql injection attack
+ - cross-site scripting attack(XSS): 
+   1. Malicious script run when the compromised website loads in a user browser. Malicious script is saved in website data when attacker put them in any user input. 
+   2. In other type of XSS attacks user clicks on false link or false advertisement and it run some script in the browser 
+ - Cross-site request forgery(CSRF)
+   - user is already logged in the attacked website then user clicks on some attacked website url with some attacker forged payload.
+   - solution includes the anti CSRF token is hidden in website forms and when the next time request is submitted by the user then the token is matched. 
+ - Denial of service 
+   - flood attack: can be based on a `ICMP flood` and `SYN flood`
+   - crush attack: attacker somehow able to push bug in the server to crush it
+   - Distributed denial of service attack:
+   - solution includes Black hole routing and rate limiting
+
+---
+
+
+# Authentication methods
+ - session based authentication ?
+ - token based authentication ?
+ - basic Auth: user and password are authenticated. the client’s username and password are concatenated, base64-encoded, and passed in the Authorization HTTP header.
+ - digest authenticaion: md5 digest if username, password and sever nounce
+ - Certificate based 
+ - outh2 with openId:
+ 
+
+
+
+## Https
+-  prevent man in the middle attack by checking domain name on the certificate
+- Bidirectional encryption to prevent tempering and evesdropping of on-flight messages. read about hsps policy to allow only https traffic.
+- Read about Content Security Policy (CSP) is a computer security standard introduced to prevent cross-site scripting (XSS), clickjacking and other code injection attacks resulting from execution of malicious content in the trusted web page context.
+- `X-Frame-option: deny|same-origin` - it is set to prevent any malicious user to use your website inside an iframe
+- `X-content-type-options: no-sniff` - it turn off browser's Mime type guessing algorithm for responses with unknown content type
+
+--- 
+
+
+# Oauth2
+ - Questions: 
+    1. why two steps one for authorization-code and then other for access token ? 
+    - To understand this you must first know about two concepts: Front channel: Less secure browser/mobile app to the server channel. Back channel: Highly secure server to server communication channel.It is not safe to share the client secret and get the access token on the front channel.Therefore, we first fetch the authorization code using the front channel and then request the access token using the back channel.
+ 	2. How authorization code is verified by the authorization server ?
+ 	3. why shouldnt oauth2 should be used for authentication
+ 
+ - it is an authorization protocol
+ - Oauth2 Grant-type: A grant type is a flow, a series of steps to gain an access token that is needed to grant limited access to a resource.
+  1. password
+  2. authorization code: `code` is its response type
+  3. refresh token: It is not for resource access but for refreshing the access token without any user redirection.
+  4. Implicit: `token` is its resoponse type. Access token is returned in redirect url and it is of a shorter duration. Used in cases for apps with no backend to store client-secret.
+  5. client-credential type: for server-server authorization. Happens over POST call with `grant-type:client-credential`. There is no user in this flow. 
+  6. resource owner credential: used to migrate from basic/digest authentication to oauth2 authorization
+
+ - Oauth2’s main purpose is to allow third-party applications to log in a user on your app.
+ 
+ - It do not do any authentication so in real use cases it comes with separate authentication mechanism
+
+ - Authorization server : 
+   - handles oauth2 process: 
+     1. clientid and scope is sent to Authorization server from a third party client. 
+     2. Auth server sends the request to user who owns the resource. 
+     3. User approve or reject third party client's request for resource access. If approved auth server send back `Authorization grant` to third party client. 
+     4. Third party client then sends `Authorization grant`, it's own `client Id` and `secret` in get access token api. Then authorization server sends the `access token` back to client.
+    5. Third party client then sends the `access token` in resource access request. 
+ - Dynamic client registration protocol
+
+---
+
+
+# OpenId
+## OpenID 1.0
+## OpenID 2.0
+## OpenID Connect (OIDC)
+- It is a authentication extension on top of Oauth2 that adds the claimed login and profile information of the user that is logged in.
+- it is the third iteration of OpenId protocol.
+- Relying Party: is same as client in OAuth2.
+- Identity Provider: This is a server that provides identity information about the End User. This is called Authorization Server in OAuth.
+- Authorization server endpoints:
+  - Authorization endpoint
+  - token endpoint: It exchanges authorization code with access token as well as identity token.
+  - userdetails endpoint: returns basic user details for request with access tocken.
+
+- Any of the above API request:
+  - `scope`: it can be one or combination of email, phone, profile, openId or address. When scope is openId only identity token is returned and it should be sent in both first authorization API request and token API request.    
+  - `claims`: optional field can be one of these-email, email_verified, phone_number, phone_number_verified, name, family_name, given_name, middle_name, nickname, preferred_username, profile picture, website, gender, birthdate, zoneinfo, locale, updated_at, address. Scope field covers some of the category of claims.
+
+- `Identity token`: jwt for authentication response it is for client application.
+    - `iss`: authentication server identity.
+    - `exp`: token's expiry time.
+    - `aud`: client must validate whether it is for client itself.
+    - `nonce`: ID token requests may come with a nonce request parameter to protect from replay attacks. When the request parameter is included, the server will embed a nonce claim in the issued ID token with the same value of the request parameter.
+    - `auth_time`: time when the end-user authentication occurred.
+    - `iat`: millisec time at which identity token was issued.
+- Implict Authorization grant flow is similar to oAuth2 flow. But client can access to identity token from authorization as well given the `id_token` is also set in `response_type` request field and scope contains `openId`
+- 
+
+---
+
+
+## JWT token
+ - expiration time 
+ - scope
+ - access token
+ - refresh token: very dangerous if it is leaked hence it is mostly kept one time only. 
+ - custom parameter
+
+## CORS
+ - `CORS policy` is a set on server to allow or disallow web requests from different domain than that of a server.
+ - server sets headers `Access-Control-Allow-Origin=<*|>`, `Access-Control-Allow-Methods=<GET|POST|OPTIONS>`,`Access-Control-Max-Age=<number e.g. 3600>` and `Access-Control-Allow-Headers=<headers list e.g. X-PINGOTHER,Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers,Authorization`
+
+
+## Spring boot security
+ - `OncePerRequestFilter` 
+ - security filter chain 
+ - `UserDetails`
+
+## Rough
+we take this shared secret, combine it with the contents of the webhook by using a cryptographic hash function called HMAC, and get back a long, random-seeming, but entirely deterministic “signature” for the webhook.
+
 - OAuth and OpenID Connect code authentication with the PKCE flow.
+
+Third-party integration for authentication and authorisation using openid-connect standards
+Instead, before storing a password, we must first hash it using a hash function such as bcrypt.
+
+Submit action to j_security_check
+
+
+Message certification is to not to hide the data but certificate is provided means data is not tempered since data is sent from source.
+Message encryption is to hide sensitive data at source. Tunnel encryption encrypts all data travelling through tunnel.
+ Apitoken are bind to username and seed DRBG algorithm is used to generate random salt
+
+
+
+
