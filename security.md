@@ -14,6 +14,25 @@
 ---
 
 
+# Encryption
+## Encryption algorithm
+  - AES
+  - DES
+  - Blowfish
+  - Twofish
+  - RC4, RC5, RC6
+## Symmeteric encryption
+  - Same key is used by both receiver and sender.
+  - key size max length is 256 bit.
+## Asymmeteric encryption
+  - Also known as Public Key Infrastructure(PKI)
+  - receiver send its public key to sender. sender encrypts the message using receiver's key and sends the message. receiver decrypt the message using its private key.
+  - key size is around 2048 bit. 
+
+
+---
+
+
 # Attacks
  - Attack surface can be input of the program which includes http protocol properties like header, parameters cookies, filesystem, system property. Similar it can be the output of the program like responses, write to filesystem, database execute query etc
  - Man in the middle attack
@@ -43,16 +62,56 @@
  - outh2 with openId:
  
 
+---
 
-
-## Https
+## Https security
+- transit data encryption
 -  prevent man in the middle attack by checking domain name on the certificate
 - Bidirectional encryption to prevent tempering and evesdropping of on-flight messages. read about hsps policy to allow only https traffic.
 - Read about Content Security Policy (CSP) is a computer security standard introduced to prevent cross-site scripting (XSS), clickjacking and other code injection attacks resulting from execution of malicious content in the trusted web page context.
 - `X-Frame-option: deny|same-origin` - it is set to prevent any malicious user to use your website inside an iframe
 - `X-content-type-options: no-sniff` - it turn off browser's Mime type guessing algorithm for responses with unknown content type
 
+### Secure Socket Layer
+  - SSL certificate contains the name of the entity to which certificate is issued, public key of server, digital signature verification?, certificate issuers private key signed digital sinature
+  - SSL is deprecated now 
+  - Certification Authority: is an organization which is trusted with signing of digital certificate
+  - There are different type of security ranging from small to high verification
+    1. domain validation certificate
+    2. organization validation certificate
+    3. Extended validation certificate: owned by banks.
+  - Different type of certificate based on domains
+    1. single name certificate: not applicable to subdomain
+    2. wildcard certificate: applicable to subdomain
+    3. multi-domain certificate: applicable to many domains.  
+### Transport Layer Security   
+  - TLS handshake
+    1. `client hello` message to server contains TLS version supported, cipher suite and client random number
+    2. `server hello` message to client contains encryption algorithm choosen from client cipher suite, server random and SSL certifcate(public key, digital signature, domain name)
+    3. After successful server certificate validation client sends an symmetric key signed with server's public key to server
+    4. Session key calculation is done at both ends using symmetric key, client random and server random.
+    5. client sends session key encrypted finish message.  
+    6. server sends session key encrypted finish message.  
+
+
 --- 
+
+
+# Cookies
+ - cookie contains following
+  1. name of the cookie
+  2. value of the cookie
+  3. attributes like domain, expiry date, path and flags
+ - first party cookie: cookies set by website which is actively viewed by user.
+ - third party cookie
+ - session cookie: only valid for a session with a website. These cookies are expired as soon as user closes the browser.
+ - permanent cookies: valid till its expiry time reached.
+
+ ## Rough
+ - "If you visit a website and try to create an account, then you may provide certain information like name, address, phone number, and email address. If the website uses third-party cookies, then your contact information may get revealed to other parties in order to send you spam." 
+
+
+---
 
 
 # Oauth2
@@ -115,14 +174,30 @@
 - 
 
 ---
+## Session based authentication
+  - website store sessionId cookie in user web browser to know if user is already logged in. It maintains the sessionId to user map on the server side. Each time user sends the request to the server it sends the sessionId. Session id based authetication have limitaions - cookie fraud, performance issue. It is superceded with JWT based authentication
 
-
-## JWT token
- - expiration time 
+## JSON Web Token(JWT)
+ - it can be encrypted, signed, insecured and encrypted with signed.
+ - Signed JWT allow other parties to see the data but they will not be able to see it. while encrypted data is for secrecy between two parties.
+ - Token structure consist of three parts- Header, payload and signature. All three are base64 encoded.
+   1. Header: is a json with two fields - alg, typ. Alg represents the algorithm and type represent whether token is encrypted or signed.
+   2. payload
+      1. `iss`: identifies the principal that issued the JWT.
+      2. `sub`: identifies the principal that is the subject of the JWT.
+      3. `aud`: identifies the recipients that the JWT is intended for.
+      4. `exp`: identifies the expiration time at or after which the JWT MUST NOT be accepted for processing.
+      5. `nbf`: identifies the time before which the JWT MUST NOT be accepted for processing.
+      6. `iat`: identifies the time at which the JWT was issued.
+      7. `jti`: The JWT ID is a unique identifier for the JWT. The identifier value MUST be assigned in a manner that ensures that there is a negligible probability that the same value will be accidentally assigned to a different data object. It can be used to prevent the JWT from being replayed. This is helpful for a one-time use token.
  - scope
  - access token
  - refresh token: very dangerous if it is leaked hence it is mostly kept one time only. 
  - custom parameter
+
+
+---
+
 
 ## CORS
  - `CORS policy` is a set on server to allow or disallow web requests from different domain than that of a server.
@@ -148,7 +223,3 @@ Submit action to j_security_check
 Message certification is to not to hide the data but certificate is provided means data is not tempered since data is sent from source.
 Message encryption is to hide sensitive data at source. Tunnel encryption encrypts all data travelling through tunnel.
  Apitoken are bind to username and seed DRBG algorithm is used to generate random salt
-
-
-
-
