@@ -75,7 +75,9 @@ A desirable property is robustness against outliers. A single faulty measurement
 
 Mean : one minute/hour rollup (???)
   
-
+https://en.wikipedia.org/wiki/Discounted_cumulative_gain
+https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Mean_average_precision
+https://en.wikipedia.org/wiki/Mean_reciprocal_rank
 
 
 
