@@ -9,7 +9,7 @@
 - `access token`: jwt for authorization, it is for resource manager consumption.
 - `identity token`
 - `session cookies`
-
+- **Hashing for Message Authention code(HMAC)** authentication algo run over payload and a shared secret key
 
 ---
 
@@ -106,7 +106,6 @@
  - third party cookie
  - session cookie: only valid for a session with a website. These cookies are expired as soon as user closes the browser.
  - permanent cookies: valid till its expiry time reached.
-
  ## Rough
  - "If you visit a website and try to create an account, then you may provide certain information like name, address, phone number, and email address. If the website uses third-party cookies, then your contact information may get revealed to other parties in order to send you spam." 
 
@@ -182,14 +181,30 @@
  - Signed JWT allow other parties to see the data but they will not be able to see it. while encrypted data is for secrecy between two parties.
  - Token structure consist of three parts- Header, payload and signature. All three are base64 encoded.
    1. Header: is a json with two fields - alg, typ. Alg represents the algorithm and type represent whether token is encrypted or signed.
-   2. payload
-      1. `iss`: identifies the principal that issued the JWT.
-      2. `sub`: identifies the principal that is the subject of the JWT.
-      3. `aud`: identifies the recipients that the JWT is intended for.
-      4. `exp`: identifies the expiration time at or after which the JWT MUST NOT be accepted for processing.
-      5. `nbf`: identifies the time before which the JWT MUST NOT be accepted for processing.
-      6. `iat`: identifies the time at which the JWT was issued.
-      7. `jti`: The JWT ID is a unique identifier for the JWT. The identifier value MUST be assigned in a manner that ensures that there is a negligible probability that the same value will be accidentally assigned to a different data object. It can be used to prevent the JWT from being replayed. This is helpful for a one-time use token.
+   2. payload: 
+      - identify the user name and claim. There are three type of claim
+      A. Registered claim Names
+        1. `iss`: identifies the principal that issued the JWT.
+        2. `sub`: identifies the principal that is the subject of the JWT.
+        3. `aud`: identifies the recipients that the JWT is intended for.
+        4. `exp`: identifies the expiration time at or after which the JWT MUST NOT be accepted for processing.
+        5. `nbf`: identifies the time before which the JWT MUST NOT be accepted for processing.
+        6. `iat`: identifies the time at which the JWT was issued.
+        7. `jti`: The JWT ID is a unique identifier for the JWT. The identifier value MUST be assigned in a manner that ensures that there is a negligible probability that the same value will be accidentally assigned to a different data object. It can be used to prevent the JWT from being replayed. This is helpful for a one-time use token.
+
+      B. Public claim names
+        1. Public claim names are JSON Web Token Claims that can be defined at will by those using JWTs. However, in order to prevent collisions, any new claim name SHOULD either be defined in the IANA Registry, JSON Web Token Claims Registry, or be defined as a URI that contains a collision resistant namespace.
+
+      C. Private claim names
+        A producer and consumer of a JWT may agree to any Private claim name that is not a Reserved claim name or a Public claim name. Unlike Public claim names, these Private claim names are subject to collision and should be used with caution.
+
+    3. Signature
+    The third and final part of JWT is the signature. It is created by combining the header and payload parts of JWT and then hashing them using a secret key.
+    Algo(base64(header) +  base64(payload), secretkey)
+ - Signing
+   1. JWT token can use HMAC for symmetric encryption or RSA for Asymmetric encryption.
+   2. HMAC is used in case of only one server and secret key is shared with client and the single server
+   3. RSA is used in case there are multiple server. Signing is done by private key of one server. When token is sent to any other server it is decrypted using public key of the server. RSA is a digital signature algorithm.
  - scope
  - access token
  - refresh token: very dangerous if it is leaked hence it is mostly kept one time only. 

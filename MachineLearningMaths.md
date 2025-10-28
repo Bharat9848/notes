@@ -2,12 +2,15 @@
  - **covariance** is average(means divide by n) centered(means means are subtracted from value) dot product of two vectors.
  - **cosine similarity** is length normalized dot product of two vectors.  
  - **Correlation** is length normalized covariance
- - Euclidean distance
  - Hamming distance
+
+ - **logit vector**: gives a score to each token in vocabulary. High logit score means high probability on a scoring criteria. Score can be negative. 
+  - To convert logit score to probility `softmax` function is used which is (e^x)/Sum(e^y) where y!=x.
   
  - ginni index `1-sum(p(i))`
   
- - Entropy = `-sum(p(i)*log(p(i))`information gain
+ - Entropy = `-sum(p(i)*log(p(i))`information gain. Intuitively, entropy measures how difficult it is to predict what comes next in a language. The lower a language’s entropy (the less information a token of a language carries), the more predictable that language.
+ - cross-entropy: A language model’s cross entropy on a dataset measures how difficult it is for the language model to predict what comes next in this dataset.
 
 # Matrix
  - matrix decomposition
@@ -16,8 +19,17 @@
  - In the real world, we start with interesting data that comes to us in the form of RSW. We don’t see the component pieces. Then we use SVD or EIGD to figure out the RS. where R matrix is rotation matrix and S matrix is scaled matrix and W matrix is patternless data which is orthogonal.
 
 that could conceptually get us from white-noise data to the data we observed.
-## Embeddings
-## 
+
+## Vector
+ - cosine similarity: measures the angle between two vector. It does not depend on the magnitude
+ - cosine distance : `1-cosine similarity`
+ - dot product: vector[a1,b1,c1] and vector [a2, b2, c2] scalar product of two vector v1 and v2 = `a1.a2+b1.b2+c1.c2`
+ - Euclidean distance
+ - Manhatten distance: sum(abs(a1-a2) +  abs(b1-b2) + abs(c1-c2)) for 3D vector v1 and v2.
+ - Hamming distance: number of dimension to be changed in vector v1 to become other vector v2 
+ - [distance](https://bib.dbvis.de/uploadedFiles/155.pdf)
+
+
 # Rough
 - Chebyshev’s inequality
 
@@ -78,6 +90,18 @@ Mean : one minute/hour rollup (???)
 https://en.wikipedia.org/wiki/Discounted_cumulative_gain
 https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Mean_average_precision
 https://en.wikipedia.org/wiki/Mean_reciprocal_rank
+
+- [RELU](https://arxiv.org/abs/1803.08375)
+- [GELU](https://arxiv.org/abs/1606.08415)
+
+
+Entropy and cross entropy share the same mathematical notation, H. Let P be the
+true distribution of the training data, and Q be the distribution learned by the lan‐
+guage model. Accordingly, the following is true:
+• The training data’s entropy is, therefore, H(P).
+• The divergence of Q with respect to P can be measured using the Kullback–Lei‐
+bler (KL) divergence, which is mathematically represented as DKL (P | | Q). One unit of entropy and cross entropy is bits. If the cross entropy of a language
+model is 6 bits, this language model needs 6 bits to represent each token.
 
 
 
