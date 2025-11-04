@@ -1,4 +1,7 @@
-option = -X Followed-by = method-Name e.g POST|PUT|GET
+## GET APIs
+`--data-urlencode` followed by key=value in quotes. it will urlencode all the spaces in the value part and send them as request params in Url. 
+# General
+`-X` Followed-by method-Name e.g POST|PUT|GET or you can use options as `--get` `--post`.
 option = -H Followed-by = Header tuple in json e.g 'Content-Type:application/json'
 option = -d/--data followed-by = data payload filename e.g. @byfield.doc
 option = --trace-time --trace-ascii --verbose to debug information

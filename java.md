@@ -2,6 +2,13 @@
 - Java NIO (O’Reilly)
 - Netty in action (Manning)
 
+## Run locally
+ - `mvn spring-boot:run`
+ - switch java versions
+  `sudo update-java-alternatives --set /path/to/java/version`
+ - list all java versions
+   `update-java-alternatives --list`
+
 ## Exceptions
 - It helps in distinguish control flow from business logic. Try/catch block separates out the business logic in try part where catch is supposed to handle exception's logic.
 
