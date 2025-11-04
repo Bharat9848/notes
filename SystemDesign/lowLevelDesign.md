@@ -88,7 +88,12 @@
  - interface have `<<interface>>` above its name.
  - annotations have `<<annotations>>` above its name.  
  - attributes can be prefixed with `+`, `-` and `#` to represent public, private and protected members.
- - Class relationship can be inheritance (an empty arrow towards the superclass), association (an arrow to holded class), composition (filled diamond arrow towards the aggregator) and aggregation ( empty diamond arrow towards the aggregator), two way association with simple line without any arrow.	
+ - Class relationship can be 
+    - inheritance (an empty complete-shape arrow towards the superclass), 
+    - association (an incomplete-shape arrow to holded class), 
+    - composition (filled diamond arrow towards the aggregator which is a list of some element and empty incomplete shape towards single element definition) 
+    - aggregation ( empty diamond arrow towards the aggregator), 
+    - two way association with simple line without any arrow.	
 
 ## Sequence Diagram
  - `lifeline`, `activation bar` 

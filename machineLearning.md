@@ -231,8 +231,5 @@ Combinatorial Optimization by Alexander Schrijver.
 
 
 # NLP
-- Term frequency: number of times a term occur in a document.
-- Term importance: More number of document term appears in, less important the term is. 
-- Inverse document frequency: log of (total number of document/no of document which have the term).
-- TF-IDF score of a document is sum of for each query term, term frequency for the term in the document multiplied by inverse term frequency.
+ -- see elasticsearch notes
  

@@ -38,7 +38,7 @@
       - its value range from 0 to 2. 0.7 is the recommendation for sweet spot in creativity and predicatability. 
 
   - **Model properties**
-    - **context-window**: Maximum number of token
+    - **context-window**: Maximum number of token llm can consume in a single call.
     - model size
     - vocabulary
     - model parameters: 

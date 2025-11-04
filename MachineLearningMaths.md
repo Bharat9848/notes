@@ -21,7 +21,9 @@
 that could conceptually get us from white-noise data to the data we observed.
 
 ## Vector
- - cosine similarity: measures the angle between two vector. It does not depend on the magnitude
+
+## Similarity score
+ - cosine similarity: measures the angle between two vector. It does not depend on the magnitude. 
  - cosine distance : `1-cosine similarity`
  - dot product: vector[a1,b1,c1] and vector [a2, b2, c2] scalar product of two vector v1 and v2 = `a1.a2+b1.b2+c1.c2`
  - Euclidean distance
