@@ -96,6 +96,12 @@
     - [llm-security](https://github.com/greshake/llm-security)
     - [instruction heirarchy](https://arxiv.org/abs/2404.13208)
     - [langchain attacks](https://oreil.ly/DFjgW)
+    - [example prompts](https://www.promptingguide.ai/introduction/examples.en)
+    - [ReAct prompt](https://www.promptingguide.ai/techniques/react)
+    - [chain-of-thought](https://www.promptingguide.ai/techniques/cot)
+    - [zero-shot](https://www.promptingguide.ai/techniques/zeroshot)
+    - [few-shot](https://www.promptingguide.ai/techniques/fewshot)
+    - [prompt-creation-framework](https://github.com/microsoft/guidance)
 
 
 

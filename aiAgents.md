@@ -64,7 +64,18 @@
   - self reflection and error correction
   - plan generation vs reflection
   - Tool selection: no foolproof quide
-  - Mixture of expert model: Model diviedes parameter into groups called expert and while inferencing only one expert is activated. Mixtral 8x7B means there are 8 experts each of 7B size.  
+  - Mixture of expert model: Model diviedes parameter into groups called expert and while inferencing only one expert is activated. Mixtral 8x7B means there are 8 experts each of 7B size. 
+## Model in-built features
+  -  Multimodality: The types of input the model can process (e.g., text, image, audio, video).
+  - Tools/Function Calling: Whether the model supports function calling or tool use.
+  - Streaming: If the model offers streaming responses.
+  - Retry: Support for retry mechanisms.
+  - Observability: Features for monitoring and debugging.
+  - Built-in JSON: Native support for JSON output.
+  - Local deployment: Whether the model can be run locally.
+  - OpenAI API Compatibility: If the model is compatible with OpenAI’s API.
+
+
 ## Post-training
   - It have a goal to tune the model to have conversation and removed any racist,sexist commentary from its internet
   - alignment training
