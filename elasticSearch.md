@@ -88,10 +88,13 @@
      signal-time
   ````
 - Head queries: Popular queries that derive most of the traffic and lead to more click/purchase.
-- Uses useful user signal like click and purchase.
+- We can use useful user signal click, add_to_cart, seen_doc_signal, purchase. These signal provide different weightage to the boost as they are stronger intent. 
+- We can also use negative signals- skip, remove-from-cart, returned item, negative review comment etc, we can put negative weightage to them based on the relative significance of their intent.
+- We may want to add decaying factor to weightage of various signal, depending on domain like news article where time-decay is more relevant or ecommerce website where time-decay is not relevant.
 - Data preparation
 1. Normalization of user signal dataset: It is crucial to normalize the query as same query can occur in different variations, otherwise it will distills the effect of signals. Stemming and lowercaseing query to make it case insensitive are some of the normalization technique.  
 2. SPAM-correction: Count multiple clicks by same user as single click.
+- signal-boosting can be applied at query time or index time.
 
 ----
 
@@ -100,7 +103,7 @@
 - understanding user intent, so they begin investing in techniques for query classification, semantic query parsing, knowledge graphs, personalization, and other attempts to correctly interpret user queries.
 - Content based- Adjusting boosts, query parameters, and query functions; and otherwise trying to maximize the relevance of the traditional search experience.
 - Signals-boosting algorithms create models that use aggregated signals to boost the rankings of the most important documents for your most popular queries.
-- Collaborative filtering algorithms create models using matrix factorization or similar techniques that use signals to generate recommendations and user profiles to personalize search results for each user.
+
 - Learning to rank algorithms train ranking classifiers to perform machine-learned ranking based on relevance judgments generated from user-signals-based click models. This process learns a set of features and ranking weights that can be applied generally to all queries—even ones that have not been previously seen.
 - **Boolean parsing**: search engines are configured on how to interpret multi word queries with either `AND` or `OR` operator.
 ### User understanding
@@ -235,17 +238,43 @@ Dbg = set of docs that match bg query. bg query should be uncorrelated with x an
 - As a general rule of thumb, the more general a query, the more likely the user is just browsing. More specific queries—especially when they refer to specific items by name—often indicate a purchase intent or desire to find a particular known item.
 - signal boost model: ML models are feedback and trained with most frequent/famous queries. It adds `popularized relevance` to the search.
 - signals as sidecar collection query is searched in signal sidecar collection for product with `click` and `purchase` signal and counted. count will act as additional boost.
-- `collaborative filtering`: using some user data detect other users behavior. Collaborative filtering approaches typically generate a user-item interaction matrix, mapping each user to each item (document), with the relationship strength between each user and item being based on the strength of the positive interactions (clicks, purchases, ratings, and so on).The user-item interaction matrix is too sparse, however, a matrix factorization approach will typically need to be applied.
+
 - `learning to rank`: A machine learning model which ranks items. It applies to all item- new and old.
 - Another signal for booasting is using content user reviews with sentiment analysis.
 - We can use click/query signal to find all the variations of a term spelling etc using techniques like PMI and co-occurance model from NLP. If query signal is too sparse and noisy. we can use click signal to more quality of data.
 
+### User understanding
+- popularized user query search using signal boosting model.
+- specific user interests, user location, user history
+- collaborative recommendation
+### Domain understanding
+- learn domain from content using SKG,
+### content understanding
+
+----
+
 ## Recommendation
-- user-item recommendation
-- item-item recommedation
+
 - develop personal profile of user
 - similarity between query and item. 
+### Content-based recommender:
+1. user-item recommendation
+- recommendation options exposed to user. 
+- item and item from user profile/history are intersected and returned in the result.
+2. item-item recommendation
+- applicable more on product details page where similar product related to page's product is recommended. We can leverage knowledge graph to search page's product attributes and details.
+3. user-users recommendation
+### Behvior-based recommender:
+#### Collaborative Filtering
+- It uses some users data to detect other users based on behavior similarity. Collaborative filtering approaches typically generate a user-item interaction matrix, mapping each user to each item (document), with the relationship strength between each user and item being based on the strength of the positive interactions (clicks, purchases, ratings, and so on).
+- The user-item interaction matrix is too sparse, however, a matrix factorization approach will typically need to be applied. After breaking user-item interaction matrix into two - User matrix represents user interests and item matrix represents item similarity.
+- User matrix and item matrix from matrix factorization can be used to find user-user and item-to-item similarity respectively. 
+- recommendation is given by multiplying generating user matrix for all the users and items and then choosing the items which were not interacted by user and have predicted high score.
+- suffers from cold-start problem where item do not have much user signal.
 
+### Multimodel recommender
+- it combines both content and behavior based recommendation. Content based recommendation helps in cold-start problem in behavior based recommendation and when signals are enough collaborative filtering takes precedence.
+- users will see items from content based and behaviour based recommendations.
 ----
 
 ## questions 

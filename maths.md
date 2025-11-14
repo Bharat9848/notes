@@ -22,6 +22,8 @@
 
 ---
 
+## Matrix
+- Usage matrix factorization is used in collaborative filtering.
 
 ## Rough
 - Lagrange interpolation
