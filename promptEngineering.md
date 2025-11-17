@@ -1,23 +1,59 @@
 # prompt engineering
 
-## Model structure
-  - subject to experimentation.
-  - Not all prompt parts are important [1](https://arxiv.org/abs/2307.03172)
-  - needle in a hay stack test
-  - RULER[1](https://arxiv.org/abs/2404.06654)
+## General
+ - Beware of many new reasoning models often struggles with in-context learning and examples in prompt. It requires clear goals and strict format
+ - check prompts for typo and bad grammer.
+ - Model are very sensitive to propmts, even changing the prompt with space can lead to different output. Evaluate model response for slighest change in prompt.
+ - prompt structure should be subjected to experimentation
+  1. Not all prompt parts are important [1](https://arxiv.org/abs/2307.03172) 
+  2. needle in a hay stack test
+  3. RULER[1](https://arxiv.org/abs/2404.06654)
+## Context window management 
+ - convesation history can run out of context window. Techiques like conversation pruning e.g. to include only last N messages or summarize the conversation through llm.
+ - turn off reasoning.
+ - keep track of input and output token length.
 
-## Template 
+## Prompt structure 
   - Templates are model specific and are defined in model documentaion.
-  - A well structured prompt includes Role or persona, context, text, tone, instructions, and output format
-  - Tone: specify the desired tone of the LLM's answer—formal, informal, witty, enthusiastic, sober, friendly, etc. Combinations are possible.
-  - use markers to mark the end of the prompts to let the model know that the structured outputs should begin.
+  1. System prompt
+    - A well structured prompt includes Role or persona, context, text, tone, instructions, and output format
+    - Instruction can be the one or more from the following
+      1. answer in great details
+      2. answer succinctly or concisely.
+      3. use only context to answer the question.
+      4. cite sources in the response
+    - Tone: specify the desired tone of the LLM's answer—formal, informal, witty, enthusiastic, sober, friendly, etc. Combinations are possible.
+    - Instruct output using examples - use markers to mark the end of the prompts to let the model know that the structured outputs should begin, following the example. e.g `3*8 = 24\n4*8 = 32\n` followed by question `5*8=`
+  2. Prompt type can be `System`, `User` or `Assistent`. 
+
+## Prompt template  
  ````
-  System prompt: <Role> with overall task description
-  User prompt:
-   1. context
-   2. Examples:
-   3. Task:
+ # System Instruction
+ 
+ ## Role
+ 
+ ## high level task
+ 
+ ## instructions
+ 
+ ## examples
+ 
+ ## conversation history
+ ## if conversation_history exists
+ User: [message_1]
+ Assitant: [response_1]
+ User: [message_2]
+ Assitant: [response_2]
+
+ ## Retrieved Information
+ [Document 1]
+ [chunk_1_text]
+ source:[chunk1_1_source]
+
+ # User prompt
+ User: [user query]
  ````
+
 ## Model properties prerequisite
   - Instruction following capability:
   - Robustness: It measures model output changes on slightest changes of prompt.
@@ -39,27 +75,16 @@
 ### self critique prompt
   - "explain your decision"
   - increases cost  
-## General
- - check prompts for typo and bad grammer.
- - Model are very sensitive to propmts, even changing the prompt with space can lead to different output.
- - prompt types
-   1. system prompt: with examples
-   2. user prompt
-   3. context prompt 
- - **Defensive prompt engineering**
- - block of instructions with examples and context
- - safety guidelines ??
-
-## context length
-  - Number of input token model can take in a single query.
 
 ## prompt decomposition 
   - break complex task into simple subtasks.
   - helps in better debugging, parallelization, monitoring and effort
   - disadv is increased latency and cost.
 
-## context prompt
-  - restrict response by providing context.
+## context prompt (RAG prompt)
+  - Strictly use context for any factual infomation.
+  - return citation after end of each factual response.
+  - use external tools like contextcite to evaluate response based on context.
 
 ## Defensive prompt engineering
   - prompt extraction prevention: attacker able to figure system prompt to exploit llm further.

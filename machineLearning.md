@@ -67,7 +67,7 @@ Combinatorial Optimization by Alexander Schrijver.
  - **Stratification** 
  - **Classification ML model Assumption** For classification problem GNB make certain assumptions if those assumptions are met, we’d prefer GNB and we’d probably see it perform better classification. If those assumptions arenot met, we can fall back to SVC. From a certain perspective, SVCs make the fewest assumptions of these three models (the DA methods, logistic regression, and SVCs), sothey are the most flexible. However, that means that the other methods may do better when the assumptions are met.
  - **Classification model complexity** As we move from SVCs to logistic regression to DA, we move from (1) minimal assumptions about the data to (2) a primitive data model that relates features and targets to (3) varying degrees of assumptions about how the features are distributed, their relationships to the target, and the base rates of the targets. Logistic regression attempts to capture the relationship between the inputs and the output. In particular, it captures the probability of the output given what we know about the inputs. However, it ignores any self-contained information from the target class. For example, it would ignore knowledge from the data that a particular disease is very, very rare. In contrast, the discriminant analysis methods model both a relationship between inputs and outputs and the base probabilities of the outputs. In particular, they capture the probability of the inputs given what we know about an output and (2) stand-alone information about the output.
- - **Approximate nearest neighbor**: stores the similar vector data near to each other.
+
 
 ## Score
  - **Accuracy** how often our prediction is correct compared to reality
@@ -107,7 +107,10 @@ Combinatorial Optimization by Alexander Schrijver.
  - To normalize the weights to one we divide each closeness/sum(closeness)
  - distance are based on euclidean distance, cosine distance and hamming distance.
 
-## Aproximate nearest neighbour 
+## Approximate nearest neighbour (KNN)
+   - stores the similar vector data near to each other. It is more scalable than KNN as ANN gives logrithmic performance than KNN which is linear. There are number of algorithm implements ANN. Results from ANN are not perfect but they are approximate.
+   - **Navigable small world**: after calculated node distance from all the other node, each node is connected to only few of the nearest nodes and it makes a graph called proximity graph. For searching nearnest node, any random node is choosen in graph and then iteratively nearest node among the current node to the queried node is choosen and so on, which finally result into nearest node. 
+   - **Hierarchical Navigable small world**: It creates three layers of heirarchy of proximity graph. Higher layer proximity graph drops exponential number of random nodes from lower layer proximity graph. search starts in higher layer of graph which helps in speeding up of early part of the search, then advanced to lower layer for final nearest neighbour.
    
 ### Naive Bayes
  - text classification
