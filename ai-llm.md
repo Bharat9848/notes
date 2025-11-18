@@ -97,7 +97,9 @@
 ## Hallucination: 
 1. To solve hallucination - RAG, guradrails, validator, human-in-the-loop and Fine tuning.
 2. Detect hallucination: 
-   - check factual information in the response.
+   - check factual information in the response after checking same question answer repeatedly.  
+3. Hallucination focused benchmark.
+4. Check llm response against knowledge-graph
 ----  
 
 
@@ -153,7 +155,13 @@
 
 
 ## Fine-tuning
--  Fine tuning llms are costly operation as it requires access to powerful hardware and highly curated domain specific data.
+- Domain specific training to create more specialized llms.
+- Fine tuning llms are costly operation as it requires access to powerful hardware and highly curated domain specific data.
 - Finetuning API
+## Dataset prep
+- supervised fine-tuning:
+  - Data with examples responses
+  - instruction tuning to teach task following behaviour
+## Type
 - partial finetuning
 - full finetuning

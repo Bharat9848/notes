@@ -25,20 +25,20 @@
 ---
 
 
-## Evaluation
- - Evaluation API
+# Evaluation
+## General
+ - look different vendors Evaluation API ??
  - When logprobs are available, use them. Logprobs can be used to measure how confi‐
 dent a model is about a generated token.
+
 ### Evaluation pipeline
- - selecting new model
- - regression
- - monitor
+ - regression suite to test all the functionality
  - user feedback
  - What
-   1. Evaluation can happen at different levels: per task, per turn, and per intermediate output.
-   2. per turn should evaluate quality to each output.
-   3. per task should evaluate no of iterations model took to solve the problem.
-   4. define what inputs are out of the scope of your application, how to detect them, and how your application should respond to them. 
+   1. Evaluation can happen at different levels: per-task, per-turn and per-intermediate output.
+   2. per-turn should evaluate quality to each output.
+   3. per-task should evaluate no of iterations model took to solve the problem.
+   4. define what inputs are out of the scope of your application, how to detect them and how your application should respond to them. 
    5. test queries, ideally real user queries test on relvance, factual correctness and safety.
    6. On this scoring system, create a rubric with examples. What does a response with a score of 1 look like and why does it deserve a 1? Validate your rubric with humans: yourself, coworkers, friends, etc. 
    7. business metrics
@@ -55,11 +55,11 @@ dent a model is about a generated token.
   2. [stanford leaderboard](https://oreil.ly/CQ52G)
 
 
-### General
+### Model quality framework
 - Evaluation criteria based on application
   1. domain specific capability
     - MCQ for close ended applications. 
-    - MCQ using part of the application data that can test model knoledge and reasoning.
+    - MCQ using part of the application data that can test model knowledge and reasoning.
   2. generationg capability
     - **fluency**: grammatically correct and natural sounding. measured by perplexity
     - **coherence**: structure of the text. It can be measured by perplexity
@@ -95,8 +95,6 @@ dent a model is about a generated token.
 | Detectable format| Multiple sections |Your response must have {N} sections. Mark the beginning of each section with {section_splitter} X.| 
 | Detectable format | JSON format| Entire output should be wrapped in JSON format. |
 
-  4. cost
-  5. latency
 
 1. Functional correctness
   - Need to do fact check
@@ -145,26 +143,46 @@ dent a model is about a generated token.
 - Behavioural
   1. incosistency: model generates different output on slightly different or same prompts. It happens due to sampling technique used in model itself.
   2. hallucination: responses are not based on the facts. It happens due to many possible reason- model takes its output and considered it as a fact. Model is trained on non-factual data etc.
-- Performance
-  - Latency problems
+
+- Regression
+  - model should be consitent in its answering.
+### Metrics 
+1. Performance
+  - Latency
   - agent cost
   - no of avg steps to complete the task
   - per action latency
-- Regression
-  - model should be consitent in its answering.
-- Metrics
+  - system metrics like latency throughput.  
+  - llm performance metrics.
+2. Quality metrics
+  1. LLM subcomponent
+  - llm response quality metrics like faithfulness, response accuracy etc
+  - citation quality
+  - noise filtering
+  - input tokens
+  - input token division between think, generation and output formatting
+  - output tokens
+  - RAGA's library
+  2. RAG subcomponent
+  - recall and precision metrics using human annotated dataset.
+  3. Agent subcomponent
   - Valid plan percentage
   - invalid tool call frequency in last X sec window
   - valid tool call percentage.
   - no of iterations from invalid plan to valid plan.
   - tool wise invocation failures
-  - input tokens
-  - input token division between think, generation and output formatting
-  - output tokens
-- Logging
+  4. Overall system metrics
+  - Human feedback with thumb up and down with optional text box for feedback
+  - LLM as a judge.
+  - Human annotated dataset.
+  - Response evaluation 
+### Logging
   - tool invocation failure, input and output   
   - Each stage input/output.
   - plan steps
+### Trace
+### References
+- Phoenix by arize - observability tool.
 
 ---
 
