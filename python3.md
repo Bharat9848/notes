@@ -2,7 +2,7 @@
 
 ## Virtual environment
 - How to setup virtual env
-  ```
+  ```shell
    # setting current directory for virtual environment
    python3 -m venv .
    # starting virtual env
@@ -12,10 +12,14 @@
   ```
 
 ## class inheritence
- - ````
+ - ```python
    class subClass(superclass):
 
- ````
+ ```
+## ergnomics
+1. `kwargs` is used to send arbitrary parameter to a function.
+2. ``` ``` comments just after function declaration to explain brief about the function, arguments and return type.
+
 ## Typical structure of a python project
   1. `requirement.txt`
 ## python script/main program.

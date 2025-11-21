@@ -1,39 +1,47 @@
 # LLMs
 ## Table of content
 - [1. Model architecture](#1)
-    - [1.1 Encoder](#1.1)
-    - [1.2 Decoder](#1.2) 
+    - [1.1 Encoder](#1-1)
+    - [1.2 Decoder](#1-2) 
 - [2. LLM tuning](#2)
 
 ----
-
+<a id="1"></a>
 ## Model architecture
-<a href="1"></a>
+
+<a id="1-1"></a>
 1. Encoder:
   - Tries to understand the deep meaning of input provided
-  - **Attention head**
+  - **multi Attention head**: tries to understand different type of relationship between the words.
   - **Feed-form**
   - **Position vector**
   - **Meaning guess vector**
+<a id="1-2"></a>  
 2. Decoder
   - chooses the next word based on encoder understanding
-
+3. text is tokenized and vectorized.
+4. `probability vector`: llm response is an indexed vector, where each index values specifies the likelihood probability of token at that index.   
 - transformer ?
 - AlexNet ? 
 - Seq2Seq ? 
 - Generative Adversarial Networks ?
 
 ----
-
+<a id="2"></a>
 ## LLM Tuning configurations
+
   1. Temperature
+    - it further adjusts the llm response probability vector by increasing or decreasing the probability of some of the token which have implication of creativity adjustment. Using formula `adjusted_probability(𝑝𝑖)=exp(log(𝑝𝑖)/temperature)/SumAll(exp(log(𝑝𝑖)/temperature))`
     - higher temperature decrease the probabilities of common words and increase the probabilities of rare words. Hence increase the creativity of responses.
     - its value range from 0 to 2. 
-    - 0.7 is the recommendation for sweet spot in creativity and predicatability. 
+    - 0.7 is the recommendation for sweet spot in creativity and predicatability.
+    - **Greed decoding**- choosing temparature 0 which increases the probability of top word very high.
+     
   2. Top-p
   3. Top-k
-  4. Repeation-penalities
+  4. Repeation-penalty: It penalises on repeating words or phrases.
   5. logit biasing
+  6. max_token: LLM stops generating response till some special token is generated or `max_token` limit is reached.
 
 ----
 
@@ -154,7 +162,7 @@
 ---
 
 
-## Fine-tuning
+# Fine-tuning
 - Domain specific training to create more specialized llms.
 - Fine tuning llms are costly operation as it requires access to powerful hardware and highly curated domain specific data.
 - Finetuning API
@@ -165,3 +173,11 @@
 ## Type
 - partial finetuning
 - full finetuning
+
+---
+
+# Quantization
+- reduces Model's parameters precision from 16 bit to 8 bit or 4 bit.
+- It sacrifices little quality but gain the more latency and less memory.
+- its also applied to embedding vectors namely in 1-bit vector embedding model combined with 
+- Matryoshka quantization used in embedding models???

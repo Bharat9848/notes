@@ -68,4 +68,9 @@
 4. Monitor data comparisons for each read and fix data gaps
 5. Slowly ramp up the read traffic to our database to make sure it can scale
 
-
+## Slow queries
+Adding new index what to check
+1. Quer is fast after adding new index
+2. How often index was choosen by query planner
+3. What is the negative impact of index on write queries.
+4. What other indexes are used along with the new index. Does it make other index obsolete to reclaim some write capacity.

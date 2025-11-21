@@ -97,14 +97,13 @@ dent a model is about a generated token.
 
 
 1. Functional correctness
-  - Need to do fact check
-  - need to check reasoning
-  - need to check domain expertise
+  - Need to do fact check, reasoning, check domain expertise
   - Solutions
     1. **AI as a judge** 
       - can compare reference answer, two different answer and do naive comparison. 
       - Experiment on different criteria prompts with each prompt a separate call. 
       - cost can be reduced if responses are sampled.
+      - LLM-as-judge evaluations should use well-defined rubrics and discrete scoring rather than arbitrary continuous scores that are difficult to trace or justify.
       - Asynchronously evaluating the answers
       - Different AI tools e.g. as below judge on various criteria.
         | AI Tools | Built-in criteria|
@@ -118,6 +117,7 @@ dent a model is about a generated token.
     2. Human as a judge: Already we are at a stage where we require an expert to judge AI result.
     3. deterministic tests
     4. Similarity search with exact, lexical and semantic scores on generated answer when compared with referenced answer.
+    5. custom evaluation by preparaing customr dataset. It can be component level e.g. reranker, rewriter or RAG or it can be whole system level.
 - deploy or not deploy
 - benchmark progress
 - model selection
@@ -439,7 +439,12 @@ Agent: This component manages a dynamic workflow, extending a sequential chain."
 
 # Cost control
  - guardrails to check if user is not diverting from the domain.
-
+ - experiment with smaller quantized model.
+ - fine tune smaller model to one specific task
+ - retrieve fewer document.
+ - stricter prompt size
+ - At scale switch from cost per token to cost per hour of dedicated hardware by any cloud provider
+ - Vector use multi-tenancy database.
 
 ---
 
