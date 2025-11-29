@@ -14,7 +14,9 @@
 
 # Matrix
  - matrix decomposition
- - matrix factorization - Singular value decomposition(SVD) : breaks a matrix into using rotation, streching and rotation.
+ - matrix factorization - 
+  1. Singular value decomposition(SVD) : breaks a matrix into using rotation, streching and rotation.
+  2. Alternative least squares
  - Eigen Decomposition(EigD) - eigen vector covariance matrix relation ??
  - In the real world, we start with interesting data that comes to us in the form of RSW. We don’t see the component pieces. Then we use SVD or EIGD to figure out the RS. where R matrix is rotation matrix and S matrix is scaled matrix and W matrix is patternless data which is orthogonal.
 

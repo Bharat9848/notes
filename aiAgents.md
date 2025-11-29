@@ -326,6 +326,7 @@ dent a model is about a generated token.
 
 
  # LangChain 
+  - python package `langchain`
   - `Runnable`: all component which subclass this interface can be part of chain.
   - `RunnableLambda`, `BaseModel`
   - `RunnableParallel`

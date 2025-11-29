@@ -24,6 +24,14 @@
 
 ## Matrix
 - Usage matrix factorization is used in collaborative filtering.
+- Matrix multiplication are not commutative.
+- Matrix multiplication are associative
+- Banded/tridiagnol matrix is square matrix which have three non-zero elements diagnol while all others are zero. It commonly occurs in big matrices computation.
+---
+# calculus
+## Single variable calculus
+- Taylor series
+## 
 
 ## Rough
 - Lagrange interpolation

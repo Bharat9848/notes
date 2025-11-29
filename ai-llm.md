@@ -1,27 +1,32 @@
 # LLMs
 ## Table of content
-- [1. Model architecture](#1)
+- [1. TransformerModel architecture](#1)
     - [1.1 Encoder](#1-1)
     - [1.2 Decoder](#1-2) 
 - [2. LLM tuning](#2)
 
 ----
 <a id="1"></a>
-## Model architecture
+## Transformer Model architecture
 
+Self-attention mechanism: It analyze entire sentence at once.
+Input embedding: text is converted to a vector.
 <a id="1-1"></a>
 1. Encoder:
   - Tries to understand the deep meaning of input provided
-  - **multi Attention head**: tries to understand different type of relationship between the words.
-  - **Feed-form**
-  - **Position vector**
+  - **multi Attention head**: tries to understand different type of relationship between the words. It provides parallel reasoning over multiple relationship.
+  - **Feed-forward networks**: "The Feed-Forward Networks consist of two linear transformations with a ReLU activation. It is applied independently to each position in the sequence." Capture complex non-linear patterns and relationships 
+  - **Position vector**: "Unlike RNNs, transformers lack an inherent understanding of word order since they process data in parallel. To solve this problem Positional Encodings are added to token embeddings providing information about the position of each token within a sequence."
   - **Meaning guess vector**
+
 <a id="1-2"></a>  
 2. Decoder
   - chooses the next word based on encoder understanding
+
 3. text is tokenized and vectorized.
+
 4. `probability vector`: llm response is an indexed vector, where each index values specifies the likelihood probability of token at that index.   
-- transformer ?
+ 
 - AlexNet ? 
 - Seq2Seq ? 
 - Generative Adversarial Networks ?
@@ -47,7 +52,7 @@
 
 ## Model properties
   - **context-window**: Maximum number of token llm can process across input and output.
-  - Model size: Number of parameters defines model. Small model have 1-10 billion parameter while large one have 100-500 billion.
+  - Model size: Number of parameters which defines model. Small model have 1-10 billion parameter while large one have 100-500 billion.
   - model parameters: 
     1. increasing model parameter increasing its capacity to learn. 
     2. `model parameter * parameter size` gives the GPU memory needed to make inference
@@ -181,3 +186,7 @@
 - It sacrifices little quality but gain the more latency and less memory.
 - its also applied to embedding vectors namely in 1-bit vector embedding model combined with 
 - Matryoshka quantization used in embedding models???
+
+## Rough 
+- single head attention model
+- multi head attention model

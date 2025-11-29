@@ -267,11 +267,13 @@ Dbg = set of docs that match bg query. bg query should be uncorrelated with x an
 ### Behvior-based recommender:
 #### Collaborative Filtering
 - It uses some users data to detect other users based on behavior similarity. Collaborative filtering approaches typically generate a user-item interaction matrix, mapping each user to each item (document), with the relationship strength between each user and item being based on the strength of the positive interactions (clicks, purchases, ratings, and so on).
-- The user-item interaction matrix is too sparse, however, a matrix factorization approach will typically need to be applied. After breaking user-item interaction matrix into two - User matrix represents user interests and item matrix represents item similarity.
+- The user-item interaction matrix is too sparse, however, a matrix factorization approach will typically need to be applied to discover user and item latent features. After breaking user-item interaction matrix into two - User matrix represents user interests and item matrix represents item similarity.
 - User matrix and item matrix from matrix factorization can be used to find user-user and item-to-item similarity respectively. 
 - recommendation is given by multiplying generating user matrix for all the users and items and then choosing the items which were not interacted by user and have predicted high score.
 - suffers from cold-start problem where item do not have much user signal.
-
+#### Content only latent features
+- It helps in cold start problem of collaborative filtering.
+- It uses content attributes like title, name, description to learn latent features about individual item using LLM like [all-mpnet-base-v2](https://huggingface.co/sentence-transformers/all-mpnet-base-v2)
 ### Multimodel recommender
 - it combines both content and behavior based recommendation. Content based recommendation helps in cold-start problem in behavior based recommendation and when signals are enough collaborative filtering takes precedence.
 - users will see items from content based and behaviour based recommendations.
