@@ -1,13 +1,23 @@
 # prompt engineering
 
-## General
- - Beware of many new reasoning models often struggles with in-context learning and examples in prompt. It requires clear goals and strict format
- - check prompts for typo and bad grammer.
- - Model are very sensitive to propmts, even changing the prompt with space can lead to different output. Evaluate model response for slighest change in prompt.
+## Best practices
+  - Beware of many new reasoning models often struggles with in-context learning and examples in prompt. They requires clear goals and strict format
+  - Repeat the important instruction above and bottom of prompt as llm tends to forgot older prompt. 
+  - LLM have quadratically scaling attention-bias mechanism due to which llm are not performative on longer prompts.
+  - Repeat important aspects. Experiments have shown that llm put good attention to the top and bottom of the prompt and it is lost in the middle
+  - Adding and removing keywords like adjectives etc.  
+  - Be specific rather than adding not-to-do instructions in the prompt e.g. We want summarization or we want step by step guides.
+  - Changing and rephrasing words:
+  - rearranging words:
+  - combining and splitting words: Breaking down complex task.
+  - instruct for exit path for unclear situation.
+  - Clear syntax involves using good verbs to explain intent precisely. Output generation syntax should be clean and demarcated. Using separator in different part of prompt. Using markdown markation to define section and subsection.
+  - check prompts for typos and bad grammer in prompt.
  - prompt structure should be subjected to experimentation
   1. Not all prompt parts are important [1](https://arxiv.org/abs/2307.03172) 
   2. needle in a hay stack test
   3. RULER[1](https://arxiv.org/abs/2404.06654)
+
 ## Context window management 
  - convesation history can run out of context window. Techiques like conversation pruning e.g. to include only last N messages or summarize the conversation through llm.
  - turn off reasoning.
@@ -25,6 +35,10 @@
     - Tone: specify the desired tone of the LLM's answer—formal, informal, witty, enthusiastic, sober, friendly, etc. Combinations are possible.
     - Instruct output using examples - use markers to mark the end of the prompts to let the model know that the structured outputs should begin, following the example. e.g `3*8 = 24\n4*8 = 32\n` followed by question `5*8=`
   2. Prompt type can be `System`, `User` or `Assistent`. 
+  3. System instruction can be of different type based on the task at hand.
+      1. Text completion: 
+      2. Question Answering:
+      3. Entity extraction
 
 ## Prompt template  
  ````
@@ -58,14 +72,21 @@
   - Instruction following capability:
   - Robustness: It measures model output changes on slightest changes of prompt.
 
+
+---
+
+
 ## In-context learning
-  -  It includes **examples** with **chain of thought** in the prompt to make llm figure out any unknown task.
+It includes **few-shot learning** with **chain of thought** in the prompt to make llm figure out any unknown task.
+### Few shot learning  
   - zero shot learning: when llm is able to answer without any examples in the prompts.
   - few-shot examples: whem we provide llm with few `examples` to facilitate different scenarios or augment its knowledge.
-  - chain of thought: For reasoning give LLM the step by step prompt.
-  - **few-shot prompting**
+  - selecting random labels and input text from true distribution is more effective than using uniform examples.
+  - Structure and format of example is also very important.
   - in-context learning [paper](https://arxiv.org/abs/2005.14165)
+
 ### Chain of Thought (COT)
+  - **few shot COT**: different examples form problem space with answer explaining using COT before giving final answer.
   - It improves how language models handle complex reasoning by breaking problems into smaller, logical steps. 
   - However, it has limitations, such as missing deeper exploration or struggling with messy contexts. Two advanced techniques address these gaps: Tree of Thought (ToT) and Thread of Thought (ThoT): 
   - More complex the model is less examples it requires. However examples are necessary for domain specific learning.
@@ -75,11 +96,38 @@
 ### self critique prompt
   - "explain your decision"
   - increases cost  
+### Self consistency sampling
+---
 
-## prompt decomposition 
-  - break complex task into simple subtasks.
+## prompt decomposition
+  - Alternative to chain-of-thought learning, we break complex task into simple subtasks can lead to better result than to give one complex task.
   - helps in better debugging, parallelization, monitoring and effort
-  - disadv is increased latency and cost.
+  - disadvantages are increased latency and cost.
+
+---  
+## Prompt Testing
+
+  - Testing prompts against
+    1. biases:llm reflect biases of ther training data.
+    2. Quantifying quality:
+    3. overfitting: model response is echoing more on the lines of prompt rather than some novel answer.
+    4. Limitation model token
+    5. prompt sensitivity: slight change in prompt have catastrophic effect on llm responses.
+
+### use case type and prompt samples
+
+  | type                | example                                                   |
+  | ------------------- | --------------------------------------------------------- |
+  | Text classification |Classify the following text into one of these categories...|
+  | Sentiment analysis | Classify the following text as positive, neutral or negative |
+  | Text summarization | Write a 30 word summary for the following text  | 
+  | Composing Text     | Write a piece on the ..., mentioning the following facts  |
+  | Question answering | read the following and tell me ... | 
+  | plan generation | Think step by step               |
+  | Reflection      | verify if your answer is correct |
+  - see prompt repo 
+
+---
 
 ## context prompt (RAG prompt)
   - Strictly use context for any factual infomation.
@@ -143,6 +191,7 @@
   - evaluate local task improvement
   - evaluate total task improvement
 
+
 ## prompt optimization tool
   - takes input/output, evaluation metrics and evaluation data
   - link[1](https://arxiv.org/abs/2111.01998)
@@ -157,26 +206,6 @@
   - Experiment on how many examples are needed in prompt for model to behave optimally.
   - check prompt length- use prompt with less token but with same examples
 
-## problem type and prompt samples
-
-  | type                | example                                                   |
-  | ------------------- | --------------------------------------------------------- |
-  | Text classification |Classify the following text into one of these categories...|
-  | Sentiment analysis | Classify the following text as positive, neutral or negative |
-  | Text summarization | Write a 30 word summary for the following text  | 
-  | Composing Text     | Write a piece on the ..., mentioning the following facts  |
-  | Question answering | read the following and tell me ... | 
-  | chat prompt        | ```` ChatPromptTemplate.from_messages(
-    [
-        ("system", "You are a helpful blah blah. Answer all questions to the best of your ability, but only use what has been provided in the context. If you don't know, just say you don't know. Use three sentences maximum and keep the answer as concise as possible."),
-        ("placeholder", "{chat_history_messages}"),
-        ("assistant", "{retrieved_context}"),
-        ("human", "{question}"),
-    ]
-)```` |
-   | plan generation | Think step by step               |
-   | Reflection      | verify if your answer is correct |
-  - see prompt repo 
 
 ## resources: 
   1. [awesome-prompt eng](https://github.com/promptslab/Awesome-Prompt-Engineering)
@@ -199,6 +228,11 @@
   18. [cursor dir](https://oreil.ly/J3Crv)
   19. [brex guide](https://github.com/brexhq/prompt-engineering?tab=readme-ov-file)
 
+---
 
+## Image prompting
+1. content:
+2. art form: water-colored or pixed art
+3. style: lightening, color and lighting or more information about content
 
 ---

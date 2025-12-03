@@ -50,7 +50,17 @@
 
 ## References
  - 41,42,43
+
+## Practice
+  1. python library (nltk)[https://www.nltk.org/data.html]. It comes with lot of data corpus. You can download the corpus by calling `nltk.download()`
+  2. python library (spaCy)[https://spacy.io/usage/models/.] for  named entity recognition, chunking text using different linguistic theories, such as phrase structure grammar and dependency grammar.It offers general purpose language model small `en_core_web_sm`, medium `en_core_web_md` and large `en_core_web_lg` use `python -m spacy download en_core_web_sm`
+
+
 ## Rough
 - Term Frequency-Inverse Document Frequency (TF-IDF)
 - lucene / BM25 
 - lexical search: exact keyword search in sparse vector
+- knowledge-intensive tasks in natural language processing (NLP), such as open-domain question answering, fact verification, and natural language inference.
+
+
+

@@ -19,6 +19,7 @@
 ## ergnomics
 1. `kwargs` is used to send arbitrary parameter to a function.
 2. ``` ``` comments just after function declaration to explain brief about the function, arguments and return type.
+3. use `yield` for generator expression instead of list comprehension in case of large data.
 
 ## Typical structure of a python project
   1. `requirement.txt`

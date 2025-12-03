@@ -107,7 +107,7 @@ Combinatorial Optimization by Alexander Schrijver.
  - To normalize the weights to one we divide each closeness/sum(closeness)
  - distance are based on euclidean distance, cosine distance and hamming distance.
 
-## Approximate nearest neighbour (KNN)
+## Approximate nearest neighbour (ANN)
    - stores the similar vector data near to each other. It is more scalable than KNN as ANN gives logrithmic performance than KNN which is linear. There are number of algorithm implements ANN. Results from ANN are not perfect but they are approximate.
    - **Navigable small world**: after calculated node distance from all the other node, each node is connected to only few of the nearest nodes and it makes a graph called proximity graph. For searching nearnest node, any random node is choosen in graph and then iteratively nearest node among the current node to the queried node is choosen and so on, which finally result into nearest node. 
    - **Hierarchical Navigable small world**: It creates three layers of heirarchy of proximity graph. Higher layer proximity graph drops exponential number of random nodes from lower layer proximity graph. search starts in higher layer of graph which helps in speeding up of early part of the search, then advanced to lower layer for final nearest neighbour.
