@@ -1,16 +1,17 @@
 # LLMs
 ## Table of content
-- [1. TransformerModel architecture](#1)
+- [1. Model architecture](#1)
     - [1.1 Encoder](#1-1)
     - [1.2 Decoder](#1-2) 
 - [2. LLM tuning](#2)
 
 ----
 <a id="1"></a>
-## Transformer Model architecture
+## Model architecture
 
+### Transformer model
 Self-attention mechanism: It analyze entire sentence at once.
-Input embedding: text is converted to a vector.
+Input embedding: text is converted to a vector using token embedding model.
 <a id="1-1"></a>
 1. Encoder:
   - Tries to understand the deep meaning of input provided
@@ -26,10 +27,28 @@ Input embedding: text is converted to a vector.
 3. text is tokenized and vectorized.
 
 4. `probability vector`: llm response is an indexed vector, where each index values specifies the likelihood probability of token at that index.   
- 
-- AlexNet ? 
-- Seq2Seq ? 
-- Generative Adversarial Networks ?
+
+
+### Generative Adversarial Networks 
+it have adversarial loop between its components that continues till satisfactory performance is achieved.
+#### Generator:
+- generates a sample and send it to discriminator
+#### Discriminator  
+- compare the sample from generator with the real data and return a score.
+
+### Recurrent Neural Network
+- suitable for sequential and time series data analysis.
+- built-in loop help in model to remember
+
+### Variational Auto encoder
+#### Encoder:
+- learns the pattern in data
+#### Decoder
+- decoder generate new data using learned encoded pattern.
+
+### Diffusion model
+- learn to remove noise and reconstruct distorted examples
+- it relies on statistical properties 
 
 ----
 <a id="2"></a>
@@ -122,10 +141,11 @@ Input embedding: text is converted to a vector.
   - Streaming: If the model offers streaming responses.
   - Retry: Support for retry mechanisms.
   - Observability: Features for monitoring and debugging.
-  - Built-in JSON: Native support for JSON output.
+  - Native structured output support:
+    - Built-in JSON: Native support for JSON output.
   - Local deployment: Whether the model can be run locally.
   - OpenAI API Compatibility: If the model is compatible with OpenAI’s API.
-  - Caching: claude model supports caching of system, user, tools messages it prevents cached prompt to token conversion. Hence it helps in saving tokens and letency.  
+  - Caching: claude model supports caching of system, user, tools messages it prevents cached prompt to token conversion. Hence it helps in saving tokens and letency. E.g. Anthropic provides system message caching. 
 
 ----
 
@@ -186,7 +206,15 @@ Input embedding: text is converted to a vector.
 - It sacrifices little quality but gain the more latency and less memory.
 - its also applied to embedding vectors namely in 1-bit vector embedding model combined with 
 - Matryoshka quantization used in embedding models???
-
+---
+# LLM examples
+- GPT: act as a decoder, adept in generating text and used in chatbot.
+- BERT: utilize encoder only transformer architecture. understands word context in the sentence. used for sentiment-analysis and question answering
+- BART/T5: follows both encode and decoder architecture. 
+---
 ## Rough 
 - single head attention model
 - multi head attention model
+- LLMs excel in language generation, requiring metrics tailored to natural language like BLEU, ROUGE, and perplexity.  
+- AlexNet ? 
+- Seq2Seq ?

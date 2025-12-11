@@ -96,7 +96,8 @@ It includes **few-shot learning** with **chain of thought** in the prompt to mak
 ### self critique prompt
   - "explain your decision"
   - increases cost  
-### Self consistency sampling
+### Self consistency prompt
+ - asks llm to generate multiple different answer and explanation and then choose the most consistent output.
 ---
 
 ## prompt decomposition

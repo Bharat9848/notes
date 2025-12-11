@@ -3,8 +3,16 @@
 - Grammer
 - ontology
 - knowledge graph
+
+## Phases of NLU
+1. Tokenization:
+2.  
+ - stemming: 
+ - lemmatization: try to understand the meaning through dictionary. e.g. word Universal and University should not be stemmed to universe.
+3. part of speech tagging
+4. Named entity reconginition 
 ## Natural Language Understanding
-- subfield of NLP that deals with machine understanding NLP.
+- subfield of NLP that deals with machine understanding of unstructured sentences
 - Translate text into semantic meaninful vectors.
 - scikit-learn `Vectorizer`, `token-count vector`, `token frequency vector`, `embedding`
 ### Semantic search

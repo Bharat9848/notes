@@ -9,7 +9,11 @@
 ---
 
 # Vector
-
+- dot product- also called inner product
+- length is also called norm
+- vector is called normalized if length of the vector is 1.
+- orthogonal vectors which are perpendicular to each other.
+- outer product
 
 ---
 
@@ -27,6 +31,12 @@
 - Matrix multiplication are not commutative.
 - Matrix multiplication are associative
 - Banded/tridiagnol matrix is square matrix which have three non-zero elements diagnol while all others are zero. It commonly occurs in big matrices computation.
+- Transpose
+ - `transpose(A*B) = transponse(B) * transpose(A)` also remember that matrix multiplication is not commutative.
+ - Symmetric matrix is a special matrix where `transpose(A) = A`  
+ - Skew-symmetric matrix is a special matrix where `transpose(A) = -A`  
+
+
 ---
 # calculus
 ## Single variable calculus

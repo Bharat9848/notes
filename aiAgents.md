@@ -16,6 +16,9 @@
 
 # security
  - prompt injection attack
+ - access control
+ - encryption
+ - adhere to HIPPA, GDPR
 ---
 
 
@@ -203,11 +206,17 @@ dent a model is about a generated token.
 
 
 # AI agent
+ - Planning:
+   - generate plan agent
+   - evaluate plan agent: do intent calculation
+   - execute plan agent
   - agentic system, basically an LLM empowered with tools, context, and autonomy. 
   - store conversation history or relevant documentation. 
   - conversation provide useful user feedback but in natural language which is harder to extract.
   - Useful for multi-step tasks.
   - Agent is a orchestration layer which repeatedly consult LLM with all the original context alongwith responses to finally produce a response over multiple iterations.
+## Streaming
+  - streaming is useful in cases of big tasks
 ## LLM choosing
  - LLMs should be chosen based on task complexity
  - LLMs differ in different tooling invocation  
@@ -238,15 +247,13 @@ dent a model is about a generated token.
    1. knowledge augmentation: contextual information through internal API, internet search etc.
    2. Capability extension: Access to tools like calculator, code interpretor etc that makes it more efficient at its job.
    3. Write tools that let you act upon the environment.
-  - Tool documentaion should include examples, cornor cases, input format requirement etc  
-  - LLM chat APIs take input list of tools that llm can use. And tool choice use behaviour setting which are as following
+  - Tool documentaion should include examples, corner cases, input format requirement etc  
+  - Agent API take input list of tools that llm can use. And tool choice use behaviour setting which are as following
     1. `required`: LLM should use at least one tool.
     2. `none`: LLM should not use any tool.
     3. `auto`: LLM should use tool as they require. 
- - Planning:
-   - generate plan agent
-   - evaluate plan agent: do intent calculation
-   - execute plan agent
+  - tool error handling: In interceptor we can catch the exception and provide error message in chosen framework class for llm-tool comunication.
+  
 ### Safety
   - Biasness and toxicity
   - openAI content moderation API[1](https://oreil.ly/ZRwVI)
@@ -304,8 +311,6 @@ dent a model is about a generated token.
   - langchain `MultipleServerMCPClient`    
 ---
 
----
-
 
 ## Multi-agent patterns
 1. primary-worker orchestration
@@ -325,42 +330,7 @@ dent a model is about a generated token.
 
 
 
- # LangChain 
-  - python package `langchain`
-  - `Runnable`: all component which subclass this interface can be part of chain.
-  - `RunnableLambda`, `BaseModel`
-  - `RunnableParallel`
-  - Loader
-  - Splitters
-  - embedding model
-  - retriever
-  - vector stores
-   - Rough
-   "You start by pulling in text from different sources—files, databases, or websites—and wrapping it into Document objects. Those documents are often split into smaller chunks so they’re easier to handle. Next, each chunk is passed through an embedding model, which turns the text into vectors that capture its meaning. Both the raw chunks and their embeddings are stored in a vector store, which lets you quickly retrieve the most relevant pieces of text based on similarity search. When an LLM app runs a task—say summarization or semantic search—it builds a prompt that combines the user’s question with extra context. That context usually comes from document chunks pulled out of a vector store. Sometimes, though, you’ll also want to bring in information from a graph database. Vector stores are still the backbone of most retrieval-augmented generation (RAG) workflows, but graph databases are becoming more common in apps that need to represent and reason about relationships between entities."
-   "With loaders, splitters, embeddings, retrievers, vector store retrievers, and prompt templates, you can focus on application logic instead of boilerplate. The LangChain Expression Language (LCEL) and the Runnable interface then let you chain these pieces together consistently, making pipelines easier to build, debug, and maintain."
 
-   "Additionally, LangChain supports a Fake LLM for unit testing purposes."
-   "nowledge Graph databases: Although not a key component of the architecture, LangChain offers client wrappers for leading graph databases to facilitate Knowledge Graph functionality. These databases store entities and their relationships in a graph form."
-   "Prompts (6): LangChain provides tools for defining prompt templates"
-   "Chain: A composite arrangement guiding LangChain's processing workflow, customized for specific use cases and based on a sequence of the described components.
-Agent: This component manages a dynamic workflow, extending a sequential chain."
-  - `ChatMessageHistory`: saves only the question using `add_user_message(str)` method and llm response as `add_ai_message(str)`  
- ## LangGraph
-  - It is stateful, persistent agentic workflow with state saved in graph based execution.
-  - Node represents a individual task of the process like calling an API etc. Node are represented with explicit node name which is bound to a python function name through graph API.
-  - Edge defines the path between the tasks. Simple edge are defined through graph API with first node name as source and second node name as destination. Conditional edges are defined through a python function which returns the alternate node name based on some condition.
-  - State is information that moves between the nodes. It is strongly typed using `TypedDict` from `typing` module
-  - branching edges makes llm take decision dynamically based on the previous state.
-  - cyclical workflows makes refinement of work possible.
- ## LangSmith
-  - Tracing feature: Hub provides the templates prompt for most usecases
-  - Evaluation: 
-    - relevance
-    - correctness
-    - sensitivity
-  - Also provides dataset from various sources for continous and regression testing
- 
----
 
 
 ## AutoGPT
@@ -446,6 +416,7 @@ Agent: This component manages a dynamic workflow, extending a sequential chain."
  - stricter prompt size
  - At scale switch from cost per token to cost per hour of dedicated hardware by any cloud provider
  - Vector use multi-tenancy database.
+ - Dynamic model selection: Based on number of messages in conversation increasing some threshold we can override model fo complex model from same family.
 
 ---
 

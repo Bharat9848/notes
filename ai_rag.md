@@ -11,8 +11,7 @@ Following are some of the usecases of RAG
   - unstructured data sources like pdf, images etc.
   - streaming data.
   
-## vector store
-It is best suited for unstructured data.
+
 
 ### Ingestion phase
 - Metadata can help in giving storing source links.
@@ -97,9 +96,17 @@ User query is converted into query vector and then it was searched in relevant i
  - Mean Reciprocal Rank: average of many reciprocal ranks.
  - map retrieval performance with different indexing algorithm like IVF, FlatL2, HNSW etc.
 
+---
+
+# vector store
+It is best suited for unstructured data.
 
 ### Vector DBs / tools
  - "In general, vector databases organize vectors into buckets, trees, or graphs. Vector search algorithms differ based on the heuristics they use to increase the likelihood that similar vectors are close to each other. Vectors can also be quantized (reduced precision) or made sparse. The idea is that quantized and sparse vectors are less computationally intensive to work with."
+ - search retrun theme
+  1. `similarity`: return search without score
+  2. `similarity_with_score`: return search results with score
+  3. `mmr` Max Marginal Relevance: also checks diversity in documents 
 
 #### References
  - `faiss`: in-memory vector database, each embedding is associated with unique document identifier. Document is stored somewhere else. [link](https://github.com/facebookresearch/faiss/wiki/). python package name `faiss-cpu`
@@ -133,18 +140,23 @@ User query is converted into query vector and then it was searched in relevant i
 # Practice
 - see nlp notes on spacy and nltk
 
+---
+
 ## RAG testing
  - check for relevancy when asked broader question
  - check for relevancy when asked specific question 
 
 ---
+## RAG system architecture
+  1. 2-step RAG: Retrieval is called before calling LLM.
+  2. Agentic RAG: LLM have the independence to call RAG or not or call RAG multiple times.
+  3. Hybrid RAG:
+---
+
 ## Rough
 - Marginalization: Generator sum of probabilty of all the matching document to generate the answer
 - Maximum inner product search: Retriever searches through all document using MIPS
 - ColBERT ??
-- search type
-  1. `similarity`
-  2. `similarity_with_score`
-  3. `mmr` Max Marginal Relevance  
+
 - **caches**  
   - Indexing Structured and Semi-Structured Data: Retrieving structured data (e.g., database tables or multimedia content) using unstructured queries requires specialized techniques. This can include generating embeddings for database rows, images, or even audio files.  

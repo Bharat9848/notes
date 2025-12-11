@@ -4,8 +4,9 @@
 
 ##  Abstractions
 1. **ChatClient**
-   - spring automatically create
-   - holds ChatModel
+   - spring automatically create using some settings defined in yaml/properties file
+   - holds ChatModel,
+   - 
 2. **ChatModel**: exposes call method.
 3. **PromptTemplate**
    - works hand-in-hand with **TemplateRenderer**
