@@ -1,0 +1,130 @@
+ # LangChain 
+  - python package `langchain`
+ 
+  - Loader
+  - Splitters
+  - embedding model
+  - retriever
+  - vector stores
+   - Rough
+   "You start by pulling in text from different sources—files, databases, or websites—and wrapping it into Document objects. Those documents are often split into smaller chunks so they’re easier to handle. Next, each chunk is passed through an embedding model, which turns the text into vectors that capture its meaning. Both the raw chunks and their embeddings are stored in a vector store, which lets you quickly retrieve the most relevant pieces of text based on similarity search. When an LLM app runs a task—say summarization or semantic search—it builds a prompt that combines the user’s question with extra context. That context usually comes from document chunks pulled out of a vector store. Sometimes, though, you’ll also want to bring in information from a graph database. Vector stores are still the backbone of most retrieval-augmented generation (RAG) workflows, but graph databases are becoming more common in apps that need to represent and reason about relationships between entities."
+   "With loaders, splitters, embeddings, retrievers, vector store retrievers, and prompt templates, you can focus on application logic instead of boilerplate. The LangChain Expression Language (LCEL) and the Runnable interface then let you chain these pieces together consistently, making pipelines easier to build, debug, and maintain."
+
+   "Additionally, LangChain supports a Fake LLM for unit testing purposes."
+   "nowledge Graph databases: Although not a key component of the architecture, LangChain offers client wrappers for leading graph databases to facilitate Knowledge Graph functionality. These databases store entities and their relationships in a graph form."
+   "Prompts (6): LangChain provides tools for defining prompt templates"
+   "Chain: A composite arrangement guiding LangChain's processing workflow, customized for specific use cases and based on a sequence of the described components.
+Agent: This component manages a dynamic workflow, extending a sequential chain."
+  - `ChatMessageHistory`: saves only the question using `add_user_message(str)` method and llm response as `add_ai_message(str)`  
+---
+   ## LangGraph
+  - It is stateful, persistent agentic workflow with state saved in graph based execution.
+  - Node represents a individual task of the process like calling an API etc. Node are represented with explicit node name which is bound to a python function name through graph API.
+  - Edge defines the path between the tasks. Simple edge are defined through graph API with first node name as source and second node name as destination. Conditional edges are defined through a python function which returns the alternate node name based on some condition.
+  - State is information that moves between the nodes. It is strongly typed using `TypedDict` from `typing` module
+  - branching edges makes llm take decision dynamically based on the previous state.
+  - cyclical workflows makes refinement of work possible.
+  - Node types:
+    1. Model node - calls an llm
+    2. tools node - calls an tool
+    3. middleware node: override some aspects of requests
+
+---  
+ ## LangSmith
+  - Tracing feature: Hub provides the templates prompt for most usecases
+  - Evaluation: 
+    - relevance
+    - correctness
+    - sensitivity
+  - Also provides dataset from various sources for continous and regression testing
+ 
+---
+## Lang Chain Expression Language
+  - `pipe` operator : syntatic sugar for `RunnableSequence`
+  - `Runnable`: all components which are subclasses `Runnable` interface can be part of chain. e.g  `BaseModel` `StrOutputParser`
+  - `RunnableLambda` 
+  - `BaseModel`
+  - `RunnableParallel`: for running parallel task.
+  - `RunnableSequential`: for sequencing runnable task. 
+  - If pipes is used in dictionary like structure LangChain Expression language (LCEL) convert each key's values to parallel tasks.
+  - function automatically get wrapped with `RunnableLambda`
+  - provides async support, parallel execution, simpilfied straming, automatic tracing.
+  - RunnablePassthrough
+---
+
+
+## Packages and Classes
+  - agent `invoke` api: take context object as an argument.
+  - static `create_agent` function:
+    - take context schema as an argument
+  
+  - `@wrap_tool_call`: similar to advisor in spring-ai
+  - `@dynamic_prompt`
+  - `@before-model`
+  - `@after-model`
+  - langchain.tools
+    1. `@tool` description  
+    2. `Tool` class to create tool specify name, function and description.
+    
+  - langchain.agents
+    1. `AgentExecutor` similar to ChatClient in spring ai
+    2. `create_react_agent`
+  - langchain.vectorstores
+    1. Chroma
+    2. `InMemoryVectorStore`
+    3. `FAISS`
+    4. Milvus
+    5. pgvector
+  - langchain.embeddings
+    1. HuggingFaceEmbedding
+
+  - langchain_core.documents
+
+  - langchain.document_loaders
+    1. TextLoader: loads a text file
+    2. CSVLoader: loads a csv file
+    3. JSONLoader: loads a json file
+    4. WebBasedLoader: loads webpages using BeautifulSoup4 library under the hood.
+    5. DoclingLoader: helps in parsing pptx, html, docx, pdf files etc.
+    6. UnstructuredLoader: uses `unstructured.io` library to parse any type of document.
+    7. DirectoryLoader: uses UnstructuredLoader to load all the files in directory.
+  
+  - langchain.text_splitter
+    1. CharacterTextSplitter: splits the text based on provided length.
+    2. TokenTextSplitter: works as same as CharacterTextSplitter but works with token instead of characters.
+    3. RecursiveCharacterTextSplitter: specified split strings are used to split text and breaks the text further if it increases the specified limit using lower split strings.
+    4. SemanticChunker: split text into sentences if it falls beyond some semantic matching threshold
+    5. MarkdownHeaderTextSplitter
+
+  
+  - langchain_community.document_loaders
+  - langchain_core.prompt
+    1. PromptTemplate, ChatPromptTemplate, MessagePromptTemplate(AIMessagePromptTemplate, HumanMessagePromptTemplate, SystemMessagePromptTemplate, ChatMessagePromptTemplate), 
+    2. Message placeholder: it is useful when you want to insert multiple messages in prompt, fewshot prompt template.
+  - langchain_core.output_parser
+    1. `JsonOutputParser` takes a `pydantic` object as input and `get_format_instruction` helps generate output instructions to the llm according to object.
+    2. `CommaSeparatedListOutputParser` 
+ 
+  - langchain_core.runnables
+    RunnablePassthrough
+  
+  - langchain.storage
+     1. InmemoryStore
+
+  - langchain.retriever
+    1. ParentDocumentRetriever
+    2. Retriever   
+
+  - langchain.chains
+    1. LLMChain
+    2. CoversationRetrievalChain
+    3. RetrievalQA: A chain from langchain.chains that answers questions based on retrieved documents. The RetrievalQA chain combines a retriever with an LLM to generate answers based on the retrieved context.
+ 
+  - langchain.memory
+    1. ChatMessageHistory: an abstraction for chat history provides msg like `add_ai_message` and `add_user_message`
+    2. ConversationBufferMemory: storage of message and conversation history.
+ 
+  - langchain.messages
+
+## Rough 
+- You can invoke an agent by passing an update to its State. All agents include a sequence of messages in their state; to invoke the agent, pass a new message:  
