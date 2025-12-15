@@ -13,6 +13,15 @@
    # stop virtual env
    deactivate
   ```
+- to run jupyter notebook run `python3 -m notebook`
+- logging
+```python
+import logging
+
+logging.basicConfig()
+logging.getLogger("langchain.retrievers.multi_query").setLevel(logging.INFO)
+```
+
 ## pip commands  
 - `pip install`
   1. `-r requirement.txt`
@@ -48,6 +57,9 @@
   6. `tabula`: for reading pdf tables
   7. `requests`: for making http calls
   8. `flask`: create web application.
+  9. `gradio`: create ui application. see gradio notes
+  10. `torch`: deep learning library. it also helps in vector operation
+  11. `lark` is a general-purpose parsing library for Python.
 
 ---
 # Flask

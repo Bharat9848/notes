@@ -1,11 +1,5 @@
  # LangChain 
   - python package `langchain`
- 
-  - Loader
-  - Splitters
-  - embedding model
-  - retriever
-  - vector stores
    - Rough
    "You start by pulling in text from different sources—files, databases, or websites—and wrapping it into Document objects. Those documents are often split into smaller chunks so they’re easier to handle. Next, each chunk is passed through an embedding model, which turns the text into vectors that capture its meaning. Both the raw chunks and their embeddings are stored in a vector store, which lets you quickly retrieve the most relevant pieces of text based on similarity search. When an LLM app runs a task—say summarization or semantic search—it builds a prompt that combines the user’s question with extra context. That context usually comes from document chunks pulled out of a vector store. Sometimes, though, you’ll also want to bring in information from a graph database. Vector stores are still the backbone of most retrieval-augmented generation (RAG) workflows, but graph databases are becoming more common in apps that need to represent and reason about relationships between entities."
    "With loaders, splitters, embeddings, retrievers, vector store retrievers, and prompt templates, you can focus on application logic instead of boilerplate. The LangChain Expression Language (LCEL) and the Runnable interface then let you chain these pieces together consistently, making pipelines easier to build, debug, and maintain."
@@ -80,7 +74,7 @@ Agent: This component manages a dynamic workflow, extending a sequential chain."
 
   - langchain_core.documents
 
-  - langchain.document_loaders
+  - langchain_community.document_loaders
     1. TextLoader: loads a text file
     2. CSVLoader: loads a csv file
     3. JSONLoader: loads a json file
@@ -89,7 +83,7 @@ Agent: This component manages a dynamic workflow, extending a sequential chain."
     6. UnstructuredLoader: uses `unstructured.io` library to parse any type of document.
     7. DirectoryLoader: uses UnstructuredLoader to load all the files in directory.
   
-  - langchain.text_splitter
+  - langchain.text_splitter or lanchain_text_splitters
     1. CharacterTextSplitter: splits the text based on provided length.
     2. TokenTextSplitter: works as same as CharacterTextSplitter but works with token instead of characters.
     3. RecursiveCharacterTextSplitter: specified split strings are used to split text and breaks the text further if it increases the specified limit using lower split strings.
@@ -112,8 +106,11 @@ Agent: This component manages a dynamic workflow, extending a sequential chain."
      1. InmemoryStore
 
   - langchain.retriever
-    1. ParentDocumentRetriever
-    2. Retriever   
+    1. ParentDocumentRetriever: prompt is searched in smaller chunk then for each chunk the parent document is fetched and returned as relevant documents. It takes vectordb, document store, parent splitter and child splitter.
+    2. Retriever: an interface
+    3. VectorBasedRetriever: simply retrieve documents from an underlying database. It is created using `vectordb.as_retriever()`
+    4. MultiQueryRetriever: uses LLM to generate multiple different version of prompt. It helps in increasing relevancy and remove any wording related issues from returned documents. It wraps around a retriever to query multi verstion of user prompt.
+    5. SelfQueryRetriever: Uses LLM to divide the user prompt into text query (to be semantically searched) and additional metadata that can be used in metadata filtering. It takes LLM, metadata description, vectordb, and documnent description.
 
   - langchain.chains
     1. LLMChain

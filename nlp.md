@@ -62,6 +62,7 @@
 ## Practice
   1. python library (nltk)[https://www.nltk.org/data.html]. It comes with lot of data corpus. You can download the corpus by calling `nltk.download()`
   2. python library (spaCy)[https://spacy.io/usage/models/.] for  named entity recognition, chunking text using different linguistic theories, such as phrase structure grammar and dependency grammar.It offers general purpose language model small `en_core_web_sm`, medium `en_core_web_md` and large `en_core_web_lg` use `python -m spacy download en_core_web_sm`
+  3. `sentence-transformers`
 
 
 ## Rough

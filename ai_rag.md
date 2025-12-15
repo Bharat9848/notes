@@ -23,6 +23,7 @@ Following are some of the usecases of RAG
 - check the embedding model used in LLM to encode user query. E.g. text-embedding-ada-002 is used by OpenAI model
 #### embedding functions
   - `OpenAIEmbeddings`: not free.
+  - `all-MiniLM-L6-v2` ?
 
 #### Chunking strategies  
 1. text split strategy: 
@@ -101,16 +102,27 @@ User query is converted into query vector and then it was searched in relevant i
 # vector store
 It is best suited for unstructured data.
 
+## Vector index
+ - Dedicated vector dbs are different from DBs that support vector search. They use specialized data structures to store vector database.
+    - reverse indexes
+    - product quantization  
+    - locality sensitive hashing
+ - Hierarchial Navigable Small World(HNSW):Hierarchial graph with many layers. Upper layers are sparse once upper layer nodes are selected. Search is shifted to lower layer to refine the results. Tuning parameters: number of candidate to consider at 1st iteration of search. number of neighbor to consider while constructing the graph. number of docs to return. Distance metrics to be used for semantic searching
+   
 ### Vector DBs / tools
  - "In general, vector databases organize vectors into buckets, trees, or graphs. Vector search algorithms differ based on the heuristics they use to increase the likelihood that similar vectors are close to each other. Vectors can also be quantized (reduced precision) or made sparse. The idea is that quantized and sparse vectors are less computationally intensive to work with."
  - search retrun theme
   1. `similarity`: return search without score
   2. `similarity_with_score`: return search results with score
-  3. `mmr` Max Marginal Relevance: also checks diversity in documents 
-
+  3. `mmr` Max Marginal Relevance: also checks diversity in documents. It balances the relevancy and remove similar sounded documents.
+ - Distance metrics
+   -- see machine learning maths notes
+   - cosine similarity is used for NLP and sparse matrix calculation
+   - dot products distance is used in Matrix factorization in recommendation system and neural networks activation
+   - euclidean distance is used in geo indexes, computer vision and image analysis
 #### References
  - `faiss`: in-memory vector database, each embedding is associated with unique document identifier. Document is stored somewhere else. [link](https://github.com/facebookresearch/faiss/wiki/). python package name `faiss-cpu`
-
+ - `redisai` and `torchserve` are also in-memory databases
  - `milvus` : Image dense vector search. [link](https://milvus.io)
  - Google ScaNN: scalable [link](https://oreil.ly/faJqj)
  - spotify annoy: [link](https://github.com/spotify/annoy)
@@ -133,7 +145,61 @@ It is best suited for unstructured data.
  - [Approximate nearest neighbour oh yeah](https://github.com/spotify/annoy) 
  - [embedding model](https://github.com/UKPLab/sentence-transformers)
  - [massive text embedding benchmark](https://arxiv.org/abs/2210.07316)
+ - influxdb/prometheus: store vectors against timestamps
 
+---
+# chroma db
+- runs in standalone mode where client and server runs in same process.
+- alternatively it also runs in client-server architecture
+- stores the whole document not just vector.
+- supports full text search, vector search, metadata filtering and multi-modal retrieval
+## Embedding functions
+ - module `chromadb.utils` have `embedding_functions` which have lots of different types of embedding functions
+   1. embedding_functions.SentenceTransformerEmbeddingFunction
+## Chroma client operations
+   1. create collection
+   ```python
+   chromadb.Client().create_collection(name="s", configuration={"hnsw":{...}, "embedding_function": "ef"}, metadata={"description": "", "owner": "", ...})
+   ```
+   2. get collection for already created collection
+   ```python
+   collection = chromadb.Client().get_collection(name="s")
+   ``` 
+## collection API
+ - `modify` to update name,metadata and other configuration of your collection. Embedding function and distance metrics cannot be changed once the collection is created.
+ 
+ - get/update/create/query operations take arguments/return data in columnar fashion. Each property of document is a column which is input/return as separate list. E.g. ids, documents etc.
+
+ - `query()` used for semantic searching 
+ `
+ collection.query(
+    query_texts=["cats"],
+    n_results=10,
+)`
+ - `get()`: used for simple operation to do metadata filtering or lexical search. It returns the dictionary result in a columnar fashion e.g ids will give list of all the return ids, documents will be a list of all returned document text.
+ - `delete()`
+ - `add`: bulk api takes list of `documents`, list of `metadata`, list of `ids`
+
+## Querying
+ - `where_document` is an argument to collections' API query/get/delete method. It usually work with operators json like `$contains`/`$not_contains` to search words in document text.
+ - `$contains`/`$not_contains` search keywords in the text.
+
+ - `where` is an argument in various collections query/get/delete mehtod.It takes json like syntax definition. e.g. `collection.get(where={"key":"value"})`. It is used for querying metadata of the documents.
+ - `$eq` - equal to (string, int, float)
+ - `$ne` - not equal to (string, int, float)
+ - `$gt` - greater than (int, float)
+  - `$gte` - greater than or equal to (int, float)
+  - `$lt` - less than (int, float)
+  - `$lte` - less than or equal to (int, float)
+  - `$and` is a list of smaller queries e.g. 
+  ```json 
+    "$and" : [
+      {"key":  {"$eq": "valyee"}}, {"key2": "value2"}
+    ]
+  ```
+  - `$in` and `$nin` are typical in and not-in operator they take a list as argument against a key field,
+---
+# elastic search
 
 ---
 

@@ -7,7 +7,7 @@
 ```python
 demo = gr.Interface(
   fn=greet,
-  inputs=[ gr.TextBox(label = "text"), gr.Slider(label="slider")],
+  inputs=[ gr.Textbox(label = "text"), gr.Slider(label="slider")],
   outputs=["text"],
 )
 ```
