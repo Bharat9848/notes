@@ -95,7 +95,7 @@ User query is converted into query vector and then it was searched in relevant i
  - Mean Average Precision(MAP@K): sum of scores of relevant document only, divided by number of relevant documents.
  - Reciprocal rank measure the position of first relevant document and is calculated by `1/position`.
  - Mean Reciprocal Rank: average of many reciprocal ranks.
- - map retrieval performance with different indexing algorithm like IVF, FlatL2, HNSW etc.
+ - map retrieval performance with different indexing algorithm like IVF, FlatL2, LSH, HNSW etc.
 
 ---
 
@@ -146,7 +146,20 @@ It is best suited for unstructured data.
  - [embedding model](https://github.com/UKPLab/sentence-transformers)
  - [massive text embedding benchmark](https://arxiv.org/abs/2210.07316)
  - influxdb/prometheus: store vectors against timestamps
-
+---
+# FAISS
+ - supports IVF, FlatL2, LSH, HNSW algorithm.
+ - single node or for local deployment.
+ - No metadata support natively
+ - Flat Index: brute force distance measuring between the query vector and other embedded vectors.
+ - Inverted File Index: Centroid calculation using k-means forming Voroni cells, it is faster than flat index but less acurate.
+ - Locality sensitive hashing: uses hash buckets to calculate nearest neighbors. It is usefull sparse data. it is faster and memory efficient. Search happens in the nearest buckets only.
+ - HNSW: see machine learning notes for more details
+ - Scaling, metadata support and multi node deployment limitation can be overcome by using Milvus with FAISS as storage engine.
+---
+# Milvus
+- distributed production scale system.
+- Hybrid search support
 ---
 # chroma db
 - runs in standalone mode where client and server runs in same process.
@@ -226,3 +239,11 @@ It is best suited for unstructured data.
 
 - **caches**  
   - Indexing Structured and Semi-Structured Data: Retrieving structured data (e.g., database tables or multimedia content) using unstructured queries requires specialized techniques. This can include generating embeddings for database rows, images, or even audio files.  
+
+Advanced retrievers go beyond simple vector similarity search to provide more nuanced, context-aware information retrieval through:
+
+    Semantic Understanding: Using embeddings for meaning and context
+    Keyword Matching: Precise term-based search for exact specifications
+    Hierarchical Context: Maintaining relationships between information levels
+    Multi-Query Processing: Generating and combining results from multiple query variations
+    Fusion Techniques: Intelligently combining results from different retrieval methods

@@ -83,3 +83,19 @@ logging.getLogger("langchain.retrievers.multi_query").setLevel(logging.INFO)
 ## Rough
 - type `str`, `dict`, `TypedDict`
 - The Python eval function takes a string and evaluates it as a Python expression. In the context of semantic search, eval is used to dynamically execute semantic functions stored as strings in the entities collection. This allows new logic to be plugged in at runtime without changing the application code. However, using eval can be risky if the input is not trusted, as it can execute arbitrary code.
+
+
+
+    tensorflow: The core library for TensorFlow, required for working with the Universal Sentence Encoder.
+    tensorflow-hub: A library that makes it easy to download and deploy pre-trained TensorFlow models, including the Universal Sentence Encoder.
+    faiss-cpu: A library for efficient similarity search and clustering of dense vectors.
+    numpy: A library for numerical computing, which we will use to handle arrays and matrices.
+    scikit-learn: A machine learning library that provides various tools for data mining and data analysis, useful for additional tasks like data splitting and evaluation metrics.
+
+
+
+    youtube-transcript-api for extracting transcripts from YouTube videos.
+    faiss-cpu for efficient similarity search.
+    langchain and langchain-community for text processing and language models.
+    ibm-watsonx-ai and langchain-ibm for integrating IBM Watson services.
+    streamlit for building the web application interface.

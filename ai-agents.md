@@ -277,41 +277,6 @@ dent a model is about a generated token.
 ---
 
 
-# MCP
-  - MCP ensures that relevant data flows smoothly between actions, tools, and the language model.   
-  - Security: Do not allow AI to do what is outside of their limit like obtaining sensitive information, deleting data etc.
-## MCP deployment
-  - MCP servers can be run in a serverless setup, storing session and connection info in Redis.??
-## MCP protocol
-  - **host**: Host is an orchestrator managing sessions, agent lifecycle etc.
-  - **client**: Agents uses MCP client to talk to external system
-  - **server**: 
-    - Server gives MCP response over 
-     - prompt: domain specific prompt strategy,
-     - resources are to serve static resource like API keys, glossary etc. they are used for - Provide contextual background (e.g., a list of predefined topics), Inject static configuration or preferences and support client-side filtering, choices, or menus.
-     - tool/function(invoke some API, run sql query using sql client).
-    - Server provides the discovery of functionality in a standard way. So that agent can leverage to learn about the servers capability. `tools/list`, `tools/call` and `resources/list`, `resources/read` are exposed as part of discovery.
-    - Each endpoint is detailed out for its capabilities, permissions and data formats.
-    - From MCP server to any third party API call, security is applied using either oauth 2.1 flow or API tokens
-
-  - MCP Clients talks to MCP server using Standard Input/Output(STDIO) locally and Http with Server-Sent Event remotely with JSON-RPC 2.0 message formatting. 
-### mcp inspector
-  - to run locally `docker run --rm --network host -p 6274:6274 -p 6277:6277 ghcr.io/modelcontextprotocol/inspector:latest`
-### Resources
-  1. list of mcpservers
-    - [](https://mcpservers.org/)
-    - [](https://smithery.ai/)
-    - [](https://mcp.so/)
-    - [](https://github.com/modelcontextprotocol/servers)
-  2. [specification](https://modelcontextprotocol.io/specification/versioning)
-  3. [python MCP SDK](https://github.com/jlowin/fastmcp) and [documentation](https://gofastmcp.com/getting-started/welcome)
-  4. [](https://modelcontextprotocol.io/docs/develop/build-client#building-mcp-clients)
-### Rough
-  - OpenAI’s API natively supports tools provided by public MCP servers via the Responses API. Not only can you discover and reference these tools, but OpenAI will also execute them for you—eliminating the need for manual client code in many cases.
-  - langchain `MultipleServerMCPClient`    
----
-
-
 ## Multi-agent patterns
 1. primary-worker orchestration
  - shared memory which includes dialogue history, user profile
@@ -442,3 +407,7 @@ Migrate, AI Code Translator)
 ## Rough
 - self critique.
 - "Note that while the increased context length impacts the model’s memory footprint, it doesn’t impact the model’s total number of parameters."
+  3. System instruction can be of different type based on the task at hand.
+      1. Text completion: 
+      2. Question Answering:
+      3. Entity extraction

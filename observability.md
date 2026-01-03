@@ -1,3 +1,60 @@
+
+---
+# SRE
+# Glossary
+- **Service Level Indictor**
+- **Service Level Objective**: objective of a service from a user centric manner. 
+- **Error Budgets**
+- **Incident**
+- **Post Mortem**
+- **Platform reliability**
+- **Alerts**
+- **On-call rotation**
+- **Mean time to repair**
+- **SRE infrastructure**
+
+## Best practice
+ - SRE implements DevOps in a prescriptive way, and it requires operations engineers, software developers, and product owners to align on:
+   1. what service objectives are
+   2. consequences to the objectives if SLO are not met.
+   3. Operations, software and product stakholders are agreed on the task upfront if SLO does not meet.
+ - SLO:
+   1. Defining if in user centric manner.
+      - Availability SLO of user facing service should have availability SLO of 99.99%
+   2. measuring it in production
+      - SLO breach should be measured and raise an alert.
+   3. what to do to bring it back to normal when it is broken. If SLO breach have a real user negative impact then impacted service need to be improved upon so that it can meet the SLO. If SLO breach does not have negative user impact then it needs to get relax and it is merely technical glitch. Tightening of SLO might also be needed in some cases.
+- SLI typically includes throughput, latency and availability for a service and finding them is an empirical process. 
+- SLI can include freshness, durability, throughput, availability, latency, fidelity, coverage and correctness. Any of these quality can be chosen as a reliability measure.
+- SLI should be chosen from the customer point of view rather than technical standpoints.
+- **Service Level Objective** SLO are the threshold or range of values to meet SLI for a service. SLO have to setup according to customer perspective. SLO should be tuned as per the customer happiness.
+- **Error budget** is difference between maximum service level and SLO. Error budgets are allocted per unit time and it get reset to the maximum error budget after time unit expires. So onus is on the team to remain within error budget during a time unit. Error budgets are important for consumers in two folds. First they have come up with strategies to cope up with permissible SLI breaches. Second they have to take the downstream budget into consideration before setting their own SLOs.
+- 100% SLI can take significant amount of engineering and operational effort/time to justify the marginal gain it would provide. More on-call rota, no deployment and work towards the operational/engineering issue will cause lot of efforts that will make 100% SLI not feasible.
+- **Error Budget policy** defines the strategies to improve service reliability after full depletion of error budget within allocated time unit. It includes blameless postmortem, no production deployment till SLI comes within the acceptable range, review of architecture design and deployment etc. Policy is applied to all the services owned by the team.
+- **Error Budget debt** does not accumulate and see it that its paid by the customer. 
+- **SRE infrasture**:
+  1. plot each SLI error budget depletion on y-axis with 100% to -100% and allocated time unit on x-axis.
+  2. Alerts originated from SRE infrastructure should also mention remaining error budget. 
+  3. It should track total error budget, depletion speed, error budget remaining for each SLO.
+- **Error budget based decision making**: All internal and external team desision making or contracts are done while looking at internal and external teams SLO. It may further lead to discussion for tightening of SLO of downstream dependencies based on current service SLO requirements. Also implementation/review of new/old technical design to meet SLO. Error budget depletion calculation while chaos testing. Error budget depletion calculation while deploying some features that require downtime.
+
+---
+# Monitoring
+---
+# Logging
+- service logging in a uniform manner ?
+- logging infrastructure
+- Out of box features of logging infrastructure
+  1. call duration
+  2. runtime dependency graph
+  3. query language support
+  4. programmatically querying the logs.
+  5. metrics over logs
+- asynchronous logging ?
+---
+# distributed Tracing   
+
+---
 # Observability
 ## Vs Monitoring
 - With distributed system issues are random and always something new. Staging environment testing is obsolete as it is very hard to do production testing, observability let you do testing in production.
@@ -33,13 +90,20 @@
 - How to plot data sets with high cardinality
 
 ## Resources
-- Simple network management protocol RFC-1157
-- [why intuitive troubleshooting...](https://www.honeycomb.io/blog/why-intuitive-troubleshooting-stopped-working)
-- paper from larry tesler
-- accelerate state of devops report.
-- Site reliability engineering by Betsy Beyer 
-- Uber jaegar: open source distributed tracing tool
-- Waterfall visualisation diagram for distributed tracing
+  - Beyer, Betsy, Niall Richard Murphy, David K. Rensin, Stephen Thorne, and Kent Kawahara. 2018. The Site Reliability Workbook: Practical Ways to Implement SRE. Sebastopol, CA: O’Reilly Media.
+  - DORA. n.d. “DORA Research Program.” Accessed January 18, 2022. https://www.devops-research.com/research.html.
+  - Davis, Jennifer, and Ryn Daniels. 2016. “Foundational Terminology and Concepts.” In EffectiveDevOps. O’Reilly Online Learning. https://www.oreilly.com/library/view/effective-devops/9781491926291/ch04.html.
+  - DORA. 2021. “State of DevOps 2021.” . https://services.google.com/fh/files/misc/state-of-devops-2021.pdf.
+  - Google. 2022. “Google SRE Books.” https://sre.google/books.
+  - https://www.infoq.com/minibooks/data-driven-decision-making
+  - https://www.infoq.com/articles/data-driven-decision-product-operations
+  - Simple network management protocol RFC-1157
+  - [why intuitive troubleshooting...](https://www.honeycomb.io/blog/why-intuitive-troubleshooting-stopped-working)
+  - paper from larry tesler
+  - accelerate state of devops report.
+  - Site reliability engineering by Betsy Beyer 
+  - Uber jaegar: open source distributed tracing tool
+  - Waterfall visualisation diagram for distributed tracing
 - https://www.w3.org/TR/trace-context/
 - Openzipkin b3-propagation
 - Https://o11y.news
@@ -48,7 +112,6 @@
 - https://hny.co/blog/what-is-auto-instrumation
 - the psychology of sunk costs Arkes and Catherine Blumer
 - accelerate: building and scaling high performing technology organization by Nicole Forsgren
-- implementing service level objective by Alex Hidalgo 
 - continuous architecture and continuous delivery Murat Erfer and Pierre Pureur
 - how to get Started with continuous integration by sten pittet
 - flannel-an-application-level-cache-to-make-slack -scale
@@ -72,7 +135,16 @@
 - mobile load time and user abandonment
 - oriel.ly/2Gqjz
 - Pageduty blameless postmortem documentation 
-
+- Google Cloud Tech. 2020. “The History of SRE.” YouTube, July 15, 2020. https://www.youtube.com/watch?v=1NF6N2RwVoc.
+- Beyer, Betsy, Niall Richard Murphy, David K. Rensin, Stephen Thorne, and Kent Kawahara. 2018. The Site Reliability Workbook: Practical Ways to Implement SRE. Sebastopol, CA: O’Reilly Media.
+- Implementing Service Level Objectives: A Practical Guide to SLIs, SLOs, and Error Budgets by Alex Hidalgo 
+- Real-World SRE: The Survival Guide for Responding to a System Outage and Maximizing Uptime9
+- SRECon.” 2017. USENIX. August 25, 2017. https://www.usenix.org/srecon.
+-  IT Revolution Events. n.d. “DevOps Enterprise Summit 2022.” Accessed January 12, 2022. https://events.itrevolution.com.
+- Microsoft Tech Community. 2019. “Monitoring Your Infrastructure and Applications in Production.” YouTube,April 2, 2019. https://www.youtube.com/watch?v=Si6ehIr6kjw.
+- McGhee, Steve. 2021. “SLO Math.” YouTube, May 16, 2021. https://www.youtube.com/watch?v=-lHPDx90Ppg.
+- Blank-Edelman, David N. 2018. Seeking SRE: Conversations about Running Production Systems at Scale. Sebastopol, CA: O’Reilly Media.
+- CernerEng. 2018. “Less Risk Through Greater Humanity, Dave Rensin.” Video. YouTube. https://youtu.be/0zqBlRW_6jA?t=1234.
 ## Rough 
 
 - top level aggregate view.

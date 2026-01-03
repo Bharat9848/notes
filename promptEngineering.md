@@ -1,28 +1,26 @@
 # prompt engineering
-
+----
 ## Best practices
-  - Beware of many new reasoning models often struggles with in-context learning and examples in prompt. They requires clear goals and strict format
-  - Repeat the important instruction above and bottom of prompt as llm tends to forgot older prompt. 
-  - LLM have quadratically scaling attention-bias mechanism due to which llm are not performative on longer prompts.
-  - Repeat important aspects. Experiments have shown that llm put good attention to the top and bottom of the prompt and it is lost in the middle
-  - Adding and removing keywords like adjectives etc.  
-  - Be specific rather than adding not-to-do instructions in the prompt e.g. We want summarization or we want step by step guides.
-  - Changing and rephrasing words:
-  - rearranging words:
-  - combining and splitting words: Breaking down complex task.
-  - instruct for exit path for unclear situation.
-  - Clear syntax involves using good verbs to explain intent precisely. Output generation syntax should be clean and demarcated. Using separator in different part of prompt. Using markdown markation to define section and subsection.
-  - check prompts for typos and bad grammer in prompt.
- - prompt structure should be subjected to experimentation
-  1. Not all prompt parts are important [1](https://arxiv.org/abs/2307.03172) 
-  2. needle in a hay stack test
-  3. RULER[1](https://arxiv.org/abs/2404.06654)
+  1. Beware of many new reasoning models often struggles with in-context learning and examples in prompt. They requires clear goals and strict format
+  2. Repeat the important instruction above and bottom of prompt as llm tends to forgot older prompt.  LLM have quadratically scaling attention-bias mechanism due to which llm are not performative on longer prompts.Repeat important aspects. Experiments have shown that llm put good attention to the top and bottom of the prompt and it is lost in the middle.
+  3. Be specific rather than adding not-to-do instructions in the prompt e.g. We want summarization or we want step by step guides.
+  4. Prompt grammer
+    - Adding and removing keywords like adjectives etc.  
+    - Try changing and rephrasing words:
+    - rearranging words:
+    - Clear syntax involves using good verbs to explain intent precisely.
+    - combining and splitting words: Breaking down complex task.
+    - check prompts for typos and bad grammer in prompt.
+  5. Instruct for exit path for unclear situation.
+  6. Output generation syntax should be clean and demarcated. Using separator in different part of prompt. Using markdown markation to define section and subsection.
+ 
+----
 
 ## Context window management 
  - convesation history can run out of context window. Techiques like conversation pruning e.g. to include only last N messages or summarize the conversation through llm.
  - turn off reasoning.
  - keep track of input and output token length.
-
+----
 ## Prompt structure 
   - Templates are model specific and are defined in model documentaion.
   1. System prompt
@@ -35,25 +33,19 @@
     - Tone: specify the desired tone of the LLM's answer—formal, informal, witty, enthusiastic, sober, friendly, etc. Combinations are possible.
     - Instruct output using examples - use markers to mark the end of the prompts to let the model know that the structured outputs should begin, following the example. e.g `3*8 = 24\n4*8 = 32\n` followed by question `5*8=`
   2. Prompt type can be `System`, `User` or `Assistent`. 
-  3. System instruction can be of different type based on the task at hand.
-      1. Text completion: 
-      2. Question Answering:
-      3. Entity extraction
+----
 
 ## Prompt template  
  ````
  # System Instruction
- 
- ## Role
- 
- ## high level task
- 
- ## instructions
- 
+ ## Role or Persona
+ ## Higher level action
+ ## Rules
+  - how to use tools/example/context 
+
  ## examples
- 
  ## conversation history
- ## if conversation_history exists
+ [if conversation_history exists]
  User: [message_1]
  Assitant: [response_1]
  User: [message_2]
@@ -63,6 +55,8 @@
  [Document 1]
  [chunk_1_text]
  source:[chunk1_1_source]
+
+ ## Output format
 
  # User prompt
  User: [user query]
@@ -176,8 +170,9 @@ It includes **few-shot learning** with **chain of thought** in the prompt to mak
     - [zero-shot](https://www.promptingguide.ai/techniques/zeroshot)
     - [few-shot](https://www.promptingguide.ai/techniques/fewshot)
     - [prompt-creation-framework](https://github.com/microsoft/guidance)
-
-
+    - Not all prompt parts are important [1](https://arxiv.org/abs/2307.03172) 
+    - needle in a hay stack test
+    - RULER[1](https://arxiv.org/abs/2404.06654)
 
 ## prompt template
   - [link](https://github.com/promptfile/promptfile)

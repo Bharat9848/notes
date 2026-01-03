@@ -87,3 +87,4 @@
     - BiFunction which transforms list of documents to list of documents.
 16. DocumentWriter
     - Consumer of list of document.
+

@@ -151,7 +151,7 @@
 - It is quality which enables a service to able perform some action in specified time.
 - Mean time to repair(MTTR) and Mean Time Between Failure are the reliability measures. 
 
-#### Availibility
+#### Availability
  - It encompasses reliability, failure recovery and robustness.
  - It prevents fault manifestion into failure with lot of intermediatory/cascading errors. 
  - Fault can be prevented, tolerated, removed and forecast.

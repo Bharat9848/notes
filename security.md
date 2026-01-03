@@ -1,10 +1,8 @@
 ## Glossary
-- `Client`: can be third party or non user id requesting access to a user's resources on behalf of owner user.
-- `client-id` and `client-secret` belongs to an App through which user with his own credential wants to connect.
-- `Resource`: an object that needs to be protected
-- `Resource server`: capable to check the access token validity and send back the requested resource.
+- **Threat Modeling**:t is about finding security threats based on an analysis of system architecture, implementation, and deployment.
+- **confuse deputy vulnerability**
+- open redirection
 - `scope`: defines the action request on the resource. It is part of a auth request.
-- `state`: The application generates a random string and includes it in the request. It should then check that the same value is returned after the user authorizes the app. This is used to prevent CSRF attacks.
 - `principal`: an entity which claims to be some org, service, user etc.
 - `access token`: jwt for authorization, it is for resource manager consumption.
 - `identity token`
@@ -112,15 +110,33 @@
 
 ---
 
+# Oauth
+ Oauth main purpose is to allow third-party applications to log in a user on your app. it is an authorization protocol. It do not do any user authentication so in real usecases it comes with separate authentication mechanism.
 
-# Oauth2
+## Glossary
+- `Resource server`: capable to check the access token validity and send back the requested resource.
+- `Client`: can be third party or non user id requesting access to a user's resources on behalf of owner user.
+- `Resource`: an object or user's data that needs to be protected and stored by resource server.
+- `client-id` and `client-secret` belongs to an App through which user with his own credential wants to connect.
+- `Authorization server` : handles the client authorization prompting to user and issues access token.
+- `Protected resource metadata` is a document offered by resource server.  
+- `Authorization request`: request for resource access from client to resource server.
+- `Token request`: request form client to auth server for access token.
+- `Authorization code`: Code which codifies user credential and client uses the authorization code to redeem access token and refresh token.
+- `PKCE`: 
+- `redirect URIs`
+- `state`: The application generates a random string and includes it in the request. It should then check that the same value is returned after the user authorizes the app. This is used to prevent CSRF attacks.
+
+# Oauth2.0
  - Questions: 
     1. why two steps one for authorization-code and then other for access token ? 
     - To understand this you must first know about two concepts: Front channel: Less secure browser/mobile app to the server channel. Back channel: Highly secure server to server communication channel.It is not safe to share the client secret and get the access token on the front channel.Therefore, we first fetch the authorization code using the front channel and then request the access token using the back channel.
  	2. How authorization code is verified by the authorization server ?
  	3. why shouldnt oauth2 should be used for authentication
- 
- - it is an authorization protocol
+
+ - Resource server:
+   1. should return `WWW-Authenticate` http header pointing to location of Resource Metadata location when returning 401 response.
+
  - Oauth2 Grant-type: A grant type is a flow, a series of steps to gain an access token that is needed to grant limited access to a resource.
   1. password
   2. authorization code: `code` is its response type
@@ -129,21 +145,40 @@
   5. client-credential type: for server-server authorization. Happens over POST call with `grant-type:client-credential`. There is no user in this flow. 
   6. resource owner credential: used to migrate from basic/digest authentication to oauth2 authorization
 
- - Oauth2’s main purpose is to allow third-party applications to log in a user on your app.
- 
- - It do not do any authentication so in real use cases it comes with separate authentication mechanism
+ - Dynamic client registration protocol: 
+   1. it allows client to get access token from auth server without user intervention. Provide `client-id` to the new client and  `client-secret` credentials. 
+   2. client registration flow ??
 
- - Authorization server : 
-   - handles oauth2 process: 
-     1. clientid and scope is sent to Authorization server from a third party client. 
-     2. Auth server sends the request to user who owns the resource. 
-     3. User approve or reject third party client's request for resource access. If approved auth server send back `Authorization grant` to third party client. 
-     4. Third party client then sends `Authorization grant`, it's own `client Id` and `secret` in get access token api. Then authorization server sends the `access token` back to client.
+ - Auth server handles oauth2 process: 
+    1. clientid and scope is sent to Authorization server from a third party client. 
+    2. Auth server sends the request to user who owns the resource. 
+    3. User approve or reject third party client's request for resource access. If approved auth server send back `Authorization grant` to third party client. 
+    4. Third party client then sends `Authorization grant`, it's own `client Id` and `secret` in get access token api. Then authorization server sends the `access token` back to client.
     5. Third party client then sends the `access token` in resource access request. 
- - Dynamic client registration protocol
+ - Resource server 
+   1. Error handing: 
+      1. it should return 401 in case of expired or invalid token.
+      2. it should return 403 in case of insufficient permission in access token.
+      3. it should return 400 in case of malformed requests.
 
 ---
+# Oauth2.1
+- replaces oauth 2.0
+- application to authorize by resource owner by approval orchestration or by allowing application to access on its own behalf.
 
+## References
+- [oauth2.0 dynamic client registration protocol](https://datatracker.ietf.org/doc/html/rfc7591)
+- [oauth resource protected metadata](https://datatracker.ietf.org/doc/html/rfc9728)
+- [oauth2.0 authorization server metdadata](https://datatracker.ietf.org/doc/html/rfc8414)
+- [Resource indicator for oauth2.0](https://www.rfc-editor.org/rfc/rfc8707.html)
+- [Draft oauth2.1 auth framework](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-v2-1-14)
+- [JWT for oauth2.0](https://www.rfc-editor.org/rfc/rfc9068.html)
+
+## Rough
+- client should implement PKCE for authentication code protection
+- "PKCE helps prevent authorization code interception and injection attacks by requiring clients to create a secret verifier-challenge pair, ensuring that only the original requestor can exchange an authorization code for tokens."
+- client must have redirect URIs registered with the authorization server.
+---
 
 # OpenId
 ## OpenID 1.0

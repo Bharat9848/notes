@@ -26,25 +26,6 @@
 
 ---
 
-## Matrix
-- Usage matrix factorization is used in collaborative filtering.
-- Matrix multiplication are not commutative.
-- Matrix multiplication are associative
-- Banded/tridiagnol matrix is square matrix which have three non-zero elements diagnol while all others are zero. It commonly occurs in big matrices computation.
-- Transpose
- - `transpose(A*B) = transponse(B) * transpose(A)` also remember that matrix multiplication is not commutative.
- - Symmetric matrix is a special matrix where `transpose(A) = A`  
- - Skew-symmetric matrix is a special matrix where `transpose(A) = -A` 
- - Matrix is invertible ?
- - Determinant
-- **Orthognal matrix**: matrix is orthogonal if inverse of the matrix is equal to its transpose. Orthogonal matrix preserve length. rows and columns are orthogonals.
-- **Matrix rotation**: Rotation matrx is orthogonal matrix means multiplying any vector with it will not change its length. rotation matrix for angle `x` is represented as 
-```math 
-  [[cos(x), -sin(x)], [sin(x), cos(x)]]
-```
-cos(θ): This represents the horizontal component of the rotation. It determines how much of the original vector's length is projected onto the x-axis after rotation.
-sin(θ): This represents the vertical component of the rotation. It determines how much of the original vector's length is projected onto the y-axis after rotation.
--sin(θ): This is used to ensure that the rotation is counterclockwise. It effectively flips the sign of the y-component when the vector is rotate
 
 
 

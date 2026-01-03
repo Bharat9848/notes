@@ -1,3 +1,7 @@
+# Terms
+- Infrastructure as a service
+- Platform as a service
+- see Kubernetes.md
 ## Cost
  - Cost estimation: hidden expenditure include licenses and maintenance are included
  - In "pay as you go model" cost can be estimated using price calculator.

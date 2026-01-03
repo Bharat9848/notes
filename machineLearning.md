@@ -110,7 +110,14 @@ Combinatorial Optimization by Alexander Schrijver.
 ## Approximate nearest neighbour (ANN)
    - stores the similar vector data near to each other. It is more scalable than KNN as ANN gives logrithmic performance than KNN which is linear. There are number of algorithm implements ANN. Results from ANN are not perfect but they are approximate.
    - **Navigable small world**: after calculated node distance from all the other node, each node is connected to only few of the nearest nodes and it makes a graph called proximity graph. For searching nearnest node, any random node is choosen in graph and then iteratively nearest node among the current node to the queried node is choosen and so on, which finally result into nearest node. 
-   - **Hierarchical Navigable small world**: It creates three layers of heirarchy of proximity graph. Higher layer proximity graph drops exponential number of random nodes from lower layer proximity graph. search starts in higher layer of graph which helps in speeding up of early part of the search, then advanced to lower layer for final nearest neighbour.
+   - **Hierarchical Navigable small world**: It creates three layers of heirarchy of proximity graph. Higher layer proximity graph drops exponential number of random nodes from lower layer proximity graph. search starts in higher layer of graph which helps in speeding up of early part of the search, then advanced to lower layer for final nearest neighbour. [reference](https://arxiv.org/abs/1603.09320). 
+   Tuneable parameters 
+      1. Max connection per node: how many connections should a node have with neighbors.
+      2. efConstruction: how many candidate to consider when finding neigbors
+      3. efSerach: how many candidates to consider when searching neibors.
+      4. ml multiplier: controls no of nodes to appear in higher layer.
+    Insertion:
+    Searching: Performance is O(logn)  
    
 ### Naive Bayes
  - text classification
@@ -236,4 +243,16 @@ Combinatorial Optimization by Alexander Schrijver.
 - process each word sequentially
 # NLP
  -- see elasticsearch notes
+----
+# Reinforcement learning
  
+----
+## Rough
+- Transfer learning: car detection learning is transfered to the system meant for golf-cart detection.
+
+
+
+
+
+
+
