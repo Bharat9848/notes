@@ -99,8 +99,8 @@ User query is converted into query vector and then it was searched in relevant i
 
 ---
 
-# vector store
-It is best suited for unstructured data.
+# vector databases
+Embedding models: `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`.It is best suited for unstructured data. Some vector store needs schema initialization -???.
 
 ## Vector index
  - Dedicated vector dbs are different from DBs that support vector search. They use specialized data structures to store vector database.
@@ -120,6 +120,7 @@ It is best suited for unstructured data.
    - cosine similarity is used for NLP and sparse matrix calculation
    - dot products distance is used in Matrix factorization in recommendation system and neural networks activation
    - euclidean distance is used in geo indexes, computer vision and image analysis
+
 #### References
  - `faiss`: in-memory vector database, each embedding is associated with unique document identifier. Document is stored somewhere else. [link](https://github.com/facebookresearch/faiss/wiki/). python package name `faiss-cpu`
  - `redisai` and `torchserve` are also in-memory databases
@@ -145,7 +146,10 @@ It is best suited for unstructured data.
  - [Approximate nearest neighbour oh yeah](https://github.com/spotify/annoy) 
  - [embedding model](https://github.com/UKPLab/sentence-transformers)
  - [massive text embedding benchmark](https://arxiv.org/abs/2210.07316)
- - influxdb/prometheus: store vectors against timestamps
+ - influxdb/prometheus: store vectors against timestamps.
+
+ #### Rough
+ Embedding models: `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`. Tokenization: have encoding type `EncodingType.CL100K_BASE`
 ---
 # FAISS
  - supports IVF, FlatL2, LSH, HNSW algorithm.

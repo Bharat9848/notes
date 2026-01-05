@@ -50,6 +50,9 @@
 6. VectorStore:
     - abstraction over storing documents and semantic search
     - Spring offer various vector store provider integration classes for VectorStore implementation.
+    - it extends DocumentWriter and VectorStoreRetriever interfaces.
+    - delete method is overloaded with list of ids, filter expression and default string filter expression.
+    - provide default getNativeClient
 7. ChatClientRequest:
    - `mutate`: for advisors to enhance request/response.
    - `ChatOptions`: for specifying model specific option.
@@ -87,4 +90,12 @@
     - BiFunction which transforms list of documents to list of documents.
 16. DocumentWriter
     - Consumer of list of document.
+17. VectorStoreRetriever
+    - provide similarity search method for a query.
+18. SearchRequest embodies the 
+    - query for semantic search
+    - additional filter for metadata filtering
+    - success matching criteria like topK, similarity threshold
+19. BatchingStrategy: abstracts the maximum token limit of embedding model, it coverts list of documents into subbatches and return List of List of Document.
+    - TokenBasedBranchingStrategy: configured to your embedding models context window size. it throws an error in case a document exceeds the max limit. Internally it uses TokenCountEstimator interface to count number of tokens. By default it uses JTokkitTokenCountEstimator
 

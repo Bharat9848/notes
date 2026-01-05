@@ -5,13 +5,21 @@
 - **Service Level Indictor**
 - **Service Level Objective**: objective of a service from a user centric manner. 
 - **Error Budgets**
-- **Incident**
-- **Post Mortem**
+
+
 - **Platform reliability**
 - **Alerts**
 - **On-call rotation**
 - **Mean time to repair**
 - **SRE infrastructure**
+## Production deployment
+ - communication to stakeholders
+
+## Incident
+
+## Post Mortem
+- blameless
+- from user prespective
 
 ## Best practice
  - SRE implements DevOps in a prescriptive way, and it requires operations engineers, software developers, and product owners to align on:
@@ -145,9 +153,29 @@
 - McGhee, Steve. 2021. “SLO Math.” YouTube, May 16, 2021. https://www.youtube.com/watch?v=-lHPDx90Ppg.
 - Blank-Edelman, David N. 2018. Seeking SRE: Conversations about Running Production Systems at Scale. Sebastopol, CA: O’Reilly Media.
 - CernerEng. 2018. “Less Risk Through Greater Humanity, Dave Rensin.” Video. YouTube. https://youtu.be/0zqBlRW_6jA?t=1234.
+- Westrum, R. 2004. “A Typology of Organisational Cultures.” Quality and Safety in Health Care 13 (suppl_2):ii22–27. https://doi.org/10.1136/qshc.2003.009522.
+- Thorne, Stephen. 2018. “Getting Started with Site Reliability Engineering.” YouTube, July 11, 2018. https://www.youtube.com/watch?v=c-w_GYvi0eA.
+- “SRE for Everyone: Making Tomorrow Better Than Today.” SlideShare IOS, May 2, 2019. AccessedJanuary 19, 2022. https://www.slideshare.net/Rundeck/sre-for-everyone-making-tomorrow-better-than-today-devops-days-austin-2019.
+- Microsoft. 2019. “Monitoring Your Infrastructure and Applications in Production.” YouTube, April 2,2019. https://www.youtube.com/watch?v=Si6ehIr6kjw.
+- SRE Weekly. Weekly online newsletter published by Lex Neva. Available at https://sreweekly.com.
+
 ## Rough 
 
 - top level aggregate view.
 - How to control the amount of logging in case of log storm
 - Filter pii data from the logs
 - Ingest synthetic logs to measure the performance of the telemetry pipeline 
+- "Sociologist
+Ron Westrum defined a popular topology of organizational cultures, often referred to as the
+Westrum model,5 which classifies cultures as pathological, bureaucratic, or generative according
+to how organizations process information: Pathological cultures are power oriented, bureau-
+cratic cultures are rule oriented, and generative cultures are performance oriented. According to
+DevOps Research and Assessment (DORA6), performance-oriented generative cultures also lead
+to high performance in software delivery."
+- "In marketing, there is a popular model called AIDA3 for moving consumers through a funnel of
+cognitive and emotional steps to affect buying behavior. AIDA stands for Awareness → Interest
+→ Desire → Action. First, the consumer’s Awareness of a product needs to be captured. One
+way this can be done is through advertising. Next, the consumer needs to show Interest in learn-
+ing more about the product. This can be done through, for example, the product website. In the
+Desire step, the consumer develops a positive attitude toward the product. Finally, the Action
+step leads to a product purchase."
