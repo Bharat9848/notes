@@ -45,7 +45,7 @@
   2. Alerts originated from SRE infrastructure should also mention remaining error budget. 
   3. It should track total error budget, depletion speed, error budget remaining for each SLO.
 - **Error budget based decision making**: All internal and external team desision making or contracts are done while looking at internal and external teams SLO. It may further lead to discussion for tightening of SLO of downstream dependencies based on current service SLO requirements. Also implementation/review of new/old technical design to meet SLO. Error budget depletion calculation while chaos testing. Error budget depletion calculation while deploying some features that require downtime.
-
+- A professional status page such as the one for Microsoft [Azure](https://azure.status.microsoft/en-us/status) or Amazon [AWS](https://status.aws.amazon.com.) is the goal with SRE.
 ---
 # Monitoring
 ---
@@ -158,6 +158,12 @@
 - “SRE for Everyone: Making Tomorrow Better Than Today.” SlideShare IOS, May 2, 2019. AccessedJanuary 19, 2022. https://www.slideshare.net/Rundeck/sre-for-everyone-making-tomorrow-better-than-today-devops-days-austin-2019.
 - Microsoft. 2019. “Monitoring Your Infrastructure and Applications in Production.” YouTube, April 2,2019. https://www.youtube.com/watch?v=Si6ehIr6kjw.
 - SRE Weekly. Weekly online newsletter published by Lex Neva. Available at https://sreweekly.com.
+- Rensin, Dave. 2016. “Introducing Google Customer Reliability Engineering.” Google Cloud, October 10, 2016. https://cloud.google.com/blog/products/gcp/introducing-a-new-era-of-customer-support-google-customer-reliability-engineering.
+- Book - Forsgren, Nicole, Jez Humble, and Gene Kim. 2018. Accelerate: The Science of Lean Software and DevOps:Building and Scaling High Performing Technology Organizations. Portland, OR: IT Revolution Press.
+ - “Use Four Keys Metrics Like Change Failure Rate to Measure Your DevOps Performance.” n.d.Google Cloud Blog. Accessed January 20, 2022. https://cloud.google.com/blog/products/devops-sre/using-the-four-keys-to-measure-your-devops-performance.
+- “DORA Research Program.” n.d. Accessed January 18, 2022. https://www.devops-research.com/
+research.html.
+- DORA. 2021. “State of DevOps 2021.” Google Cloud. https://services.google.com/fh/files/misc/state-of-devops-2021.pdf.
 
 ## Rough 
 

@@ -149,7 +149,8 @@ Embedding models: `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`.It is
  - influxdb/prometheus: store vectors against timestamps.
 
  #### Rough
- Embedding models: `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`. Tokenization: have encoding type `EncodingType.CL100K_BASE`
+ - Embedding models: `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`, vertex ai embedding model, `OpenAiEmbeddingModel`. Tokenization: have encoding type `EncodingType.CL100K_BASE`
+ - `auto-truncate` by vertex AI embedding model silently truncate document if tokens are more than embedding model context window.
 ---
 # FAISS
  - supports IVF, FlatL2, LSH, HNSW algorithm.

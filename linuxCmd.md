@@ -2,7 +2,8 @@
 ## Folders 
 `/dev` is device folders.
 ## Files
--
+- `rsync -av folderA/ folderX/` note: do not forget trailing `/`. It sync all the files and folders from folderA to folderX
+
 ### Process related commands
 1. `pidof <name>` return the pid of given process.
   
@@ -19,4 +20,5 @@
   3. `ip link set <interface> netns <name>` - changes the interface's network namespace.
   4. `ip addr add <ip/size> dev <name>` - assign a given IP address to device with given name. `/size` means the interface is part of a bigger network where other can be reached out by calculating ip range. e.g `10.0.1.1/24` can reach to others `10.0.1.2` or `10.0.1.4` etc.	
   5. `ip link set <interface> dev <up|down>` - brings the given interface name up or down.
-  6. `ip route list` shows routing table.       	
+  6. `ip route list` shows routing table.  
+
