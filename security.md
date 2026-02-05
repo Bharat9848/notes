@@ -1,5 +1,6 @@
 ## Glossary
 - **Threat Modeling**:t is about finding security threats based on an analysis of system architecture, implementation, and deployment.
+- principle of least privilege 
 - **confuse deputy vulnerability**
 - open redirection
 - `scope`: defines the action request on the resource. It is part of a auth request.
@@ -273,3 +274,47 @@ Submit action to j_security_check
 Message certification is to not to hide the data but certificate is provided means data is not tempered since data is sent from source.
 Message encryption is to hide sensitive data at source. Tunnel encryption encrypts all data travelling through tunnel.
  Apitoken are bind to username and seed DRBG algorithm is used to generate random salt
+
+
+## Role Based Authorizaition Control
+- Modeling:
+  - User
+    - Role(N)
+      - Grant/Permission(N) 
+  - Project
+  - Resource
+    - action
+  - Policy
+    - Resource
+    - Rules
+      - action(N), 
+      - effect(deny/allow)
+      - Role(N)
+    - Condition  
+  - Org
+- Resource can be a project, org, feature flag      
+- Policy have scopes
+- user have roles. Cross organization role? 
+- Each role is granular action permission over a resource
+- admin role can access other admin data ?
+- resource ownership role, admin role
+- Policy Enforcement point (PEP) calls Policy Descision Point to check whether to allow user to perform certain action.
+- Policy Decision Point calls Policy Information Point to gather more data from the service
+- Policy Administration point manages policies that are enforced with PDP.
+- Authorization interface
+  - isAuthorized(policy, user, action, resource) 
+  - list_resources(policy, user, action, resourceType)
+  - list_action_type(policy, user, resource)
+  - user.role
+  - role.grants(grants means assigned permission)
+  - resource.permission
+  - Policy(role, grants, permission)
+- problems
+  - coupling of domain data with authorization data. domain data have user/group ownership which needs to be checked during authorization. Domain data about resource is public/private/private within group. Authorization data is user roles and policy. 
+  - performance problem in listing of resources user can see, as it needs authorization check for all the list members.
+## x.509 authorisation certificates  
+## Access Control List
+## Relationship-based access control
+## Attribute based access control
+## Library
+- Cerbos(Authorization server)

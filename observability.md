@@ -1,12 +1,13 @@
 
 ---
 # SRE
-# Glossary
+## Glossary
 - **Service Level Indictor**
 - **Service Level Objective**: objective of a service from a user centric manner. 
 - **Error Budgets**
-
-
+- Error budget policy
+- Error budget decision making
+- SRE concept pyramid
 - **Platform reliability**
 - **Alerts**
 - **On-call rotation**
@@ -16,11 +17,17 @@
  - communication to stakeholders
 
 ## Incident
+ - detect the incident
+ - notify the stakeholders
+ - fix the incident before it lead to custom escalation.
 
 ## Post Mortem
 - blameless
 - from user prespective
 
+## SLO breaches
+- Team based - bug in own team service, unplanned downtime, planned downtime
+- Dependent team based - bugs in dependent services/infrastructure.
 ## Best practice
  - SRE implements DevOps in a prescriptive way, and it requires operations engineers, software developers, and product owners to align on:
    1. what service objectives are
@@ -34,7 +41,7 @@
    3. what to do to bring it back to normal when it is broken. If SLO breach have a real user negative impact then impacted service need to be improved upon so that it can meet the SLO. If SLO breach does not have negative user impact then it needs to get relax and it is merely technical glitch. Tightening of SLO might also be needed in some cases.
 - SLI typically includes throughput, latency and availability for a service and finding them is an empirical process. 
 - SLI can include freshness, durability, throughput, availability, latency, fidelity, coverage and correctness. Any of these quality can be chosen as a reliability measure.
-- SLI should be chosen from the customer point of view rather than technical standpoints.
+- SLI should be chosen from the customer point of view rather than technical standpoints. Since business analyst and product owner are more closer to the product user they should approve of current set of SLOs.
 - **Service Level Objective** SLO are the threshold or range of values to meet SLI for a service. SLO have to setup according to customer perspective. SLO should be tuned as per the customer happiness.
 - **Error budget** is difference between maximum service level and SLO. Error budgets are allocted per unit time and it get reset to the maximum error budget after time unit expires. So onus is on the team to remain within error budget during a time unit. Error budgets are important for consumers in two folds. First they have come up with strategies to cope up with permissible SLI breaches. Second they have to take the downstream budget into consideration before setting their own SLOs.
 - 100% SLI can take significant amount of engineering and operational effort/time to justify the marginal gain it would provide. More on-call rota, no deployment and work towards the operational/engineering issue will cause lot of efforts that will make 100% SLI not feasible.
@@ -46,6 +53,22 @@
   3. It should track total error budget, depletion speed, error budget remaining for each SLO.
 - **Error budget based decision making**: All internal and external team desision making or contracts are done while looking at internal and external teams SLO. It may further lead to discussion for tightening of SLO of downstream dependencies based on current service SLO requirements. Also implementation/review of new/old technical design to meet SLO. Error budget depletion calculation while chaos testing. Error budget depletion calculation while deploying some features that require downtime.
 - A professional status page such as the one for Microsoft [Azure](https://azure.status.microsoft/en-us/status) or Amazon [AWS](https://status.aws.amazon.com.) is the goal with SRE.
+
+## Excercises
+ - SRE introduction to the team.
+ - Setup logging infrastructure
+ - Setup SRE infrastructure to setup SLO for availability and latency SLI
+ - Alerting infrastructure to tune to not few and not many alerts
+ - Dashboards for plotting SLI
+ - Error budget calculation infrastructure
+ - Error budget dashboard graph
+ - Infrastructure for error budget decision making.
+ - Infra for custom SLI definition
+ - Self service SLO adaptation tool
+ - self service configuration of SRE. 
+ - setup process to react to SLO breaches
+ - Tuning of SLOs : Repeated check on SLO will they lead to broken customer experience.
+
 ---
 # Monitoring
 ---
@@ -164,6 +187,8 @@
 - “DORA Research Program.” n.d. Accessed January 18, 2022. https://www.devops-research.com/
 research.html.
 - DORA. 2021. “State of DevOps 2021.” Google Cloud. https://services.google.com/fh/files/misc/state-of-devops-2021.pdf.
+- Harley, Nick. 2017. “Software Intelligence: Why Slow Is the New Down.” VentureBeat, April 27, 2017. (link)[https://venturebeat.com/2017/04/27/software-intelligence-why-slow-is-the-new-down]
+
 
 ## Rough 
 

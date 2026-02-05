@@ -79,6 +79,11 @@
   1. **Include** relationship: to include a usecase in other usercase e.g. online payment includes credit card validation usecase. It is a always-happen relationship.
   2. **Generalization** relationship: ??
   3. **Extends** relationship: a usecase extends other usecase e.g. Cash withdrawal usecase extends to enhance transaction usecase. It is shown by dashed arrow with `extends` keyword. It is a may-happen releationship 
+
+## User story
+ - **User activity**: Biggest steps user can take.E.g. Compose email in Gmail
+ - **User Tasks**: are skeleton of user activity. They belong a user activity E.g. insert text, insert link etc. in compose email user activity.
+ - **User Stories**: represents the steps using user tasks which user take to accomplish the user activity.
  
 ## Class diagram
  - it is used to show static representation of classes for their roles and responsibities.
