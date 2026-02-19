@@ -50,7 +50,7 @@ Agents uses MCP client to talk to external system. Agent does the following
 ### Rough
   - OpenAI’s API natively supports tools provided by public MCP servers via the Responses API. Not only can you discover and reference these tools, but OpenAI will also execute them for you—eliminating the need for manual client code in many cases.
   - langchain `MultipleServerMCPClient`    
-
+  - mcp manifest
 
 # Spring ai MCP annotations
 1. for protocol documentation see ai-mcp.md

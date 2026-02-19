@@ -123,5 +123,8 @@ Agent: This component manages a dynamic workflow, extending a sequential chain."
  
   - langchain.messages
 
+## Question
+- How wikipediaLoader works? parsing and find the relevant pages
+- LLMGraphTransformer how it works?
 ## Rough 
 - You can invoke an agent by passing an update to its State. All agents include a sequence of messages in their state; to invoke the agent, pass a new message:  

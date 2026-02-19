@@ -98,4 +98,11 @@
     - success matching criteria like topK, similarity threshold
 19. BatchingStrategy: abstracts the maximum token limit of embedding model, it coverts list of documents into subbatches and return List of List of Document.
     - TokenBasedBranchingStrategy: configured to your embedding models context window size. it throws an error in case a document exceeds the max limit. Internally it uses TokenCountEstimator interface to count number of tokens. By default it uses JTokkitTokenCountEstimator
-
+20. `@Tool` annotation over a method expose the method as a tool to LLM. `@Tool` have `description`, `name`, `retunDirect`(if set to true return the tool response directly to callee, not the llm), `resultConverter`(convert tool result to string to send it back to llm) and `input schema`  
+21. `ToolCallback` interface: spring-ai automatically create `MethodToolcallback` from the method annotated with `@Tool`. ChatModel implementation dispatch the call from LLM to tool via `ToolCallingManager` which calls `ToolCallback::call` method. `ToolCallingManager` manages the tool execution lifecycle, first it resolves tool llm wants to call using `ToolCallbackResolver` interface. 
+22. `@ToolParam` `description`can be used to describe any condition about the argument and `required` for whether it is optional or mandatory
+23. tools can be added to specific chatclient, specific request or across chatclient.builder, chatmodel
+24. `ToolContext` extra input parameter to the tool which is additional to LLM imput. It is a Map of key and values. 
+25. `ToolCallExecutionResult` maintain toolconversation history.
+26. Exception handling: all runtime exceptions message are sent to LLMs. CheckException are thown and not sent to LLM
+27. Observability:

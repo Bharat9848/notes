@@ -147,6 +147,7 @@ Embedding models: `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`.It is
  - [embedding model](https://github.com/UKPLab/sentence-transformers)
  - [massive text embedding benchmark](https://arxiv.org/abs/2210.07316)
  - influxdb/prometheus: store vectors against timestamps.
+ - vector store sample [data](github.com/datastax-labs/colbert-wikipedia-data) 
 
  #### Rough
  - Embedding models: `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`, vertex ai embedding model, `OpenAiEmbeddingModel`. Tokenization: have encoding type `EncodingType.CL100K_BASE`

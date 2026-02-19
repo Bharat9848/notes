@@ -1,6 +1,9 @@
 ## Glossary
-- **Threat Modeling**:t is about finding security threats based on an analysis of system architecture, implementation, and deployment.
-- principle of least privilege 
+- **Threat Modeling**:it is about finding security threats based on an analysis of system architecture, implementation, and deployment.
+- security principles
+  - least privilege
+  - Need to know 
+  - Default to no access policy 
 - **confuse deputy vulnerability**
 - open redirection
 - `scope`: defines the action request on the resource. It is part of a auth request.
@@ -9,10 +12,12 @@
 - `identity token`
 - `session cookies`
 - **Hashing for Message Authention code(HMAC)** authentication algo run over payload and a shared secret key
-
+---
+# Attack
+- **Dictionary attack**: try guessing password using dictionary password
 ---
 
-
+---
 # Encryption
 ## Encryption algorithm
   - AES
@@ -247,40 +252,40 @@
  - custom parameter
 
 
----
+----
 
 
 ## CORS
  - `CORS policy` is a set on server to allow or disallow web requests from different domain than that of a server.
  - server sets headers `Access-Control-Allow-Origin=<*|>`, `Access-Control-Allow-Methods=<GET|POST|OPTIONS>`,`Access-Control-Max-Age=<number e.g. 3600>` and `Access-Control-Allow-Headers=<headers list e.g. X-PINGOTHER,Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers,Authorization`
 
+----
 
 ## Spring boot security
  - `OncePerRequestFilter` 
  - security filter chain 
  - `UserDetails`
 
-## Rough
-we take this shared secret, combine it with the contents of the webhook by using a cryptographic hash function called HMAC, and get back a long, random-seeming, but entirely deterministic “signature” for the webhook.
+----
 
-- OAuth and OpenID Connect code authentication with the PKCE flow.
+----
+# Authorization 
 
-Third-party integration for authentication and authorisation using openid-connect standards
-Instead, before storing a password, we must first hash it using a hash function such as bcrypt.
+# Authorization Models
 
-Submit action to j_security_check
-
-
-Message certification is to not to hide the data but certificate is provided means data is not tempered since data is sent from source.
-Message encryption is to hide sensitive data at source. Tunnel encryption encrypts all data travelling through tunnel.
- Apitoken are bind to username and seed DRBG algorithm is used to generate random salt
-
+## Access Control List
+- Resource have access control list
+- users are directly added into the list.
+- also called Identity based authorization control
+- suffers from `privilege creep` - as you stay longer within org you tend to accumulate lot of privileges.
 
 ## Role Based Authorizaition Control
+- anti-pattern: permission based identity token.
 - Modeling:
   - User
     - Role(N)
       - Grant/Permission(N) 
+        - Action(N)
   - Project
   - Resource
     - action
@@ -312,9 +317,99 @@ Message encryption is to hide sensitive data at source. Tunnel encryption encryp
 - problems
   - coupling of domain data with authorization data. domain data have user/group ownership which needs to be checked during authorization. Domain data about resource is public/private/private within group. Authorization data is user roles and policy. 
   - performance problem in listing of resources user can see, as it needs authorization check for all the list members.
+- Centralized Authorization server 
+  - what is role inheritance?
+  - what is project scoping
+  - environment specific restriction
+
+## Rule based access control or policy based access control
+- "If-then" logic in access control list.
+- Used for network devices
+
 ## x.509 authorisation certificates  
-## Access Control List
+
+
+
 ## Relationship-based access control
+ - FGA fine grained authorization 
+ - heirarchical and transitive permission
+ - implementation OpenFGA
+
 ## Attribute based access control
+- Permission are assigned based on user or resource attributes.
+
+## Policy 
+- used for complex access policies
+
 ## Library
 - Cerbos(Authorization server)
+
+----
+
+# Authentication
+ - Type 1 authentication: based something you know
+ - Type 2 authentication: based something you have
+ - Type 3 authentication: based something you are like biometrics
+
+## Identity provider
+- solutions auth0, okta, internal OIDC compliant system
+- Provider isssues a identity JWToken which contain basic info like user id, email, role claim etc.
+----
+
+## Kerberos
+- built in os
+- single sign on for network
+- `Authentication server` grants Ticket Granted Ticket TGT to username and encrypt it with user password. If user decrypt it successfully that means password is correct. Hence no password on the network.
+- mutual authentication: For any other service access `Ticket granting service` check user's decrypted TGT and grant session keys. Session key is again encrypted with user password.  On that ticket, two copies of the exact same session key. One copy of the session key is encrypted once again with my password. That's only available if I typed my password in correctly. The second copy of that session key is encrypted with the service's password or key. So what that means is I have a session key that I can use to encrypt my communication with only if I'm legitimately me. I encrypt my communication to the print server with that session key. And that print server can only decrypt it if that's the legitimate print server because only the legitimate print server can decrypt the session key that's necessary to decrypt my communication. 
+## LDAP
+- Active directory for authentication server
+## SPML and SCIM
+## Security Assertion Markup Language SAML
+- protocol to extract identity across different fedrated servers.
+- Different APP needs SAML token from identity provider and user dont need to login again if user is already sign on.
+## OpenId Connect
+- protocol to extract identity across different fedrated servers
+----
+
+# OpenFGA
+## Glossary 
+ - tuple(user:relation#object, condition). condition is optional.
+ - type: blueprint of an object
+ - type definition: mentions relations between types
+ - authorization model: set of type definitions
+ - store: set of authorization model files
+ - object: single instance of an entity in the system
+ - user: can be a object(to represent object can relate to an object), user entity, an optional relation(to represent set of user)
+ - relation: arbitrary string
+ - relation definition: different rules for a specific relation depending upon the different user and object.
+ - directly related user type: specific user definition syntax mentioned in relation definition.
+ - condition: an expression that evaluates to boolean.
+ - Relationship: is instantiation of user and object according to relation definition
+ - checkRequest API returns boolean if specified tuple exisits
+ - listObject API returns list of objects for which given user have given relationship.
+ - listUser API returns list of users for are in given relationship for a given object.
+ - contextual tuples are tuples that are additionally added to the API requests
+## flow
+ ```mermaid
+ A[application] --write-> B[openFGA]
+ A -read-> B
+ ``` 
+----
+
+## Rough
+- federated authorization protocols such as OAuth to integrate securely with third-party services??
+- shared authorization vs service specific authorization
+we take this shared secret, combine it with the contents of the webhook by using a cryptographic hash function called HMAC, and get back a long, random-seeming, but entirely deterministic “signature” for the webhook.
+
+- OAuth and OpenID Connect code authentication with the PKCE flow.
+
+Third-party integration for authentication and authorisation using openid-connect standards
+Instead, before storing a password, we must first hash it using a hash function such as bcrypt.
+
+Submit action to j_security_check
+
+
+Message certification is to not to hide the data but certificate is provided means data is not tempered since data is sent from source.
+Message encryption is to hide sensitive data at source. Tunnel encryption encrypts all data travelling through tunnel.
+ Apitoken are bind to username and seed DRBG algorithm is used to generate random salt
+

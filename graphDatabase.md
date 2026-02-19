@@ -1,17 +1,30 @@
 # Graph database
+## Basics
+- Triplet (Entity, relationship entity2)
+- entity have attributes
+- ontology: schema to define entity, relationships and attributes
+- graph: graphical representation of a domain data using entities and relationship b/w them. Node are entity or instances, edges are represented using relationship between nodes, tags are key/value pair associated with node and edges, properties are additional attribute associated with node and edges.
+
+## Knowledge graph
+- structured representation of facts using relationship between nodes.
+
+
 
 # Examples
-- neo4j
+- neo4j: ACID compliant, Cypher is neo4j query language
 - Apache TinkerPop
 - ArangoDb
-- SPARQL
-- RDF Triples.
+- SPARQL(SPARQL protocol and RDF query language)
+- RDF Triples(Resource definition framework)
+- OWL(web ontology language)
 
 # Existing knowledge graph as plugin
 - ConceptNet
 - DBpedia
 - Any LLM
 - Yago
+
+
 
 # Tools
 - Python-based spaCy library: ships with state-of-the-art statistical neural network models for part-of-speech tagging, dependency parsing, text categorization, and named-entity recognition.

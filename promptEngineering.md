@@ -1,5 +1,7 @@
 # prompt engineering
+
 ----
+
 ## Best practices
   1. Beware of many new reasoning models often struggles with in-context learning and examples in prompt. They requires clear goals and strict format
   2. Repeat the important instruction above and bottom of prompt as llm tends to forgot older prompt.  LLM have quadratically scaling attention-bias mechanism due to which llm are not performative on longer prompts.Repeat important aspects. Experiments have shown that llm put good attention to the top and bottom of the prompt and it is lost in the middle.
@@ -13,14 +15,19 @@
     - check prompts for typos and bad grammer in prompt.
   5. Instruct for exit path for unclear situation.
   6. Output generation syntax should be clean and demarcated. Using separator in different part of prompt. Using markdown markation to define section and subsection.
- 
+  7. Asking model to cite reference text help reduce the halluciantion
+
 ----
 
 ## Context window management 
  - convesation history can run out of context window. Techiques like conversation pruning e.g. to include only last N messages or summarize the conversation through llm.
  - turn off reasoning.
  - keep track of input and output token length.
+
+
 ----
+
+
 ## Prompt structure 
   - Templates are model specific and are defined in model documentaion.
   1. System prompt
@@ -33,13 +40,14 @@
     - Tone: specify the desired tone of the LLM's answer—formal, informal, witty, enthusiastic, sober, friendly, etc. Combinations are possible.
     - Instruct output using examples - use markers to mark the end of the prompts to let the model know that the structured outputs should begin, following the example. e.g `3*8 = 24\n4*8 = 32\n` followed by question `5*8=`
   2. Prompt type can be `System`, `User` or `Assistent`. 
+
 ----
 
 ## Prompt template  
  ````
  # System Instruction
  ## Role or Persona
- ## Higher level action
+ ## Higher level task explanation
  ## Rules
   - how to use tools/example/context 
 
@@ -61,12 +69,6 @@
  # User prompt
  User: [user query]
  ````
-
-## Model properties prerequisite
-  - Instruction following capability:
-  - Robustness: It measures model output changes on slightest changes of prompt.
-
-
 ---
 
 
@@ -87,9 +89,11 @@ It includes **few-shot learning** with **chain of thought** in the prompt to mak
   - It increases cost.
   - COT elicites reasoning [link](https://arxiv.org/abs/2201.11903)
   - reduce hallicuniation [link](https://www.linkedin.com/blog/engineering/generative-ai/musings-on-building-a-generative-ai-product)
+
 ### self critique prompt
   - "explain your decision"
   - increases cost  
+
 ### Self consistency prompt
  - asks llm to generate multiple different answer and explanation and then choose the most consistent output.
 ---
@@ -100,6 +104,7 @@ It includes **few-shot learning** with **chain of thought** in the prompt to mak
   - disadvantages are increased latency and cost.
 
 ---  
+
 ## Prompt Testing
 
   - Testing prompts against
@@ -232,3 +237,6 @@ It includes **few-shot learning** with **chain of thought** in the prompt to mak
 3. style: lightening, color and lighting or more information about content
 
 ---
+
+## tools
+### Prompt flow
