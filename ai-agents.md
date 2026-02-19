@@ -19,8 +19,6 @@
  - access control
  - encryption
  - adhere to HIPPA, GDPR
----
-
 
 ---
 
@@ -31,12 +29,11 @@
 # Evaluation
 ## General
  - look different vendors Evaluation API ??
- - When logprobs are available, use them. Logprobs can be used to measure how confi‐
-dent a model is about a generated token.
+ - When logprobs are available, use them. Logprobs can be used to measure how confident a model is about a generated token.
 
 ### Evaluation pipeline
- - regression suite to test all the functionality
- - user feedback
+ - regression suite to test all the functionalities.
+ - user feedback of like/dislike if possible with detail rejection reasoning.
  - What
    1. Evaluation can happen at different levels: per-task, per-turn and per-intermediate output.
    2. per-turn should evaluate quality to each output.
@@ -47,6 +44,7 @@ dent a model is about a generated token.
    7. business metrics
  - Human feeback [linkedin](https://www.linkedin.com/blog/engineering/generative-ai/musings-on-building-a-generative-ai-product)
  - [examples](https://arxiv.org/abs/2306.09479) 
+
 ### Model selection
  - prompt engineering might start with the strongest model overall to evaluate feasibility and then work backward to see if smaller models would work.
  - If you decide to do finetuning, you might start with a small model to test your code and move toward the biggest model that fits your hardware constraints (e.g., one GPU).
@@ -149,7 +147,20 @@ dent a model is about a generated token.
 
 - Regression
   - model should be consitent in its answering.
-### Metrics 
+
+### Prompt Tuning
+- parallelize testing of prompt
+steps to follow below
+1. initial/update prompt
+2. evaluate prompt is working 
+3. if not go to step 1
+4. evaluate 
+5.   
+
+--- 
+
+# Observability  
+## Metrics 
 1. Performance
   - Latency
   - agent cost
@@ -188,6 +199,7 @@ dent a model is about a generated token.
 - Phoenix by arize - observability tool.
 
 ---
+----
 
 ## Agent framework
  - check the planner and tool it supports
@@ -253,7 +265,7 @@ dent a model is about a generated token.
     2. `none`: LLM should not use any tool.
     3. `auto`: LLM should use tool as they require. 
   - tool error handling: In interceptor we can catch the exception and provide error message in chosen framework class for llm-tool comunication.
-  
+  - Internal: Model never actually calls the tool it is the application responsibility. LLM provides the tool name and the arguments.   
 ### Safety
   - Biasness and toxicity
   - openAI content moderation API[1](https://oreil.ly/ZRwVI)

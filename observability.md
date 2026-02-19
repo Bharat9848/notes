@@ -28,26 +28,44 @@
 ## SLO breaches
 - Team based - bug in own team service, unplanned downtime, planned downtime
 - Dependent team based - bugs in dependent services/infrastructure.
-## Best practice
- - SRE implements DevOps in a prescriptive way, and it requires operations engineers, software developers, and product owners to align on:
-   1. what service objectives are
-   2. consequences to the objectives if SLO are not met.
-   3. Operations, software and product stakholders are agreed on the task upfront if SLO does not meet.
- - SLO:
-   1. Defining if in user centric manner.
-      - Availability SLO of user facing service should have availability SLO of 99.99%
-   2. measuring it in production
-      - SLO breach should be measured and raise an alert.
-   3. what to do to bring it back to normal when it is broken. If SLO breach have a real user negative impact then impacted service need to be improved upon so that it can meet the SLO. If SLO breach does not have negative user impact then it needs to get relax and it is merely technical glitch. Tightening of SLO might also be needed in some cases.
+
+
+### SLI
 - SLI typically includes throughput, latency and availability for a service and finding them is an empirical process. 
 - SLI can include freshness, durability, throughput, availability, latency, fidelity, coverage and correctness. Any of these quality can be chosen as a reliability measure.
 - SLI should be chosen from the customer point of view rather than technical standpoints. Since business analyst and product owner are more closer to the product user they should approve of current set of SLOs.
-- **Service Level Objective** SLO are the threshold or range of values to meet SLI for a service. SLO have to setup according to customer perspective. SLO should be tuned as per the customer happiness.
-- **Error budget** is difference between maximum service level and SLO. Error budgets are allocted per unit time and it get reset to the maximum error budget after time unit expires. So onus is on the team to remain within error budget during a time unit. Error budgets are important for consumers in two folds. First they have come up with strategies to cope up with permissible SLI breaches. Second they have to take the downstream budget into consideration before setting their own SLOs.
+- **Availiablity SLI**: It is measured using HTTP error codes - It is paramount for a team to follow http error code correctly.
+- **Latency SLI**: it should be based on user story. Each coarse grained latency SLO should be further break into individual call chain latency's SLO.
+
+### Service Level Objective
+**Service Level Objective** are the thresholds or range of values to meet SLI for a service. SLO have to setup according to customer perspective. SLO should be tuned as per the customer happiness.
+
+- If some stakeholder or anyone else outside the group detect issues, then SLO revision should happen. It may require to have additional SLOs besides current one.
+- New feature's SLO impact should be measured before hand before it is released in production.
+- SLO checking schedule should be set by team - quaterly, biweekly or semi-anually etc.
+
+- SLO Process
+  - SRE implements DevOps in a prescriptive way, and it requires operations engineers, software developers, and product owners to align on:
+    1. what service objectives are
+    2. consequences to the objectives if SLO are not met.
+    3. Operations, software and product stakholders are agreed on the task upfront if SLO does not meet.
+  
+- Setting SLO:
+  1. Defining if in user centric manner.
+     -  SLO of user facing service should have availability SLO of "99.99% over X year/month" or Latency SLO "p95 under X millisec"
+  2. measuring it in production
+     - SLO breach should be measured and raise an alert.
+  3. what to do to bring it back to normal when it is broken. 
+     1. If SLO breach have a real user negative impact then impacted service need to be improved upon so that it can meet the SLO. 
+     2. If SLO breach does not have negative user impact then it needs to get relax and it is merely technical glitch.
+
+ 
+### Error budget
+Error budget is difference between maximum service level and SLO. Error budgets are allocted per unit time and it get reset to the maximum error budget after time unit expires. So onus is on the team to remain within error budget during a time unit. Error budgets are important for consumers in two folds. First they have come up with strategies to cope up with permissible SLI breaches. Second they have to take the downstream budget into consideration before setting their own SLOs.
 - 100% SLI can take significant amount of engineering and operational effort/time to justify the marginal gain it would provide. More on-call rota, no deployment and work towards the operational/engineering issue will cause lot of efforts that will make 100% SLI not feasible.
 - **Error Budget policy** defines the strategies to improve service reliability after full depletion of error budget within allocated time unit. It includes blameless postmortem, no production deployment till SLI comes within the acceptable range, review of architecture design and deployment etc. Policy is applied to all the services owned by the team.
 - **Error Budget debt** does not accumulate and see it that its paid by the customer. 
-- **SRE infrasture**:
+### SRE infrastucture
   1. plot each SLI error budget depletion on y-axis with 100% to -100% and allocated time unit on x-axis.
   2. Alerts originated from SRE infrastructure should also mention remaining error budget. 
   3. It should track total error budget, depletion speed, error budget remaining for each SLO.
@@ -188,6 +206,7 @@
 research.html.
 - DORA. 2021. “State of DevOps 2021.” Google Cloud. https://services.google.com/fh/files/misc/state-of-devops-2021.pdf.
 - Harley, Nick. 2017. “Software Intelligence: Why Slow Is the New Down.” VentureBeat, April 27, 2017. (link)[https://venturebeat.com/2017/04/27/software-intelligence-why-slow-is-the-new-down]
+
 
 
 ## Rough 

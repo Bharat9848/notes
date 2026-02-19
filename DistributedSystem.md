@@ -145,6 +145,7 @@
  1. Each db server will have all the tables of schema but the tables shard will only have data for some set of keys.
  2. Keys can be divided on the basis of range or hash. See key-range and hash-based partiting section.
 
+----
 
 # Consistency
 
@@ -216,6 +217,11 @@
    - Single-leader replication
      - events will be casually ordered as they come to single leader. Leader can choose simple montonically increasing sequence to order them. 
      - cannot scale beyond a single node.
+
+### Rough
+- [external consistency](GIFFORD , D. K. Information Storage in a Decentralized Computer System. PhD thesis, Stanford, CA, USA,)
+- [snapshot reads with bounded staleness.](???)
+----
 
 ### Delievery Semantics
  - **Exactly-once semantics**

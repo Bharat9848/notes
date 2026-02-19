@@ -8,3 +8,6 @@
 - requires less documentation
 - It should be used in case method usecase is famous
 - If used unchecked it can lead to a class bloat up with large number of methods.
+
+
+## OpenAPI spec
