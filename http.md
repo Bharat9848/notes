@@ -1,8 +1,13 @@
-Http1.1 
-1.Text based protocol
-2.Disadvantage  hack 1.domain sharding(?) 2.resourse inlining 3. image spriting
+## Connection timeouts
+- idle-http-connection-timeout: remove idle connection after set time elapsed
+- socket-keep-alive ?
+- socket-timeout ?
 
-Http2
+## Http1.1 
+1. Text based protocol
+2. Disadvantage  hack 1.domain sharding(?) 2.resourse inlining 3. image spriting
+
+## Http2
 1. binary protocol 
 2. multiplexing of requests.
 3. header compression

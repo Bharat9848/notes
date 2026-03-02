@@ -77,7 +77,11 @@
 - `X-content-type-options: no-sniff` - it turn off browser's Mime type guessing algorithm for responses with unknown content type
 
 ### Secure Socket Layer
-  - SSL certificate contains the name of the entity to which certificate is issued, public key of server, digital signature verification?, certificate issuers private key signed digital sinature
+  - SSL certificate contains 
+    1. name of the entity to which certificate is issued
+    2. public key of server holding the certificate  
+    3. digital signature verification?, 
+    4. certificate issuers private key signed digital signature
   - SSL is deprecated now 
   - Certification Authority: is an organization which is trusted with signing of digital certificate
   - There are different type of security ranging from small to high verification
@@ -95,7 +99,9 @@
     3. After successful server certificate validation client sends an symmetric key signed with server's public key to server
     4. Session key calculation is done at both ends using symmetric key, client random and server random.
     5. client sends session key encrypted finish message.  
-    6. server sends session key encrypted finish message.  
+    6. server sends session key encrypted finish message.
+### Rough
+- SSL bundle ?
 
 
 --- 
@@ -350,7 +356,7 @@
  - Type 1 authentication: based something you know
  - Type 2 authentication: based something you have
  - Type 3 authentication: based something you are like biometrics
-
+ - Native, file-based,active directory, LDAP, PKI, SAML, Kerberos 
 ## Identity provider
 - solutions auth0, okta, internal OIDC compliant system
 - Provider isssues a identity JWToken which contain basic info like user id, email, role claim etc.

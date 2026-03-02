@@ -43,6 +43,7 @@ logging.getLogger("langchain.retrievers.multi_query").setLevel(logging.INFO)
 1. `kwargs` is used to send arbitrary parameter to a function.
 2. ``` ``` comments just after function declaration to explain brief about the function, arguments and return type.
 3. use `yield` for generator expression instead of list comprehension in case of large data.
+4. `pass` keyword ???
 
 ## Typical structure of a python project
   1. `requirement.txt`
@@ -79,6 +80,9 @@ logging.getLogger("langchain.retrievers.multi_query").setLevel(logging.INFO)
   def server_error(error):   
      return {"message": "Something went wrong on the server"}, 500
 ```  
+---
+## Pydantic
+ - if your class is subclass of `pydantic.BaseModel` which provides `model_json_schema()` which returns subclass json output schema definition. `model_dump()` returns serialized json output of an object.
 ---
 ## Rough
 - type `str`, `dict`, `TypedDict`

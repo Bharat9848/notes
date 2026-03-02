@@ -123,7 +123,9 @@ Combinatorial Optimization by Alexander Schrijver.
  - text classification
 
 ### Logistic regression
- - uses the `log(odd(probabilty(prediction)/1-probability(prediction)))` to decide whether an example belongs to a class or not. If it is greater than zero it means it belong to a class otherwise not.  
+ - uses the `log(odd(probabilty(prediction)/1-probability(prediction)))` to decide whether an example belongs to a class or not. If it is greater than zero it means it belong to a class otherwise not.  ??
+ - cost function = `-1/m(sumAll(y*log(ypred) + (1-y)*log(1-pred))`
+ - uses sigmoid function to classify data into positive or negative class.
 
 ### Support Vector machines
  - max margin separater line. 

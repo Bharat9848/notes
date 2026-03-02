@@ -12,6 +12,10 @@
  - Entropy = `-sum(p(i)*log(p(i))`information gain. Intuitively, entropy measures how difficult it is to predict what comes next in a language. The lower a language’s entropy (the less information a token of a language carries), the more predictable that language.
  - cross-entropy: A language model’s cross entropy on a dataset measures how difficult it is for the language model to predict what comes next in this dataset.
 
+# Famous functions
+ -**Sigmoid function** : used in mapping of classification of data in between 0 and 1. 
+ - Formula = 1/(1+e^(-z)).
+
 # Matrix
  - matrix decomposition
  - matrix factorization - 
@@ -37,7 +41,7 @@ that could conceptually get us from white-noise data to the data we observed.
 # Rough
 - Chebyshev’s inequality
 
-Sigmoid function : used in mapping of classification of data in between 0 and 1. Formula = 1/(1+e^(-z)).
+
 SET 
 Jaccard similarity : measures similarity between two sets = (A intersection B)/ (A union B) 
 
