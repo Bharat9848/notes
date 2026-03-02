@@ -3,7 +3,6 @@
  - which LLM to choose
  - how to restrict model to answer using context only.
 
-
 ---
 
 
@@ -27,9 +26,15 @@
 
 
 # Evaluation
-## General
- - look different vendors Evaluation API ??
- - When logprobs are available, use them. Logprobs can be used to measure how confident a model is about a generated token.
+
+## Evaluation API
+### Data model
+- Eval: it is a specific test with definition of llm_output_schema and verifying_criteria
+- verifying_criteria
+- llm_output_schema
+- test dataset: consist of input prompt and expected output. It exists independent of eval.
+- Run: it will take application api against which you want to run your eval with input from test dataset. It will generate a report. It is asynchronous and notified via webhook on completion,failed and cancelled events.
+
 
 ### Evaluation pipeline
  - regression suite to test all the functionalities.
@@ -54,6 +59,13 @@
   1. [benchmark link](https://github.com/EleutherAI/lm-evaluation-harness/blob/master/docs/task_table.md)
   2. [huggingface leaderboard](https://oreil.ly/-uhru)
   2. [stanford leaderboard](https://oreil.ly/CQ52G)
+#### model selection metrics
+  1. cross entropy: see cross entropy in machineLearningMaths.md
+  2. perplexity: exponential of cross entropy. perplexity measures the amount of uncertainty it has when predicting the next token. Perplexity is 2^(cross-entropy). Structured data, simple text like children book and context length have lower perplexity. Post-Training and quantization increase the perplexity.
+  3. small set of go-to prompts
+  4. Bit-per-character: How much bits language model uses for a training set character.
+  5. Bit-per-byte: How much bits language model uses for a training set byte.
+
 
 
 ### Model quality framework
@@ -121,12 +133,7 @@
     5. custom evaluation by preparaing customr dataset. It can be component level e.g. reranker, rewriter or RAG or it can be whole system level.
 - deploy or not deploy
 - benchmark progress
-- model selection
-  1. cross entropy: see cross entropy in machineLearningMaths.md
-  2. perplexity: exponential of cross entropy. perplexity measures the amount of uncertainty it has when predicting the next token. Perplexity is 2^(cross-entropy). Structured data, simple text like children book and context length have lower perplexity. Post-Training and quantization increase the perplexity.
-  3. small set of go-to prompts
-  4. Bit-per-character: How much bits language model uses for a training set character.
-  5. Bit-per-byte: How much bits language model uses for a training set byte.
+
 - Debugging:
   - context percentage usage of short-term memory and long-term memory
   - conversation importance of first vs last message. Both can be important based on the query
@@ -155,7 +162,18 @@ steps to follow below
 2. evaluate prompt is working 
 3. if not go to step 1
 4. evaluate 
-5.   
+   
+---
+# Agent evaluations
+## Testing type
+- End to End
+- component level testing: valid only in case of multi agent design
+## Testing scenarios
+- fault tool call
+- infinite loops
+- hallucination
+- instruction drift
+- wrong tool selection
 
 --- 
 
@@ -179,17 +197,20 @@ steps to follow below
   - RAGA's library
   2. RAG subcomponent
   - recall and precision metrics using human annotated dataset.
-  3. Agent subcomponent
+  - contextual relevancy
+  - answer relevancy: predicts weather llm is able to use context more effectively or not.
+  3. Agent/tool subcomponent
   - Valid plan percentage
   - invalid tool call frequency in last X sec window
   - valid tool call percentage.
   - no of iterations from invalid plan to valid plan.
   - tool wise invocation failures
+  - tool response rejection by llm.
   4. Overall system metrics
-  - Human feedback with thumb up and down with optional text box for feedback
-  - LLM as a judge.
-  - Human annotated dataset.
-  - Response evaluation 
+  - Human feedback with thumb up and down with optional text box for feedback.
+  - Response error metrics
+  - successful response metrics
+
 ### Logging
   - tool invocation failure, input and output   
   - Each stage input/output.
@@ -198,7 +219,6 @@ steps to follow below
 ### References
 - Phoenix by arize - observability tool.
 
----
 ----
 
 ## Agent framework
@@ -209,14 +229,6 @@ steps to follow below
 - for complex cases
 
 ---
-
-## LLM Engine
-## LLM chatbots 
-
-
----
-
-
 # AI agent
  - Planning:
    - generate plan agent
@@ -232,6 +244,7 @@ steps to follow below
 ## LLM choosing
  - LLMs should be chosen based on task complexity
  - LLMs differ in different tooling invocation  
+---- 
 ## Memory
   - Type
     1. short term session memory: cannot persist over and above a single query
@@ -243,6 +256,24 @@ steps to follow below
     - openAI Response API internally maintains conversation 
     - conversation can be summarized and stored to reduce memory footprint and remove duplication. It may require a new model to judge whether new conversation should be part of new summary or not.
   3. It can be a structured storage like RDBMS or queue for conversation
+----
+
+# Guardrail
+- Usage
+  - tool level check to prevent unauthorized which led to data modification
+  - routing stage check: check if model doing right tool orchestration and block invalid tool orchestration.
+  - block invalid input to LLM.
+  - block invalid LLM output.
+- Post guardrail failure: request can be rejected or user can be asked for more clarification or request can be guided to more safer path.  
+- Implementation
+  1. Model based: compact classification or moderation model access intent, safety and adherence on model output and input 
+  2. rule based: checking some blacklisted keywords or regexes against model IO.
+  3. Retrieval based: checked with data source audit.
+- router level guardrail for faster broader rejection
+- agent level guardrail for domain specific rejection
+- post model guardrail usecases includes: remove PII data, validate model output format, fact check or enforcing brand style
+
+----  
 ## structured output
   - prompting: instructs the LLM to generage output in desired format.
   - post-processing: write scripts to correct some common occurring errors.
@@ -287,6 +318,8 @@ steps to follow below
 
 
 ---
+# Multi agent
+- single turn or multi turn
 
 
 ## Multi-agent patterns
@@ -302,20 +335,14 @@ steps to follow below
   1. sectioning: aggregation needs to aggregate subsection response 
   2. voting: Aggregation require choosing the best one.
 7. workflow-orchestrator-workers: In the orchestrator-workers workflow, a central LLM dynamically breaks down tasks, delegates them to worker LLMs, and synthesizes their results.
-8. workflow-Evaluator-optimizer:In the evaluator-optimizer workflow, one LLM call generates a response while another provides evaluation and feedback in a loop.  
+8. workflow-Evaluator-optimizer: In the evaluator-optimizer workflow, one LLM call generates a response while another provides evaluation and feedback in a loop.  
+
 ---
 
-
-
-
-
+# Frameworks
 
 ## AutoGPT
   - emphasizes fully autonomous, goal-driven agents with minimal supervision, but can face challenges with task consistency. 
-
-
----
-
 
 ## LlamaIndex
   -  stands out in knowledge retrieval, though its scope is narrower than broader agent frameworks. 
@@ -329,7 +356,6 @@ steps to follow below
 
 ## CrewAI 
   - enables collaborative, multi-agent systems for specialized teams, but is a newer tool with a smaller community.
-
 
 ---
 
@@ -365,22 +391,6 @@ steps to follow below
  -  OpenAI’s function calling, LangChain’s glue-code agent chains, or Replit’s ghost dev, 
  - open-source Agentic Commerce Protocol developed with Stripe, 
  
----
-
-# Guardrail
-- Usage
-  - tool level check to prevent unauthorized which led to data modification
-  - routing stage check: check if model doing right tool orchestration and block invalid tool orchestration.
-  - block invalid input to LLM.
-  - block invalid LLM output.
-- Post guardrail failure: request can be rejected or user can be asked for more clarification or request can be guided to more safer path.  
-- Implementation
-  1. Model based: compact classification or moderation model access intent, safety and adherence on model output and input 
-  2. rule based: checking some blacklisted keywords or regexes against model IO.
-  3. Retrieval based: checked with data source audit.
-- router level guardrail for faster broader rejection
-- agent level guardrail for domain specific rejection
-- post model guardrail usecases includes: remove PII data, validate model output format, fact check or enforcing brand style
 
 ---
 
@@ -411,7 +421,6 @@ Migrate, AI Code Translator)
 • Writing documentation (Autodoc)
 • Creating tests (PentestGPT)
 • Generating commit messages (AI Commits)
-
 
 ---
 

@@ -86,6 +86,8 @@ it have adversarial loop between its components that continues till satisfactory
     1. time to first token
     2. token per second.
   - Training cutoff date
+  - When logprobs are available, use them. Logprobs can be used to measure how confident a model is about a generated token.
+
 
 ----
 ## Model quality

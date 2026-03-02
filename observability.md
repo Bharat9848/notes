@@ -65,10 +65,17 @@ Error budget is difference between maximum service level and SLO. Error budgets 
 - 100% SLI can take significant amount of engineering and operational effort/time to justify the marginal gain it would provide. More on-call rota, no deployment and work towards the operational/engineering issue will cause lot of efforts that will make 100% SLI not feasible.
 - **Error Budget policy** defines the strategies to improve service reliability after full depletion of error budget within allocated time unit. It includes blameless postmortem, no production deployment till SLI comes within the acceptable range, review of architecture design and deployment etc. Policy is applied to all the services owned by the team.
 - **Error Budget debt** does not accumulate and see it that its paid by the customer. 
+
 ### SRE infrastucture
+- Bare minimum requirement
+  1. set SLO for availability and latency
+  2. ability to send alerts on SLO breaches
+  3. retune SLO through selfservice
+- Dashboard 
   1. plot each SLI error budget depletion on y-axis with 100% to -100% and allocated time unit on x-axis.
   2. Alerts originated from SRE infrastructure should also mention remaining error budget. 
   3. It should track total error budget, depletion speed, error budget remaining for each SLO.
+  
 - **Error budget based decision making**: All internal and external team desision making or contracts are done while looking at internal and external teams SLO. It may further lead to discussion for tightening of SLO of downstream dependencies based on current service SLO requirements. Also implementation/review of new/old technical design to meet SLO. Error budget depletion calculation while chaos testing. Error budget depletion calculation while deploying some features that require downtime.
 - A professional status page such as the one for Microsoft [Azure](https://azure.status.microsoft/en-us/status) or Amazon [AWS](https://status.aws.amazon.com.) is the goal with SRE.
 

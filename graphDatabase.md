@@ -1,13 +1,26 @@
 # Graph database
-## Basics
+## Data model
 - Triplet (Entity, relationship entity2)
 - entity have attributes
-- ontology: schema to define entity, relationships and attributes
+- **Ontology**: schema to define entity, relationships and attributes. they are represented using semantic network. It is a type of organizing principle
+
 - graph: graphical representation of a domain data using entities and relationship b/w them. Node are entity or instances, edges are represented using relationship between nodes, tags are key/value pair associated with node and edges, properties are additional attribute associated with node and edges.
+- organizing principle as a conceptual map or metadata layer overlaying the data and relationships in the graph.
+
+## CYPHER query language
+- Depth parameter: specify minimum and maximum number of hops wanted to reach from one node to another. Help in increasing query performance by preventing deep graph traversal.
+- example query syntax
+`MATCH path = (variableX:NodeTypeX)-[:RelationshipTypeX*<depth_parameter>]->(variableY: NodeTypeY)-[:RelationshipTypeY*<depth_parameter>]->(variableZ:NodeTypeZ)
+WHERE variableX.name = 'Tim Cook'
+RETURN variableX, variableY, variableZ, path;`
+
 
 ## Knowledge graph
 - structured representation of facts using relationship between nodes.
 
+## Property graph
+## RDF
+- This model does not support relationships with properties or multiple same-typed relationships between entities. 
 
 
 # Examples
@@ -23,6 +36,8 @@
 - DBpedia
 - Any LLM
 - Yago
+- Wikidata
+- freebase
 
 
 
@@ -44,3 +59,9 @@ coref_model = spacy.load("en_coreference_web_trf")
 graph = extract_relationships(text, lang_model, coref_model)
 print(graph)
 ````
+
+## Books
+- The Practitioner's Guide to Graph Data: Applying Graph Thinking and Graph Technologies to Solve Complex Problems (Greyscale Indian Edition
+- Building Knowledge Graphs: A Practitioner's Guide (Greyscale Indian Edition) 
+- Knowledge-graphs[link](https://kgbook.org/)
+- Knowledge Graphs: Fundamentals, Techniques, and Applications (Adaptive Computation and Machine Learning series)

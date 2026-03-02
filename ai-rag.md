@@ -21,9 +21,11 @@ Following are some of the usecases of RAG
 - hypothetical question indexing associated with the chunk 
 - Compression techniques: 1. Quantization 2. Pruning
 - check the embedding model used in LLM to encode user query. E.g. text-embedding-ada-002 is used by OpenAI model
+
 #### embedding functions
   - `OpenAIEmbeddings`: not free.
   - `all-MiniLM-L6-v2` ?
+  - ONNX model [https://docs.spring.io/spring-ai/reference/api/embeddings/onnx.html]
 
 #### Chunking strategies  
 1. text split strategy: 
@@ -36,6 +38,7 @@ Following are some of the usecases of RAG
 6. Multi vector indexing: The key to these strategies is a two-layer chunk structure. The top layer includes synthesis chunks—the chunks fed into the LLM to generate answers. The lower layer consists of retrieval chunks, smaller segments that create precise embeddings for retrieving the synthesis chunks.
 
 --- 
+
 ## Retrieval phase
 - Shorter context are more efficient but they fail to answer broader questions. The longer the context, the more likely the model is to focus on the wrong part of the context.
 ### Search type
@@ -49,8 +52,7 @@ User query is converted into query vector and then it was searched in relevant i
   - `fuzzy match` tries to gauge two sentences similarilty by measuring edit distance.
   - `N-gram match` strategy tries to gauge similarity by doing exact match by breaking sentences in N-gram.
   - keyword exact search
-4. hybrid search 
-  - involves invocation of term based and embedding based search in parallel then using algorithm like [reciprocal rank fusion](https://oreil.ly/3xtwh) to calculate final score. 
+
 ### Similarity measure
 1. Which similarity measure to use: It is important to use the same metric on which the underlying foundational model has been trained. For example, in the case of the OpenAI GPT class of models, the distance function is cosine similarity.
 2. L2 Norm/Euclidean distance: good for spatial dataset.
@@ -88,7 +90,7 @@ User query is converted into query vector and then it was searched in relevant i
 - Removal of inaccurate answer.
 - Multimodel embedding model like [CLIP](https://arxiv.org/abs/2103.00020) is used when you have query as text but embedding data is a image.
 
-
+---
 ### Retriever performance
  - Context precision: Document retrieved from the search how relevant they are to query.
  - context recall: of all the documents that are relevant to query, how many of those are fetched
@@ -99,6 +101,23 @@ User query is converted into query vector and then it was searched in relevant i
 
 ---
 
+### RAG testing
+- generate a high quality dataset- labeled by human,statistically significant,Data diversity
+- check for relevancy when asked broader question. Questions that can span multiple documents.
+- check for relevancy when asked specific question 
+- Test embedding to catch domain specific nuances.
+
+---
+### Advanced RAG
+#### Hybrid RAG
+  - involves invocation of term based and embedding based search in parallel then using algorithm like [reciprocal rank fusion](https://oreil.ly/3xtwh) to calculate final score. It improves precision of the retriever phase.
+#### Graph RAG
+ - see paper notes kg-guided rag
+ - Knowledge graph RAG implementation
+   1.  
+
+
+----
 # vector databases
 Embedding models: `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`.It is best suited for unstructured data. Some vector store needs schema initialization -???.
 
@@ -107,8 +126,9 @@ Embedding models: `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`.It is
     - reverse indexes
     - product quantization  
     - locality sensitive hashing
- - Hierarchial Navigable Small World(HNSW):Hierarchial graph with many layers. Upper layers are sparse once upper layer nodes are selected. Search is shifted to lower layer to refine the results. Tuning parameters: number of candidate to consider at 1st iteration of search. number of neighbor to consider while constructing the graph. number of docs to return. Distance metrics to be used for semantic searching
-   
+ - Hierarchial Navigable Small World(HNSW):Hierarchial graph with many layers. Upper layers are sparse once upper layer nodes are selected. Search is shifted to lower layer to refine the results. Tuning parameters: number of candidate to consider at 1st iteration of search. number of neighbor to consider while constructing the graph. number of docs to return. Distance metrics to be used for semantic searching.
+ - index creation optimization can be done on two different strategies: 1. recall 2. latency
+
 ### Vector DBs / tools
  - "In general, vector databases organize vectors into buckets, trees, or graphs. Vector search algorithms differ based on the heuristics they use to increase the likelihood that similar vectors are close to each other. Vectors can also be quantized (reduced precision) or made sparse. The idea is that quantized and sparse vectors are less computationally intensive to work with."
  - search retrun theme
@@ -198,7 +218,6 @@ Embedding models: `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`.It is
  - `get()`: used for simple operation to do metadata filtering or lexical search. It returns the dictionary result in a columnar fashion e.g ids will give list of all the return ids, documents will be a list of all returned document text.
  - `delete()`
  - `add`: bulk api takes list of `documents`, list of `metadata`, list of `ids`
-
 ## Querying
  - `where_document` is an argument to collections' API query/get/delete method. It usually work with operators json like `$contains`/`$not_contains` to search words in document text.
  - `$contains`/`$not_contains` search keywords in the text.
@@ -218,6 +237,9 @@ Embedding models: `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`.It is
   ```
   - `$in` and `$nin` are typical in and not-in operator they take a list as argument against a key field,
 ---
+
+----
+
 # elastic search
 
 ---
@@ -225,11 +247,6 @@ Embedding models: `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`.It is
 # Practice
 - see nlp notes on spacy and nltk
 
----
-
-## RAG testing
- - check for relevancy when asked broader question
- - check for relevancy when asked specific question 
 
 ---
 ## RAG system architecture
@@ -237,8 +254,14 @@ Embedding models: `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`.It is
   2. Agentic RAG: LLM have the independence to call RAG or not or call RAG multiple times.
   3. Hybrid RAG:
 ---
+## Papers and books
+- ARAGOG: Advanced RAG Output Grading
+- 
 
+
+---
 ## Rough
+- HotpotQA dataset
 - Marginalization: Generator sum of probabilty of all the matching document to generate the answer
 - Maximum inner product search: Retriever searches through all document using MIPS
 - ColBERT ??
