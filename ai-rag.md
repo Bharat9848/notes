@@ -12,8 +12,9 @@ Following are some of the usecases of RAG
   - streaming data.
   
 
+----
 
-### Ingestion phase
+# Ingestion phase
 - Metadata can help in giving storing source links.
 - increasing vector dimension for richer semantic details.
 - combination of metadata and embedding indexing
@@ -22,10 +23,14 @@ Following are some of the usecases of RAG
 - Compression techniques: 1. Quantization 2. Pruning
 - check the embedding model used in LLM to encode user query. E.g. text-embedding-ada-002 is used by OpenAI model
 
-#### embedding functions
+#### embedding model
+ - `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`, vertex ai embedding model, `OpenAiEmbeddingModel`. Tokenization: have encoding type `EncodingType.CL100K_BASE`
+ - `auto-truncate` by vertex AI embedding model silently truncate document if tokens are more than embedding model context window.
   - `OpenAIEmbeddings`: not free.
   - `all-MiniLM-L6-v2` ?
-  - ONNX model [https://docs.spring.io/spring-ai/reference/api/embeddings/onnx.html]
+  - [ONNX model](https://docs.spring.io/spring-ai/reference/api/embeddings/onnx.html)
+  - Search optimized model [bge-large](https://huggingface.co/BAAI/bge-large-en-v1.5) [multilingual E5 large](https://huggingface.co/intfloat/multilingual-e5-large)
+  - [embedding leaderboard](https://huggingface.co/spaces/mteb/leaderboard)
 
 #### Chunking strategies  
 1. text split strategy: 
@@ -36,42 +41,59 @@ Following are some of the usecases of RAG
 4. Language based chunking: LLM are given task to intelligently break the document into semantically coherent subparts.
 5. context aware chunking: It can be added over and above any kind of above strategies. It generates a summary of chunk and add it back as context.
 6. Multi vector indexing: The key to these strategies is a two-layer chunk structure. The top layer includes synthesis chunks—the chunks fed into the LLM to generate answers. The lower layer consists of retrieval chunks, smaller segments that create precise embeddings for retrieving the synthesis chunks.
-
+##### Refrences
+- [strategies](https://www.pinecone.io/learn/chunking-strategies/)
 --- 
+# Pre Retrival phase
 
-## Retrieval phase
-- Shorter context are more efficient but they fail to answer broader questions. The longer the context, the more likely the model is to focus on the wrong part of the context.
-### Search type
-User query is converted into query vector and then it was searched in relevant indexes based on semantic, lexical or hybrid approaches. 
-1. Metadata filtering further filter out irrelevant search.
-2. Semantic search
-  -- It uses ANN algorithm see ANN in machine learning notes
-  - it is also called dense vector/ embedding search
-3. lexical/sparse vector search
-  - also called term-based search and lexical search.
-  - `fuzzy match` tries to gauge two sentences similarilty by measuring edit distance.
-  - `N-gram match` strategy tries to gauge similarity by doing exact match by breaking sentences in N-gram.
-  - keyword exact search
-
-### Similarity measure
-1. Which similarity measure to use: It is important to use the same metric on which the underlying foundational model has been trained. For example, in the case of the OpenAI GPT class of models, the distance function is cosine similarity.
-2. L2 Norm/Euclidean distance: good for spatial dataset.
-3. Cosine similarity: ideal for text as it is suitable to ignore doc length
-4. Dot product: recommendation system where degree and magnitude of vector both are important.
-5. Manhatten distance/ L1 norm:
-6. Hamming distance: used for categorical/binary data.
-
-### Retrieval optimization
-- Hypothetical Domcument embedding(HyDE): LLM generates an hypothetical document that will match the user query and then generated document is used as query to be searched in vector store.
-
-#### Query preprocessing
+## Query preprocessing
 1. **Question transformation**: Rephrasing a vague question can result in more efficient search. It requires an LLM to remove unnecessary details, use synonyms from the domain to better query matching and clear the ambiguity phrases.
-2. Named entity recognition: takes the prompt before the retriever and extracts the entity metadata like person, books, date, company etc. entity metadata can be used in enriching the prompt or can be used in metadata filtering.
+2. Named entity recognition: takes the prompt before the retriever and extracts the entity metadata like person, books, date, company etc. Then use entity metadata can be used in enriching the prompt or can be used in metadata filtering.
+3. Query reformulation: Follow up question based on references previous question/answer cannot be passed directly to RAG retriever, as it will be missing context from previous conversation. 
+```txt
+Given the following conversation and a follow up question rephrase the follow up question to be a standalone question
 
-- **Search expansion:**
+Chat History
+{chat_history}
+Follow Up Input: {question}
+Standalone question:
+```  
+4. Multi query retrieval/ **Question split**: queries can be break into multi queries that can run in parallel. Broad question may not result in pinpoint answer, breaking the question into sub-question might help in overall process of vector search and generation phase.
+
+---
+
+# Retrival phase
+
+- Shorter context are more efficient but they fail to answer broader questions. The longer the context, the more likely the model is to focus on the wrong part of the context.
+
+### Search type
+
+#### Semantic search:
+-  User query is converted into query vector and then it was searched in relevant vector indexes.
+- Similarity measure
+    1. Which similarity measure to use: It is important to use the same metric on which the underlying foundational model has been trained. For example, in the case of the OpenAI GPT class of models, the distance function is cosine similarity.
+    2. L2 Norm/Euclidean distance: good for spatial dataset.
+    3. Cosine similarity: ideal for text as it is suitable to ignore doc length
+    4. Dot product: recommendation system where degree and magnitude of vector both are important.
+    5. Manhatten distance/ L1 norm:
+    6. Hamming distance: used for categorical/binary data.
+
+#### Multi-store routing: 
+- Vector store can be supplemented with other store like relational databases, table or graph which are presided over LLM to help with individual technology syntax.
+  1. Metadata filtering further filter out irrelevant search.
+  2. Semantic search
+    -- It uses ANN algorithm see ANN in machine learning notes
+    - it is also called dense vector/ embedding search
+  3. lexical/sparse vector search
+    - also called term-based search and lexical search.
+    - `fuzzy match` tries to gauge two sentences similarilty by measuring edit distance.
+    - `N-gram match` strategy tries to gauge similarity by doing exact match by breaking sentences in N-gram.
+    - keyword exact search
+
+#### **Search expansion:**
   - for broader question it is helpful to add smaller chunks with neighbouring sentences to provide broader context.
 
-- **Reranker**
+#### **Reranker**
   - It can be done using cross encoder or LLM.
   - **Cross-Encoder**
     - each document and prompt is given to an encoder which returns the matching score.
@@ -84,13 +106,32 @@ User query is converted into query vector and then it was searched in relevant i
     - multiple embeddings for single document. 
     - additional keywords indexing
 
-- **Question split**: Broad question may not result in pinpoint answer, breaking the question into sub-question might help in overall process of vector search and generation phase.
-- **Multi-store routing**: Vector store can be supplemented with other store like relational databases, table or graph which are presided over LLM to help with individual technology syntax.
 - Ensemble strategy to maximize precision
 - Removal of inaccurate answer.
 - Multimodel embedding model like [CLIP](https://arxiv.org/abs/2103.00020) is used when you have query as text but embedding data is a image.
 
+#### Hybrid RAG
+  - involves invocation of term based and embedding based search in parallel then using algorithm like [reciprocal rank fusion](https://oreil.ly/3xtwh) to calculate final score. It improves precision of the retriever phase.
+
+#### Graph RAG
+ - see paper notes kg-guided rag
+ - Knowledge graph RAG implementation
+
+#### Hypothetical question
+ - index comprises of question based on chunks.
+ - retriever compares user question with generated question vector.
+ - Augmentation phase use the original text form the chunk
+
+#### Hypothetical Domcument embedding(HyDE)
+ - LLM generates an hypothetical document that will match the user query and then generated document is used as query to be searched in vector store.
+
+#### Hierarchial index retrieval
+- For many documents corpus usecases, it introduces summary index before the chunks index.
+- large document are summarized and embedded into summarized index.
+- first query is searched in search index and then from search index refrences all original chunks are retrieved.
+
 ---
+
 ### Retriever performance
  - Context precision: Document retrieved from the search how relevant they are to query.
  - context recall: of all the documents that are relevant to query, how many of those are fetched
@@ -107,15 +148,21 @@ User query is converted into query vector and then it was searched in relevant i
 - check for relevancy when asked specific question 
 - Test embedding to catch domain specific nuances.
 
----
-### Advanced RAG
-#### Hybrid RAG
-  - involves invocation of term based and embedding based search in parallel then using algorithm like [reciprocal rank fusion](https://oreil.ly/3xtwh) to calculate final score. It improves precision of the retriever phase.
-#### Graph RAG
- - see paper notes kg-guided rag
- - Knowledge graph RAG implementation
-   1.  
 
+----
+
+# Augumentation phase
+- retrived content is augmented to user's original prompt.
+- problems
+  - disjointed and incohrent prompt
+    - disordering of retrieved documents
+    - stylic and tonal inconsistency
+  - redundant similar information
+
+----
+# Generation phase
+ - problems
+   - mere repetition of retrieved documents without any insight or synthesis information
 
 ----
 # vector databases
@@ -142,13 +189,10 @@ Embedding models: `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`.It is
    - euclidean distance is used in geo indexes, computer vision and image analysis
 
 #### References
- - `faiss`: in-memory vector database, each embedding is associated with unique document identifier. Document is stored somewhere else. [link](https://github.com/facebookresearch/faiss/wiki/). python package name `faiss-cpu`
  - `redisai` and `torchserve` are also in-memory databases
  - `milvus` : Image dense vector search. [link](https://milvus.io)
  - Google ScaNN: scalable [link](https://oreil.ly/faJqj)
  - spotify annoy: [link](https://github.com/spotify/annoy)
- - Hnswlib: [link](https://github.com/nmslib/hnswlib)
- - `pinecone`: [link](https://github.com/facebookresearch/faiss/wiki/)
  - Qdrant : [link](https://qdrant.tech)
  - Chroma: [link](https://www.trychroma.com)
  - Weaviate: [link](https://weaviate.io)
@@ -160,20 +204,20 @@ Embedding models: `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`.It is
  - PgVector: PostgresSQL extension [link](https://github.com/pgvector/pgvector)
  - MongoDB Atlas(MongoDB extension)[link](https://www.mongodb.com/ )
  - Paper [Local sensitive hashing](https://oreil.ly/slO9x) 
- - [Hierarchical Navigable Small World](https://github.com/nmslib/hnswlib)
+ - Hierarchical Navigable Small World [1](https://github.com/nmslib/hnswlib) [2](https://www.pinecone.io/learn/series/faiss/hnsw/) 
  - [product quantization](https://oreil.ly/VaLf4)
  - [Inverted file Index](https://oreil.ly/9BcYN)
  - [Approximate nearest neighbour oh yeah](https://github.com/spotify/annoy) 
  - [embedding model](https://github.com/UKPLab/sentence-transformers)
  - [massive text embedding benchmark](https://arxiv.org/abs/2210.07316)
  - influxdb/prometheus: store vectors against timestamps.
- - vector store sample [data](github.com/datastax-labs/colbert-wikipedia-data) 
+ - vector store sample [data](github.com/datastax-labs/colbert-wikipedia-data)
+ - [nmslib](https://github.com/nmslib/nmslib) 
 
- #### Rough
- - Embedding models: `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`, vertex ai embedding model, `OpenAiEmbeddingModel`. Tokenization: have encoding type `EncodingType.CL100K_BASE`
- - `auto-truncate` by vertex AI embedding model silently truncate document if tokens are more than embedding model context window.
+
 ---
 # FAISS
+in-memory vector database, each embedding is associated with unique document identifier. Document is stored somewhere else.
  - supports IVF, FlatL2, LSH, HNSW algorithm.
  - single node or for local deployment.
  - No metadata support natively
@@ -182,6 +226,9 @@ Embedding models: `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`.It is
  - Locality sensitive hashing: uses hash buckets to calculate nearest neighbors. It is usefull sparse data. it is faster and memory efficient. Search happens in the nearest buckets only.
  - HNSW: see machine learning notes for more details
  - Scaling, metadata support and multi node deployment limitation can be overcome by using Milvus with FAISS as storage engine.
+ - [documentation](https://faiss.ai/)
+ - [link](https://github.com/facebookresearch/faiss/wiki/). 
+ - python package name `faiss-cpu`
 ---
 # Milvus
 - distributed production scale system.
@@ -256,7 +303,7 @@ Embedding models: `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`.It is
 ---
 ## Papers and books
 - ARAGOG: Advanced RAG Output Grading
-- 
+ 
 
 
 ---

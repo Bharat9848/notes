@@ -60,8 +60,10 @@ graph = extract_relationships(text, lang_model, coref_model)
 print(graph)
 ````
 
-## Books
+## Books and refrences
 - The Practitioner's Guide to Graph Data: Applying Graph Thinking and Graph Technologies to Solve Complex Problems (Greyscale Indian Edition
 - Building Knowledge Graphs: A Practitioner's Guide (Greyscale Indian Edition) 
 - Knowledge-graphs[link](https://kgbook.org/)
 - Knowledge Graphs: Fundamentals, Techniques, and Applications (Adaptive Computation and Machine Learning series)
+- [courses](https://graphacademy.neo4j.com/)
+- [podcast neo4j](https://github.com/jbarrasa/goingmeta/blob/main/README.md)

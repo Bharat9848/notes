@@ -25,7 +25,8 @@
 - min-p sampling: minimum probability that a token must reach to be considered during sampling
 
 ---
-
+# Log
+- `log(a*b)= log(a) + log(b)` 
 
 
 
@@ -42,3 +43,6 @@
 
 ## Rough
 - Lagrange interpolation
+
+## Graphs
+- free online tool to plot [graph](https://www.desmos.com/calculator) 
