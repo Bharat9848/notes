@@ -49,7 +49,9 @@ Following are some of the usecases of RAG
 ## Query preprocessing
 1. **Question transformation**: Rephrasing a vague question can result in more efficient search. It requires an LLM to remove unnecessary details, use synonyms from the domain to better query matching and clear the ambiguity phrases.
 2. Named entity recognition: takes the prompt before the retriever and extracts the entity metadata like person, books, date, company etc. Then use entity metadata can be used in enriching the prompt or can be used in metadata filtering.
-3. Query reformulation: Follow up question based on references previous question/answer cannot be passed directly to RAG retriever, as it will be missing context from previous conversation. 
+3. Chat engine condensed context: 
+  - Query reformulation: Follow up question based on references previous question/answer cannot be passed directly to RAG retriever, as it will be missing context from previous conversation. 
+  - Previous chat history and current query is transformed into standalone question before fetching context from retrieval phase
 ```txt
 Given the following conversation and a follow up question rephrase the follow up question to be a standalone question
 
@@ -58,7 +60,18 @@ Chat History
 Follow Up Input: {question}
 Standalone question:
 ```  
+  - refrences
+    1. llamaindex [condense plus context mode](https://developers.llamaindex.ai/python/examples/chat_engine/chat_engine_condense_plus_context/)
+
 4. Multi query retrieval/ **Question split**: queries can be break into multi queries that can run in parallel. Broad question may not result in pinpoint answer, breaking the question into sub-question might help in overall process of vector search and generation phase.
+
+5. step back prompting: user query is transformed to a more general query.
+  - reference: step back prompting
+
+6. Query Routing:
+  - in case of multiple routes - subagent or multiple datasources
+  - llamaindex [intro](https://developers.llamaindex.ai/python/framework/module_guides/querying/router/)
+  - langchain [intro](https://docs.langchain.com/oss/python/langchain/multi-agent/router)
 
 ---
 
@@ -92,6 +105,9 @@ Standalone question:
 
 #### **Search expansion:**
   - for broader question it is helpful to add smaller chunks with neighbouring sentences to provide broader context.
+  - context enrichment:
+    1. Sentence window retrieval: sentences are embedded and during retrieval matched sentence is expanded into k sentences above or below
+    2. Parent child retriever: child chunks were searched upon. Parent chunks were fetched for retrieved child chunks before sending to LLM.
 
 #### **Reranker**
   - It can be done using cross encoder or LLM.
@@ -115,7 +131,37 @@ Standalone question:
 
 #### Graph RAG
  - see paper notes kg-guided rag
- - Knowledge graph RAG implementation
+ - steps
+   1. node and relation extraction
+      spacy
+      LLM prompt
+   2. Vector index building
+      - triplet can be linearized and embed using same embedding model
+      - Graph clustering summarization is linearized and store as embedding   
+   3. Query preprocessing
+      - plain query is transformed in triplets based Cypher query language through llm using Named Entity Recoginiton(NER) pipeline. 
+   4. Querying 
+      - simple query: how many hops to reach from the subject of the query
+      - multi entities query: below flowchart for the process. and also limit the worst case scenario of repeat process to 3 (based on research every person is related to other through a path of length 6).
+      ```mermaid
+          flowchart TB
+            Start --> id1{Direct relationship b/w main entities A and B?}
+            id1 --yes--> Result
+            id1 --"no"--> B[Find related entities of A and B using filter queries]
+            B --> C{Related entities of A connected to related entities of B ?}
+            C --yes--> Result
+            C --"no"--> D[Repeat process using direct neighbour of A and B]
+            D ---> Start
+            Result --> End
+      ``` 
+      - result is subgraph which requires further size reduction
+        1. select nodes that are on shortest path b/w interested parties
+        2. apply graph pruing algorithm to reduce relations futher.
+           - not to reduce number of short path.
+           - maintain diversity in the result.  
+    5. Graph text linearization
+
+
 
 #### Hypothetical question
  - index comprises of question based on chunks.
@@ -130,27 +176,14 @@ Standalone question:
 - large document are summarized and embedded into summarized index.
 - first query is searched in search index and then from search index refrences all original chunks are retrieved.
 
----
-
-### Retriever performance
- - Context precision: Document retrieved from the search how relevant they are to query.
- - context recall: of all the documents that are relevant to query, how many of those are fetched
- - Mean Average Precision(MAP@K): sum of scores of relevant document only, divided by number of relevant documents.
- - Reciprocal rank measure the position of first relevant document and is calculated by `1/position`.
- - Mean Reciprocal Rank: average of many reciprocal ranks.
- - map retrieval performance with different indexing algorithm like IVF, FlatL2, LSH, HNSW etc.
-
----
-
-### RAG testing
-- generate a high quality dataset- labeled by human,statistically significant,Data diversity
-- check for relevancy when asked broader question. Questions that can span multiple documents.
-- check for relevancy when asked specific question 
-- Test embedding to catch domain specific nuances.
-
+----
+# Post retrieval phase
+- reranking,
+- keywords
+- date wise sorting
+- metadata filtering
 
 ----
-
 # Augumentation phase
 - retrived content is augmented to user's original prompt.
 - problems
@@ -161,9 +194,17 @@ Standalone question:
 
 ----
 # Generation phase
- - problems
-   - mere repetition of retrieved documents without any insight or synthesis information
-
+  - problems
+    - mere repetition of retrieved documents without any insight or synthesis information
+## Reference citations
+  - input the source document url to context and ask LLM to cite the sources for used context.
+  - Match the generate source to fuzzy match with retrieved context.
+    - reference [intro](https://towardsdatascience.com/a-guide-on-how-to-build-a-fuzzy-search-algorithm-with-fuzzywuzzy-and-hmni-26855ce1818b/)
+## Response synthesiser
+  - call LLM with each context individually
+  - summarize all the answer
+  - refernce llamaindex [responseSynthesizer](https://developers.llamaindex.ai/python/framework/module_guides/querying/response_synthesizers/)
+  
 ----
 # vector databases
 Embedding models: `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`.It is best suited for unstructured data. Some vector store needs schema initialization -???.
@@ -296,14 +337,25 @@ in-memory vector database, each embedding is associated with unique document ide
 
 
 ---
-## RAG system architecture
+# RAG system architecture
   1. 2-step RAG: Retrieval is called before calling LLM.
   2. Agentic RAG: LLM have the independence to call RAG or not or call RAG multiple times.
   3. Hybrid RAG:
+  4. Multi document agent: Orchestrator pattern. each agent is sits on a document and its summary index. Main orchestrator agent calls subagent after evaluating user query
+  5. Fine tuning
+    - Encoder finetuning
+    - Reranker finetuning
+    - LLM finetuning
+      1. [openai finetuning](https://developers.openai.com/api/docs/guides/model-optimization)
+      2. [openai finetuning](https://developers.llamaindex.ai/python/examples/finetuning/openai_fine_tuning/)
+      3. [RADIT](https://www.llamaindex.ai/blog/improving-rag-effectiveness-with-retrieval-augmented-dual-instruction-tuning-ra-dit-01e73116655d)
+      4. RA-DIT paper
+
 ---
 ## Papers and books
 - ARAGOG: Advanced RAG Output Grading
- 
+- llamaindex: OpenAiAgent class
+- multi agent documentation [llamaindex](https://developers.llamaindex.ai/python/framework/understanding/agent/multi_agent/)
 
 
 ---

@@ -175,6 +175,23 @@ steps to follow below
 - instruction drift
 - wrong tool selection
 
+---
+
+# Retriever performance
+ - Context precision: Document retrieved from the search how relevant they are to query.
+ - context recall: of all the documents that are relevant to query, how many of those are fetched
+ - Mean Average Precision(MAP@K): sum of scores of relevant document only, divided by number of relevant documents.
+ - Reciprocal rank measure the position of first relevant document and is calculated by `1/position`.
+ - Mean Reciprocal Rank: average of many reciprocal ranks.
+ - map retrieval performance with different indexing algorithm like IVF, FlatL2, LSH, HNSW etc.
+
+---
+
+# RAG testing
+- generate a high quality dataset- labeled by human,statistically significant,Data diversity
+- check for relevancy when asked broader question. Questions that can span multiple documents.
+- check for relevancy when asked specific question 
+- Test embedding to catch domain specific nuances.
 --- 
 
 # Observability  

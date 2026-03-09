@@ -43,7 +43,7 @@ RETURN variableX, variableY, variableZ, path;`
 
 # Tools
 - Python-based spaCy library: ships with state-of-the-art statistical neural network models for part-of-speech tagging, dependency parsing, text categorization, and named-entity recognition.
-````
+````python
 def extract_relationships(text, lang_model, coref_model):
   resolved_text = resolve_coreferences(text, coref_model)
   sentences = get_sentences(resolved_text, lang_model)
@@ -67,3 +67,6 @@ print(graph)
 - Knowledge Graphs: Fundamentals, Techniques, and Applications (Adaptive Computation and Machine Learning series)
 - [courses](https://graphacademy.neo4j.com/)
 - [podcast neo4j](https://github.com/jbarrasa/goingmeta/blob/main/README.md)
+
+## Rough
+- Leveraging Elastic’s ability to stack boolean queries, we check if the relation store contains at least one connection between any element linked to the first entity and any element linked to the second entity.?
