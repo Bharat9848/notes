@@ -128,3 +128,7 @@ Agent: This component manages a dynamic workflow, extending a sequential chain."
 - LLMGraphTransformer how it works?
 ## Rough 
 - You can invoke an agent by passing an update to its State. All agents include a sequence of messages in their state; to invoke the agent, pass a new message:  
+
+## References
+ - https://docs.langchain.com/oss/python/langchain/overview#text-splitters
+ 

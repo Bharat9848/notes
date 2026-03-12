@@ -160,6 +160,8 @@ Standalone question:
            - not to reduce number of short path.
            - maintain diversity in the result.  
     5. Graph text linearization
+      - Pseudo documents are created using path linearization between entities.
+      - collect most relevant entities from the graph linked to asked entities by using a filtered ES KNN approach.
 
 
 

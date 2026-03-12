@@ -21,6 +21,12 @@ passing in a list of [2, 3, 4].
  - `np.argsort` - sort an array give indices of the elements in ascending order
  - `np.cov(x, y, rowvar=False, bias=True)` return covariance between X and y
  - `np.corrcoef(x, y, rowvar=false)` return correlation between X and y
+ - `np.expand_dims` add extra dimensions.
+ - `np.squeeze` remove extra dimension
+ - `np.ones(<shape>)` create an array of all 1s of given shape
+ - `np.zeros(<shape>)` create an array of all 0s of given shape
+
+
 
 
 

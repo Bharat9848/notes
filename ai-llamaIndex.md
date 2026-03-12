@@ -31,6 +31,8 @@
 
 6. Query Fusion retriever: query multiple different retriever. Use reciprocal rank fusion or relative score fusion or distribution based fusion. 
 
+7. `SentenceWindowNodeParser` stores adjacent sentences upto `windowsize` from above and below the current sentence. And store it in metadata `window`. 
+
 # Response synthesizer
 - A higher level class that do many RAG steps in single command.
 - takes the user prompt and matched nodes as argument, then internally do prompt augmentation and calls llm with augmented prompt and returns the response. 

@@ -184,7 +184,8 @@ it have adversarial loop between its components that continues till satisfactory
   - [Biasness in model](https://arxiv.org/abs/2212.09251)
   - [ higher improvemets](https://oreil.ly/kO41d)
   - [LLM emergent abilities](https://arxiv.org/abs/2206.07682, https://oreil.ly/kuG3J)
-
+  - [model quality optimization](https://developers.openai.com/api/docs/guides/model-optimization)
+  - [fine tuning](https://developers.openai.com/api/docs/guides/supervised-fine-tuning#distilling-from-a-larger-model)
 
 ---
 
