@@ -1,5 +1,5 @@
 # Evaluation
-
+- Our experience tells us that you don't want more than 5 LLM evaluation metrics in your evaluation pipeline.
 ## Evaluation testing framework
 ### Data model
 - Eval: it is a specific test with definition of llm_output_schema and verifying_criteria
@@ -33,7 +33,9 @@
  - **Agent Completion**
  - **custom task specific metrics**: 
 
-## Scorer 
+----
+
+# Scorer 
 ### statistical based
 - BiLingual Evaluation Understudy(BLEU): N-gram expection string searched in LLM answer. Expection is based on ground truth which are expected in the answer
 - Recall-Oriented Understudy for Gisting Evaluation(ROGUE): calculates recall by comparing overlap of N-gram matching b/w llm output and expected answer
@@ -44,8 +46,24 @@
 1. Natural Language Inference (NLI) scorer measures entailment, contradictory or irrelevant b/w llm answer and given reference text.
 2. BiLingual Evaluation Understudy with Representation from Transformer: uses pre-trained BERT model to score LLM and some reference text
 3. G-Eval framework:
+4. DAG based framework: useful in usecases where some kind of order or priortization of output feature. High priority output feature are tested before and based on success output is evaluated of lower priority feature of output. Finaly each leaf node is marked with hardcoded score that was returned.
+5. Prometheus: Uses reference text and score ruberic to return final score. 
 
-### Evaluation pipeline
+### Statistical and model based
+- BERTScore: compares reference text and llm output.
+- MoverScore: calculate score by measuring minimum distance between reference text and llm output.
+- QAG score: Very useful for calculating faithfulness. First it generates all the claims from the output and generate close ended question for each claim. Claim is then checked against given grounded truth for its existance.
+- GPTScore: see paper
+- SelfCheckGPT: see paper. Can only be used for hallucination detection
+
+
+----
+
+
+## Evaluation pipeline
+ - Not to use more than 5 LLM evaluation metrics in your evaluation pipeline. Otherwise you will be measuring lot of things which will good as not measuring at all. 
+  - use 1-2 custom metrics (G-Eval or DAG) that are use case specific
+  - 2-3 generic metrics (RAG, agentic, or conversational) that are system specific
  - regression suite to test all the functionalities.
  - user feedback of like/dislike if possible with detail rejection reasoning.
  - What
@@ -197,13 +215,46 @@ steps to follow below
 ---
 
 # RAG testing
+
 ## General guidlines
 - generate a high quality dataset - labeled by human,statistically significant,Data diversity
-- check for relevancy when asked broader question. Questions that can span multiple documents.
+- check for relevancy when asked broader question. 
+  1. Questions that can span multiple documents.
 - check for relevancy when asked specific question 
-- Test embedding to catch domain specific nuances.
-## Process
-1.  generate a set of test questions
+
+## Testing
+1. Retriever testing
+2. Generator testing
+3. Embedding Model testing
+ - to catch domain specific nuances.
+ - Test to see if open source embedding model worthy that cloud provider one.  
+
+
+## Process to generate RAG testing dataset
+1. for each document/chunk generate question using following prompt
+```
+"Context information is below.\n"
+    "---------------------\n"
+    "{context_str}\n"
+    "---------------------\n"
+    "Given the context information and not prior knowledge, "
+    "generate only questions based on the below query.\n"
+    "Query: You are a Teacher/Professor. Your task is to setup {num_questions_per_chunk} questions for an upcoming quiz/examination. The questions should be diverse in nature across the document. Restrict the questions to the context information provided.\n"
+    "Answer: "
+```
+2. Generate reference answer using following prompt
+```
+"Context information is below.\n"
+    "---------------------\n"
+    "{context_str}\n"
+    "---------------------\n"
+    "Given the context information and not prior knowledge, "
+    "answer the below query.\n"
+    "Query: {question}\n"
+    "Answer: "
+```
+3. store the following tuple 
+   `Question, reference answer, context` 
 
 --- 
 # Refrences
@@ -215,5 +266,7 @@ steps to follow below
  - [deep eval](https://deepeval.com/docs/metrics-llm-evals)
  - [fineTuning](https://github.com/run-llama/finetune-embedding/blob/main/evaluate.ipynb)
  - [trulens](https://www.trulens.org/getting_started/core_concepts/feedback_functions/)
+ - [SelfcheckGPT](paper)
+ - [GPTScorer](paper)
 
  ---

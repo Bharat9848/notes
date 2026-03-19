@@ -91,7 +91,7 @@ Standalone question:
     5. Manhatten distance/ L1 norm:
     6. Hamming distance: used for categorical/binary data.
 
-#### Multi-store routing: 
+#### Multi-store routing/ Hybrid RAG
 - Vector store can be supplemented with other store like relational databases, table or graph which are presided over LLM to help with individual technology syntax.
   1. Metadata filtering further filter out irrelevant search.
   2. Semantic search
@@ -102,8 +102,9 @@ Standalone question:
     - `fuzzy match` tries to gauge two sentences similarilty by measuring edit distance.
     - `N-gram match` strategy tries to gauge similarity by doing exact match by breaking sentences in N-gram.
     - keyword exact search
+  - involves invocation of term based and embedding based search in parallel then using algorithm like [reciprocal rank fusion](https://oreil.ly/3xtwh) to calculate final score. It improves precision of the retriever phase. 
 
-#### **Search expansion:**
+#### Search expansion
   - for broader question it is helpful to add smaller chunks with neighbouring sentences to provide broader context.
   - context enrichment:
     1. Sentence window retrieval: sentences are embedded and during retrieval matched sentence is expanded into k sentences above or below
@@ -126,8 +127,7 @@ Standalone question:
 - Removal of inaccurate answer.
 - Multimodel embedding model like [CLIP](https://arxiv.org/abs/2103.00020) is used when you have query as text but embedding data is a image.
 
-#### Hybrid RAG
-  - involves invocation of term based and embedding based search in parallel then using algorithm like [reciprocal rank fusion](https://oreil.ly/3xtwh) to calculate final score. It improves precision of the retriever phase.
+
 
 #### Graph RAG
  - see paper notes kg-guided rag
@@ -177,6 +177,8 @@ Standalone question:
 - For many documents corpus usecases, it introduces summary index before the chunks index.
 - large document are summarized and embedded into summarized index.
 - first query is searched in search index and then from search index refrences all original chunks are retrieved.
+
+#### Query expansion
 
 ----
 # Post retrieval phase
@@ -337,6 +339,8 @@ in-memory vector database, each embedding is associated with unique document ide
 # Practice
 - see nlp notes on spacy and nltk
 
+# evaluation 
+- see rag testing in ai-eval notes
 
 ---
 # RAG system architecture

@@ -17,6 +17,7 @@
  - lemmatization: try to understand the meaning through dictionary. e.g. word Universal and University should not be stemmed to universe.
 3. part of speech tagging
 4. Named entity reconginition 
+
 ## Natural Language Understanding
 - subfield of NLP that deals with machine understanding of unstructured sentences
 - Translate text into semantic meaninful vectors.
@@ -70,6 +71,25 @@
   2. python library (spaCy)[https://spacy.io/usage/models/.] for  named entity recognition, chunking text using different linguistic theories, such as phrase structure grammar and dependency grammar.It offers general purpose language model small `en_core_web_sm`, medium `en_core_web_md` and large `en_core_web_lg` use `python -m spacy download en_core_web_sm`
   3. `sentence-transformers`
 
+## Dataset
+ - [hotpot QA](https://github.com/hotpotqa/hotpot/blob/master/README.md)
+ - [wikimedia](https://dumps.wikimedia.org/)
+ - [triviaQA](http://nlp.cs.washington.edu/triviaqa/)
+ - Argument retrieval (ArguAna)
+ - Climate fact retrieval (ClimateFEVER)
+ - Duplicate question retrieval (CQADupstackRetrieval)
+ - Entity retrieval (DBPedia)
+ - Fact extraction and verification (FEVER)
+ - Financial question-answering (FiQA2018)
+ - Multi-hop question-answering (HotpotQA)
+ - Passage and document ranking (MSMARCO)
+ - Fact-checking (NFCorpus)
+ - Open-domain question-answering (NQ) 
+ - Duplicate-question detection (QuoraRetrieval)
+ - Scientific document retrieval (SCIDOCS)
+ - Scientific claim verification (SciFact)
+ - Argument retrieval (Touche2020)
+ - COVID-19-related information retrieval (TRECCOVID)
 
 ## Rough
 - Term Frequency-Inverse Document Frequency (TF-IDF)

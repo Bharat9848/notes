@@ -120,7 +120,13 @@ Combinatorial Optimization by Alexander Schrijver.
     Searching: Performance is O(logn)  
    
 ### Naive Bayes
- - text classification
+ - It is called naive because it is based on assumption that features we used for classification are independent.
+ - used for text classification
+ - `s = (prior)(ProductAll(Prob(word1|classA), Prob(word2|classA)... Prob(wordN|classA)))/(ProductAll(Prob(word1|classB), Prob(word2|classB)... Prob(wordN|classB)))`. if s>1 then classify A otherwise classify B.
+ - Prior in above formula to balance out any imbalance in corpus volume of class A and class B. `prior = Prob(A)/prob(B)`
+ - **Log likelihood** implementation of above formula cause underflow of floating point values. therefore logrithmic trick is applied over it. new formula is `log(s)`. sample belongs to class A if s > 0 other sample belongs to class B.
+ - **Laplacian smoothing**: technique to handle in case where probability of a word is zero which will cause the whole sequence calculation to go zero. `P(word1|classA) =  (freq(word1) + 1)/(total(words in classA) + total (unique words in vocabulary)`
+ - 
 
 ### Logistic regression
  - uses the `log(odd(probabilty(prediction)/1-probability(prediction)))` to decide whether an example belongs to a class or not. If it is greater than zero it means it belong to a class otherwise not.  ??

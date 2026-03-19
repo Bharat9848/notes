@@ -34,11 +34,31 @@ logging.getLogger("langchain.retrievers.multi_query").setLevel(logging.INFO)
 - `pip freeze`  
 
 
+----
+
+# class
+
 ## class inheritence
  - ```python
    class subClass(superclass):
 
  ```
+## python Java analogy
+ - `__init__(self, ....)` constructor of a class
+ - `self` is analogus to `this` in java
+ - `__str__(self)` is analogus to `toString`
+ - any class method should have `self` as first argument and use `self.classVariable` to access any class level variable 
+
+-----  
+
+# Serialization
+ - modules to load various kind of files
+   `json`, `csv`, `yaml` 
+ - pydantic library
+   class will subclass `BaseModel` then use `obj.model_dumps_json()` serialize object into json. `Class.model_validate_json(json_str)` deserialize json into class object. 
+ - In deserialization to get `class` definition from class name which passed as string use - `cls = getattr(sys.modules[__name__], class_name)`    
+----
+
 ## ergnomics
 1. `kwargs` is used to send arbitrary parameter to a function.
 2. ``` ``` comments just after function declaration to explain brief about the function, arguments and return type.

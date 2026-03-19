@@ -100,7 +100,8 @@ it have adversarial loop between its components that continues till satisfactory
 - A language model encodes statistical information about one or more languages.
 
 ## Type
-  1. Masked language model: try to predict the missing information in between of a sentence. "well-known example of a masked language model is bidirectional encoder representations from transformers, or BERT (Devlin et al., 2018)". Used for sentiment analysis, text classification.
+  1. **Masked language model**(MLM): try to predict the missing information in between of a sentence. "well-known example of a masked language model is bidirectional encoder representations from transformers, or BERT (Devlin et al., 2018)". Used for sentiment analysis, text classification.
+  Both REALM and ORQA are built on a clever combination of two components: A Masked Language Model (MLM) and A Differentiable Retriever — a component that fetches relevant documents from a large knowledge source (like Wikipedia) when given a question. The word "differentiable" is key — it means this retriever is not a hard-coded search engine, but a learnable component that improves through training alongside the language model.
   2. Autoregressive language model: try to predict next word. They are also called **Generative model**
   3. **Multimodel**: An llm that trained on different type of input other than text like image, audio etc.
   4. **Embedding Model**:

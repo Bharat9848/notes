@@ -45,9 +45,7 @@ that could conceptually get us from white-noise data to the data we observed.
 SET 
 Jaccard similarity : measures similarity between two sets = (A intersection B)/ (A union B) 
 
-Probability
-1.P(A ∩ B) = P(A and B) = P(A) · P(B|A)
-Why do we use B|A instead of B? This is because it is possible that B depends on A. If this is the case, then just multiplying P(A) and P(B) does not give us the whole picture.
+
 
 Random variable
 A random variable can have many values, how do we keep track of them all? Each value that a random variable might take on is associated with a percentage. For every value that a random variable might take on, there is a single probability that the variable will be this value. Random variable are represented by the mean value and variance. We can usually say that Random variable have an expected value, give or take the standard deviation.
