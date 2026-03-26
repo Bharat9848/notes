@@ -400,6 +400,21 @@
  A[application] --write-> B[openFGA]
  A -read-> B
  ``` 
+## Modeling
+ - Roles: represented as relation. Rather than querying roles(`Owner`) on an object, ask for specific object permission(`can_read`) which was further assigned to a role relation via other relation. 
+ - Permission: represented as relation. permission are fine grained relations to object or subobject `doc_read`, `doc_write`. in other words permissions are relations that users get through other relations. e.g.
+ ```json
+ {
+  "type": "document",
+  "relations": [{
+    "owner": "[user]"
+  },
+   {
+    "can_read": "owner"
+   }
+  ]
+ }
+ ``` 
 ----
 
 ## Rough

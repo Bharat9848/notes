@@ -19,6 +19,7 @@
     - abstraction for model specific arguments. Implementation can be of various type depending on Spring's different LLM integrations.
 
 3. **PromptTemplate**
+   - Strings with variables in curly braces. Prompt have multiple text input System,User,Assitant etc. see prompt engineering notes.
    - works hand-in-hand with **TemplateRenderer**
    - `render` is akin to toString which materializes the prompt text as String. It is usually called after providing all the params.
    - `template` method takes a template string with placeholders.

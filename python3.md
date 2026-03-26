@@ -69,6 +69,9 @@ logging.getLogger("langchain.retrievers.multi_query").setLevel(logging.INFO)
   1. `requirement.txt`
 ## python script/main program.
 
+## Python native packages
+ - `re`, 
+ - `collections.Counter`: returns word counts in sorted freq descending order.
 ## Libraries
   1. `wikipedia`: python wrapper over wikipedia API.
   2. `mcp`: python SDK over mcp. it is a FastMCP interface. 
@@ -81,7 +84,9 @@ logging.getLogger("langchain.retrievers.multi_query").setLevel(logging.INFO)
   9. `gradio`: create ui application. see gradio notes
   10. `torch`: deep learning library. it also helps in vector operation
   11. `lark` is a general-purpose parsing library for Python.
-
+  12. `tqdm`for showing progression of tasks etc.
+  13. `dataset` for standardizing and manipulating wide variety of datasets.
+  14. `pickle`: serialization library
 ---
 # Flask
 - Build in web server. `flask run` command runs the server
@@ -104,10 +109,18 @@ logging.getLogger("langchain.retrievers.multi_query").setLevel(logging.INFO)
 ## Pydantic
  - if your class is subclass of `pydantic.BaseModel` which provides `model_json_schema()` which returns subclass json output schema definition. `model_dump()` returns serialized json output of an object.
 ---
+## Performance
+ - decorate on a function `@memory_profiler.profile(precision=4)`. It shows memory usage and increments line by line
+ 
+- ## Resources and books
+ - Raymond Hettinger - youtube videos
+---
 ## Rough
 - type `str`, `dict`, `TypedDict`
 - The Python eval function takes a string and evaluates it as a Python expression. In the context of semantic search, eval is used to dynamically execute semantic functions stored as strings in the entities collection. This allows new logic to be plugged in at runtime without changing the application code. However, using eval can be risky if the input is not trusted, as it can execute arbitrary code.
 
+ 
+ `**kwargs` 
 
 
     tensorflow: The core library for TensorFlow, required for working with the Universal Sentence Encoder.

@@ -56,7 +56,8 @@
  - `SelectFromModel(model_obj)` some model ranks features, this method will use the model rank to select features which have rank greater than mean. P.S. it is not a ordered list.
  - `RFE(model_obj, k=5)` uses recursive feature elimination technique to return top k features. Returned object have `ranking_` property for rank of all the features and `estimator_.coef_` returns relative importance coefficient of selected features. 
 
-
+## decomposition module
+- `sklearn.decomposition.PCA` return the PCA module. It have `fit` and `transform` method to generate data. `transform` method returns `transformed` matrix. it have eigen vector or Principle components set to `components_` and eigen values or explained variance set to `explained_variance_` 
 
 
 
