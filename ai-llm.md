@@ -204,7 +204,6 @@ it have adversarial loop between its components that continues till satisfactory
 - full finetuning
 
 ---
-
 # Quantization
 - reduces Model's parameters precision from 16 bit to 8 bit or 4 bit.
 - It sacrifices little quality but gain the more latency and less memory.
@@ -215,6 +214,20 @@ it have adversarial loop between its components that continues till satisfactory
 - GPT: act as a decoder, adept in generating text and used in chatbot.
 - BERT: utilize encoder only transformer architecture. understands word context in the sentence. used for sentiment-analysis and question answering
 - BART/T5: follows both encode and decoder architecture. 
+---
+
+# LLM benchmarks
+  1. Artificial Analysis LLM Performance Dashboard [at](https://artificialanalysis.ai/)
+  2. chat bot arena
+  3. Massive Multitask Language Understanding(MMLU) for domain specific reasoning
+  4. Multi-Turn Benchmark (MT Branch)
+  5. Open LLM Leaderboard - tracks open source language model on various NLU and generation task
+  6. AI2 Reasoning challenges for complex scientic reasoning
+  7. HellaSwag for common sense reasoning
+  8. TruthfulQA for generative and informative responses
+  9. WinoGrade for common sense reasoning
+  10. Grade School Math 8k (GSM8K) for mathematical reasoning.
+
 ---
 ## Rough 
 - single head attention model

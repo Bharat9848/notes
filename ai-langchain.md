@@ -38,7 +38,7 @@ Agent: This component manages a dynamic workflow, extending a sequential chain."
   - `Runnable`: all components which are subclasses `Runnable` interface can be part of chain. e.g  `BaseModel` `StrOutputParser`
   - `RunnableLambda` 
   - `BaseModel`
-  - `RunnableParallel`: for running parallel task.
+  - `RunnableParallel`: for running parallel task. Takes dictionary of variables mapped to different function like {var1: RunnablePassthrough(), contextVar2: some_custom_fn }. `assign` function
   - `RunnableSequential`: for sequencing runnable task. 
   - If pipes is used in dictionary like structure LangChain Expression language (LCEL) convert each key's values to parallel tasks.
   - function automatically get wrapped with `RunnableLambda`

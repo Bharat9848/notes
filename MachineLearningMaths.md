@@ -38,6 +38,14 @@ that could conceptually get us from white-noise data to the data we observed.
  - [distance](https://bib.dbvis.de/uploadedFiles/155.pdf)
 
 
+## Gradient Descent
+  - **Steps**
+   1. use random weights W to computed Y_pred = XW
+   2. then calculate error = (Y_pred-Y) 
+   3. Start a loop
+      1. finding local minima by taking derivative `d(XW - Y)/dW` (why do it for W bcas we dont want to change X and Y.) 
+      2. We readjust weights according to gradient to `W' =W - (alpha)* descent` 
+
 # Rough
 - Chebyshev’s inequality
 

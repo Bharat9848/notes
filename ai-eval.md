@@ -1,37 +1,125 @@
 # Evaluation
-- Our experience tells us that you don't want more than 5 LLM evaluation metrics in your evaluation pipeline.
-## Evaluation testing framework
-### Data model
-- Eval: it is a specific test with definition of llm_output_schema and verifying_criteria
-- verifying_criteria
-- llm_output_schema
-- test dataset: consist of input prompt and expected output. It exists independent of eval.
-- Run: it will take application api against which you want to run your eval with input from test dataset. It will generate a report. It is asynchronous and notified via webhook on completion,failed and cancelled events.
+----
+## General
 
-## Evaluation criteria
+
+----
+## Agent Evaluation
+- complex to test so it also required LLM tracing
+
+## Metrics
+ - **correctness**: llm answer is based on a fact.
+ - **relevance**: llm able to interpret the input and return answer which is informative and concise.
+ - **semantic similarity**
+ - **hallucination**: llm fakes the answer.
+
+ - **responsible metrics**
+
+ - **Agent Completion**
+ 
+ - **custom task specific metrics**: 
+ 1. Task Completion: 
+  - requires tracing input to LLM as a judge
+  - [tracing](https://deepeval.com/docs/evaluation-llm-tracing)
+  - [task completion](https://deepeval.com/docs/metrics-task-completion)
+ 2. Plan Quality
+  - requires tracing input to LLM-as-a-judge
+  - checks for agent reasoning and soundedness for task completion
+ 3. Plan Adherence:
+  - checks whether LLM is adhering to its plan
+ 4. Step Efficiency:
+  - checks for any redundant steps.
+    
+- **Tool related metrics**: 
+ 1. Argument Correctness
+  - Based on LLM input argument generation for tool call was correct or not.
+  - tested using LLM as a judge
+
+ 2. Tool correctness metrics
+  - deterministic test whether LLM was able to choose the right tool. 
+
+## Testing type
+- End to End
+- component level testing: valid only in case of multi agent design
+  
+## Testing scenarios
+- fault tool call
+- infinite loops
+- hallucination
+- instruction drift
+- wrong tool selection
+
+----
+
+## LLM Evaluation
  - LLM Metrics 
   1. cohrence - collective quality of all sentences in the actual output.
   2. consistency
   3. Fluency
   4. Relevance
   5. AVG
- - LLM application architecture metrics
-   1. RAG application
-    - Answer relevance: Answer is relevant to the user question. LLM will act as evaluator behind the scene. IT will return additional chain of thought reasoning behind the score. Scores are in b/w 0-1.
-    - Groundedness: answer is based on the context provided
-    - context relevance: It checks if context is relevant to user query. Each chunk is evaluated against the user input. Final score would be mean of all relevance scores. 
 
-   2. Subagent application
- - **correctness**: llm answer is based on a fact.
- - **relevance**: llm able to interpret the input and return answer which is informative and concise.
- - **semantic similarity**
- - **hallucination**: llm fakes the answer.
- - **Tool correctness**
- - **contextual relevancy**
- - **responsible metrics**
- - **RAG Faithfulness**
- - **Agent Completion**
- - **custom task specific metrics**: 
+----
+
+## RAG Evaluation
+### Metrics
+- Answer-Relevance: Answer is relevant to the user question. LLM will act as evaluator behind the scene. IT will return additional chain of thought reasoning behind the score. Scores are in b/w 0-1.
+- Groundedness: answer is based on the context provided
+- Context-Relevance: It checks if context is relevant to user query. Each chunk is evaluated against the user input. Final score would be mean of all relevance scores. 
+ - **RAG Faithfulness** ??
+### General Testing Guidelines
+- generate a high quality dataset - labeled by human,statistically significant,Data diversity
+- check for relevancy when asked broader question. 
+  1. Questions that can span multiple documents.
+- check for relevancy when asked specific question 
+
+### Component Testing
+1. Retriever testing
+ - test for context-relevance
+ - Context precision: Document retrieved from the search how relevant they are to query.
+ - context recall: of all the documents that are relevant to query, how many of those are fetched
+ - Mean Average Precision(MAP@K): sum of scores of relevant document only, divided by number of relevant documents.
+ - Reciprocal rank measure the position of first relevant document and is calculated by `1/position`.
+ - Mean Reciprocal Rank: average of many reciprocal ranks.
+ - map retrieval performance with different indexing algorithm like IVF, FlatL2, LSH, HNSW etc.
+
+2. Generator testing
+  - see LLM benchmark in ai-llm.md
+  - test for groundedness and answer-relevance
+3. Embedding Model testing
+ - to catch domain specific nuances.
+ - Test to see if open source embedding model worthy that cloud provider one.  
+ - embedding model benchmarking
+   - ANN Benchmarking 
+4. Vector store benchmarking
+   - Benchmarking IR (BEIR)[link](https://github.com/beir-cellar/beir)
+
+### Process to generate RAG testing dataset
+1. for each document/chunk generate question using following prompt
+```
+"Context information is below.\n"
+    "---------------------\n"
+    "{context_str}\n"
+    "---------------------\n"
+    "Given the context information and not prior knowledge, "
+    "generate only questions based on the below query.\n"
+    "Query: You are a Teacher/Professor. Your task is to setup {num_questions_per_chunk} questions for an upcoming quiz/examination. The questions should be diverse in nature across the document. Restrict the questions to the context information provided.\n"
+    "Answer: "
+```
+2. Generate reference answer using following prompt
+```
+"Context information is below.\n"
+    "---------------------\n"
+    "{context_str}\n"
+    "---------------------\n"
+    "Given the context information and not prior knowledge, "
+    "answer the below query.\n"
+    "Query: {question}\n"
+    "Answer: "
+```
+3. store the following tuple 
+   `Question, reference answer, context` 
+
 
 ----
 
@@ -59,9 +147,10 @@
 
 ----
 
+----
 
 ## Evaluation pipeline
- - Not to use more than 5 LLM evaluation metrics in your evaluation pipeline. Otherwise you will be measuring lot of things which will good as not measuring at all. 
+ - Not to use more than 5 LLM evaluation metrics in your evaluation pipeline. Otherwise you will be measuring lot of things which will good as not measuring at all.
   - use 1-2 custom metrics (G-Eval or DAG) that are use case specific
   - 2-3 generic metrics (RAG, agentic, or conversational) that are system specific
  - regression suite to test all the functionalities.
@@ -92,6 +181,7 @@
   3. small set of go-to prompts
   4. Bit-per-character: How much bits language model uses for a training set character.
   5. Bit-per-byte: How much bits language model uses for a training set byte.
+
 
 
 
@@ -191,70 +281,23 @@ steps to follow below
 4. evaluate 
    
 ---
-# Agent evaluations
-## Testing type
-- End to End
-- component level testing: valid only in case of multi agent design
-## Testing scenarios
-- fault tool call
-- infinite loops
-- hallucination
-- instruction drift
-- wrong tool selection
 
----
+## Evaluation testing framework
+### Data model
+- Eval: it is a specific test with definition of llm_output_schema and verifying_criteria
+- verifying_criteria
+- llm_output_schema
+- test dataset: consist of input prompt and expected output. It exists independent of eval.
+- Run: it will take application api against which you want to run your eval with input from test dataset. It will generate a report. It is asynchronous and notified via webhook on completion,failed and cancelled events.
 
-# Retriever performance
- - Context precision: Document retrieved from the search how relevant they are to query.
- - context recall: of all the documents that are relevant to query, how many of those are fetched
- - Mean Average Precision(MAP@K): sum of scores of relevant document only, divided by number of relevant documents.
- - Reciprocal rank measure the position of first relevant document and is calculated by `1/position`.
- - Mean Reciprocal Rank: average of many reciprocal ranks.
- - map retrieval performance with different indexing algorithm like IVF, FlatL2, LSH, HNSW etc.
+### Ragas library
+#### TestsetGenerator class
+  - generate question types
+    1. simple : straightforward question based on provided documents
+    2. multi-context: question that span over multi related section to formulate an answer
+    3. reasoning: requires reasoning skill to answer effectively
+#### Evaluate function
 
----
-
-# RAG testing
-
-## General guidlines
-- generate a high quality dataset - labeled by human,statistically significant,Data diversity
-- check for relevancy when asked broader question. 
-  1. Questions that can span multiple documents.
-- check for relevancy when asked specific question 
-
-## Testing
-1. Retriever testing
-2. Generator testing
-3. Embedding Model testing
- - to catch domain specific nuances.
- - Test to see if open source embedding model worthy that cloud provider one.  
-
-
-## Process to generate RAG testing dataset
-1. for each document/chunk generate question using following prompt
-```
-"Context information is below.\n"
-    "---------------------\n"
-    "{context_str}\n"
-    "---------------------\n"
-    "Given the context information and not prior knowledge, "
-    "generate only questions based on the below query.\n"
-    "Query: You are a Teacher/Professor. Your task is to setup {num_questions_per_chunk} questions for an upcoming quiz/examination. The questions should be diverse in nature across the document. Restrict the questions to the context information provided.\n"
-    "Answer: "
-```
-2. Generate reference answer using following prompt
-```
-"Context information is below.\n"
-    "---------------------\n"
-    "{context_str}\n"
-    "---------------------\n"
-    "Given the context information and not prior knowledge, "
-    "answer the below query.\n"
-    "Query: {question}\n"
-    "Answer: "
-```
-3. store the following tuple 
-   `Question, reference answer, context` 
 
 --- 
 # Refrences

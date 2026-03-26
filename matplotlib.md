@@ -21,6 +21,8 @@
  - `ax.scatter`: plots scatter plot.
  - `ax.flat` ???
 
+## lines
+ - `ax.arrow(x1, y1, x2, y2, head_width, head_length ...)` draws an arrow line from (x1, y1) to (x2, y2)
 
  # SNS module
   - `heatmap(<multi_arr>, annot=true, cbar=false, ax=<axis>, **add_args)` plots heatmap.
@@ -30,6 +32,7 @@
   - `tsplot` ???  
   - `distplot(<col>, hist='True'|'False',rug=true)` plots a distribution for a feature
   - `lmplot()`
+
 
 # excercise
  - plot a scatter plot for classification problem with color code each point based on its label/target.

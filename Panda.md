@@ -5,6 +5,8 @@
  - `dataframe['col'] = <somecol>` adds a new column to a dataframe
  - `index` column - it can be set to some other column or by defult it is usual sequence series.
  - `index.name` - sets the name of index column 
+ - `pd.DataFrame(2darr, index=[1d])` give name of each row.
+
 
  2. Column operations
   1. `df[col1] - df[col2]` subtracts col2 values from col1
@@ -14,6 +16,8 @@
   
  3. Dataframe operation
   1. `describe()` - summarize data farme columns with centered values
+  2. `df.iloc[index]` gets row of the dataframe. row will be of type `pandas.Series`    
+
 
  4. Melt usecase ?
   1. `pd.melt(df, id_var='col1', var_name='newCol')` 

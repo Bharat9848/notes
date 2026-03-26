@@ -120,8 +120,9 @@ Combinatorial Optimization by Alexander Schrijver.
     Searching: Performance is O(logn)  
    
 ### Naive Bayes
- - It is called naive because it is based on assumption that features we used for classification are independent.
- - used for text classification
+ - It is called naive because it is based on assumption that features we used for classification are independent. It also assumes the validation set features occurs in same proportion as the training set data - no class imbalances.
+ - Naive bayes have some drawbacks for text classification or sentiment analysis. it underperforms for text containing sarcasm, irony and euphemism or sometimes due to word ordering or removing words or due to removing punctuations. 
+ - used for text classification, word disambiguation, sentiment analysis
  - `s = (prior)(ProductAll(Prob(word1|classA), Prob(word2|classA)... Prob(wordN|classA)))/(ProductAll(Prob(word1|classB), Prob(word2|classB)... Prob(wordN|classB)))`. if s>1 then classify A otherwise classify B.
  - Prior in above formula to balance out any imbalance in corpus volume of class A and class B. `prior = Prob(A)/prob(B)`
  - **Log likelihood** implementation of above formula cause underflow of floating point values. therefore logrithmic trick is applied over it. new formula is `log(s)`. sample belongs to class A if s > 0 other sample belongs to class B.
@@ -216,7 +217,12 @@ Combinatorial Optimization by Alexander Schrijver.
   2. combining two features.
   3. Discretization - Divide feature values into bins. Its better to be done in crossvalidation pipeline. Other option is to do it in data preprocessing for data exploration.
   4. **kernel** method - models have builtin kernel support which automatically creates features. Kernel method do pairwise covariance between all the sample data and add them as new features.**Nystroem** is an out of the box kernel it consider less number of sample to compute covariance feature in case the data set is very large otherwise without sampling of data it will cause large memory footprint. Internally kernel take examples' features in higher dimension and then measure similarity. Some more examples of kernel are - 1. **poly** - polynomial with degree 2. Gaussian or Radial Bias Function(RBF).
-  5. Principle Component Analysis - data driven axis - maximum variance and minimum error 
+
+## Principle Component Analysis 
+- data driven axis - maximum variance and minimum error
+- helps in visualizing data from high dimension data to lower dimension to 2 or 3 dimensions.
+- uses `eigen vector` and `eigen value` concepts from matrix algebra.
+- orthogonal transformations to map a set of variables into a set of linearly uncorrelated variables called Principal Components.  
 
  - **Feature extraction**
   1. more complex way to extract feature from low value feature to high value feature.
@@ -257,10 +263,5 @@ Combinatorial Optimization by Alexander Schrijver.
 ----
 ## Rough
 - Transfer learning: car detection learning is transfered to the system meant for golf-cart detection.
-
-
-
-
-
 
 

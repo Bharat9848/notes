@@ -10,18 +10,13 @@
  - Matrix is invertible ?
  - Determinant
 
+
 - Elementry matrix are matrices which are same as identity matrix but one of the zero is replaced with some number. Elementry matrix are step transformations that are done as part of Gaussian elimination. We can see end result of Gaussian elimination as `E3*E2*E1*A = U` where E3, E2 and E1 are elementary matrices. if E1 have to multiple some number with first row and add it second row that means its second row will be of form `x 1 0 0`. Similary for E2 which have to multiply some number with first row and add it to third row that means its third row would be form `x 0 1 0`.
 
 - **Orthognal matrix**: matrix is orthogonal if inverse of the matrix is equal to its transpose. Orthogonal matrix preserve length. rows and columns are orthogonals.
 
-- **Matrix rotation**: Rotation matrx is orthogonal matrix means multiplying any vector with it will not change its length. rotation matrix for angle `x` is represented as 
-```math 
-  [[cos(x), -sin(x)], [sin(x), cos(x)]]
-```
-cos(θ): This represents the horizontal component of the rotation. It determines how much of the original vector's length is projected onto the x-axis after rotation.
-sin(θ): This represents the vertical component of the rotation. It determines how much of the original vector's length is projected onto the y-axis after rotation.
--sin(θ): This is used to ensure that the rotation is counterclockwise. It effectively flips the sign of the y-component when the vector is rotate
-
+## Frobenius Norm
+- The Frobenius norm of a matrix the square root of sqaure of each of its element. 
 ## Solving linear equations
 ### Gaussian elimination equation
 - uses row switching. scalar multiplication and then add/subtract one row to another to reach upper diagnol matrix by repeatedly using some pivot to eliminate variables from lower equation by making their cofficient zero.
@@ -53,5 +48,35 @@ sin(θ): This represents the vertical component of the rotation. It determines h
   - uses two steps 
     1. find an orthogonal basis
     2. normalize  
+
+## Vector operation
+### `dot product`
+ -  dot product of two vectors means visually take a projection of a vector on second vector and multiply of norm of projected vector and second vector. Also the sign of final result tell us whether vectors are pointing in same direction or different direction
+
+
+## Vector Transformation 
+### Scaling
+ - Scale it by multiplying with a vector.
+
+### Translation
+ - Take projection of vector over different arbitrary lines.
+#### Eigen Vectors and Eighen Values
+- covariance matrix -> Singular value decomposition -> first two matix represent eignvector, eigenvalue, other matrox 
+- Eigen vector: orthogonal vector - uncorrelated features of your data.
+- Eigen value: amount of information retained by each vector
+
+
+### Rotation 
+- implemented using dot product of rotation matrix and transponse of a vector. ????. Rotation matrix comes first in multiplication.
+#### Rotation Matrix
+ - The norm of any rotation matrix is always sqrt(2)=1.414221
+- **Matrix rotation**: Rotation matrx is orthogonal matrix means multiplying any vector with it will not change its length. rotation matrix for angle `x` is represented as 
+```math 
+   [[cos(alpha), -sin(alpha)], [sin(alpha), cos(alpha)]] #rotates a vector by alpha angle anticlockwise.
+   [[cos(-alpha), -sin(-alpha)], [sin(-alpha), cos(-alpha)]] # rotates a vector by alpha angle clockwise.
+```
+cos(θ): This represents the horizontal component of the rotation. It determines how much of the original vector's length is projected onto the x-axis after rotation.
+sin(θ): This represents the vertical component of the rotation. It determines how much of the original vector's length is projected onto the y-axis after rotation.
+-sin(θ): This is used to ensure that the rotation is counterclockwise. It effectively flips the sign of the y-component when the vector is rotate
 
 # Rough 

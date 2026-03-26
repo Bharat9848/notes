@@ -27,6 +27,7 @@
 ---
 # Log
 - `log(a*b)= log(a) + log(b)` 
+- `log(a/b)= log(a) - log(b)`
 
 
 
@@ -35,6 +36,8 @@
 ## Formulas
 1. `cos(x + y) = cos(x)cos(y)- sin(x)sin(y)`
 2. `sin(x + y) = sin(x)cos(y) + cos(x)sin(y)`
+3. `cos(-x) = cos(x)`
+4. `sin(-x) = -sin(x)`
 ---
 # calculus
 ## Single variable calculus
