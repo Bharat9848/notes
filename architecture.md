@@ -9,6 +9,7 @@
  - The Software Architect Elevator: Redefining the Architect’s Role in the Digital Enterprise by Gregor Hohpe
  - Software Systems Architecture: Working With Stakeholders Using Viewpoints and Perspectives
  - (Optimizing compute across cluster) [https://www.uber.com/en-IN/blog/compute-cluster-management/?ref=highscalability.com]
+
 ### Performance
  - Foundations of Software and System Performance Engineering: Process, Performance Modeling, Requirements, Testing, Scalability, and Practice [Bondi 14].
  - Software Performance and Scalability: A Quantitative Approach [Liu 09].
@@ -50,14 +51,36 @@
    5. response measure: time measurement, developement effort, cost etc.
    6. environment: startup etc.
  - Architecture focuses on why part of system, while design focuses on how part of the system.
-
+ - Difference between architecture and design, where the former is structural and the latter is more easily changed
 
  - Documentation of quality attribute using architecture pattern tactics should document where tactics are present, assumptions and rationale behind using or not using it.
-
-## Tools
+----
+## Documentation
 ### Architectural Decision record
-### Fitness functions 
+```template
+  <title>
+  <context>
+  <decision>
+  <consequene>
+```
+- Title: Noun phrase containing the decision
+- Context: problem and alternative solutions alongwith problem space
+- Decision: state the decision and justification
+- Consequence: impact of the decision and trade-off that were considered.
+- [ADR](https://adr.github.io/) 
+- [blog](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
+
+----
+
+# Tools
+
+### Fitness Functions 
  - part of build and continous deployment. 
+ - Checks for performance criterias like performance and scalability
+### Chaos Testing Framework
+ - checks reliability and resiliance
+
+----
 
 ### Immutability
  - storage and compute is cheap. Immutabile data store provide semantic updates based on copy-on-write, Log-structured file system and LSM trees. 

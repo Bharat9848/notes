@@ -289,20 +289,22 @@
 - anti-pattern: permission based identity token.
 - Modeling:
   - User
-    - Role(N)
-      - Grant/Permission(N) 
+    - Role(N): It is set of permissions.
+      - Grant/Permission(N): It is usually a verb followed by resource. e.g. read_document etc.
         - Action(N)
   - Project
   - Resource
     - action
-  - Policy
-    - Resource
+  - Policy: set of rules
+    - Resource: can be resource type or specific resource
     - Rules
-      - action(N), 
-      - effect(deny/allow)
-      - Role(N)
-    - Condition  
+      - action(N), e.g. can_share
+      - effect(deny/allow) e.g. allow
+      - Role(N) e.g. hasRole('owner')
+    - Condition e.g. if user in org.userlist
+    - order: rules are evaluated in a order. Ordering should be from more general rule to most specific.  
   - Org
+    - workspace/department/project
 - Resource can be a project, org, feature flag      
 - Policy have scopes
 - user have roles. Cross organization role? 

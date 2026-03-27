@@ -41,6 +41,9 @@
 - A higher level class that do many RAG steps in single command.
 - Do all the steps of response synthesizer along with retrieving document from vector store. It only take user query as input and return the RAG response from llm.
 
+# Evaluation
+- see class `RetrieverEvaluator`, `FaithfulnessEvaluator`, `RelevancyEvaluator`, `BatchEvalRunner`
+
 ## Rough
 Reciprocal Rank Fusion (RRF)
 

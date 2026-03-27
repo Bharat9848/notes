@@ -76,21 +76,24 @@
 ### Component Testing
 1. Retriever testing
  - test for context-relevance
- - Context precision: Document retrieved from the search how relevant they are to query.
+ - Context precision/Hit rate: Document retrieved from the search how relevant they are to query.
  - context recall: of all the documents that are relevant to query, how many of those are fetched
  - Mean Average Precision(MAP@K): sum of scores of relevant document only, divided by number of relevant documents.
  - Reciprocal rank measure the position of first relevant document and is calculated by `1/position`.
  - Mean Reciprocal Rank: average of many reciprocal ranks.
- - map retrieval performance with different indexing algorithm like IVF, FlatL2, LSH, HNSW etc.
 
 2. Generator testing
   - see LLM benchmark in ai-llm.md
-  - test for groundedness and answer-relevance
+  - groundedness/Faithfulness: answer is based on the context provided
+  - answer-relevance: overall answer and context matches the query.
+
 3. Embedding Model testing
  - to catch domain specific nuances.
  - Test to see if open source embedding model worthy that cloud provider one.  
+ - map retrieval performance with different indexing algorithm like IVF, FlatL2, LSH, HNSW etc.
  - embedding model benchmarking
    - ANN Benchmarking 
+
 4. Vector store benchmarking
    - Benchmarking IR (BEIR)[link](https://github.com/beir-cellar/beir)
 
@@ -143,9 +146,6 @@
 - QAG score: Very useful for calculating faithfulness. First it generates all the claims from the output and generate close ended question for each claim. Claim is then checked against given grounded truth for its existance.
 - GPTScore: see paper
 - SelfCheckGPT: see paper. Can only be used for hallucination detection
-
-
-----
 
 ----
 
