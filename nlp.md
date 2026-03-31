@@ -21,7 +21,8 @@
 2.  
  - stemming: 
  - lemmatization: try to understand the meaning through dictionary. e.g. word Universal and University should not be stemmed to universe.
-3. part of speech tagging
+3. Part Of Speech Tagging(POS Tagging): 
+  - used for named entity recoginition, Speech recognition and conference resolution 
 4. Named entity reconginition 
 
 ## Natural Language Understanding
@@ -51,8 +52,10 @@
 
 ### Spelling and grammar correction
  - Mispelled Word: first find dictionary words using edit distance then using context appropriateness choose the correct word.
- - Correctly spelled word but does not fit in overall sentence.
+ - Even though word is correct but does not fit in overall sentence or context.
 
+ - The goal of our spell check model is to compute the following probability: `𝑃(𝑐|𝑤)=𝑃(𝑤|𝑐)×𝑃(𝑐)𝑃(𝑤)`.The equation above is Bayes Rule: probability of a word being correct 𝑃(𝑐|𝑤)is equal to the probability of having a certain word 𝑤, given that it is correct 𝑃(𝑤|𝑐), multiplied by the probability of being correct in general 𝑃(𝐶) divided by the probability of that word 𝑤 appearing 𝑃(𝑤) in general. Then choose from words from edit distance algorithm with highest `P(c|w)` 
+ 
 
 ## Natural Langauage Generation
 

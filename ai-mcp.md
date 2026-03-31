@@ -58,7 +58,15 @@
    3. Client features: Enables servers to ask the client to sample from the host LLM, elicit input from the user, and log messages to the client ???
    4. Notifications for real-time updates and progress tracking for long-running operations. It is usually one way message which would requires no reply. 
 ### Lifecycle Management
- - initialization sequence
+ - initialization sequence. 
+   - Client starts initialization sequence with method `initialize` alongwith its own capabilities, protocol version, client info, messageId etc.
+   - Server sends similar response with same id and similar information.
+   - protocol version of client and server should be compatible. 
+   - Server should declares its primitive and notification cababilities while client should declare elicitation capabilities.
+   - Client info and server info to exchange their identity information.
+   - After sucessful handshake. Client sends intialization complete notification.
+ - Client/server stores each other capabilities for later use.
+ - Client then sends `tools/list` request for tool related information given server send supports tools during initialization exchange. 
 
 ### MCP Primitives
  - Tool primitive
@@ -68,9 +76,16 @@
  - Elicitation primitive: For any user's additional information, server can invoke `elicitation/request` which will cause LLM to ask for more information from the user.
  - Logging primitive: exposed by server to send log messages to LLM.
  - Primitive can be manipulated via 
-   1. `/list` API for discovery
+   1. `tools/list` API for discovery. 
    2. `/get` to get resources or prompt
    3. `/call` for tool execution
+ - `tools/list` method response from server contains the list of all available tools information. Each tool response object should have `name`, `title`, `description` and `inputSchema`.  
+ - After registering available tools, client invokes `tool/call` with `params` containing tool `name` and its `arguments`. Server sends the response in `result` with `content` array which further specifies content `type` and actual content. `type` can be text, image, video  
+### Notification
+ - any tool related changes: Given server declares `listChanged:true` capability during initialization, server can do `notifications/tool/list_changed` method invocation when required. Notification messages are without any `id` field. 
+ - progress on tasks 
+ - one way communication from either sides which allows real time synchronization between server and client capabilities.  
+
 ----
 
 # MCP Security

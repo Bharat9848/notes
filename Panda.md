@@ -6,6 +6,7 @@
  - `index` column - it can be set to some other column or by defult it is usual sequence series.
  - `index.name` - sets the name of index column 
  - `pd.DataFrame(2darr, index=[1d])` give name of each row.
+ - `pd.read_csv(fileloc)` creates dataframe from csv
 
 
  2. Column operations
@@ -16,7 +17,7 @@
   
  3. Dataframe operation
   1. `describe()` - summarize data farme columns with centered values
-  2. `df.iloc[index]` gets row of the dataframe. row will be of type `pandas.Series`    
+  2.  `df.astype(str).to_dict(orient='list')` converts dataframe to a dictionary
 
 
  4. Melt usecase ?
@@ -24,5 +25,7 @@
 
  5. bin a column
   1. `cut(<col>, breakArr)` group a column in ranges returns a code col
-
- 
+  
+ 6. row operation
+  1. `df.iloc[index]` gets row of the dataframe. row will be of type `pandas.Series`    
+  

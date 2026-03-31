@@ -75,7 +75,7 @@
 
 ### Component Testing
 1. Retriever testing
- - test for context-relevance
+ - context-relevance measures the context suitness with the user query
  - Context precision/Hit rate: Document retrieved from the search how relevant they are to query.
  - context recall: of all the documents that are relevant to query, how many of those are fetched
  - Mean Average Precision(MAP@K): sum of scores of relevant document only, divided by number of relevant documents.
@@ -97,6 +97,9 @@
 4. Vector store benchmarking
    - Benchmarking IR (BEIR)[link](https://github.com/beir-cellar/beir)
 
+5. end-to-end 
+  - answer-correctness: Answer is compared to grounded truth
+  - answer-similarity: semantic similarity between grounded truth and answer
 ### Process to generate RAG testing dataset
 1. for each document/chunk generate question using following prompt
 ```
@@ -128,7 +131,7 @@
 
 # Scorer 
 ### statistical based
-- BiLingual Evaluation Understudy(BLEU): N-gram expection string searched in LLM answer. Expection is based on ground truth which are expected in the answer
+- BiLingual Evaluation Understudy(BLEU): N-gram expection strings searched in LLM answer. Expections are based on ground truth which are expected in the answer.
 - Recall-Oriented Understudy for Gisting Evaluation(ROGUE): calculates recall by comparing overlap of N-gram matching b/w llm output and expected answer
 - Metric for Evaluation of Translation with Explicit Ordering: calculates recall and precision using N-gram matching. It uses WordNet dataset for synonym matching.
 - Levenshtein distance: minimum insertion/replace/delete required to exact match b/w two text. It is used for precise alignment or spelling related task. 
