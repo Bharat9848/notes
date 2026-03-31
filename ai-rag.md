@@ -23,7 +23,7 @@ Following are some of the usecases of RAG
 - Compression techniques: 1. Quantization 2. Pruning
 - check the embedding model used in LLM to encode user query. E.g. text-embedding-ada-002 is used by OpenAI model
 
-#### embedding model
+## embedding model
  - `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`, vertex ai embedding model, `OpenAiEmbeddingModel`. Tokenization: have encoding type `EncodingType.CL100K_BASE`
  - `auto-truncate` by vertex AI embedding model silently truncate document if tokens are more than embedding model context window.
   - `OpenAIEmbeddings`: not free.
@@ -32,26 +32,37 @@ Following are some of the usecases of RAG
   - Search optimized model [bge-large](https://huggingface.co/BAAI/bge-large-en-v1.5) [multilingual E5 large](https://huggingface.co/intfloat/multilingual-e5-large)
   - [embedding leaderboard](https://huggingface.co/spaces/mteb/leaderboard)
 
-#### Chunking strategies  
-1. text split strategy: 
+## Chunking strategies  
+ - **Chunking by size**
+  1. text split strategy: 
   - chunk overlap: without chunk overlap chunks lose meaning around sentance boundry, chunk overlap allow chunks to overlap some part with each other. It is used along with fixed size chunking.
-  - document hierarchy: Documents is break around paragraph, sentence. more accurate in semantic meaning.
-2. token based chunking: "You can also chunk documents using tokens, determined by the generative model’s tokenizer, as a unit. Let’s say that you want to use Llama 3 as your generative model. You then first tokenize documents using Llama 3’s tokenizer. You can then split documents into chunks using tokens as the boundaries. Chunking by tokens makes it easier to work with downstream models. However, the downside of this approach is that if you switch to another generative model with a different tokenizer, you’d need to reindex your data." ??  
-3. Semantic chunking: Each sentence is vectorized and consequtive sentences are checked for semantic similarity, if they are similar enough then they are part of same chunks otherwise different chunks.
-4. Language based chunking: LLM are given task to intelligently break the document into semantically coherent subparts.
-5. context aware chunking: It can be added over and above any kind of above strategies. It generates a summary of chunk and add it back as context.
-6. Multi vector indexing: The key to these strategies is a two-layer chunk structure. The top layer includes synthesis chunks—the chunks fed into the LLM to generate answers. The lower layer consists of retrieval chunks, smaller segments that create precise embeddings for retrieving the synthesis chunks.
-##### Refrences
+  2. token based chunking: You can also chunk documents using tokens, determined by the generative model’s tokenizer, as a unit. Let’s say that you want to use Llama 3 as your generative model. You then first tokenize documents using Llama 3’s tokenizer. You can then split documents into chunks using tokens as the boundaries. Chunking by tokens makes it easier to work with downstream models. However, the downside of this approach is that if you switch to another generative model with a different tokenizer, you’d need to reindex your data.
+
+ - **Chunking by meaning**
+  1. Semantic chunking: Each sentence is vectorized and consequtive sentences are checked for semantic similarity, if they are similar enough then they are part of same chunks otherwise different chunks.
+  2. Language based chunking: LLM are given task to intelligently break the document into semantically coherent subparts.
+  3. Document hierarchy: Documents is break around paragraph, sentence. more accurate in semantic meaning.
+ 
+ - **Other chunkng strategies**
+  1. Context aware chunking: It can be added over and above any kind of above strategies. It generates a summary of chunk and add it back as context.
+  2. Multi vector indexing: The key to these strategies is a two-layer chunk structure. The top layer includes synthesis chunks—the chunks fed into the LLM to generate answers. The lower layer consists of retrieval chunks, smaller segments that create precise embeddings for retrieving the synthesis chunks.
+## Refrences
 - [strategies](https://www.pinecone.io/learn/chunking-strategies/)
---- 
+
+## Choosing right chunking strategy
+- HTML and Markdown documents can use heirarchical chunking.
+- Adding metadata from chunks also add on to effective retrieval. 
+
+---- 
+
+
 # Pre Retrival phase
 
 ## Query preprocessing
 1. **Question transformation**: Rephrasing a vague question can result in more efficient search. It requires an LLM to remove unnecessary details, use synonyms from the domain to better query matching and clear the ambiguity phrases.
 2. Named entity recognition: takes the prompt before the retriever and extracts the entity metadata like person, books, date, company etc. Then use entity metadata can be used in enriching the prompt or can be used in metadata filtering.
-3. Chat engine condensed context: 
-  - Query reformulation: Follow up question based on references previous question/answer cannot be passed directly to RAG retriever, as it will be missing context from previous conversation. 
-  - Previous chat history and current query is transformed into standalone question before fetching context from retrieval phase
+3. Chat engine condensed context/Query reformulation: 
+  - Follow up question based on references previous question/answer cannot be passed directly to RAG retriever, as it will be missing context from previous conversation. Hence previous chat history and current query is transformed into standalone question before fetching context from retrieval phase
 ```txt
 Given the following conversation and a follow up question rephrase the follow up question to be a standalone question
 
@@ -130,39 +141,7 @@ Standalone question:
 
 
 #### Graph RAG
- - see paper notes kg-guided rag
- - steps
-   1. node and relation extraction
-      spacy
-      LLM prompt
-   2. Vector index building
-      - triplet can be linearized and embed using same embedding model
-      - Graph clustering summarization is linearized and store as embedding   
-   3. Query preprocessing
-      - plain query is transformed in triplets based Cypher query language through llm using Named Entity Recoginiton(NER) pipeline. 
-   4. Querying 
-      - simple query: how many hops to reach from the subject of the query
-      - multi entities query: below flowchart for the process. and also limit the worst case scenario of repeat process to 3 (based on research every person is related to other through a path of length 6).
-      ```mermaid
-          flowchart TB
-            Start --> id1{Direct relationship b/w main entities A and B?}
-            id1 --yes--> Result
-            id1 --"no"--> B[Find related entities of A and B using filter queries]
-            B --> C{Related entities of A connected to related entities of B ?}
-            C --yes--> Result
-            C --"no"--> D[Repeat process using direct neighbour of A and B]
-            D ---> Start
-            Result --> End
-      ``` 
-      - result is subgraph which requires further size reduction
-        1. select nodes that are on shortest path b/w interested parties
-        2. apply graph pruing algorithm to reduce relations futher.
-           - not to reduce number of short path.
-           - maintain diversity in the result.  
-    5. Graph text linearization
-      - Pseudo documents are created using path linearization between entities.
-      - collect most relevant entities from the graph linked to asked entities by using a filtered ES KNN approach.
-
+ -- see ai-graphrag notes
 
 
 #### Hypothetical question
