@@ -4,19 +4,23 @@
 
 ##  Abstractions
 1. **ChatClient**
-    - Spring automatically create `ChatClient` using some settings defined in yaml/properties file
-    - holds ChatModel
+    - Spring automatically create `ChatClient.Builder` using some settings defined in yaml/properties file provided spring ai starter jar is in classpath. But if there is a case to create multiple `ChatClient` from different model provider you can turn this off by setting property ``???.
+    - holds ChatModel which is abstraction over a specific LLM model.
     - **ChatClient.Builder**
         - ChatOptions: Model specific chat options for all the requests.
         - Function: act as a tool for model invocation whenever needed.
         - Functions: declared bean functions to be used as tools
         - System: 
         - User
-        - Advisors  
+        - Advisors
+    - `chatClient.prompt(...)` provide overloaded methods to provide prompt various ways.    
+
    
 2. **ChatModel**: 
     - exposes call method.
     - abstraction for model specific arguments. Implementation can be of various type depending on Spring's different LLM integrations.
+    - can be created using each service provider concrete classes. 
+    - Some model providers provide OpenAI compatible APIs which can be used to create ChatModel using OpenAI related classses but underneath it will be calling non-OpenAI provider. 
 
 3. **PromptTemplate**
    - Strings with variables in curly braces. Prompt have multiple text input System,User,Assitant etc. see prompt engineering notes.
@@ -58,6 +62,7 @@
    - `mutate`: for advisors to enhance request/response.
    - `ChatOptions`: for specifying model specific option.
 8. ChatClientResponse
+
 9. Prompt: 
     - abstracts over a list of `Message`
     - Assitant type messages have llm answers to previous queries.
@@ -107,3 +112,7 @@
 25. `ToolCallExecutionResult` maintain toolconversation history.
 26. Exception handling: all runtime exceptions message are sent to LLMs. CheckException are thown and not sent to LLM
 27. Observability:
+28. BeanOutputConverter:
+    - wraps around the entities in case of structured output requirement 
+    - getFormat() retruns String format which can be appended to prompt.
+    - `convert` takes string output and deserialize it in the actual entity.

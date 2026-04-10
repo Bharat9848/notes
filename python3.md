@@ -32,7 +32,10 @@ logging.getLogger("langchain.retrievers.multi_query").setLevel(logging.INFO)
   6. `--force-reinstall`?
 - `pip list`
 - `pip freeze`  
-
+---- 
+# Fun python
+ - `[a, b] * 2` will become `[a, b, a, b]`
+ - `(a, b) + (c,)` will become `(a, b, c)`
 
 ----
 
@@ -107,7 +110,7 @@ logging.getLogger("langchain.retrievers.multi_query").setLevel(logging.INFO)
 ```  
 ---
 ## Pydantic
- - if your class is subclass of `pydantic.BaseModel` which provides `model_json_schema()` which returns subclass json output schema definition. `model_dump()` returns serialized json output of an object.
+ - if your class is subclass of `pydantic.BaseModel` which provides `model_json_schema()` which returns subclass json output schema definition. `model_dump()` returns serialized json output of an object. `validate_object(json)` deserialize the json to object.
 ---
 ## Performance
  - decorate on a function `@memory_profiler.profile(precision=4)`. It shows memory usage and increments line by line

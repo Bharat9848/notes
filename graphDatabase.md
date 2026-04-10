@@ -39,6 +39,8 @@ RETURN variableX, variableY, variableZ, path;`
 - Wikidata
 - freebase
 
+# Neo4j database
+- see neo4j notes
 
 
 # Tools
@@ -68,6 +70,7 @@ print(graph)
 - [courses](https://graphacademy.neo4j.com/)
 - [podcast neo4j](https://github.com/jbarrasa/goingmeta/blob/main/README.md)
 - [blog](https://opensearch.org/blog/)
+
 
 ## Rough
 - Leveraging Elastic’s ability to stack boolean queries, we check if the relation store contains at least one connection between any element linked to the first entity and any element linked to the second entity.?

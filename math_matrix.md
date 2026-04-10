@@ -50,10 +50,24 @@
     2. normalize  
 
 ## Vector operation
-### `dot product`
+### dot product
  -  dot product of two vectors means visually take a projection of a vector on second vector and multiply of norm of projected vector and second vector. Also the sign of final result tell us whether vectors are pointing in same direction or different direction
-
-
+ - dot product is a scalar quantity.
+ - It is distributive over addition and commutative.
+ - Multiply same dimension from both the vector and then sum up.
+### Normalize a Vector
+ - it preserves the direction but reduces the length of vector to one unit.
+```math
+normalizeVec = vec/norm(vec)
+```` 
+### Cosine of Two Vectors
+  ```math
+  cos(a,b) =  dot(a,b)/(norm(a) * norm(b))
+  ```
+### Norm of a Vector
+ ```math
+  norm(v) = sqrt(dot(v,v))
+ ```
 ## Vector Transformation 
 ### Scaling
  - Scale it by multiplying with a vector.

@@ -19,6 +19,10 @@ Input embedding: text is converted to a vector using token embedding model.
   - **Feed-forward networks**: "The Feed-Forward Networks consist of two linear transformations with a ReLU activation. It is applied independently to each position in the sequence." Capture complex non-linear patterns and relationships 
   - **Position vector**: "Unlike RNNs, transformers lack an inherent understanding of word order since they process data in parallel. To solve this problem Positional Encodings are added to token embeddings providing information about the position of each token within a sequence."
   - **Meaning guess vector**
+  - Masked multi head attention
+  - Positional encoding
+  - input embedding
+  - output embedding
 
 <a id="1-2"></a>  
 2. Decoder
@@ -108,6 +112,13 @@ it have adversarial loop between its components that continues till satisfactory
   5. **Foundational model**: From specific task to general purpose model.
   6. Reasoning model: generate reasoning token then returns the output.
 
+----
+# Training
+1. Pretraining: training on lot of data.
+2. Supervised Finetuning: training on high quality data
+3. Reward modeling: Model learns to distinguish between good and bad answer.
+4. Reinforcement learning: Refining of responses based on human feedback.
+
 ## Basic  
 1. Test-time compute - Allocating more compute which allows LLM to generate multiple outputs which can be further sampled using some strategies.
 2. LLMs are trained from the input itself using self-supervision - without explicit labeling of data.    
@@ -187,6 +198,8 @@ it have adversarial loop between its components that continues till satisfactory
   - [LLM emergent abilities](https://arxiv.org/abs/2206.07682, https://oreil.ly/kuG3J)
   - [model quality optimization](https://developers.openai.com/api/docs/guides/model-optimization)
   - [fine tuning](https://developers.openai.com/api/docs/guides/supervised-fine-tuning#distilling-from-a-larger-model)
+  - [chatgpt supervised learning](https://www.youtube.com/watch?v=bZQun8Y4L2A)
+
 
 ---
 
@@ -235,3 +248,4 @@ it have adversarial loop between its components that continues till satisfactory
 - LLMs excel in language generation, requiring metrics tailored to natural language like BLEU, ROUGE, and perplexity.  
 - AlexNet ? 
 - Seq2Seq ?
+- unlike previous methods that processed text linearly, transformers can handle words in parallel, capturing nuances in language through attention mechanisms.
