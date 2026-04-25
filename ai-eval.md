@@ -2,6 +2,17 @@
 ----
 ## General
 
+### Offline evaluation
+  - Test suite
+
+### Online evaluation
+  - Telemetry
+  - Tracing with sampling
+  - User feedback
+    - Thumbs up and down (with feedback form)
+    - It has disadvantage of users generally do not give feedback
+  - Implicit Feedback
+    - Acceptance of Agent answer by the user by some kind of telemetry
 
 ----
 ## Agent Evaluation

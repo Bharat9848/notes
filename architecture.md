@@ -294,7 +294,27 @@
     2. separate queue for each consumer.   
 
 
+## Famous Tradeoff???
+- Layered approach tend to bring portability and maintainability to a system possibly at the expense of performance.
+- Publisher-Subscriber pattern is for scaling number of producer and consumer of data possibly at the expense of performance and less flexible data contract.
+- Active redundancy pattern promotes availability but at expense of cost and performance.
 
+
+
+## Architecture Documentation
+### Business Goals
+- Some business goals are significant on the success of the mission. These are sometimes hidden quality goals which should be exposed and comprehended before starting on architecture. 
+### Architecture Significant Requirement
+- These are the main architecture driver serving some important and significant business needs.
+### Architecture Diagrams
+#### Context diagram
+#### Component and Connector Diagram
+#### Module Decomposition or Layered View Diagram
+
+
+
+### Attribute Driven Design
+### Architecture Tradeoff Analysis Method
 
 
 

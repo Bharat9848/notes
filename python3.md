@@ -119,6 +119,7 @@ logging.getLogger("langchain.retrievers.multi_query").setLevel(logging.INFO)
  - Raymond Hettinger - youtube videos
 ---
 ## Rough
+- `type annotation feature in Python 3.9+ messages:Annotated[Sequence[BaseMsg], operator.add]`
 - type `str`, `dict`, `TypedDict`
 - The Python eval function takes a string and evaluates it as a Python expression. In the context of semantic search, eval is used to dynamically execute semantic functions stored as strings in the entities collection. This allows new logic to be plugged in at runtime without changing the application code. However, using eval can be risky if the input is not trusted, as it can execute arbitrary code.
 

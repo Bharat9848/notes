@@ -5,7 +5,7 @@
 ## Best practices
   1. Beware of many new reasoning models often struggles with in-context learning and examples in prompt. They requires clear goals and strict format
   2. Repeat the important instruction above and bottom of prompt as llm tends to forgot older prompt.  LLM have quadratically scaling attention-bias mechanism due to which llm are not performative on longer prompts.Repeat important aspects. Experiments have shown that llm put good attention to the top and bottom of the prompt and it is lost in the middle.
-  3. Be specific rather than adding not-to-do instructions in the prompt e.g. We want summarization or we want step by step guides.
+  3. Be specific rather than adding not-to-do instructions in the prompt e.g. We want summarization or we want step by step guides. If giving any forbidding instruction then also provide the reason.
   4. Prompt grammer
     - Adding and removing keywords like adjectives etc.  
     - Try changing and rephrasing words:
@@ -16,24 +16,50 @@
   5. Instruct for exit path for unclear situation.
   6. Output generation syntax should be clean and demarcated. Using separator in different part of prompt. Using markdown markation to define section and subsection.
   7. Asking model to cite reference text help reduce the halluciantion
+  8. The prompt must closely resemble content from the training set. 
+  9. The prompt must include all the information relevant to addressing the user's problem.
+  10. The prompt must lead the model to generate a completion that addresses the promblem.
+  11. The completion must have a reasonable end point so that generation comes to a natural stop.
 
 ----
+## Static content
+ - Static sources which are used to structure and clarify the general problem. It can about behavior 
+   - Instruction on safety, 
+   - Instruction on limitations: 
+     - limit the problem domain. 
+   - Output Format, 
+   - instructions for gathering information, 
+   - instruction about the qualities of answer, 
+   - instruction about the persona and tones.
+   - Instruction about using dynamic context: 
+     - It should be scored as similar to dynamic content. It is optional to add depending upon dynamic context presence.
+
+## Dynamic content
+ - Dynamic sources which are retrieved at request time and used to convey details about a specific user and their specific problems.
+ - Latency can be a limiting factor in some application we should look to prepare some dynamic content before hand.
+ - Dynamic content should be compared with each other. 
+   - One can invalidate other.
+   - One can be depend upon other.
+   - One can more useful than other
+ - Discovery of dynamic context sources
+   - Take a typical question, put it in the center and try to focus on important words variation that can help. Create a graph out of different question after checking different word variation. Then think of all source which can help in answering the question. 
+   - After figuring out the sources try to guage them in stability graph. More stable the data is means it does not change very frequently. This will help in checking if something can be gathered beforehand. 
+   - Also plot context data in graph for proximity to your application. It will help decide the easiness through data can be obtained.
+ - Summaries: Useful in long text scenarios finding and extracting things which might be useful to us for the task at hand.  
 
 ## Context window management 
  - convesation history can run out of context window. Techiques like conversation pruning e.g. to include only last N messages or summarize the conversation through llm.
  - turn off reasoning.
  - keep track of input and output token length.
 
-
 ----
-
 
 ## Prompt structure 
   - Templates are model specific and are defined in model documentaion.
   1. System prompt
-    - A well structured prompt includes Role or persona, context, text, tone, instructions, and output format
+    - A well structured prompt includes Role or persona, context, text, tone, instructions, and output format.
     - Instruction can be the one or more from the following
-      1. answer in great details
+      1. answer in great details.
       2. answer succinctly or concisely.
       3. use only context to answer the question.
       4. cite sources in the response
@@ -77,10 +103,14 @@ It includes **few-shot learning** with **chain of thought** in the prompt to mak
 ### Few shot learning  
   - zero shot learning: when llm is able to answer without any examples in the prompts.
   - few-shot examples: whem we provide llm with few `examples` to facilitate different scenarios or augment its knowledge.
+  - Examples can give hint the llm about the persona like to be genial or grumpy.
   - selecting random labels and input text from true distribution is more effective than using uniform examples.
-  - Structure and format of example is also very important.
+  - Structure and format of example is also very important and LLM uses it as question understanding and output instruction rules.
   - in-context learning [paper](https://arxiv.org/abs/2005.14165)
-
+  - Disadvantage of few shot learning
+    - it scales poorly with growing context.??
+    - it introduces biases toward the example.??
+    - learn spurious pattern - examples are in particular ordering e.g. rating output example in ascending or descending order or Positive examples and followed by negative ones.
 ### Chain of Thought (COT)
   - **few shot COT**: different examples form problem space with answer explaining using COT before giving final answer.
   - It improves how language models handle complex reasoning by breaking problems into smaller, logical steps. 

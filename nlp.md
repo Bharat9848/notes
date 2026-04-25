@@ -1,9 +1,14 @@
 ## Preprocessing
-- removal of stop words- stop words are common words like is,the etc which do not carry much meaning
+- removal of stop words - stop words are common words like is,the etc which do not carry much meaning. In some poblems this step is not required as they provide meaning to a sentences.
 - Stemming - remove the word to its basic form. e.g. swimming will become swim 
 - lemmatization - it can morph the word to return it to basic of word called lemma.e.g. ran will become run etc. Unlike stemming lemmatization is more concise so that word do not lost its meaning in the context of a sentence.
 - data normalization: remove punctuation, lowercasing and standardizing the format, spelling corrections, remove special characters, digit to words- 2 will become two, remove any encoding like html tags etc.
 - data cleaning: removing duplicate and irrelevant data.
+- lower caseing every word make the data case agnostic
+- punctuation: all different type of punctuation `?!.,` can be replaced with `.`
+- Numbers: depending on the problem numbers can be removed or kept as it is or replaced with special tag e.g. `<number>`.
+- remove special characters
+- special words like emoji or hash tags can be removed or kept as it is.
 
 ## Usecase
 1. Text classification to predefined categories e.g. sentiment recognition.
@@ -124,6 +129,7 @@
  - Argument retrieval (Touche2020)
  - COVID-19-related information retrieval (TRECCOVID)
  - multiple dataset download [link](https://github.com/beir-cellar/beir/wiki/Datasets-available) 
+ - books review to rating(https://oreil.ly/7Vx_A)
 
 ## Rough
 - Term Frequency-Inverse Document Frequency (TF-IDF)
@@ -261,3 +267,52 @@ Its dimension are (N, V) where N being number of POS tag and V be number of word
      - or use log perplexity
         
 ----
+
+## Word embedding
+- Training data consist of not just vocabulary but the whole context which gives meaning to words in vocabulary.
+- embedding model can be machine learning model but there are other type of models as well.
+"""
+  Classical Methods
+
+    word2vec (Google, 2013)
+
+    Continuous bag-of-words (CBOW): the model learns to predict the center word given some context words.
+
+    Continuous skip-gram / Skip-gram with negative sampling (SGNS): the model learns to predict the words surrounding a given input word.
+
+    Global Vectors (GloVe) (Stanford, 2014): factorizes the logarithm of the corpus's word co-occurrence matrix,  similar to the count matrix you’ve used before.
+
+    fastText (Facebook, 2016): based on the skip-gram model and takes into account the structure of words by representing words as an n-gram of characters. It supports out-of-vocabulary (OOV) words.
+
+Deep learning, contextual embeddings
+
+ In these more advanced models, words have different embeddings depending on their context. You can download pre-trained embeddings for the following models. 
+
+    BERT (Google, 2018):
+
+    ELMo (Allen Institute for AI, 2018)
+
+    GPT-2 (OpenAI, 2018)
+"""
+### Continous Bag Of Word Model (CBOW)
+- corpus is divided into window. Each `window` will have a `centered word` and n/2 words before and after centered word as `context`.
+- Neural network for CBOW
+  - X is average of all context vectors, Y is the predicted centered word. X,Y are of vocabulary size.
+  - One hidden layer with chosen embedding size.
+  - input to hidden layer activation function is ReLU and hidden to output layer is softmax.
+- Evaluation
+  1. Intrinsic evaluation checks for semantic(meaning) and syntatic(grammer) relationships between words. 
+  2. Extrinsic evaluation use actual task for evaluation like named entity recognition etc.
+
+
+----
+## Infromation extraction
+- using LLM
+----
+
+## Entity resolution
+- resolution of an entity represented using different spelling variation etc.
+- using 
+  1. clustering algorithm
+  2. String matching
+  3. Machine learning

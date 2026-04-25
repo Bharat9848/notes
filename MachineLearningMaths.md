@@ -15,7 +15,9 @@
 # Famous functions
  -**Sigmoid function** : used in mapping of classification of data in between 0 and 1. 
  - Formula = 1/(1+e^(-z)).
-
+ - Jaccard similarity : measures similarity between two sets = (A intersection B)/ (A union B). It is used in full text search where number of overlapping words divided by the unique words in the snippet and query.
+  
+ 
 # Matrix
  - matrix decomposition
  - matrix factorization - 
@@ -51,7 +53,6 @@ that could conceptually get us from white-noise data to the data we observed.
 
 
 SET 
-Jaccard similarity : measures similarity between two sets = (A intersection B)/ (A union B) 
 
 
 

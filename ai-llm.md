@@ -56,6 +56,17 @@ it have adversarial loop between its components that continues till satisfactory
 
 ----
 <a id="2"></a>
+
+## Model type
+1. Chat model
+ - Tuned for to and fro kind of chats.
+ - e.g. 
+2. Completion model
+ - Tuned to complete a sentence. 
+ - e.g. `gpt-40`, `gpt-3.5-turbo-instruct` 
+3. Reasoning model
+
+
 ## LLM Tuning configurations
 
   1. Temperature

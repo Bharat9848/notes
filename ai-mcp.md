@@ -57,34 +57,44 @@
    2. Specification for server to expose various tools, resources, prompts as context to AI. They are defined using MCP primitives.
    3. Client features: Enables servers to ask the client to sample from the host LLM, elicit input from the user, and log messages to the client ???
    4. Notifications for real-time updates and progress tracking for long-running operations. It is usually one way message which would requires no reply. 
+
 ### Lifecycle Management
  - initialization sequence. 
    - Client starts initialization sequence with method `initialize` alongwith its own capabilities, protocol version, client info, messageId etc.
    - Server sends similar response with same id and similar information.
    - protocol version of client and server should be compatible. 
-   - Server should declares its primitive and notification cababilities while client should declare elicitation capabilities.
+   - Server should declares its primitive and notification cababilities. 
+    - `"tools": {"listChanged": true}` declares server supports tools primitive and it will send `listChanged` notification in case of any modification/create/delete of existing tools.
+    - `"resources": {}` means server supports resources primitive which have `resources\list` and `resources\read` calls. 
+   - client should declare elicitation capabilities. 
+     - `"elicitation": {}` declares client support elicitation permitive and server can call `elicitation/create`. Server can user data by sending elicitation request to the client which further asks the user through LLM for more data.
    - Client info and server info to exchange their identity information.
    - After sucessful handshake. Client sends intialization complete notification.
  - Client/server stores each other capabilities for later use.
  - Client then sends `tools/list` request for tool related information given server send supports tools during initialization exchange. 
 
 ### MCP Primitives
- - Tool primitive
- - Resource primitive for returing any static information like file content, database schema etc.
- - Prompt primitive
+#### Tools primitive
+   1. `tools/list` API for tools discovery. 
+    - It returns tools array with each element representing json which specifies `name`, `title`, `description` and `inputSchema` json. 
+   2. `tools/call` for a specific tool execution. It requires json input which specifies `name` and `arguments` json for tool invocation. Its response is `content` array containing objects of various media type like text, image, video etc.
+   Each content object declare its `type`. Response can also be strutured output
+#### Resource primitive
+ - for returing any static information like file content, database schema etc.
+#### Prompt primitive
  - Sampling primitive: Allow server to use language model completion via `sampling/complete`
  - Elicitation primitive: For any user's additional information, server can invoke `elicitation/request` which will cause LLM to ask for more information from the user.
  - Logging primitive: exposed by server to send log messages to LLM.
  - Primitive can be manipulated via 
-   1. `tools/list` API for discovery. 
    2. `/get` to get resources or prompt
-   3. `/call` for tool execution
- - `tools/list` method response from server contains the list of all available tools information. Each tool response object should have `name`, `title`, `description` and `inputSchema`.  
- - After registering available tools, client invokes `tool/call` with `params` containing tool `name` and its `arguments`. Server sends the response in `result` with `content` array which further specifies content `type` and actual content. `type` can be text, image, video  
+#### Notification primitive
+ - `notifications/tool/list_changed` 
 ### Notification
- - any tool related changes: Given server declares `listChanged:true` capability during initialization, server can do `notifications/tool/list_changed` method invocation when required. Notification messages are without any `id` field. 
- - progress on tasks 
- - one way communication from either sides which allows real time synchronization between server and client capabilities.  
+ - one way communication from either sides which allows real time synchronization between server and client capabilities. Consequently notification messages are without any `id` field.
+ - Usecases
+   - any tool related changes: Given server declares `listChanged:true` capability during initialization, server can do `notifications/tool/list_changed` method invocation when required.  
+   - progress on tasks 
+  
 
 ----
 

@@ -32,3 +32,20 @@
     5. Graph text linearization
       - Pseudo documents are created using path linearization between entities.
       - collect most relevant entities from the graph linked to asked entities by using a filtered ES KNN approach.
+
+
+## References
+ - [neo4j text2cypher](https://huggingface.co/neo4j) 
+ - [text2cypher fine tuning](https://medium.com/neo4j/introducing-the-fine-tuned-neo4j-text2cypher-2024-model-b2203d1173b0)
+
+----
+
+# Data Pipeline
+
+## Knowledge preparation
+1. Infromation extraction
+  - Using LLM: Unstructured data to structured data(json|yaml) using defined data model with the help of llm.
+2. Using structured data then translate to KG ontology specification.
+
+----
+

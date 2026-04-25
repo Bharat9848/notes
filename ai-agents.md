@@ -1,14 +1,18 @@
+# Agent
+- Agent is autonomous agent capable to follow ReAct pattern. It reacts to tool response and retry some actions till the desired task is achieved or some errornous condition is breached.
+----
+
+# Agentic workflow
+ - Static agentic workflow is different from fully autonomous agent, it follows a difinite workflow and unlike AI agent is not dynamic in nature.
+ - Controller-worker pattern: LLM act as a controller and chooses from the fixed set of option. Option can be a tool or other LLM worker.
+----
+
+
+
 ## Question
  - how to make LLM specialize in some area of problem statement ?
  - which LLM to choose
  - how to restrict model to answer using context only.
-
----
-
-
-## Agentic workflow
- - Agentic workflow is different from fully autonomous agent, it follows a difinite workflow and unlike AI agent is not dynamic in nature.
- - Controller-worker pattern: LLM act as a controller and chooses from the fixed set of option. Option can be a tool or other LLM worker.
 
 
 ---
@@ -21,8 +25,12 @@
 
 ---
 
-## Authorization
+# Authorization
 
+---
+# Reliability
+---
+# Transparency
 ---
 # Evaluation
  - see ai-eval.md
@@ -104,9 +112,9 @@
     3. long term application level memory
 ## Short term session memory
   1. checkpointing by langgraph
-  2. previous messages in the conversation: 
-    - openAI Response API internally maintains conversation 
-    - conversation can be summarized and stored to reduce memory footprint and remove duplication. It may require a new model to judge whether new conversation should be part of new summary or not.
+  2. Conversation: 
+    - OpenAI Response API is powerful api with external tool calling like browsing web etc. It internally maintains conversation. 
+    - Conversation can be summarized and stored to reduce memory footprint and remove duplication. It may require a new model to judge whether new conversation should be part of new summary or not. Conversation over a period of time may go out of hands. To manage it we might need to truncate it or send only last N messages. 
   3. It can be a structured storage like RDBMS or queue for conversation
 ----
 

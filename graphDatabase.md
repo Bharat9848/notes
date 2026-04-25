@@ -74,3 +74,4 @@ print(graph)
 
 ## Rough
 - Leveraging Elastic’s ability to stack boolean queries, we check if the relation store contains at least one connection between any element linked to the first entity and any element linked to the second entity.?
+- Louvain method to detect local communities of nodes in a graph
