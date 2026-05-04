@@ -1,8 +1,34 @@
+# Guidelines
+- USE method: applies to hardware resources
+  1. Utilization of a resource: 
+    - How much percentage of time it was busy
+  2. Error signal from the resource
+  3. Saturation from the resource
+    - how big the task queue for the resource
+
+- The RED method: applies to services
+  1. Rate: requests/sec
+  2. Error: errors/total responses
+  3. Duration: Duration of task completion/error
+- The Golden signals
+  1. Latency
+  2. Errors
+  3. Traffic
+  4. Saturation
 # Common metrics
 ## API calls
- 1. client observed latency - Histogram
- 2. server response latency - Histogram 
+ 1. Latency 
+    - Client observed latency - Histogram
+    - Server response latency - Histogram
+    - Latency anomaly: to detect if latency falls outside a normal range.
+    - Latency Breach: to detect if latency is going above average threshold
+    - P99 Error build up: to detect if lot of requests are breaching p99 latency.      
  3. total requests - Counter
+
+## Kafka
+ - lags saturation
+ 
+
 ## server meterics
 - Server process up and running.
 - request/sec
@@ -34,5 +60,4 @@
 - Disc read latency
 - Disc write latency
 - Disk swap space usage: Not recomendded for server, as it lead into increased number of page faults. 
-
  

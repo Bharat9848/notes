@@ -8,7 +8,11 @@
 ----
 <a id="1"></a>
 ## Model architecture
-
+### Seq2Seq Model
+  - It is Recurrant Neural Network
+  - Encoder takes the input and updates it internal state - called Thought vector.
+  - Decoder take the Thought vector and generates the output in a recurrent manner - next output token takes input of last generated token alongwith thought vector.
+  - Disadvantage: Thought vector is fixed in size so for longer text model tend to forget important part of the input. 
 ### Transformer model
 Self-attention mechanism: It analyze entire sentence at once.
 Input embedding: text is converted to a vector using token embedding model.

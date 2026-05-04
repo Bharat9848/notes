@@ -95,6 +95,14 @@ Error budget is difference between maximum service level and SLO. Error budgets 
  - Tuning of SLOs : Repeated check on SLO will they lead to broken customer experience.
 
 ---
+# Common Error Pattern
+1. Latency spikes
+  - A sudden spike in traffic causing saturation of resources and an increase in latency.
+  - A new deployment causing the latency to go up.
+  - Issues with downstream services causing latency to go up. The increase in latency in the downstream system itself could be marginal, but multiple calls to such services can add up and cause slowness in the upstream service
+  - An increase in errors causing the latency to go up or in some cases to go down
+  - A decrease in throughput of the system and an increase in latency and network usage at the same time (due to bigger request payloads that take more time to process)
+----
 # Monitoring
 ---
 # Logging
@@ -213,6 +221,68 @@ Error budget is difference between maximum service level and SLO. Error budgets 
 research.html.
 - DORA. 2021. “State of DevOps 2021.” Google Cloud. https://services.google.com/fh/files/misc/state-of-devops-2021.pdf.
 - Harley, Nick. 2017. “Software Intelligence: Why Slow Is the New Down.” VentureBeat, April 27, 2017. (link)[https://venturebeat.com/2017/04/27/software-intelligence-why-slow-is-the-new-down]
+
+## SRE AI agent
+### Gotchas
+ 1. Rabbit holes
+ - Going too deep on low priority alerts
+ - investigation scope creep.
+ - get stuck analyzing noice
+ 2. Data quality
+ - Garbage-in garbage-out
+ - fragmented tooling
+ 3. Agent Overwhelm
+ - overwhelm by context
+ - too generic can't prioritize
+ - struggle to coordinate from multiple sources
+ 
+
+----
+# Incident
+1. Define severity with consensus
+2. Team appropriateness of alert e.g. Technical alert should not be defined for SRE team
+3. Documentation and discuss alert and try to refine alerts to help with alert fatigue and robustness.
+4. Annotate you steps timing to see where the gaps are. 
+5. make plan with time-bound manner, explicitly tagging people for any answer.
+6
+## Incident Handling
+ 1. Survival/Triage stage: Keep the system afloat similar to hospital philosphy of Airway/Circulation/Breathing. There are strategies like Rollback, scale-up, circuit braker, access denial, load shifting and fail-over
+ 2. Examination phase: 
+   - Do not ignore inconsistent between data sources that's where the clues are.
+   - Build detailed view of connectors view of architecture diagram.
+   - Take shared notes and categorize them in following 
+     1. Evidence of incident - alert fired, primary affected metrics 
+     2. Correlated/casual - something which seems correlated to actual incident
+     3. Nominal - critical things which looks normal
+     4. Odd but uncorelated - things which are uncorrelated but does not look normal.
+ 3. Diagnosis/Hypothesis
+   - search the path from top to bottom. Do binary search using tracing.
+   - induce a change - artificial invocation
+   - Try to correlate with proximate time - what happened recently - release, scale-up/down etc.
+   - Try to correlate in space - What happened in nearby services.
+   - Dont stop early on a single hypothesis. Search for more hypothesis.
+ 4. Test and Treat
+    - Test should be backed by hypothesis.
+    - Test should be mutually exclusive to prove/disprove hypothesis.
+    - Test should not break itself and have very verbose logging.
+    - Test/Treat should not give you sense of success with partial success. It should be either full success or full failure.
+ 5. Cure
+    - should be documented
+
+## Incident loop
+```mermaid
+ Graph LR
+  A[Problem-Report] --> B[Triage]
+  B --> C[Examine]
+  C --> D[Diagnose]
+  D --> E[Test/Treat]
+  E --> F[Cure]
+  E --> C
+  E -RetriageIfTestFails-> B
+
+```
+----
+
 
 
 

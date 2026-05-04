@@ -1,3 +1,23 @@
+# Terminology
+- Trial or Experiment: experiment defined which result in random outcome.
+- Sample Space: count of all the possible outcomes
+- Event: Non empty portion of sample space.
+- Probability is a measure of a likelihood of an event occuring when an experiment is concluded.
+
+## Independent Events:
+- when one event does not interfere in the likelihood of another event.
+- Mathematically `P(A and B) = P(A) * P(B)`
+## Mutually Exclusive Events 
+ - When two events have no shared outcome means P(A interesect B) = 0 
+
+## Discrete Random Variable
+ - a variable that can assume a finite or countably infinite number of potential outcomes.
+## Probability Distribution of a Random Variable 
+ - For each possiblity of outcomes we assign a probability.
+### Probability Mass Function
+### Probability Density Function
+### Cumulative Density Function  	
+
 # Rules
 - P(A intersect B)
 

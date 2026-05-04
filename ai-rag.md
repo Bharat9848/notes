@@ -143,6 +143,9 @@ Standalone question:
 #### Graph RAG
  -- see ai-graphrag notes
 
+#### Summaries 
+ - document are summarized and vector indexed.
+ - user queries are search against summarized index. But original coarse grained chunk is returned.
 
 #### Hypothetical question
  - index comprises of question based on chunks.

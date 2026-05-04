@@ -1,14 +1,21 @@
-## Matrix
+# Matrix
 - Usage matrix factorization is used in collaborative filtering.
 - Matrix multiplication are not commutative.
 - Matrix multiplication are associative
 - Banded/tridiagnol matrix is square matrix which have three non-zero elements diagnol while all others are zero. It commonly occurs in big matrices computation.
-- Transpose
+- Anisotropic scaling
+- Diagonalizable matrix
+- companion matrix
+## Transpose operation
  - `transpose(A*B) = transponse(B) * transpose(A)` also remember that matrix multiplication is not commutative.
  - Symmetric matrix is a special matrix where `transpose(A) = A`  
  - Skew-symmetric matrix is a special matrix where `transpose(A) = -A` 
+ - `transpose(A)*B = transpose(B)*A`
  - Matrix is invertible ?
- - Determinant
+
+## Determinant
+- represents the volume of a parallalpiped formed by the row or column vector of a square matrix.
+- "When a diagonalizable matrix A interacts with a group of co-ordinate vectors, the ensuing distortion is termed anisotropic scaling. The determinant can aid in establishing the scale factors of this conversion. The determinant of a square matrix carries crucial insights about the linear alteration accomplished by the multiplication with the matrix. Particularly, the sign of thedeterminant mirrors the impact of the transformation on the basis of the system’s orientation." 
 
 
 - Elementry matrix are matrices which are same as identity matrix but one of the zero is replaced with some number. Elementry matrix are step transformations that are done as part of Gaussian elimination. We can see end result of Gaussian elimination as `E3*E2*E1*A = U` where E3, E2 and E1 are elementary matrices. if E1 have to multiple some number with first row and add it second row that means its second row will be of form `x 1 0 0`. Similary for E2 which have to multiply some number with first row and add it to third row that means its third row would be form `x 0 1 0`.
@@ -43,6 +50,7 @@
 - **Basis**: minimum number of vector that can span the vector space.
   - Orthonormal basis: basis vectors have dot product of zero
 - **Dimension**: Number of basis vectors.
+- for orthonormal vectors `inverse(V) = transpose(V)`
 - **Gram - Schmidt process** 
   finds the orthonormal vector basis from a vector basis.
   - uses two steps 
@@ -74,11 +82,16 @@ normalizeVec = vec/norm(vec)
 
 ### Translation
  - Take projection of vector over different arbitrary lines.
+
 #### Eigen Vectors and Eighen Values
-- covariance matrix -> Singular value decomposition -> first two matix represent eignvector, eigenvalue, other matrox 
+- covariance matrix -> Singular value decomposition -> first two matix represent eignvector, eigenvalue, other matrix 
 - Eigen vector: orthogonal vector - uncorrelated features of your data.
 - Eigen value: amount of information retained by each vector
+- "A vector x, belonging to a d × d matrix A, is an eigenvector if it satisfies the equation Ax = λx, where
+λ represents the eigenvalue associated with the matrix."
 
+#### Singular Value decomposition
+ - ???
 
 ### Rotation 
 - implemented using dot product of rotation matrix and transponse of a vector. ????. Rotation matrix comes first in multiplication.

@@ -122,6 +122,10 @@ Agent: This component manages a dynamic workflow, extending a sequential chain."
     2. ConversationBufferMemory: storage of message and conversation history.
  
   - langchain.messages
+  - langchain_community.utilities
+    1. sql_databases.SQLDatabase: An wrapper over sql database.
+  - langchain_community.agent_toolkit
+    1. SQLDatabaseToolkit requies SQLDatabase and llm. `get_tools` returns tools from toolkit.
 
 ## Question
 - How wikipediaLoader works? parsing and find the relevant pages

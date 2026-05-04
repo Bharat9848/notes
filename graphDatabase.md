@@ -2,7 +2,7 @@
 ## Data model
 - Triplet (Entity, relationship entity2)
 - entity have attributes
-- **Ontology**: schema to define entity, relationships and attributes. they are represented using semantic network. It is a type of organizing principle
+- **Ontology**: schema to define entity, relationships and attributes. they are represented using semantic network. It is a type of organizing principle.
 
 - graph: graphical representation of a domain data using entities and relationship b/w them. Node are entity or instances, edges are represented using relationship between nodes, tags are key/value pair associated with node and edges, properties are additional attribute associated with node and edges.
 - organizing principle as a conceptual map or metadata layer overlaying the data and relationships in the graph.
@@ -14,14 +14,28 @@
 WHERE variableX.name = 'Tim Cook'
 RETURN variableX, variableY, variableZ, path;`
 
-
-## Knowledge graph
+----
+# Knowledge graph
+## Definition
 - structured representation of facts using relationship between nodes.
-
-## Property graph
-## RDF
+### Property graph
+### RDF
 - This model does not support relationships with properties or multiple same-typed relationships between entities. 
+## How to create it
+ 1. Process: 
+  - **Knowledge Capture** process creates a **Knowledge Report** of the following
+    - what is the business problem/question ?
+    - Why do we need to answer the question ?
+    - who producer/consumer of data ?
+    - Where is data ?
+    - When will it consumed ?
+  - Collect ad-hoc and data documentation
+ 2. From Knowledge Report to create Ontology/Schema   
+## How to query it
+## How to use it with AI
+## References
 
+----
 
 # Examples
 - neo4j: ACID compliant, Cypher is neo4j query language
@@ -70,6 +84,9 @@ print(graph)
 - [courses](https://graphacademy.neo4j.com/)
 - [podcast neo4j](https://github.com/jbarrasa/goingmeta/blob/main/README.md)
 - [blog](https://opensearch.org/blog/)
+- [snorkell](snorkel-dryball)
+- [snorkell](snorkel.org)
+- [software2.0](AndrejKarpathy)
 
 
 ## Rough

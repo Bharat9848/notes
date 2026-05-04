@@ -4,7 +4,7 @@
 
 ## Best practices
   1. Beware of many new reasoning models often struggles with in-context learning and examples in prompt. They requires clear goals and strict format
-  2. Repeat the important instruction above and bottom of prompt as llm tends to forgot older prompt.  LLM have quadratically scaling attention-bias mechanism due to which llm are not performative on longer prompts.Repeat important aspects. Experiments have shown that llm put good attention to the top and bottom of the prompt and it is lost in the middle.
+  2. Repeat the important instruction above and bottom of prompt as llm tends to forgot older prompt.  LLM have quadratically scaling attention-bias mechanism due to which llm are not performative on longer prompts. Repeat important aspects. Experiments have shown that llm put good attention to the top and bottom of the prompt and it is lost in the middle. It is called the **Sandwich technique** by adding refocus and transition part in the last.
   3. Be specific rather than adding not-to-do instructions in the prompt e.g. We want summarization or we want step by step guides. If giving any forbidding instruction then also provide the reason.
   4. Prompt grammer
     - Adding and removing keywords like adjectives etc.  
@@ -16,11 +16,27 @@
   5. Instruct for exit path for unclear situation.
   6. Output generation syntax should be clean and demarcated. Using separator in different part of prompt. Using markdown markation to define section and subsection.
   7. Asking model to cite reference text help reduce the halluciantion
-  8. The prompt must closely resemble content from the training set. 
-  9. The prompt must include all the information relevant to addressing the user's problem.
-  10. The prompt must lead the model to generate a completion that addresses the promblem.
-  11. The completion must have a reasonable end point so that generation comes to a natural stop.
+  8. Principle for prompt
+     1. The prompt must closely resemble content from the training set. 
+     2. The prompt must include all the information relevant to addressing the user's problem.
+     3. The prompt must lead the model to generate a completion that addresses the promblem.
+     4. The completion must have a reasonable end point so that generation comes to a natural stop.
 
+## Long prompt
+  - Type of prompt
+    1. FreeForm
+    2. Script
+    3. Structured
+    4. Markless
+### Anatomy of Longer Prompts
+  1. Introduction: Explain about documents and context that will follow. Try to guide model focus early on - If you want model to focus on certain part then put it in front. 
+  2. Some context(Valley of Meh): It is guided by the following: 
+     1. In-context learning which states that closer a piece of text to the end more focus it gets from the model.
+     2. Lost in the middle: recalling of middle part is difficult for model as compare to start and end. 
+     - lost section is different for each model.
+  3. Individual prompt elements
+  4. **Refocus**: Its to turn model's attention back to the problem statements with some brief clarification above mid part of the prompt. It should be short.
+  5. **Transition**: One liner to switch to the actual question from explaining the question. For completion models it should be some uncompleted prompt like 'Ans:' etc. 
 ----
 ## Static content
  - Static sources which are used to structure and clarify the general problem. It can about behavior 
