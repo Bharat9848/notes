@@ -1,20 +1,31 @@
 # Terminology
 - Trial or Experiment: experiment defined which result in random outcome.
 - Sample Space: count of all the possible outcomes
-- Event: Non empty portion of sample space.
-- Probability is a measure of a likelihood of an event occuring when an experiment is concluded.
-
-## Independent Events:
-- when one event does not interfere in the likelihood of another event.
-- Mathematically `P(A and B) = P(A) * P(B)`
-## Mutually Exclusive Events 
- - When two events have no shared outcome means P(A interesect B) = 0 
-
+## Event
+Non empty portion of sample space.
+  1. Compound event 	
+	- combination of primitive events e.g. dice showing odd number
+	- non-overlapping compound events have probability sum of 1.
+	- compound events can be recursive or overlapping. In this case we have to subtract overlapped times minus one.
+  2.  primitive event 
+	- one of the possiblity or outcome e.g. rolling dice gives six.
+	- probability can be calculated using count.
+	- Probability is a measure of a likelihood of an event occuring when an experiment is concluded.
+  3. Independent Events
+	- when one event does not interfere in the likelihood of another event.
+	- Mathematically `P(A and B) = P(A) * P(B)`
+  4. Mutually Exclusive Events 
+ 	- When two events have no shared outcome means P(A intersect B) = 0 
+ 	- P(A union B) = P(A) + P(B)
+  5. Complementary Event of an event
+  	- Event comprises of sample space not covered in original sample space.	
 ## Discrete Random Variable
- - a variable that can assume a finite or countably infinite number of potential outcomes.
-## Probability Distribution of a Random Variable 
+ - a variable that can assume a finite or countably infinite number of potential outcomes. E.g. Random variable can represent a coin toss, or Number of cars passing through toll booth in an hour. In second example number of cars can zero to infinite each represent an outcome. 
+ - **Expected** value of a random variable - it is the probability weighted average of all outcome. 
+### Probability Distribution of a Random Variable 
  - For each possiblity of outcomes we assign a probability.
 ### Probability Mass Function
+  - helps in graphical represenation of probability distribution function. PMF is represented using histogram, where each bar represents probability from possible outcomes. Sum of all probabilities should be 1.		
 ### Probability Density Function
 ### Cumulative Density Function  	
 
@@ -33,3 +44,7 @@
 
 # Rough
 Probability
+# Probability
+
+
+

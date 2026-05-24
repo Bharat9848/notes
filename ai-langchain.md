@@ -11,18 +11,24 @@
 Agent: This component manages a dynamic workflow, extending a sequential chain."
   - `ChatMessageHistory`: saves only the question using `add_user_message(str)` method and llm response as `add_ai_message(str)`  
 ---
-   ## LangGraph
+## LangGraph
+### StateGraph API
   - It is stateful, persistent agentic workflow with state saved in graph based execution.
-  - Node represents a individual task of the process like calling an API etc. Node are represented with explicit node name which is bound to a python function name through graph API.
-  - Edge defines the path between the tasks. Simple edge are defined through graph API with first node name as source and second node name as destination. Conditional edges are defined through a python function which returns the alternate node name based on some condition.
-  - State is information that moves between the nodes. It is strongly typed using `TypedDict` from `typing` module
+  - Node represents a individual task of the process like calling an API etc. Node are represented with explicit node name which is bound to a python function name through graph API. Uses `StateGraph.add_node`
+  - Edge defines the path between the tasks. Simple edge are defined through graph API with first node name as source and second node name as destination. Conditional edges are defined through a python function which returns the alternate node name based on some condition. See `StateGraph.add_edge`
+  - State is information that moves between the nodes. It is strongly typed using `TypedDict` from `typing` module.
   - branching edges makes llm take decision dynamically based on the previous state.
   - cyclical workflows makes refinement of work possible.
   - Node types:
     1. Model node - calls an llm
     2. tools node - calls an tool
     3. middleware node: override some aspects of requests
-
+  - Entrypoint to the graph is decided to be some node. see `StateGraph.set_entry_point`
+  - `Command` class automatically route with `update` state and next node to `goto`.
+### Agent API
+ 1. `create_react_agent`: to define individual ReAct pattern based agent.
+ 2. `create_supervisor_agent` : to define supervisor agent which orchestrate complex flow over multiple other agents. Internally it define graph API.
+ 
 ---  
  ## LangSmith
   - Tracing feature: Hub provides the templates prompt for most usecases
@@ -111,6 +117,7 @@ Agent: This component manages a dynamic workflow, extending a sequential chain."
     3. VectorBasedRetriever: simply retrieve documents from an underlying database. It is created using `vectordb.as_retriever()`
     4. MultiQueryRetriever: uses LLM to generate multiple different version of prompt. It helps in increasing relevancy and remove any wording related issues from returned documents. It wraps around a retriever to query multi verstion of user prompt.
     5. SelfQueryRetriever: Uses LLM to divide the user prompt into text query (to be semantically searched) and additional metadata that can be used in metadata filtering. It takes LLM, metadata description, vectordb, and documnent description.
+    6. MultiVectorRetriever: Takes vector store and doc store in constructor. Vector store will have granular chunks and doc store is for coarse chunk. It allows context expansion. 
 
   - langchain.chains
     1. LLMChain

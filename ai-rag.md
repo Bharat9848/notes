@@ -10,6 +10,7 @@ Following are some of the usecases of RAG
   - structured data sources like rdbms
   - unstructured data sources like pdf, images etc.
   - streaming data.
+- RAG if runs on LLM training dataset it will help LLM to quickly reach its internal knowledge(Latent retrieval) and consequently it returns a good answer.
   
 
 ----
@@ -109,6 +110,7 @@ Standalone question:
     -- It uses ANN algorithm see ANN in machine learning notes
     - it is also called dense vector/ embedding search
   3. lexical/sparse vector search
+    - it is best suited for cases where answers are more entity centric.
     - also called term-based search and lexical search.
     - `fuzzy match` tries to gauge two sentences similarilty by measuring edit distance.
     - `N-gram match` strategy tries to gauge similarity by doing exact match by breaking sentences in N-gram.

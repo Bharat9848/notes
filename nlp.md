@@ -58,12 +58,14 @@
 ### Authorship distribution
 ### Analogy problem solving
 ### Reading comprehension
-### Extractive summarization and question answering
+### Extractive summarization and question answering and abstractive question-answering
+
 ### Euphemism and pun recognition
 ### Humor and sarcasm recognition
 ### Hate speech and troll detection
 ### Logical entailment and fallacy recognition
 ### Knowledge extraction
+### Jeopardy Question Generation:
 
 ### Machine translation with neural networks
  - use vector encoding then uses ANN to do the translation. 

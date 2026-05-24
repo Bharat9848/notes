@@ -5,7 +5,7 @@
 - Marginalized: weighing of different option before taking decision
 
 ## Model
- - RAG sequence model: For each document generate the whole output. Then marginalize over generated outputs.
+ - RAG sequence model: For each retrieved document generate the whole output. Then marginalize over generated outputs.
  - RAG token model: For each retrieved document generate singe next output token and marginalize over generated token generated per document.
  - Retriever is based on DPR uses BERT(base) document/query encoder
  - Generator is based on BART-large(pretrained seq2seq transformer with 400M parameter)
@@ -24,3 +24,4 @@ gradient descent with Adam [28]").
 
 ## Reference
 - 20, 26, 48
+- 33 59, 39

@@ -300,22 +300,47 @@
 - Active redundancy pattern promotes availability but at expense of cost and performance.
 
 
-
+----
 ## Architecture Documentation
 ### Business Goals
 - Some business goals are significant on the success of the mission. These are sometimes hidden quality goals which should be exposed and comprehended before starting on architecture. 
 ### Architecture Significant Requirement
 - These are the main architecture driver serving some important and significant business needs.
 ### Architecture Diagrams
-#### Context diagram
-#### Component and Connector Diagram
-#### Module Decomposition or Layered View Diagram
-
-
+ - Different view of architecture should be chosen based on quality attributes. 
+1. **Context diagram**
+2. **Component and Connector Diagram**
+ - Helps in exposing perfromance and reliability
+ - It is a structural view
+3. **Module Decomposition or Layered View Diagram**
+ - Helps in exposing maintainability, modifiability, portability or reuse.
+ - it is a structural view which explains responsibility of a module and its relationship among module.
+ - A module can be a class, set of classes or a layer. A source code how decomposed into units and how units are aggregated into larger ensembles. Module responsibilities and assumption it have on services from other units.
+ - It also share datastructure that impacted by multi units.
+ - Relationship between modules can be similar to `is-a`, `is-part-of` or `depends-on`
 
 ### Attribute Driven Design
-### Architecture Tradeoff Analysis Method
+-----
 
+## Architecture Evaluation
+
+### Architecture Tradeoff Analysis Method
+- Done by 3rd party 
+- In the end report is generated with risk scenarios against business quality goals.
+- Process steps
+  1. Present  the ATAM and explain to the various stakeholders of the project.
+  2. Present the business goals
+  3. Present the architecture
+  4. Identify the nuances in architecture approaches
+  5. Generate a quality attribute tree - (quality name | architecture approaches| business goal/scenario)
+  6. Enrich quality attribute tree and cateogrize it into risk, nonrisk or tradeoff categories.
+  7. Different type of stakeholders weighs their vote on scenarios according to their role.
+  8. Evaluate quality attribute tree with architect explaining architect tectics.
+  9. 3rd party will present the result.
+  
+### Lightweight Architecture evaluation
+- Done by the peer. Many stages of ATAM are skipped. Less formal and less effecive than ATAM
+----
 
 
 

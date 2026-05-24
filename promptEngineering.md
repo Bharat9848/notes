@@ -16,18 +16,20 @@
   5. Instruct for exit path for unclear situation.
   6. Output generation syntax should be clean and demarcated. Using separator in different part of prompt. Using markdown markation to define section and subsection.
   7. Asking model to cite reference text help reduce the halluciantion
-  8. Principle for prompt
+  8. Principle for good prompt
      1. The prompt must closely resemble content from the training set. 
      2. The prompt must include all the information relevant to addressing the user's problem.
-     3. The prompt must lead the model to generate a completion that addresses the promblem.
+     3. The prompt must lead the model to generate a completion that addresses the problem.
      4. The completion must have a reasonable end point so that generation comes to a natural stop.
+
 
 ## Long prompt
   - Type of prompt
-    1. FreeForm
-    2. Script
+    1. FreeForm - It does not explicitly mark the subject and model have to implicitly find the subject and person role giving the statement.
+    2. Script - It explictly mention person role and their dialogue like a movie script.
     3. Structured
     4. Markless
+
 ### Anatomy of Longer Prompts
   1. Introduction: Explain about documents and context that will follow. Try to guide model focus early on - If you want model to focus on certain part then put it in front. 
   2. Some context(Valley of Meh): It is guided by the following: 
@@ -37,9 +39,17 @@
   3. Individual prompt elements
   4. **Refocus**: Its to turn model's attention back to the problem statements with some brief clarification above mid part of the prompt. It should be short.
   5. **Transition**: One liner to switch to the actual question from explaining the question. For completion models it should be some uncompleted prompt like 'Ans:' etc. 
+  6. Table of content in longer prompt can be helpful for llm. It can also be used as completion prompt e.g. putting #appendix / #further reading make llm to generate these sections before stopping.
+  7. Create prompt elements table for its position and ordering, importance and dependency. Dependency will structured prompt element in more natural way. Dependecy have two categories:
+     1. Requirements when one prompt element depends on another. 
+     2. Incompatibilties one prompt element is incompatible with another e.g. summarized context vs long detailed context. 
+  8. Some prompt element can be shortened e.g. snippet or quoted text. Longer form are preferable if you have more space in the prompt. If short form convey the same information then those are preferrable. It should be subjected to experiments.
+  10. Assemble all the prompt element depends upon the dependencies and available prompt length. 
+### Example
+ ???
 ----
 ## Static content
- - Static sources which are used to structure and clarify the general problem. It can about behavior 
+ - Static sources which are used to structure and clarify the general problem. It can be about behavior 
    - Instruction on safety, 
    - Instruction on limitations: 
      - limit the problem domain. 
