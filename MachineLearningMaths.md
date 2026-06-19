@@ -13,8 +13,7 @@
  - cross-entropy: A language model’s cross entropy on a dataset measures how difficult it is for the language model to predict what comes next in this dataset.
 
 # Famous functions
- -**Sigmoid function** : used in mapping of classification of data in between 0 and 1. 
- - Formula = 1/(1+e^(-z)).
+
  - Jaccard similarity : measures similarity between two sets = (A intersection B)/ (A union B). It is used in full text search where number of overlapping words divided by the unique words in the snippet and query.
   
  
@@ -41,12 +40,34 @@ that could conceptually get us from white-noise data to the data we observed.
 
 
 ## Gradient Descent
+ - replacing sigmoid function with relu function have increased the speed of gradient descent. As in sigmoid plateau regions the weights change very slowly.
+ - **Loss function**: calculates the difference b/w a ypred(i) and y(i) of an individual training sample.
+ - **Cost function**: Average of sum of all the loss function.
+ - Gradient descent finds the weights and intercept that will minimize the cost function
   - **Steps**
    1. use random weights W to computed Y_pred = XW
-   2. then calculate error = (Y_pred-Y) 
-   3. Start a loop
-      1. finding local minima by taking derivative `d(XW - Y)/dW` (why do it for W bcas we dont want to change X and Y.) 
-      2. We readjust weights according to gradient to `W' =W - (alpha)* descent` 
+   2. then calculate loss function = (Y_pred-Y) 
+   3. calculate cost function `J = (1/m)SumAll(L)`
+   4. Start a loop
+      1. finding local minima by taking derivative `d(J(W,b))/dW` 
+      2. We readjust weights according to gradient to `W' = W - (alpha)* descent` 
+      3. stops when cost is minimum then threshold.
+
+# Computation graph
+- In deep learning computaion graph shows the computation of cost function with its component at each subsequent layer.
+## Forward propagation
+- For deep learning algorithms X is matrix of all example vectors. Each example will be represented by a column. Thus it have dimesion of (nx, m). Y will have dimensions of (1,m)
+## Backward propagation
+- Process of calculation derivatives of weight starting from the last layer to previous layer and so on to calculate optimal weights for minimizing the cost.
+- partial derivative dL/da, dL/dz dL/dW and dL/db for each layer is calculated.
+```math
+   dL/d(supern(a)) = ... depends upon the activation unit
+   dL/d(supern(z)) = a - y
+   dL/d(supern(w)) = dL/d(supern(z)) * supern-1(a)
+   dL/d(supern(b)) = dL/d(supern(z)) * supern-1(a)
+....
+```
+
 
 # Rough
 - Chebyshev’s inequality
@@ -54,7 +75,7 @@ that could conceptually get us from white-noise data to the data we observed.
 
 SET 
 
-
+dL/dz = dL/da * da/dz = (-y/a + 1-y/1-a ) * [(1- g(z))*g(z)]
 
 Random variable
 A random variable can have many values, how do we keep track of them all? Each value that a random variable might take on is associated with a percentage. For every value that a random variable might take on, there is a single probability that the variable will be this value. Random variable are represented by the mean value and variance. We can usually say that Random variable have an expected value, give or take the standard deviation.

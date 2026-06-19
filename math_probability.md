@@ -26,8 +26,16 @@ Non empty portion of sample space.
  - For each possiblity of outcomes we assign a probability.
 ### Probability Mass Function
   - helps in graphical represenation of probability distribution function. PMF is represented using histogram, where each bar represents probability from possible outcomes. Sum of all probabilities should be 1.		
-### Probability Density Function
+
+## Continuous Random Variable 
+### Probability Density Function: 
+- It is for calculating the probability of a continuous random variable within a range.
 ### Cumulative Density Function  	
+- relevant for both discrete as well as cumulative random variables
+
+## Maximum Likelihood Estimation
+- Estimate parameters of probability distribution.
+- "The maximum likelihood estimate (MLE) is the parameter vector value that offers the maximum value for the likelihood function across the parameter space."
 
 # Rules
 - P(A intersect B)

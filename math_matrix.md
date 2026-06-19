@@ -12,6 +12,7 @@
  - Skew-symmetric matrix is a special matrix where `transpose(A) = -A` 
  - `transpose(A)*B = transpose(B)*A`
  - Matrix is invertible ?
+ - Matrix multiplication intitution for left side of matrix,  imagine you have stacked a breakable thing like a stack (rowwise) and for right side of matrix, there is another set of object which are stacked (columnwise). Intention is to mix the row with every column  or each right object is a subcomponent of row. Now break left side stack horizontally in x pieces and right side of stack vertically in x pieces. Now multiply broken piece from row and column and then sum it. Resulting  
 
 ## Determinant
 - represents the volume of a parallalpiped formed by the row or column vector of a square matrix.

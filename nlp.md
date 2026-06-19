@@ -198,6 +198,7 @@ Its dimension are (N, V) where N being number of POS tag and V be number of word
     P(w1, w2, w3) = P(w1)*P(w2|w1)*P(w3|w1,w2) # Chain rule and conditional probability   
     P(w3|w1, w2) = Count(w1, w2, w3) / sumall(x)(count(w1, w2, x)) ~ Count(w1, w2, w3) / count(w1, w2) # summation will nullnify x's effect 
   ```
+- practically it requires lot of RAM and space instead RNN is used in industry.  
 - **Markov assumption** 
   - Since longer the sentences it is very likely the occurance of whole sentence occuring in corpus is zero makes the whole probability of a sentence zero.
   - Instead using Markov assumption we can approximate the probability of sentence by rewriting conditional probability of longer subsequence to check only few previous words instead of whole prefix.

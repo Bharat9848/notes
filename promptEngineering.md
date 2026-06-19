@@ -160,6 +160,14 @@ It includes **few-shot learning** with **chain of thought** in the prompt to mak
   - disadvantages are increased latency and cost.
 
 ---  
+## Tool
+ - If public API then try to use same argument as public api documentation as model uses its internal knowledge and will get confused otherwise.
+ - json schema types supported: string, number, integer and boolean. enum and default from json Schema is also supported.
+ - Sometime long form text input might have missing proper escape characters etc.
+----
+## Reasoning
+
+---- 
 
 ## Prompt Testing
 

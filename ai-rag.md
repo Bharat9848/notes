@@ -90,6 +90,7 @@ Standalone question:
 # Retrival phase
 
 - Shorter context are more efficient but they fail to answer broader questions. The longer the context, the more likely the model is to focus on the wrong part of the context.
+- For rich document type containing tables/images we can generate summaries of table/image using an LLM and store them alongwith smaller chunks and then store the whole table/image in coarse chunk in a document store. Then use technique like technique like search expansion to return the coarse chunks on user queries.
 
 ### Search type
 
@@ -149,10 +150,7 @@ Standalone question:
  - document are summarized and vector indexed.
  - user queries are search against summarized index. But original coarse grained chunk is returned.
 
-#### Hypothetical question
- - index comprises of question based on chunks.
- - retriever compares user question with generated question vector.
- - Augmentation phase use the original text form the chunk
+
 
 #### Hypothetical Domcument embedding(HyDE)
  - LLM generates an hypothetical document that will match the user query and then generated document is used as query to be searched in vector store.
@@ -162,8 +160,14 @@ Standalone question:
 - large document are summarized and embedded into summarized index.
 - first query is searched in search index and then from search index refrences all original chunks are retrieved.
 
-#### Query expansion
-
+### Query expansion
+- Reformulate query
+- Generate multi queries for complex question 
+- step back question
+#### Hypothetical question
+ - index comprises of question based on chunks.
+ - retriever compares user question with generated question vector.
+ - Augmentation phase use the original text form the chunk
 ----
 # Post retrieval phase
 - reranking,
@@ -346,6 +350,8 @@ in-memory vector database, each embedding is associated with unique document ide
 - ARAGOG: Advanced RAG Output Grading
 - llamaindex: OpenAiAgent class
 - multi agent documentation [llamaindex](https://developers.llamaindex.ai/python/framework/understanding/agent/multi_agent/)
+- Multimodel [LLM](https://mng.bz/Jw0a)
+- parsing [library](unstructured.io)
 
 
 ---

@@ -6,13 +6,16 @@
  - property `arr.size` returns 1st dimension length?
  - `+`, `*` opreators etc do element wise operation given all rows have same size or matrix is not malformed.
  - Transpose `arr.T` does not affect 1-D array.
- - `np.expand_dims` add extra empty dimensions and given dimension -  0 means column, 1 means row.
+ - `np.expand_dims` add extra empty dimensions and given dimension -  axis 0 means column, 1 means row.
  - column selection: `arr[:, colIndex]` returns 1d array of column values
 
 ## Vector and Matrix function
  - `np.linalg.norm` do normalization of matrix row-wise, col-wise or all elements.
  - `2dArr - rowVec`	do vector subtraction row wise.
  - `euclidean distance` is norm of `vectorA-vectorB`
+
+## Broadcasting
+ - auto expansion of scalars or matrix to the desired dimension to allow certain vector computation. e.g a vector of (1,m) `A + 100` will do broadcasting of 100 into [100, ... 100] m times.
 
 ## Functions
  - `np.histogram(list, bins=np.arange(start, end))[0]` ?
@@ -45,25 +48,6 @@ passing in a list of [2, 3, 4].
  - `np.mean` do mean on whole array or axis wise	
  - `np.argmin` gives the index of lowest value.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-----
+## s
+ (features, noOfExamples)| ((features, hidden), noOfExamples)

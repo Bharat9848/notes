@@ -38,14 +38,17 @@
 2. `sin(x + y) = sin(x)cos(y) + cos(x)sin(y)`
 3. `cos(-x) = cos(x)`
 4. `sin(-x) = -sin(x)`
----
+---- 
 # calculus
 ## Single variable calculus
 - Taylor series
-## 
-
+----
+# Derivatives
+- it is slope of a function.
+- chain rule: `d(y)/d(x) = d(y)/d(z) * d(z)/d(x) 
 ## Rough
 - Lagrange interpolation
+
 
 ## Graphs
 - free online tool to plot [graph](https://www.desmos.com/calculator) 

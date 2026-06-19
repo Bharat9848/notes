@@ -118,6 +118,8 @@ logging.getLogger("langchain.retrievers.multi_query").setLevel(logging.INFO)
 - ## Resources and books
  - Raymond Hettinger - youtube videos
 ---
+
+
 ## Rough
 - `type annotation feature in Python 3.9+ messages:Annotated[Sequence[BaseMsg], operator.add]`
 - type `str`, `dict`, `TypedDict`

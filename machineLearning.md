@@ -247,16 +247,8 @@ Combinatorial Optimization by Alexander Schrijver.
 
 
 # Deep learning
-## Recurrent neural network
-### problems
- - exploding gradient descent: large gredient exponentially increase due to recurrence
- - vanishing gradient descent: small gradient shrink to zero due to recurrence which leads to long term memory loss.
- - process each word sequentially
-### Long Short-Term Memory(LSTM)
-- Add more memory cell to tackle the long term memory loss
-- process each word sequentially
-# NLP
- -- see elasticsearch notes
+-- see deeplearning notes
+
 ----
 # Reinforcement learning
  
