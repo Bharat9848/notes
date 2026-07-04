@@ -46,6 +46,15 @@
 # Derivatives
 - it is slope of a function.
 - chain rule: `d(y)/d(x) = d(y)/d(z) * d(z)/d(x) 
+----
+# Algebra
+1. Exponentially Weighted Average/ Moving average:
+ - Used when you want to use sliding window average. 
+ - It is less acurate than the sum last x values then do average.
+ - It is less computationally expensive. 
+ - `value(t) = (alpha)* value(t-1) + (1-alpha)*currentVal` with alpha value dictate the lookback window of (1/1-alpha) values
+ - Start of the series due to lack of lookback values it is very drastically differ from actual average. To remedy the situation `value(t)` is divided with bias term `1-alpha^t` 
+
 ## Rough
 - Lagrange interpolation
 

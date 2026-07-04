@@ -49,10 +49,14 @@ Non empty portion of sample space.
 - `P(A|B) = P(A intersect B)/ P(B) = P(B intersect A)/P(B) = P(B|A)*P(A)/P(B)`  
 
 # Bayes rules
+ - A is the interested event. P(A) was the prior distribution. P(B|A) ?? P(B) Marginal liklihood
+	```math
+	P(A|B) = (P(B|A)*P(A))/ P(B)
+	```
+# References
+ - DasGupta, Anirban. Probability for statistics and machine learning: fundamentals and advanced topics. New York: Springer, 2011.
 
 # Rough
-Probability
-# Probability
 
 
 

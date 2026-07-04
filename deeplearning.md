@@ -1,6 +1,6 @@
 # Neural Network
  - Neuron: is a linear function of (noOfInput, 1) then its output goes through a activation function.
- - Weights can't be initialized to zero and it should be initialized to very low random number.  
+ - Weights can't be initialized to zero and it should be initialized to very low random number of normal distribution. Also Weights should be initialized using **Xavier initialization** which scale the weight matrix of layer l by `sqrt(1/dimension of previous layer)`. Or you can use **he initialization** from paper (He et. al 2015) which scale the weight matrix of layer l by `sqrt(2/dimension of previous layer)`
  - Input layer: Each neuron take input from all the features of input.
  - hidden layers:
     1. Dense layer
@@ -8,7 +8,26 @@
     3. Or Dense layer with ReLU activation
   - Embedding layer: each word is translated into n dimension which represent its hidden meaning.
   - Mean layer: followed by embedding layer it takes mean of each embedding dimension to reduce the size of embedding layer. 
+ - Debugging - Gradient Checking Technique
+---
+# Variance
+## Regularization
+ - **L2 regularization**: 
+  - In neural networks,cost function have an additional term of `(lamdba/2m)*forallLayer(forbNorm(W))`. It also affect the `dW` in back propagation, it adds `(lambda/m)*Wi`. because of it is called weighted decay.
+  - High lambda hyperparameter causes the weights to go smaller and make the neural network go linear across layer which makes it less fitting to the data. Hence increase the effect of regularization. Intution: L2-regularization relies on the assumption that a model with small weights is simpler than a model with large weights. Thus, by penalizing the square values of the weights in the cost function you drive all the weights to smaller values. It becomes too costly for the cost to have large weights! This leads to a smoother model in which the output changes more slowly as the input changes.
 
+- **Dropout regularization**: 
+   - We do coin toss for a unit to turn on/off for at each unit in hidden layers for each example.
+   - used only in training time not in testing time. 
+   - Implementation notes: 
+    - For forward propagation, We create a coin toss boolean matrix of ASup(l) size and matrix multiply it with original ASup(l) matrix for each layer(l), we want to apply dropout technique. Then Divide 𝐴[1] by keep_prob. By doing this you are assuring that the result of the cost will still have the same expected value as without drop-out. (This technique is also called inverted dropout.)
+    - For backward propagation, You had previously shut down some neurons during forward propagation, by applying a mask 𝐷[1] to A1. In backpropagation, you will have to shut down the same neurons, by reapplying the same mask 𝐷[1] to dA1.During forward propagation, you had divided A1 by keep_prob. In backpropagation, you'll therefore have to divide dA1 by keep_prob again (the calculus interpretation is that if 𝐴[1] is scaled by keep_prob, then its derivative 𝑑𝐴[1] is also scaled by the same keep_prob).
+
+- Data Augmentation:
+  - Image rotation/zoom in increase data size.
+- Early Stopping
+ - If you plot cost vs iteration, observe with more iteration training error will go towards zero. But validation set error might not follow the same trend. Validation set errors goes down till certain point and then start increasing again. Early stopping technique stops training at the point where cross-validation set error at minimum. 
+---
 ## Forward Propagation
  1. First input layer is also called the zero layer. `a(superscript[0]) = X`. It have dimensions of (features, examples) where each example represent column.
  2. For each hidden layer 
@@ -62,11 +81,15 @@
 2. one-to-many one input to many output.
 3. Many-to-one Many input to single output.
 4. Many-to-Many Many input to many output 
+-----
+# Problems
+ - Exploding Gradient Descent: In a very deep neural network, if weight are greater than identity matrix then over large number of layers weight increased exponentially due to recurrence which in turn increase in Yhat. It cause difficulty in training.
+ - Vanishing Gradient Descent: It is opposite to exploding gradient descent. If weights are less than identity matrix then over large network small gradient shrink to zero due to recurrence which leads to long term memory loss.
+ - Partial solution to Exploding/Vanishing gradient descent is by initializing the weights at each layer with variance of `2/nsup(l-1)` where nsub(l-1) is dimension of previous layer.
+ `Wsup(L) = np.random.randn(nsup(L), nsup(L-1)) * np.sqrt(2/nsup(L-1))`
 
-### problems
- - exploding gradient descent: large gredient exponentially increase due to recurrence
- - vanishing gradient descent: small gradient shrink to zero due to recurrence which leads to long term memory loss.
  - process each word sequentially
+----- 
 ### Long Short-Term Memory(LSTM)
 - Add more memory cell to tackle the long term memory loss
 - process each word sequentially

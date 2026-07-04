@@ -29,3 +29,7 @@
 # Poisson distribution
 - it calculate the probabilty of discrete number of events given the avg rate.
 - it is used to calculate probabilty of rare events and queueinng theory. 
+
+
+# References
+ - Dangeti, Pratap. Statistics for machine learning. Packt Publishing Ltd, 2017.

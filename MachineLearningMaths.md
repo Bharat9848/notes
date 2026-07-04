@@ -38,20 +38,32 @@ that could conceptually get us from white-noise data to the data we observed.
  - Hamming distance: number of dimension to be changed in vector v1 to become other vector v2 
  - [distance](https://bib.dbvis.de/uploadedFiles/155.pdf)
 
+----
 
-## Gradient Descent
- - replacing sigmoid function with relu function have increased the speed of gradient descent. As in sigmoid plateau regions the weights change very slowly.
+# Gradient Descent
+ - Gradient descent finds the weights and intercept that will minimize the cost function. At every iteration (tiny step descent) we used all the training examples and train our algorithm. 
+ 
  - **Loss function**: calculates the difference b/w a ypred(i) and y(i) of an individual training sample.
- - **Cost function**: Average of sum of all the loss function.
- - Gradient descent finds the weights and intercept that will minimize the cost function
+ - **Cost function**: Average of sum of all the loss function value of all the training sample.
   - **Steps**
-   1. use random weights W to computed Y_pred = XW
-   2. then calculate loss function = (Y_pred-Y) 
-   3. calculate cost function `J = (1/m)SumAll(L)`
-   4. Start a loop
-      1. finding local minima by taking derivative `d(J(W,b))/dW` 
-      2. We readjust weights according to gradient to `W' = W - (alpha)* descent` 
-      3. stops when cost is minimum then threshold.
+    1. initialize `W = random(W)` 
+    2. Start a loop till some good amount of loop or cost has reached some minimum threshold.
+      1. compute Y vector `Y_pred = ml_algo(W)`
+      2. then calculate loss function `L= (Y_pred-Y)`
+      3. calculate cost function `J = (1/m)SumAll(L)`
+      4. calculating descent using forumla `descent = d(J(W,b))/dW` 
+      5. We readjust weights according to gradient to `W' = W - (alpha)* descent` where alpha is learning rate.
+
+## Optimization of Gradient descent
+1. replacing sigmoid function with relu function have increased the speed of gradient descent. As in sigmoid plateau regions the weights change very slowly.
+2. mini-batch gradient descent:
+ - Used in case where training examples size is very large in tune of million.
+ - Implementation notes: training example are divided into mini-batches in a inner loop and all gradient descent steps are done inside it.
+ - Plotting cost vs no of iteration will show the decrease in cost but it will be noisy.
+ - Choosing mini batch size is based on experiment where the speed of gradient descent is optimal. And should be power of 2 and it should fit CPU/GPU memory.
+3. 
+
+-----   
 
 # Computation graph
 - In deep learning computaion graph shows the computation of cost function with its component at each subsequent layer.
@@ -67,6 +79,7 @@ that could conceptually get us from white-noise data to the data we observed.
    dL/d(supern(b)) = dL/d(supern(z)) * supern-1(a)
 ....
 ```
+- Gradient Check technique helps in checking if back propagation calculations are correct. It should be only used for debugging, not in training. Also be careful to add any regularization component in loss function if you are using regularization in original training as well. Gradient check does not work in case of dropout regularization.
 
 
 # Rough
@@ -75,7 +88,7 @@ that could conceptually get us from white-noise data to the data we observed.
 
 SET 
 
-dL/dz = dL/da * da/dz = (-y/a + 1-y/1-a ) * [(1- g(z))*g(z)]
+`dL/dz = dL/da * da/dz = (-y/a + 1-y/1-a ) * [(1- g(z))*g(z)]`
 
 Random variable
 A random variable can have many values, how do we keep track of them all? Each value that a random variable might take on is associated with a percentage. For every value that a random variable might take on, there is a single probability that the variable will be this value. Random variable are represented by the mean value and variance. We can usually say that Random variable have an expected value, give or take the standard deviation.

@@ -52,14 +52,9 @@ Combinatorial Optimization by Alexander Schrijver.
  - *Stationary learning task* - relationship between the features and target will not change over time.
  - Regression
  - classification
- - **Standardization/ Z-score**: helps in standardizing the data between 0 and 1, so that high values do not incur extra weight.
+ 
  - **Parameter** - parameter to learning stage
  - **HyperParameter** - are the parameter passed while constructing model objects like n_neighbour in KNearestNeighbors. these are parameters set beyond learning stage. Usually tuned before model is trained. It is tuned at cross validation stage using Gridsearch or randomized search. Grid search is slow.
- - **Bias** - Model does not fit the pattern of data means it does not explain the relationship between the predictors and target.
- - **Variance**
- - **Underfitting**: Model not learning training dataset and have high training error.
- - **Overfitting** : Model learned a lot of superficial patterns. Model's training error is very small. But testing error is high.
- - **Regularization/smoothing/penalization/shrinkage**: is measure of complexity.
  - **Cost** is a function of loss and lamda times complexity
  - **cross-validation** Divide the data into buckets e.g. train n models on n buckets with n-1 training set buckets and one test bucket. How to choose k value in CV, for each problem find the min percentage needed for a good learning by plotting learning curve vs training data. `sklearn` library use stratified data sampling in case of classification problm for cross_validation calls.  
  - **Loss**
@@ -67,7 +62,34 @@ Combinatorial Optimization by Alexander Schrijver.
  - **Stratification** 
  - **Classification ML model Assumption** For classification problem GNB make certain assumptions if those assumptions are met, we’d prefer GNB and we’d probably see it perform better classification. If those assumptions arenot met, we can fall back to SVC. From a certain perspective, SVCs make the fewest assumptions of these three models (the DA methods, logistic regression, and SVCs), sothey are the most flexible. However, that means that the other methods may do better when the assumptions are met.
  - **Classification model complexity** As we move from SVCs to logistic regression to DA, we move from (1) minimal assumptions about the data to (2) a primitive data model that relates features and targets to (3) varying degrees of assumptions about how the features are distributed, their relationships to the target, and the base rates of the targets. Logistic regression attempts to capture the relationship between the inputs and the output. In particular, it captures the probability of the output given what we know about the inputs. However, it ignores any self-contained information from the target class. For example, it would ignore knowledge from the data that a particular disease is very, very rare. In contrast, the discriminant analysis methods model both a relationship between inputs and outputs and the base probabilities of the outputs. In particular, they capture the probability of the inputs given what we know about an output and (2) stand-alone information about the output.
+----
+# Data preparation
+ - **Standardization/ Z-score/ Normalization**: 
+  1. helps in standardizing the data between 0 and 1, so that high values do not incur extra weight.
+  2. Helps in learning algorithm training to reach its minimum faster.
+ - Training Set
+ - Test Set
+ - Cross Validation Set Or Dev Set
+----
+# Bias and Variance
+## Bias
+ - Model does not fit the pattern of data means it does not explain the relationship between the predictors and target.
+ - It is detected by high training error.
+ - It can be resolved by choosing other ML algorithm or different NN architecture, large network in case of NN and increase training iteration.
+ - high bias/**Underfitting**: Model not learning training dataset and have high training error.
 
+## Variance  
+ - Model is not performing good on the cross-validation set.  
+ - High variance/**Overfitting** : Model learned a lot of superficial patterns. Model's training error is very small. But testing error is high.
+ - It can be resolved by more data, regularization and different NN architecture.
+
+## Regularization
+ - **Regularization/smoothing/penalization/shrinkage**: is measure of complexity.
+ - L2 Regularization: In cost formula we add additional term which is `(lambda/2*m)*(W.T.W)`. It is often used than L1 regularization.
+ - L1 Regularization: In cost formula we add additional term `(lambda/2m)*norm(W)`
+ - lamdba is regularization parameter, It is a hyperparameter which needs tuning.
+ 
+----
 
 ## Score
  - **Accuracy** how often our prediction is correct compared to reality
@@ -95,11 +117,8 @@ Combinatorial Optimization by Alexander Schrijver.
  - grid search is susceptible to overfitting as all of the data can be used inside the grid search. Instead nested cross-validation is more recommendable approach where grid-search will used train data from outer loop to tune hyperparameter and test data will help in tackle generalization problem.
 
 
-## Algorithm training
- - train
- - test
-
-## Algorithm
+----
+# Algorithms
 
 ## K-nearest neighbors
  - Hyperparameter is K(number of nearest neighbors) which can only be set before the training.
