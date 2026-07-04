@@ -29,6 +29,17 @@
 - Team based - bug in own team service, unplanned downtime, planned downtime
 - Dependent team based - bugs in dependent services/infrastructure.
 
+## Runbook
+ - It should contain the following on a high level
+  1. Who did last update and when
+  2. Service the runbook is for.
+  3. SLO the runbook is for and associated SLO definition
+  4. Impact on customers
+  5. Remediation steps
+  6. Dashboards links when things are healthy
+  7. Escalation policy
+  8. Latest deployment links
+ - [template](https://github.com/CaitieM20/Talks/blob/master/TacklingAlertFatigue/runbook.md)
 
 ### SLI
 - SLI typically includes throughput, latency and availability for a service and finding them is an empirical process. 

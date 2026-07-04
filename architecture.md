@@ -309,15 +309,37 @@
 ### Architecture Diagrams
  - Different view of architecture should be chosen based on quality attributes. 
 1. **Context diagram**
-2. **Component and Connector Diagram**
+
+2. **Component and Connector Diagram(C & C)**
  - Helps in exposing perfromance and reliability
- - It is a structural view
+ - It is a type of structural view. 
+ - Each element of C & C will have various properties associated with it which is required for intended analysis of the element. These properties can be Reliability, Performance, Resource Requirements, functionality, security etc.
+ - for a complex different subsystem we can have another C&C diagram.
+ - component shows runtime artifact of modules which can be processes, services, object, client, server and datastores. 
+ - connectors should show protocols, information flow and access to data storage.
+
 3. **Module Decomposition or Layered View Diagram**
  - Helps in exposing maintainability, modifiability, portability or reuse.
  - it is a structural view which explains responsibility of a module and its relationship among module.
  - A module can be a class, set of classes or a layer. A source code how decomposed into units and how units are aggregated into larger ensembles. Module responsibilities and assumption it have on services from other units.
  - It also share datastructure that impacted by multi units.
  - Relationship between modules can be similar to `is-a`, `is-part-of` or `depends-on`
+
+4. Allocation View
+ - It also help in reasoning for performance and extensibility
+ - **Environmental Element**: Shows the environment in which software element is developed or deployed. Environment can be of anything like hardware, operating system required, operating environment where software is executed, file system supporting development and deployment or the devloping organization.
+ - **Software Element**:It shows what the software element ask of its environment e.g. to meet latency software is required of high processing power or some task that requires 10Kb of virtual memory.
+ - It can also be dynamic which specifies the triggers due to which allocation of resources changes.
+
+ 5. Quality Views
+ - Ad-hoc view which is especifically zooms in some part of the system to depict any stakeholder concerns.
+ - E.g. Security view depicting security elements and protocol etc.
+ - E.g. Reliability view, performance view, error handling view etc.
+ 
+ 6. Use-cases -- see usecases diagram in low level design notes.
+ 7. Sequence
+ 8. Activity
+ 9. Communication
 
 ### Attribute Driven Design
 -----

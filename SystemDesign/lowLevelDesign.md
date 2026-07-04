@@ -70,10 +70,11 @@
 - Behavioral diagram category includes usecase, activity and state machine diagram.
 
 ## Usecase diagram
- - It is used to depict flow and objective of all the usecases.
+ - It is used to depict flow and objective of all the usecases. It captures the functional requirement of the system.
  - **Actor** interacts with the system, it can be human, hardware/machine and other external system. Primary actor interacts with the system. Any secondary actor is put on the right side of the system while primary is put on the left side of diagram.
  - **Usecase** it is typically mentioned in an oval shape
  - **package**: groups different elements(what is element ?) and it is represented through a folder icon. 
+ - It should show flow of events, alternative flows and non-success flows.
  - **Notes**
  - Relationship between usecases
   1. **Include** relationship: to include a usecase in other usercase e.g. online payment includes credit card validation usecase. It is a always-happen relationship.
@@ -101,6 +102,9 @@
     - two way association with simple line without any arrow.	
 
 ## Sequence Diagram
+ - It is to show interaction between interaction among instances of structured elements. 
+ - It is useful when designing a system for identifying where interfaces needs to be defined. They are not explicit about the concurrency of the system instead activity diagram should be used. 
+ - A message passed across the instances can be function call, a message sent over a network or messaging queue.
  - `lifeline`, `activation bar` 
  - `object`/`actor` it can be a user, logical object like transaction in ATM domain, physical object like ATM, cash dispenser in ATM
  - Synchronus send messages are shown with solid line and filled arrow while asynchronus send messages are solid line with an open arrowhead.
@@ -114,13 +118,30 @@
    4. `opt` for single if block.
 
 ## Activity/ Flow Chart Diagram 
+  - It can be used to show concurrency in the system.
   - More coarse than sequential diagram as activity encompasses small message interaction between few objects.
+  - Objects can have their own vertical swim lane.
   - `init` `end` circle for happy flow
   - `circle with X` can be used to represent error flow.
-  - `action` in activity rectangle. It can be decision activity
+  - `action` in activity rectangle. It can be decision activity or a normal activity.
   - `diamond` to represent divergence of a path to `yes/no` path. 
   - `diamond` to represent merge paths
-  - **Fork and join** two solid line vertical bars can be used to show concurrent and parllel activity.  
+  - **Fork and join** Thick orthogonal bars with multiple arrows starting from the bar can be used to show concurrent and parllel activity. Similar to fork, join is also an orthogonal bar with multiple arrow merging to the bar. 
+
+## Communication Diagram
+ - Elements are structured element instances similar to sequence diagram. 
+ - Diagram shows order of operations to show how functional requirement is achieved.
+ - It is not meant to show concurrency of the system. 
+
+## State Diagram
+ - Each state abstracts the state of an architectural element of all its histories to cover its behavior. 
+ - Transisions between states happen when system change from one state to other.
+ - Transitions can also have consequences, called actions or effects, which are indicated by a slash. When an action is present, it indicates that the behavior following the slash will be performed when the transition occurs. The states may also specify entry and exit actions.
+
+
+-----
+
+
 
 ## Design pattern 
  - see designPattern.md
