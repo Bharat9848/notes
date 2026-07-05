@@ -61,8 +61,53 @@ that could conceptually get us from white-noise data to the data we observed.
  - Implementation notes: training example are divided into mini-batches in a inner loop and all gradient descent steps are done inside it.
  - Plotting cost vs no of iteration will show the decrease in cost but it will be noisy.
  - Choosing mini batch size is based on experiment where the speed of gradient descent is optimal. And should be power of 2 and it should fit CPU/GPU memory.
-3. 
+3. Gradient Descent with Momentum
+ - while updating W, b for next iteration instead of using last dW and last db we use moving average of dw and db which are calculated as below.
+ ```math
+ for iteration 0 initialize last_Vsub(dW) = 0, last_Vsub(db) = 0. After some iteration it recovers and approximate well the series
+ current_Vsub(dW) = beta * last_Vsub(dW) + (1 - beta) * dW
 
+ current_Vsub(db) = beta * last_Vsub(db) + (1 - beta) * db
+
+ W = W - learning_rate * current_Vsub(dW)
+ b = b - learning_rate * current_Vsub(db)   
+ ``` 
+4. RMSProp
+ - Damping the occilation of learning by using Root mean square. ssub(dW) will be small and ssub(db) will be large.
+ ```math
+ ssub(dW) = cons * last_ssub(dW) + (1-cons)dW^2 
+ // (dW^2) is element wise multiplication
+ ssub(db) = cons * last_ssub(db) + (1-cons)db^2
+
+ W = W - learning_rate * dW/sqrt(ssub(dW) + epsilon)
+ b = b - learning_rate * db/sqrt(ssub(db) + epsilon)
+ epsilon is for 10^8. it is for help with division by zero
+ ```
+ 5. ADAptive Moment (ADAM) optimization  
+ - combines Gradient descent with momentum and RMS prop
+ ```math
+ current_Vsub(dW) = beta * last_Vsub(dW) + (1 - beta) * dW
+ current_Vsub(db) = beta * last_Vsub(db) + (1 - beta) * db 
+ ssub(dW) = cons * last_ssub(dW) + (1-cons)dW^2 
+ // (dW^2) is element wise multiplication
+ ssub(db) = cons * last_ssub(db) + (1-cons)db^2
+
+ W = W - learning_rate * current_Vsub(dW)/sqrt(ssub(dW) + epsilon)
+ b = b - learning_rate * current_Vsub(db)/sqrt(ssub(db) + epsilon)
+ ``` 
+ - ADAM paper suggested beta as 0.9 and cons as 0.999 and epsilon be 10^8 
+ 6. Learning rate decay
+ - leraning rate is decayed with multiple ways   
+ ```math
+  1. Normal learning rate decay
+   learning_rate =  learning_rate / (1 + epoch_no * decay_rate)
+  2. Exponential learning_rate decay 
+   learning_rate = (0.95)^epoch_no * learning_rate0
+  3. other way
+    learning_rate = k/sqrt(epoch_no) * learning_rate0
+  4. Discrete step wise learning rate decay
+    learning rate is decayed in descrete steps.  
+ ```
 -----   
 
 # Computation graph
