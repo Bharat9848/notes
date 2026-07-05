@@ -54,6 +54,10 @@ that could conceptually get us from white-noise data to the data we observed.
       4. calculating descent using forumla `descent = d(J(W,b))/dW` 
       5. We readjust weights according to gradient to `W' = W - (alpha)* descent` where alpha is learning rate.
 
+## Problems Gradient descent
+ - local optima in case of low parameter space.
+ - Saddle(Horse saddle) point in case of high parameter space. 
+ - Plateaus: gradient is zero for a long time which make learning very slow.
 ## Optimization of Gradient descent
 1. replacing sigmoid function with relu function have increased the speed of gradient descent. As in sigmoid plateau regions the weights change very slowly.
 2. mini-batch gradient descent:
