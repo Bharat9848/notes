@@ -112,8 +112,21 @@ that could conceptually get us from white-noise data to the data we observed.
   4. Discrete step wise learning rate decay
     learning rate is decayed in descrete steps.  
  ```
------   
-
+-----
+## Hyperparameter tuning.
+- Scale of hyperparameter involves range over which the search is done. Some hyperparameter can work uniform random selection on linear scale. but for parameters like beta1 0.90 to 0.999 log based uniform random selection should be done. 
+- Random searching works better than the step searching. Searching of good hyperparameter can be switched from coarse space to fine space after finding the good range.
+- Hyperparameters are learning-rate, epoch, mini-batch size, beta1, beta2 and epsilon in ADAM, beta1 in momentum based gradient descent, beta2 in RMSProp.
+- Based on number of hyperparameter tuning N-dimension grid based searching is done.
+### Batch Normalization
+ - Normalization of hidden layer output z(not activation vector) just like X features to fasten the training of W and b.
+ - Caveat: We dont want z vector to have mean of 0 and 1 as it will confine the activation function's range to corresponding output for 0 and 1 and it will not leverage activation output range fully.
+ - To overcome this caveat we add two prameter gamma and beta to normalize z vector. z will get replaced with normalize(z) * Gamma + Beta. 
+ ```math
+  normalize(z) = z-mean(z)/sqrt(variance(z))
+ ```
+ - gamma and beta will be updated just W and b from gradient descent
+-----
 # Computation graph
 - In deep learning computaion graph shows the computation of cost function with its component at each subsequent layer.
 ## Forward propagation

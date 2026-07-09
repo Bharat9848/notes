@@ -174,7 +174,7 @@ Combinatorial Optimization by Alexander Schrijver.
 ## Algorithm evaluation
  - for classifier  we can use various basic baseline strategies e.g. uniform, prior, stratified, most_frequent, constant etc. 
  - `Accuracy` is a measure of model performance, given number of dataset what percentage of it model was able to evaluate correctly.
-
+-----
 # Regression
  ## Evaluation
   1. `R2` computed as `1-(MSE of model/MSE of mean of testing set)`
@@ -186,8 +186,22 @@ Combinatorial Optimization by Alexander Schrijver.
   7. **Lasso Regression** or **L1 regularize regression**  - Try to balance the loss with absolute sum of weights. It tries to push the cofficient of some features to zero. Hence it automatically do feature selection.  
   8. **Ridge regression** or **L2 regularize regression**  Try to balance the loss with square sum of weights.
   9. When to use regularize model - when we are seeing overfitting errors. Regularization will help in reducing the complexity of the model and make it less overfitting.
-
-
+-----
+## Softmax Regression
+ - Used when the output of NN or ML algorithm is to multi-classification problem 
+ - Activation function in case of softmax layer in NN is 
+ ```math
+   asub(i) = e^zsub(i)/sumAllforallj(e^zsub(j))
+ ```
+ - Loss function 
+ ```math 
+   L(y,yhat) = - sumallj(ylog(yhatsub(j)))
+ ```
+ - Cost function
+ ```math
+   C = 1/m(sumallj(ylog(yhatsub(j))))
+ ```
+-----
 # Ensamble
  - different component give different result on partial features. Individual results must be combined tot get result.
  - Different models learn the whole problem the results uses some aggregation method like mean or majority votes.
