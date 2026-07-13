@@ -23,6 +23,8 @@ For above equation win_rate(t+1) and req(t+1) can be approximated from historica
 For uniform pacing `spend(t+1) = budget_left * 1/(T - t)`
 For intelligent pacing `spend(t+1) = budget_left * p(t+1)/sumAll(t)p(t) where t range from t+1 to T`. p(t) is probability of click or conversion.
 
+# Find high quality impressions
+## For Fixed Price Campaign
 - find Quality ad requests within time interval t for campaign with fixed pricing.
  1. calculate number of request to bid on within time interval 
  ```math
@@ -44,3 +46,20 @@ For intelligent pacing `spend(t+1) = budget_left * p(t+1)/sumAll(t)p(t) where t 
       gamma is value 1.96
  ```
  4. Use lower_bound and upper_bound CTR/CVR  - bid on all the requests with CTR/CVR above upper_bound threshold and reject all request which are below the threshold. If the predicted value is in between the upper and lower bounds, the ad request will be selected at random with probability equal to pacing rate(t). This scheme, although approximate, ensures that the smooth delivery constraint is met while the opportunity exploration continues on the boundary of high and low quality ad requests.
+
+## For Dynamic Price Campaign
+- Use pacing rate to adjust pricing by dividing pacing rate into three region - safe, critical and danger.
+- Keep effective CPA under Advertiser set limit G.
+- `bidBasePrice = G * predictedActionRate`
+- Divide pacing rate in three regions and adjust the bid according to the nature of region. 
+  1. Safe Region - decrease the bid without losing on 98-99% bids. Plot histogram for `win-price/bid-price` and find corresponding ratio for top 1-2% percentile. Top 1-2% percentile ratio would be nearer to 1 which will ensure that we will not lose bids on 98-99% convertible impressions.
+  2. Critical Region - bid the bidBasePrice.
+  3. Danger Region - increase he bidBasePrice with multiplicative factor using the formula below which have following constraints.
+   1. Increase the bidBasePrice linearly in the from danger region's start(pacing_rate = beta2) till the end(pacing_rate = 1).
+   2. Cap the max bid to advertiser set limit C
+  ```cost
+    factor = 1 + ((C/c* - 1)/(1-beta2))*(pacing_rate-beta2)
+  ```
+  
+## Estimation of CTR and AR
+??

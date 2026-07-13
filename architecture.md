@@ -9,6 +9,10 @@
  - The Software Architect Elevator: Redefining the Architect’s Role in the Digital Enterprise by Gregor Hohpe
  - Software Systems Architecture: Working With Stakeholders Using Viewpoints and Perspectives
  - (Optimizing compute across cluster) [https://www.uber.com/en-IN/blog/compute-cluster-management/?ref=highscalability.com]
+ - Book Documenting Software Architectures: Views and Beyond
+ - Book Systems and Software Engineering: Architecture Description.
+ -  
+ - 
 
 ### Performance
  - Foundations of Software and System Performance Engineering: Process, Performance Modeling, Requirements, Testing, Scalability, and Practice [Bondi 14].
@@ -19,12 +23,22 @@
  - Just Enough Software Architecture: A Risk-Driven Approach[Fairbanks 10].
 
 
-
+----
 ## Architect responsibility
- 1. Architect should clearly define the rules against the resources used by component if resource is a matter of concern. e.g. if latency is the resource then architect should layout guidelines for each component time budget.
- 2. Deciding when changes are essential, determining which change paths have the least risk, assessing the consequences of proposed changes, and arbitrating sequences and priorities for requested changes all require broad insight into the relationships, performance, and behaviors of system software elements.
- 3. Architecture decides organizational structure through work-decomposition. Hence it is very costly due to managerial and business aspect once it is fixed.
- 4. Use tools like fitness function to measure the qualities of the software.
+ 1. Architecture decision
+  - Architect should clearly define the rules against the resources used by component if resource is a matter of concern. e.g. if latency is the resource then architect should layout guidelines for each component time budget.
+  - Deciding when changes are essential, determining which change paths have the least risk, assessing the consequences of proposed changes, and arbitrating sequences and priorities for requested changes all require broad insight into the relationships, performance, and behaviors of system software elements.
+  - Architecture decides organizational structure through work-decomposition. Hence it is very costly due to managerial and business aspect once it is fixed.
+  - Software architecture is about making fundamental structural choices which are costly to change once implemented.
+ 2. Ensure architecture adherence:
+  - Use tools like fitness function to measure the qualities of the software.
+ 3. Continually analyzing the architecture
+ 4. Keep current with latest trends
+ 5. Diverse exposure and experience
+ 6. Have business domain knowledge
+ 7. Possess interpersonal skill
+ 8. Understand and navigate politics. 
+-----
 
 ## Glossary
  - **Component**: runtime of a module/static piece of code.
@@ -33,7 +47,10 @@
  - **Errors**: occurs due intermittently or cascading effects of some faults.
 
 ## General 
- - The software architecture of a system is the **set of structures** needed to reason about the system. These structures comprise software elements, relations among them, and properties of both. A structure is architectural if it supports reasoning about the system and the system’s properties. The reasoning should be about an attribute of the system that is important to some stakeholders meanwhile supressing the non-important attributes. There are three categories of structures: 
+- software architecture consists of the **structure of the system** (microservice, layered or microkernel architecture), combined with **architecture characteristics** (scalability, performance, reliability etc) the system must support, **architecture decisions**(hard rules like db cannot be called through presentation layer etc.), and finally **design principles**.(not-so-hard rules like asynchronous communication etc)
+- The software architecture of a system is the **set of structures** needed to reason about the system. These structures comprise software elements, relations among them, and properties of both.
+
+- A structure is architectural if it supports reasoning about the system and the system’s properties. The reasoning should be about an attribute of the system that is important to some stakeholders meanwhile supressing the non-important attributes. There are three categories of structures: 
    1. Module structures show the system as a set of code or data units that have to be constructed or procured. 
    2. Component-and-connector structures show the system as a set of elements that have runtime behavior (components) and interactions (connectors).
    3. Allocation structures show how elements from module and C&C structures relate to nonsoftware structures (such as CPUs, file systems, networks, and development teams).
@@ -43,40 +60,25 @@
    1. Local: single element change. 
    2. Non-local: effects multiple elements. 
    3. Architectural: effects the fundamental way elements interact with each other.
- - Quality(non functional) requirement should be captured in common vocabulary to iron out difference between different specification. Mind you that quality attributes are ofter poorly captured.
-   1. stimulus : user login, error etc.
-   2. source of stimulus: user, physical environment etc.
-   3. Artifact: Software system, process, project etc.
-   4. Response: fault detection, new feature, software response etc
-   5. response measure: time measurement, developement effort, cost etc.
-   6. environment: startup etc.
+
  - Architecture focuses on why part of system, while design focuses on how part of the system.
  - Difference between architecture and design, where the former is structural and the latter is more easily changed
 
  - Documentation of quality attribute using architecture pattern tactics should document where tactics are present, assumptions and rationale behind using or not using it.
 ----
-## Documentation
-### Architectural Decision record
-```template
-  <title>
-  <context>
-  <decision>
-  <consequene>
-```
-- Title: Noun phrase containing the decision
-- Context: problem and alternative solutions alongwith problem space
-- Decision: state the decision and justification
-- Consequence: impact of the decision and trade-off that were considered.
-- [ADR](https://adr.github.io/) 
-- [blog](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
 
-----
+## Architecture Decision
+ - They are guidance not rules.
+ - Examples
+  - application silos: database belongs to an application cannot be changed/accessed by other teams.
+  - 
 
 # Tools
 
 ### Fitness Functions 
  - part of build and continous deployment. 
- - Checks for performance criterias like performance and scalability
+ - Checks for performance criterias like performance and scalability.
+- Fitness function `jdepends`, `SonarQube` and `ArchUnit` 
 ### Chaos Testing Framework
  - checks reliability and resiliance
 
@@ -88,7 +90,7 @@
 ### Module structure 
  - Separation of concern
  - information hiding module should hide the changeable aspect and expose the well defined interface to other module.
- - Fitness function `jdepends`, `SonarQube` and `ArchUnit` 
+
 #### Microservices
   - Size of microservices
   - Bounded contexts are microservices design principle which make transactionality its primary concern.
@@ -302,6 +304,21 @@
 
 ----
 ## Architecture Documentation
+
+### Architectural Decision record
+```template
+  <title>
+  <context>
+  <decision>
+  <consequene>
+```
+- Title: Noun phrase containing the decision
+- Context: problem and alternative solutions alongwith problem space
+- Decision: state the decision and justification
+- Consequence: impact of the decision and trade-off that were considered.
+- [ADR](https://adr.github.io/) 
+- [blog](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
+
 ### Business Goals
 - Some business goals are significant on the success of the mission. These are sometimes hidden quality goals which should be exposed and comprehended before starting on architecture. 
 ### Architecture Significant Requirement
@@ -309,6 +326,8 @@
 ### Architecture Diagrams
  - Different view of architecture should be chosen based on quality attributes. 
 1. **Context diagram**
+ - context can be current industrial practices which dictates current environment like cheap RAM, cheap storage, expansive compute.
+ - Context can be Human, teams, org structure, OS 
 
 2. **Component and Connector Diagram(C & C)**
  - Helps in exposing perfromance and reliability
@@ -340,8 +359,17 @@
  7. Sequence
  8. Activity
  9. Communication
-
+ 10. Module view
+### Documenting the Rationale
+ - documenting the (design decision and location) vs (rationale and Assumption including discarded alternative. 
 ### Attribute Driven Design
+-----
+## Architecture Stakeholders
+1. Project Managers: 
+- Interested in module view and allocation view to see the high level responsibilites and dependencies so that ordering of incremental release can be decided.
+
+2. Members of the development team
+3. Integrator
 -----
 
 ## Architecture Evaluation
@@ -365,7 +393,8 @@
 ----
 
 
-
+# Rough
+- Documenting patterns. If you employ patterns in your design, as recommended in Chapter 20, these patterns should be identified in the documentation. First, record the fact that the given pattern is being used. Then say why this solution approach was chosen—why the pattern is appropriate for the problem at hand. Using a pattern involves making successive design decisions that eventually result in that pattern’s instantiation. These design decisions may manifest themselves as newly instantiated elements and the relations among them, which in turn should be documented in structural views.
 
 
 

@@ -1,4 +1,4 @@
-# General
+# Interview Tips
 - you will be judged on gathering requirements, scope down the problem and design using OOP design principles and SOLID.
 - First figure out the primary use cases in first few minutes.
 - Design should be shown in some form of UML diagrams and well defined classes with SOLID design and ood priciples
@@ -12,6 +12,25 @@
 - **Abstraction**: Provide simple contractatual methods to outside world which decreases the overall complexity of the system by hiding complex details inside the implementation.
 - **Inheritance**:
 - **Polymorphism**
+
+# Naming convention
+ - To maintain **Discoverability**, it is best to use ubiquitous language vocubulary in the code.
+
+# Immutability
+ - helps in narrow down a bug by keeping things simple.
+
+# Strong Type vs String Type
+ - Strong type should be used whenever we want to give specific behavior to classes. Though tt is thin line to cross if we do strong typing everywhere assuming future requirements. But to follow KISS principle we should strive to keep things simple and use string type.   
+
+# Abstract Class based inheritance vs Interface based inheritance
+ - Classes allow properties like state and behaviour that can be abstracted out. it’s a badidea to introduce an inheritance relationship purely to enable code reuse but it lacks real-world relationship. 
+ - Interface based are best suited where there is not much commonality between different subtypes.
+
+# Domain Classes
+ - Though instead of domain classes we can use generic classes like HashMap, String etc or `extend` domain classes with generic classes. That will not allow us to restrict the behavior we want from our domain classes. Thus there is a need to create specific domain classes to increase discoverability, restrict behaviour and provide meaningfull names.
+
+# Composition Over Inheritance
+ - Though it seems very tempting to use inheritance where a domain is filled with hierarchy but it is best to think in term of behavior and data. If there are not much specific behavior required we should not use inheritance. 
 
 # Interface:
 - interface provide access to resource.
@@ -38,7 +57,12 @@
 3. **Liskov substitution principle**
  - System should not break in case of subclasses references are substituted with superclass reference. It means system is not only working with substituted subclass. It is also working with all the subclasses of the superclass.
  - E.g. of violation is `Vehicle::startEngine` is not working in case of vehicle type `bicycle`. In this case it is better to break the vehicle interface to `Motorized` and `Manual` 
- - Precondition, postcondition, invarient should be completely abided by the subclass. 
+ - Consequences of following LSP is following four principle which make our system less brittle.
+  1. Precondition that works on type cannot be more restricted in subtype otherwise it will LSP violation
+  2. postcondition cannot be weakend in subtype: any side effect or quality of return type should hold true after subtype finish processing
+  3. Invarient should be completely abided by the subclass. 
+  4. History rule: any immutability or other principle in return type should hold.
+
 4. **Interface segragation principle**: 
  - Dividing of interfaces can have following reasons
     - multiple actor needs access to subset of functionality.
@@ -49,8 +73,8 @@
 5. **Dependency Inversion**
   - higher class module should dependent upon lower class module through abstraction, instead of knowing internal details of lower module classes.
 
-## Genral good practice
-- control flow mixed with business logic.
+## General good practice
+- control flow mixed with business logic?
 - Validation should be a separate class in case we want to run multiple logic across various properties of an entity.
 - Validation exception should use **Notification** pattern. In notification pattern we capture all the error in string format and append them in a list and return to user in a single go.
 - Dont use exceptions for control flow.
@@ -60,6 +84,7 @@
   3. Using a domain class is the best which mapped to real-world domain as much as possible. Every subclass can leverage the domain class common behavior.
 - Test method names should start from a verb which should signify the behaviour under test. It should not be named as `test1`, `textFile` or exactly same as method under test.
  
+
 
 ## UML
 - UML is composed of three main building blocks: things, relationships, and diagrams. 

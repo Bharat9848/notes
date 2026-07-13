@@ -85,6 +85,7 @@
 # Pricing Model
 - Problem: select high quality impression and bid
 ## Dynamic Pricing
+- dynamic eCPM model are free to change the bid price to win high quality impressions. 
 - want optimization on eCPC and eCPA
 ## Fixed Pricing
 - want optimization on CTR and Action-Rate (AR) 
@@ -98,7 +99,7 @@
 
 
 # Pacing
- - Require spending smoothness to prevent premature stop.
+ - Require **spending smoothness** to prevent premature stop.
  - Should follow traffic and performance trend.
  - plot traffic pattern of impression vs number of bidders. Ideally with impression peaking number of bidder should also peak otherwise advertiser have to pay higher bids to win auction at the time of less traffic and more competition.
  - Pacing is effected by campaign daily spending limit, dayparting, frequency capping, targeted audiance and pacing type.
@@ -106,11 +107,14 @@
   1. No-Pacing/Pacing-ASAP
   2. Uniform Pacing
   3. Dynamic Pacing
-  4. Pacing Ahead: Allocate more daily budget in initial days of the campaign and then constraining budget teir wise as days passes by.
+  4. Pacing Ahead: Allocate more daily budget in initial days of the campaign and then constraining budget tier wise as days passes by.
  - Solutions
   - Probablistic Filtering: Pacing is assigned a probability between 0 and 1 to participate in auction.
   - Reinforcement Learning: cost function is of smoothness and budget fluctuation
- - Day Parting  
+ - Day Parting
+ - Problems
+   - Budget exhaustion from surge in traffic  
+ - See RealTimeBiddingwithSmoothBudgetDelivery notes for fixed and dynamic CPM campaigns.
 ---- 
 
 # Events
@@ -147,6 +151,20 @@
 ### User features
 ### supply features
 ### Contextual feature
+
+## CTR Model 
+## CVR Model
+## Action Rate Model(CPA CPI etc)
+- Conversion is very rare event.
+- cluster user model 
+- hierarchial model with triplet(user, publisher, advertiser)
+- logistic regression
+- collaborative Filtering
+
+## Surplus Model
+
+## Problems
+1. Cold start Problem
 ----
 
 # Performance Measurement
@@ -193,3 +211,6 @@
 
 ## Multi-Arm bandit
 "The standard multi–armed bandit (MAB) problem was originally proposed by Robbins (1952), and presents one of the clearest examples of the trade–off be-tween exploration and exploitation in reinforcement learning. In the standard MAB problem, there are K arms of a single machine, each of which delivers rewards that are independently drawn from an unknown distribution when an arm of the machine is pulled. Given this, an agent must choose which of these arms to pull. At each time step, it pulls one of the machine’s arms and re- ceives a reward or payoff. The agent’s goal is to maximise its return; that is, the expected sum of the rewards its receives over a sequence of pulls. As the reward distributions differ from arm to arm, the goal is to find the arm with the highest expected payoff as early as possible, and then to keep playing using that best arm. However, the agent does not know the rewards for the arms, so it must sample them in order to learn which is the optimal one. In other words, in order to choose the optimal arm (exploitation) the agent first has to estimate the mean rewards of all of the arms (exploration). In the standard MAB, this trade–off has been effectively balanced by decision–making policies such as upper confidence bound (UCB) and ǫn–greedy"
+
+## References
+- [papers](https://github.com/wnzhang/rtb-papers)
