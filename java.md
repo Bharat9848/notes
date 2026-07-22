@@ -39,13 +39,21 @@
  - Thread states - new, Running, blocked, wait
  - Synchronization prevents reordering of statements by compiler and instruction.
  - Java objects act as mutexs, in addition they have `wait()` and `notify()` to provide a thread a parking area and notification mechanism. Note that `wait()` and `notify` should be only called from synchronized block using same object.
- - sleep()/wait()/join() blocks a thread. To wake up a thread which is blocked on some condition, we should call its interrupt() method, it causes it's blocking method to throw `InterruptedException`. 
+ - sleep()/wait()/join() blocks a thread. To wake up a thread which is blocked on some condition, we should call its interrupt() method, it causes it's blocking method to throw `InterruptedException`. It is used for cancelling the task.
  - join() method gives other thread to block on child thread till it completes.
  - `synchronized` allows thread to take a mutex before entering any critical section to prevent race condition. Meanwhile if there is only single call e.g. setting up a flag etc in that case synchronization is unnecessary. Synchronization also ensure visibility among threads.
  - `volatile` allows visibility of a variable among threads. It should only be used for single variable load and store cpu insturctions   
  - `yield` function hints Os to select some other thread but most of the time OS ignores it.
  - **Green thread model** It was old JVM implementation which abstracts out thread without leveraging native OS threading API. For OS java process is a single thread.
+----
+### Virtual Threads
+- Useful for concurrent tasks which are network IO based. Calling block methods like `sleep`,`wait`, `join` or `future.get()` unmounts virtual thread from platform thread. 
+- Though since virtual threads are not pooled it can cause unnecessary pressure on the called API server. Called API server need to deploy some rate-limiting mechanism.
+- There are a few differences. In particular, all virtual threads: 1. Are in a single thread group 2. Have priority NORM_PRIORITY 3. Are daemon threads.
 
+
+
+----
 ### Java Thread schedular
 - A typical java thread schedular may use 14 linked list for a thread scheduling purposes - 11 for each thread priority, new state, blocked state and for exit state. Java thread schedular tries to preempts thread of lower prioriy if there is an runnable thread of higher priority. However thread scheduling is in OS hands. It may allow lower priority thread to run before it allows higher priority to run.
 - OS have typical features of **priority inheritance** and **complex priority calculation methods** for thread starvation and thread deadlock prevention. Both of these might override java priority.

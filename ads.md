@@ -8,22 +8,32 @@
  5. DSP
  6. SSP
  7. Private Market Place(PMP)
+ 8. Data Management Platform (DMP): It collects and manages the user historical data for both the SSP and DSP to support a better matching between ads and users.
 
 ----
 # Data model
- 1. Campaign
-   - Flight dates: Campaign start and end dates.
-   - Intention: Awareness branding, Niche B2B, Hot retargeting(Sale), Warm retargeting, Cold Prespecting(?), Consideration(?), Increase Userbase/Install/Purchase.
-   - Targeting Parameters.
-   - Creatives in case of display/videos etc. Or product SKUs in case of sponsored product ads.
- 2. Inventory
-   - Location
-     1. position on page e.g. block1, block2 etc
-     2. Page type: Homepage, Search, Product-Detail, category, Product-listing, Registry, Drive-Up/Order-Pickup, Store-Mode
-   - Size of the slot      
+ 1. **Campaign**
+  a. Metadata
+  - Flight dates: Campaign start and end dates.
+  b. Objective: 
+  - Awareness branding, Niche B2B, Hot retargeting(Sale), Warm retargeting, Cold Prespecting(?), Consideration(?), Increase Userbase/Install/Purchase.
+  - Targeting Parameters.
+  - Creatives in case of display/videos etc. Or product SKUs in case of sponsored product ads.
+  c. bid-model
+  - min-bid
+  - max-bid
+  - max-CPM
+  - fixed-bid
+  - bid-multiplier
+  d. Frequency capping
+  e. Pacing
+  f. Audiance 
+ 2. **Inventory**
+  - Location
+    1. position on page e.g. block1, block2 etc
+    2. Page type: Homepage, Search, Product-Detail, category, Product-listing, Registry, Drive-Up/Order-Pickup, Store-Mode
+  - Size of the slot      
 ----
-
-
 
 # Guarnteed Ads/Premium Contracts
  - CPM Bids
@@ -79,22 +89,8 @@
  - User browser history, city, state, location etc.
  - Device type, Platform like mweb, app web etc.
 ### Audiance Targeting 
-----
 
 
-# Pricing Model
-- Problem: select high quality impression and bid
-## Dynamic Pricing
-- dynamic eCPM model are free to change the bid price to win high quality impressions. 
-- want optimization on eCPC and eCPA
-## Fixed Pricing
-- want optimization on CTR and Action-Rate (AR) 
-## Bidding Optimizations
- - Cost Per Install(CPI)
- - Cost Per Click (CPC) It is calculated by `total-ad-spend/ total-clicks`. Low-CPC is good for generic audiance target while high-CPC is also good for narrowed target(high spend users).
- - Cost Per Acquisition (CPA)
- - Click Through Rate
- - Conversion Rate
 ----
 
 
@@ -115,19 +111,24 @@
  - Problems
    - Budget exhaustion from surge in traffic  
  - See RealTimeBiddingwithSmoothBudgetDelivery notes for fixed and dynamic CPM campaigns.
+
 ---- 
 
 # Events
  - Impression Event
  - Click event: Deduplication latency
- - Post-Click Conversion: User saw the Ad then click the Ad then register.
+ - Post-Click Conversion: User saw the Ad then click the Ad then register/buy.
  - Post-View Conversion: User saw the Ad but do not click, but still goes to the adv website and register. 7 days to get a attribution
 
 ----
+
 # Auction
- - Generalised Second Price Auction (GSP): In order to take the measurement of performance into account, ad networks usually employ the generalised second price auction (GSP)  which allow them to apply bid biases (e.g the quality score) that usually weight the historical clickthrough rate (CTR) or conversion rate (CVR) heavily.(???)
+1. Mayerson auction: Maximize revenue for seller
+2. Vickrey-Clarke-Groves auction: 
+3. Generalized Second Price auction: Most common in ad domain and simple to understand. Highest bid wins but charged price would be second higest bid. `pay(i) = (bid(i+1)*ctr(i+1))/ctr(i)` where i+1 is chosen bid and i is second bid for i+1th slot. ctr represent the quality score. bid represent the calculated bid. In order to take the measurement of performance into account, ad networks usually employ the generalised second price auction (GSP) which allow them to apply bid biases (e.g the quality score) that usually weight the historical clickthrough rate (CTR) or conversion rate (CVR) heavily.
 
 ----
+
 ## Gloassary
 - Return On AS (ROAS): 
 - SKAdNetwork: SKAN needs slots??
@@ -138,30 +139,58 @@
 - organic data: Advertiser share the user id. For any new user, we try to map user to existing organic user's look alike and generate user lookalike score.
 - Fraud check by 3rd party double verify
 - Supply-path optimization: exploration and exploit model is revenue per request optimized model.
-----
 
+-----
+# Bidding strategy design
 
-# Datascience Model
+- In this view, the bidding strategy design becomes a constrained optimization problem in an interactive and stochastic environment with big data as support, which has attracted great research interest for data scientists.
 ## Problems
+- Impression value
  1. Relevancy Score: How shortlisted SKUs are relevant to seached keyword, category being browsed, product similar or product complementary category.
- 2. Bidding Value:
- 3. Lookalike Targeting 
- 4. Quality score: it is a confidence interval threshold of CTR/CVR. If CTR/CVR is above the range then bid should be done and below request should be rejected and within confidence interval should be randomly bid based on some probability like pacing_rate.
+ 2. Quality score: it is a confidence interval threshold of CTR/CVR. If CTR/CVR is above the range then bid should be done and below request should be rejected and within confidence interval should be randomly bid based on some probability like pacing_rate.
+- Cost Esimation: 
+ how competetive bid is.
+
 ## Features
 ### User features
+ - Contextual feature
+ - behavioral features
 ### supply features
-### Contextual feature
+### Campaign features
 
 ## CTR Model 
-## CVR Model
-## Action Rate Model(CPA CPI etc)
-- Conversion is very rare event.
-- cluster user model 
-- hierarchial model with triplet(user, publisher, advertiser)
-- logistic regression
-- collaborative Filtering
+- Predicts user click on the Ad. It depends upon
+ - user profile
+ - historical behavior
+ - Item attributes
+ - contextual information
+- User behavior modeling is necessary 
+
+## CVR Model/Action Rate Model(CPA CPI etc)
+- Challenges of CVR model are data sparsity, delayed feedback and sample selection bias.
+- for tackling data sparsity auxillary conversion related events are introduced. 
+  - cluster user model 
+  - hierarchial model with triplet(user, publisher, advertiser)
+  - logistic regression
+  - collaborative Filtering
+
+## Bid Landscape Forecasting
 
 ## Surplus Model
+
+# Pricing Model
+- Problem: select high quality impression and bid
+## Dynamic Pricing
+- dynamic eCPM model are free to change the bid price to win high quality impressions. 
+- want optimization on eCPC and eCPA
+## Fixed Pricing
+- want optimization on CTR and Action-Rate (AR) 
+## Bidding Optimizations
+ - Cost Per Install(CPI)
+ - Cost Per Click (CPC) It is calculated by `total-ad-spend/ total-clicks`. Low-CPC is good for generic audiance target while high-CPC is also good for narrowed target(high spend users).
+ - Cost Per Acquisition (CPA)
+ - Click Through Rate
+ - Conversion Rate
 
 ## Problems
 1. Cold start Problem
@@ -184,21 +213,25 @@
 
 # Campaign
 ## Campaign types
+1. Performance 
  - Click Campaign
- - Conversion Campaign  
+ - Conversion Campaign
+ - Awareness  
 ## tuning
 - Set the bids as per suggested bids(by the platform itself) on the lower range. If impressions are not picking up then increase the bids by 1-2 cents.
 ----
 
 
 ## Budget constraint bidder
-  - Knapsack algorithm with clearing price is the win for the user, total budget is the capacity and lookalike score is the quality of user
+  - Knapsack algorithm with clearing price is the win for the user, total budget is the capacity and lookalike score is the quality of user ?
 ----
 
 
 # Company specifics
 ## Target
  - Competitiors- Amazon Ads, Walmart connect, Instacart Ads, Kroger, Best buy
+ - 5000 advertiser accounts
+ - 60k per minute ad request
 ## Inmobi dsp scale
  - 3 million raw ad request 
  - 300K unfiltered adrequest
