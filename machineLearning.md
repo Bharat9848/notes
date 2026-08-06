@@ -64,51 +64,30 @@ Combinatorial Optimization by Alexander Schrijver.
  - **Classification model complexity** As we move from SVCs to logistic regression to DA, we move from (1) minimal assumptions about the data to (2) a primitive data model that relates features and targets to (3) varying degrees of assumptions about how the features are distributed, their relationships to the target, and the base rates of the targets. Logistic regression attempts to capture the relationship between the inputs and the output. In particular, it captures the probability of the output given what we know about the inputs. However, it ignores any self-contained information from the target class. For example, it would ignore knowledge from the data that a particular disease is very, very rare. In contrast, the discriminant analysis methods model both a relationship between inputs and outputs and the base probabilities of the outputs. In particular, they capture the probability of the inputs given what we know about an output and (2) stand-alone information about the output.
 ----
 # Data preparation
- - **Standardization/ Z-score/ Normalization**: 
-  1. helps in standardizing the data between 0 and 1, so that high values do not incur extra weight.
-  2. Helps in learning algorithm training to reach its minimum faster.
- - Training Set
- - Test Set
- - Cross Validation Set Or Dev Set
-----
-# Bias and Variance
-## Bias
- - Model does not fit the pattern of data means it does not explain the relationship between the predictors and target.
- - It is detected by high training error.
- - It can be resolved by choosing other ML algorithm or different NN architecture, large network in case of NN and increase training iteration.
- - high bias/**Underfitting**: Model not learning training dataset and have high training error.
-
-## Variance  
- - Model is not performing good on the cross-validation set.  
- - High variance/**Overfitting** : Model learned a lot of superficial patterns. Model's training error is very small. But testing error is high.
- - It can be resolved by more data, regularization and different NN architecture.
-
-## Regularization
- - **Regularization/smoothing/penalization/shrinkage**: is measure of complexity.
- - L2 Regularization: In cost formula we add additional term which is `(lambda/2*m)*(W.T.W)`. It is often used than L1 regularization.
- - L1 Regularization: In cost formula we add additional term `(lambda/2m)*norm(W)`
- - lamdba is regularization parameter, It is a hyperparameter which needs tuning.
- 
-----
-
-## Score
- - **Accuracy** how often our prediction is correct compared to reality
-
+## Data Collection
+ - Data from different distribution:  it is not recomended for dev and test data is from different distribution. Though it is ok to have different distributions for training and dev/test dataset. 
+ - Also it is fine to add half of new data in training and other half in test/dev set. Or use all of the new data in test/dev only. 
 ## Data correction
  - missing data 
   1. missing randomly
   2. missing due to some other values - natural usecase
  - categorical data - order is removed then turned into numerical values and get used.
+## Data Transformation 
+ - **Standardization/ Z-score/ Normalization**: 
+  1. helps in standardizing the data between 0 and 1, so that high values do not incur extra weight.
+  2. Helps in learning algorithm training to reach its minimum faster.  
+-----
+# Model Iteration
 
-## Phases
+ - Training Set: Model learns the weight from the data.
+ - Test Set: data which will be proxy for real world. 
+ - Cross Validation Set Or Dev Set: Used for any hyperparameter tuning.
  - Model training - uses training test set. General recomendation is to use 50% of data
  - Model selection - uses Validation test set. General recomendation is to use 25% of data left after training reserved data.
  - Model assessment - uses hold out dataset. This dataset is only used in last phase before ML is deployed in wild. 
   1. plot ROC and Precision-recall curve for classification problem.
   2. For multi label classification problem, we can choose oneVsRest or oneVsOne strategy.
   
-
-
  General recomendation is to use 25% of data left after training reserved data and validation test data.
 
 ## Hyperparameter testing
@@ -116,6 +95,72 @@ Combinatorial Optimization by Alexander Schrijver.
  - grid search
  - grid search is susceptible to overfitting as all of the data can be used inside the grid search. Instead nested cross-validation is more recommendable approach where grid-search will used train data from outer loop to tune hyperparameter and test data will help in tackle generalization problem.
 
+
+----
+
+# Performance
+
+## Error Analysis
+- Incorrect labels, Noise in data
+- Manual checking of error.
+- Categorized error to find ceiling of achievable accuracy. Pick the category with most return and work on it.
+
+## Bias/Variance analysis
+## Evaluation metrics
+ - Optimizing metrics like accuracy
+ - Satisfying metrics like latency, memory footprint
+ - We should have only one metrics for optimization while satisfying some thresholds for satisfying metrics
+
+## Bias
+ - Model does not fit the pattern of data means it does not explain the relationship between the predictors and target.
+ - high bias/**Underfitting**: Model not learning training dataset and have high training error.
+ - Solution
+   1. by choosing other ML algorithm or different NN architecture, 
+   2. large network in case of NN and 
+   3. increase training iteration
+   4. Better learning techniques - Momentum, RMSProp or ADAM
+
+
+## Variance  
+ - Model is not performing good on the cross-validation set.  
+ - High variance/**Overfitting** : Model learned a lot of superficial patterns. Model's training error is very small. But testing error is high.
+ - Solution 
+  1. resolved by more data, 
+  2. regularization
+  3. different NN architecture.
+
+### Regularization
+ - **Regularization/smoothing/penalization/shrinkage**: is measure of complexity.
+ - L2 Regularization: In cost formula we add additional term which is `(lambda/2*m)*(W.T.W)`. It is often used than L1 regularization.
+ - L1 Regularization: In cost formula we add additional term `(lambda/2m)*norm(W)`
+ - lamdba is regularization parameter, It is a hyperparameter which needs tuning.
+ 
+----
+
+## Human-level Performance
+- Bayes error: Error that cannot be removed.
+- Human level performance is the proxy of bayes error.
+- If training error is not at par with human level performance then we should focus on removing bias. It is also termed as avoidable bias.
+- If training error is at par with human level performance then we should focus on removing variance.
+
+## Score
+ - **Accuracy** how often our prediction is correct compared to reality
+
+
+
+
+----
+
+
+
+-----
+# Maitainance
+## Distribution shift error
+- naturally data distribution is changing in the wild than data distribution on which the model is train on.
+
+## Adding more data
+- Adding new data in training set is ok as having different distribution of dev and training is fine, however adding new data to test set can be an issue because data distribution of dev and test should be same.
+- Data from different sources have different distribution may introduces biases in the system.
 
 ----
 # Algorithms
@@ -284,9 +329,15 @@ Combinatorial Optimization by Alexander Schrijver.
 
 ----
 # Reinforcement learning
+- Markov Decision Process : 4 tuple process - State space, Action space, transition probability, Rewarding function.
+- Multi-agent Reinforcement Learning
  
 ----
 ## Rough
 - Transfer learning: car detection learning is transfered to the system meant for golf-cart detection.
 
 
+15 = 3(r)^12
+
+
+1000 = (x)(5)^t

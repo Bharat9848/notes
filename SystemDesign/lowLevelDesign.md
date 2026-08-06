@@ -32,6 +32,12 @@
 # Composition Over Inheritance
  - Though it seems very tempting to use inheritance where a domain is filled with hierarchy but it is best to think in term of behavior and data. If there are not much specific behavior required we should not use inheritance. 
 
+# Inheritance
+ - interitance work against you if it does not map to real-world and does not evolve with it. It will be risky to use it for just mere reason of code-reuse. 
+
+# Domain classes
+- Alternative to inheritance, it can be useful to code it in specific classes then put them into some hierarchy.
+
 # Interface:
 - interface provide access to resource.
 - It consists of operations, event and properties.

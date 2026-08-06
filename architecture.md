@@ -47,6 +47,7 @@
  - **Errors**: occurs due intermittently or cascading effects of some faults.
 
 ## General 
+- First law of architecture: Every
 - software architecture consists of the **structure of the system** (microservice, layered or microkernel architecture), combined with **architecture characteristics** (scalability, performance, reliability etc) the system must support, **architecture decisions**(hard rules like db cannot be called through presentation layer etc.), and finally **design principles**.(not-so-hard rules like asynchronous communication etc)
 - The software architecture of a system is the **set of structures** needed to reason about the system. These structures comprise software elements, relations among them, and properties of both.
 
@@ -392,7 +393,22 @@
 - Done by the peer. Many stages of ATAM are skipped. Less formal and less effecive than ATAM
 ----
 
-
+## Architecture Debt
+- It is different than the code debt as the concern is non-local.
+- How to identify architecture debt: If cause of recurring issues and patchup works in some structural components happening due to some design flaws then it is architecture debt. Finding symptoms - Identify structural coupling by doing static code analysis which class depends on which other class using Adjacency matrix(classes in row and column in same sequence) with relation like `db` for dependency, `im` for implementation and `ex` for extension. Then identify using same adjacency matrix, evolutionary coupling by checking revision control system of the code to see if classes are being changed together in code commits. If matrix is ordered from low level classes to high level classes, then both structural and evolutionary adjacency matrix should depict a lower triangular matrix  
+- allow architectrure debt for some worthy tradeoff.
+- Architecture Debt hotspots
+ 1. Unstable interface: An interface changes together with its implementation classes.
+ 2. Modularity Violation: Structurally decoupled modules are evolving together
+ 3. Unhealthy Inheritance: A base class depends on its subclass. Or a client depends upon both baseclass and its subclasses.
+ 4. Cyclic dependency or Clique: search for classes in sturctural dependency matrix that form a strongly connected graph.
+ 5. Package Cycle: Two or more packages dependent on each other rather than hierarchial relationship.
+ 6. Crossing: File is at the crossing means it have high number of files it depends upon(class variables) and high number of dependent(means high number of reference in other files). 
+- Quantifying architecture debt: 
+ - For each antipattern we sum of bug-fixes, frequent changes and total churn for each file involved. These are then divided by sum of bug-fixes, frequent-changes and total churn of all the project files. This will give the weigh of each antipattern.
+ - Cost: First we calculate person-month required to fix the antipattern.  
+ - Benefit: To estimate the savings, we make one assumption: The refactored files will have roughly the same number of bug fixes in the future as the average file had in the past. This is actually a very conservative assumption since the average number of bug fixes in the past was inflated by those files in the identified hotspots. Moreover, this calculation does not consider other significant costs of bugs, such as lost reputation, lost sales, and additional quality assurance and debugging effort.
+ 
 # Rough
 - Documenting patterns. If you employ patterns in your design, as recommended in Chapter 20, these patterns should be identified in the documentation. First, record the fact that the given pattern is being used. Then say why this solution approach was chosen—why the pattern is appropriate for the problem at hand. Using a pattern involves making successive design decisions that eventually result in that pattern’s instantiation. These design decisions may manifest themselves as newly instantiated elements and the relations among them, which in turn should be documented in structural views.
 

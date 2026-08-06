@@ -30,6 +30,87 @@
 - it calculate the probabilty of discrete number of events given the avg rate.
 - it is used to calculate probabilty of rare events and queueinng theory. 
 
+# Bias
+ - Sampling Bias under different condition resulting into different data.
+ - Confounder Bias different results in measurement of interest.
+
+- standard deviation of an aggregate measurement is called standard error.
+
+
+# Central limit theorem
+  - It is an observation phenomenon where even if data is not normally distributed the sample statistics observed from samples are normally distributed.
+  - Sample distribution is the distribution of sample statistics like mean over mutliple sampling. Sample statistics from sample distribution is more bell curve than the actual data distribution. Also more the sample size more bell curved the test statistics would be.
+  - It has major contribution in hypothesis testing and confidence interval.
+  - central limit theorem states that the sampling distribution (the distribution of point estimates) will approach a normal distribution as we increase the number of samples taken. A sampling distribution is a distribution of several point estimates.
+  - Standerd error measures the variablity in sample statistics.
+
+# confidence interval:
+  - It covers the central region of a sample statistics data. It signifies that further sampling will likely to produce(some percentage) sample statistic that will lie in same central region. More generally an 95% confidence interval around a sample estimate should on average contain similar sample in 95% of the time. To do true estimate and if you have less data more confident you want to be then you have to choose a wider confidence interval. Confidence interval means how variable a sample estimate might be. A confidence interval is a range of values based on a point estimate that contains the true population parameter at some confidence level. A confidence level does not represent a “probability of being correct”; instead, it represents the frequency that the obtained answer will be accurate.
+
+#  Hypothesis tests framework 
+ - to determine whether the observed sample data deviates from what was to be expected from the population itself. A hypothesis test generally looks at two opposing hypotheses about a population. They are called the null hypothesis and the alternative hypothesis. The null hypothesis is the statement being tested and is the default correct answer. The alternative hypothesis is the statement that opposes the null hypothesis. Our test will tell us which hypothesis we should trust and which we should reject.
+ - **One sided test**
+ - **Two sided test**
+ - **Statistically significant**
 
 # References
  - Dangeti, Pratap. Statistics for machine learning. Packt Publishing Ltd, 2017.
+
+
+
+
+    Measuring center of dataset : 1. Mean is sensitive to outliers its beneficial to use mean if dataset member are close to each other or variation in dataset is minimum. one minute/hour rollup (???). If it is used for measurement then it can lead to spike erosion as the mean data averages out over the large period of time. sample mean is represented using x-bar and population mean is represented using greek symbol mue. 2. Median: On the other hand median of sorted dataset is not sensitive to outliers, then its a good measurement of center if your dataset is suffering from outliers. median is less sensitive to data than mean. 3. Mode highest frequency value. its mainly used for categorical data or proportional data.
+
+    Measuring tail of dataset: 1. Quantile is a flexible tool that offers an alternative to the classical summary statistics which is less susceptible to outliers.The (empirical) cumulative distribution function CDF(y) for dataset X, at a value y, is the ratio of samples that are lower than the value y.
+
+    Measuring variation or dispersion in dataset. 1. Standerd deviation 2. Mean absolute deviation/Median absolute deviation 3. Percentile or quartile 4. InterQuartile range: is difference between 25th percentile and 75 percentile after sorting the data. Its less succeptible to outliers.
+
+    The coefficient of variation is defined as the ratio of the data’s standard deviation to its mean.We use this measure frequently when attempting to compare means, and it spreads across populations that exist at different scales.
+
+    The z-score is a way of telling us how far away a single data value is from the mean. By replacing each value with its z-score is same as original data value. It is a very effective way of normalizing data that exists on very different scales, and also to put data in context of their mean.
+
+    Assumption : Many statistical tests and hypotheses require the underlying data to come from a normally distributed population.
+
+    A desirable property is robustness against outliers. A single faulty measurement should not change a rough description of the dataset.
+
+    Correlation simply quantifies the degree to which variables change together.
+    Reasons for correlation b/w two variables
+        causation is the idea that one variable actually determines the value of another. It is based on cofounding factor. While Cofounding factor is a third random variable that direct show the causation betweeen two correlated variables
+        conincidence . While coincidence shows that correlation does not imply causation. When we ignore cofounding variables then correlation become very misleading.
+
+    Simpson paradox shows there might be another cofounded variable which can break the hypothesis of two correlated variables by showing anti-correlation. The main takeaway from Simpson’s paradox is that we should not unduly give causational power to correlated variables. There might be confounding variables that have to be examined.
+
+    Correlation cofficient for Bivariate analysis
+    It describe the relation between two variables. Relationship might go from linear to polynomial based on level of fitness that can be find out by mapping different model on testing data.
+    The hypothesis relationship between two variable must be tested further. We will need to use more sophisticated statistical methods and machine learning algorithms to solidify these assumptions and hypotheses.
+    Its value can be in between -1 to 1.
+
+    Correlation cofficient is also sensitive to outliers.
+
+    Correlation matrix is a matrix representaion of two or more random variables correlation cofficients e.g. X Y {{1.00 0.67} {0.67 1.00}}. Note correlation cofficient is 1 for a variable with itself since its perfectly correlatable with itself.
+
+    Sampling
+    Big data use cases are when not only data is in big quantity but also when its sparse enough.
+    Two main type of resampling technique : Bootstating and permutation tests. In permutation test multiple dataset are combined and resuffled. Then datasets are again choosen in same numbers as the original size and statistics of interest again completed.
+    The number of degree of freedom forms the calculation to standerdize test statistics so that they can be compared to reference distribution e.g. t-distribution and F-distribtion. The concept of Degree of freedom lies behind factoring of categorical variables into n-1 indicator or dummy variables when doing regression (to avoid multicollinearity)
+    Sampling with replacement : choosing an element from the population for the sample but also put copy of element again in the popultion to get rechoosen again.
+    Sample bias is when bad data is choosen which does not represent all the members of population equally or proportionaly. It results into wrong predictions. Stratified Sampling is used to solve sample bias. Given a population with homogenous subgroup then sampling according to proportion of a strata is what entails the stratified sampling
+
+    Error bias is other form of bias in which data is incorrect due to incorrect sampling process.
+
+    Student-t distribution: its a normal distribution but its thicker and longer in tails. Its extensively used in depicting sample distributions of sample statistics.
+    For events that occur at constant rate of event per unit time or space Poisson distribution can be more appropriate.
+
+    In constant rate scenario if we want to model the time or space between two subsequent event, we can use exponential distribution- A changing event over time can be modelled with the Weibull distribution.
+
+    Statistical hypothesis testing was invented as a way to protect researcher from crediting random chances to some significance. Null hypothesis test further to the A/B testing. Null hypothesis which is credited to a chance hence called Null. Alternative hypothesis which is opposite of null that we want to prove. Hypothesis tests’ framework to determine whether the observed sample data deviates from what was to be expected from the population itself. Our test will tell us which hypothesis we should trust and which we should reject.
+    Statistically significant when the result is beyond the realm of chance variation.
+    p-value is the probability that results as extreme as observed can occur given the null hypothesis model. p-value does not measure that given hypothesis is true, It alone should be considered as proof for hypothesis.
+
+    Type 1 error means to consider an hypothesis true but it is purly a chance. Type 2 error means to reject an hypothesis but even if it is true.
+
+    Chi-square test is used with count data to see how fit it is the expected distribution. Chi-square statistics measure the dispersion between expected and observed data. Chi square distribution is skewed with a long tail to the right.
+
+(RMSE), - Residual standard error (RSE) is same as Root mean square error(RMSE) as but have additional degree of freedom in the denominator. - R2 (R-square) is the matrics for seeing how fit the data is fit to the model is. its R2=1- Sum(actual(y)-predicted(y))/ sum(actual(y)-mean(y)). - t-statistics is (coficient)/standard error(cofficient) tells the significance level of cofficient. Higher the t value is more significant the predictor is. Stepwise regression is a way to automatically determine which variable should be included in model.Confidence intervals quantify uncertainty around regression Prediction.coefficients intervals quantify uncertainty in individual predictions. - Correlation of multi-variate variables: When predicator variables are highly correlated with each other (e.g. houseSize and noOfBedroom in regression to estimate house price ) then its very difficult to interpret correlation cofficients. When predictor variables are perfect or near-perfect correlated to each other, then regression is very difficult to compute this is called Multicollinearnity.This is equivalent to include a predictor multiple times in regression equation. B. Cofounding variable if we forgot to include an important varaiable (e.g. location in equation of house price) in regression equation then this can lead to unstable predictions. C. Main effect(Predictor variables) often have intractions which should also be included in the regression material.
+
+Regression Diagnostics: A. Standardized residual which is calculated by dividing residual by standardized error can be used to predict outlier. Outlier can also be used to find anomaly, frauds and accident detection. B. A record /values which change the regression formula significantly known as influental value/observation. This observation have high leverage on regression equation. Hat values and cook’s distance can be used to measure influence. In small no of observations removing influential value can lead to more fitting regression model while in large amount of data you will rarely sees influential data observations. C.Heteroskedasticity : your model is suffering from heteroskedasticity if variance or residuals is more in some range of data. It should be constant across the range of data. It means regression model have miss something or incomplete. D. Partial residual plot: can be used to see relationship between individual predictor variable and the output variable qualitatively. The relationship can be non-linear which means non-linear regression model should be used. 

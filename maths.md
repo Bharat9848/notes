@@ -28,6 +28,13 @@
 # Log
 - `log(a*b)= log(a) + log(b)` 
 - `log(a/b)= log(a) - log(b)`
+- `log(base a) b = log(base x) b / log(base x) a`
+- `log(base a) a = 1`
+## continous compounding
+- `newVal = oldVal*(e^rate*time)`
+## Discrete compounding
+- `newVal =  oldVal*(1 + r)^time`
+
 
 
 

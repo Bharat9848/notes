@@ -23,7 +23,7 @@
  - `np.random`
  	- `np.random.randomInt(startInclusive, endExclusive)`
  	- `np.random.uniform(start, end, noOfValues)`returns 1D array with uniform values between start and end.
- 	- `np.random.normal(mean, std, noOfValues)` returns normal distribution values with given mean and standard deviation. 
+ 	- `np.random.normal(mean, std, noOfValues)` returns normal distribution values with given mean and standard deviation. Without any argument it generates random number between -infinity to infinity. 
  	- `np.random.rand(X,Y)` will generate random number between 0 and 1 of shape(X,Y)
  - `np.dot(npArr1, npArr2)`
  - np.meshgrid(1Darr2, 1Darr2)

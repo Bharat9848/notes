@@ -81,11 +81,14 @@
 ## Contextual: 
  - It uses the environment data of current callee like webpage keyword user is reading or category pages user is browsing etc. 
 ### Keywords Targeting
+  - It is a form of contextual targeting.
   - Auto Keyword targets: System automatically chooses the keywords for you. System starts with loose or generic target keyword but after few days it learns and tune the keywords. Or if even after tuning advertiser is not able to make sense of auto-keywords he/she choose negative targeting.
   - Manual Keyword Targets: 
   - Keywords bid can be further categorised into close, loose. substitute and complement matches. Bids can differ based on the sematically closeness to the targetted keywords.
   - **Negative Keyword**: Not to show ads for specified keywords.
-### Behaviour: 
+### Behavioural Targeting: 
+  - User Tracker Cookie tied to a domain and domin set information about user's shopping cart or any other previous browsing activiities along with user identifying information typically ID of the user on that domain. User cookie is stored on web browser under domain name. Managed web page have htmlcode which stores cookie from different service provider like ad exchange, SSP, DSP etc 's domain. When Ad request comes page sends ad-exchange cookie alongwith it. To further send user data to DSP **cookie syncing** is needed. Cookie syncing is achieved via HTTP 302 page redirect functionality.  Process of cookie syncing??
+  - Device or Browser Fingerprinting
  - User browser history, city, state, location etc.
  - Device type, Platform like mweb, app web etc.
 ### Audiance Targeting 
@@ -125,7 +128,10 @@
 # Auction
 1. Mayerson auction: Maximize revenue for seller
 2. Vickrey-Clarke-Groves auction: 
-3. Generalized Second Price auction: Most common in ad domain and simple to understand. Highest bid wins but charged price would be second higest bid. `pay(i) = (bid(i+1)*ctr(i+1))/ctr(i)` where i+1 is chosen bid and i is second bid for i+1th slot. ctr represent the quality score. bid represent the calculated bid. In order to take the measurement of performance into account, ad networks usually employ the generalised second price auction (GSP) which allow them to apply bid biases (e.g the quality score) that usually weight the historical clickthrough rate (CTR) or conversion rate (CVR) heavily.
+3. Generalized Second Price auction: 
+- Incentivize the bidder to reveal the private value, thus second price auction is better suited to bring truthness in the compeition.
+- Most common in ad domain and simple to understand. Highest bid wins but charged price would be second higest bid. `pay(i) = (bid(i+1)*ctr(i+1))/ctr(i)` where i+1 is chosen bid and i is second bid for i+1th slot. ctr represent the quality score. bid represent the calculated bid. In order to take the measurement of performance into account, ad networks usually employ the generalised second price auction (GSP) which allow them to apply bid biases (e.g the quality score) that usually weight the historical clickthrough rate (CTR) or conversion rate (CVR) heavily. Second Price Auction is sealed bid auction only winner advertiser is notified of the winning price. Thus each advertiser only presents local view of the market data(?).
+4. Disadvantage of first price auction: "The reason behind paying the second highest bid is that impressions with same or similar user profiles will continuously appear in ad exchanges. If advertisers pay what they bid (i.e., the first price auction), they would not state their true valuations, but rather keep adjusting their bids in re- sponse to other bidders’ behaviours. Unstable bidding behaviours have been well observed in continuously repeated first price auctions, such as in the search markets [Edelman and Ostrovsky, 2007]. To understand this in RTB, suppose there are two advertisers and the impressions associated with the same targeted user group are worth $6 CPMs (cost per mille impressions, with mille being Latin for thousand) to the first advertiser and $8 CPMs to the second. The floor price (the lowest acceptable bid) is assumed to be $2 CPMs. Thus, when they bid between $2 CPMs and $6 CPMs, each of them tries to outbid each other with a small amount. As a result, the winning price increases continuously until reach $6 CPMs where the second advertiser stops the bidding. Then, without the competition from the sec- ond advertiser, the first advertiser would drop back to the minimum bid $2 CPMs. At that point, the second advertiser comes back and the competition restarts again and the cycling behaviour will continue indefinitely".???
 
 ----
 
@@ -144,13 +150,37 @@
 # Bidding strategy design
 
 - In this view, the bidding strategy design becomes a constrained optimization problem in an interactive and stochastic environment with big data as support, which has attracted great research interest for data scientists.
+- Bids are in CPM unit
+## Bidding
+# Pricing Model
+- Problem: select high quality impression and bid
+## Dynamic Pricing
+- dynamic eCPM model are free to change the bid price to win high quality impressions. 
+- want optimization on eCPC and eCPA
+## Fixed Pricing
+- want optimization on CTR and Action-Rate (AR) 
+
 ## Problems
+1. Cold start Problem
+
+### Bidding objectives - Value estimation
+- Performance advertising
+ 1. Increase the utility of winning impression. Utility is measured as Value generated by the impression which can be sales etc minus the cost(auction landscape and advertiser own bid).
+ 2. increase the value of winning impression. It just calculate the value of the impression without checking cost while cost(auction landscape and advertiser own bid) is used as budget constraint or return-on-investment constraint. 
+- Brand advertising: objective wise, there are no direct measurements of performance of brand campaign but measurement like user reach, amount of time video watched etc.
+### Bidding Constraint
+- Budget constraint
+- KPI constraint like Cost-Per constraint e.g. CPC, CPA, ROI
+- Non-cost-related (NCR) constraints define the lower bound of some certain advertising effects, such as the click-through rate and conversion rate.
+### Bidding Function
+- It maps the bidding request to bid where the objective and constraint affects the bidding function.
+- It is function of quality score and value that impression will generate along with budget constraint.
 - Impression value
  1. Relevancy Score: How shortlisted SKUs are relevant to seached keyword, category being browsed, product similar or product complementary category.
  2. Quality score: it is a confidence interval threshold of CTR/CVR. If CTR/CVR is above the range then bid should be done and below request should be rejected and within confidence interval should be randomly bid based on some probability like pacing_rate.
-- Cost Esimation: 
- how competetive bid is.
-
+#### Risk
+- Due to stocastic nature of the market there is risk of negative value generation - predicted value will vary from real value. Sometime additional risk calculation is needed.
+- Other risk is spend beyond the budget constraint.
 ## Features
 ### User features
  - Contextual feature
@@ -174,17 +204,19 @@
   - logistic regression
   - collaborative Filtering
 
-## Bid Landscape Forecasting
 
-## Surplus Model
+-----
 
-# Pricing Model
-- Problem: select high quality impression and bid
-## Dynamic Pricing
-- dynamic eCPM model are free to change the bid price to win high quality impressions. 
-- want optimization on eCPC and eCPA
-## Fixed Pricing
-- want optimization on CTR and Action-Rate (AR) 
+
+# Bid Optimization
+- applied over generated bid.
+- Rule based method
+  1. Online stochastic knapsack
+  2. PID controller: takes proportional, integral and differential error part which are specific to current, past and future trend into account respectively.
+- Reinforcement learning: Meant for more dynamic enviroment and complex objectives
+- predictive models
+- win probability 
+
 ## Bidding Optimizations
  - Cost Per Install(CPI)
  - Cost Per Click (CPC) It is calculated by `total-ad-spend/ total-clicks`. Low-CPC is good for generic audiance target while high-CPC is also good for narrowed target(high spend users).
@@ -192,8 +224,12 @@
  - Click Through Rate
  - Conversion Rate
 
-## Problems
-1. Cold start Problem
+## Surplus Model
+------
+
+# Bid Landscape Forecasting
+-  how competetive bid is by checking the winning probability by looking at bidding landscape
+
 ----
 
 # Performance Measurement
@@ -201,7 +237,8 @@
 - Total Cost
 - No of purchase/sales
 - Branded searches
-- Cost per click
+- Cost per click: Advertiser is charged per click.
+- Cost per Milli: Advertiser is charged per 1000 impressions
 - Page views
 - Purchases new to brand,
 - Ad-fatigue metrics like hides, skips and block etc
@@ -247,3 +284,4 @@
 
 ## References
 - [papers](https://github.com/wnzhang/rtb-papers)
+

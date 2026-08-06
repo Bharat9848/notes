@@ -142,6 +142,8 @@ Error budget is difference between maximum service level and SLO. Error budgets 
 - Observability is not a  debugging your code logic. Observability is for figuring out where in your systems to find the code you need to debug.
 - Observability also put architectural/infrastructural context like build id, set of hosts, instance types, container version, kernel patch etc.
 - To debug unknown-unknown we can dice the arbitrarily wide structured events across any dimensions and group them.
+- Internal go-to public forum like stack overflow or slack etc should be another tool to use by oncall engineers.
+- SRE community of Practice: list of topic that evolve out in different teams during SRE practice and helpful to spread across wider forum. Some topics are SLO definition(SLO, SLI, error budgets), Log query language induction, log query language advanced concepts, SRE dashboards for monitoring, SLO breaches and reacting to alerts etc.
 
 ## How-to
 - Data type: arbitrarily wide capture structural wide event which can be at request level. Structured means there is a key assigned to a value to assign the meaning. Arbitrarily wide means the map of key-value pair length is not predefined
@@ -165,6 +167,7 @@ Error budget is difference between maximum service level and SLO. Error budgets 
 - How to plot data sets with high cardinality
 
 ## Resources
+ - Simon, Phil. 2015. Message Not Received: Why Business Communication Is Broken and How to Fix It.Hoboken, NJ: John Wiley & Sons.
   - Beyer, Betsy, Niall Richard Murphy, David K. Rensin, Stephen Thorne, and Kent Kawahara. 2018. The Site Reliability Workbook: Practical Ways to Implement SRE. Sebastopol, CA: O’Reilly Media.
   - DORA. n.d. “DORA Research Program.” Accessed January 18, 2022. https://www.devops-research.com/research.html.
   - Davis, Jennifer, and Ryn Daniels. 2016. “Foundational Terminology and Concepts.” In EffectiveDevOps. O’Reilly Online Learning. https://www.oreilly.com/library/view/effective-devops/9781491926291/ch04.html.
