@@ -37,7 +37,7 @@
  5. Diverse exposure and experience
  6. Have business domain knowledge
  7. Possess interpersonal skill
- 8. Understand and navigate politics. 
+ 8. Understand and navigate politics: Most important relationship architect should manage is with Program Manager. Program Manager manages the external stakeholder expectation, risk the progress, priortization while architect work on internal team expectations and keep the channel line open both ways.
 -----
 
 ## Glossary
@@ -47,7 +47,8 @@
  - **Errors**: occurs due intermittently or cascading effects of some faults.
 
 ## General 
-- First law of architecture: Every
+- First law of architecture: Everything in software architecture is a tradeoff
+- Second law of architecture: Why is more important than how.
 - software architecture consists of the **structure of the system** (microservice, layered or microkernel architecture), combined with **architecture characteristics** (scalability, performance, reliability etc) the system must support, **architecture decisions**(hard rules like db cannot be called through presentation layer etc.), and finally **design principles**.(not-so-hard rules like asynchronous communication etc)
 - The software architecture of a system is the **set of structures** needed to reason about the system. These structures comprise software elements, relations among them, and properties of both.
 
@@ -308,10 +309,11 @@
 
 ### Architectural Decision record
 ```template
+  <status>
   <title>
   <context>
   <decision>
-  <consequene>
+  <consequenes>
 ```
 - Title: Noun phrase containing the decision
 - Context: problem and alternative solutions alongwith problem space
@@ -319,6 +321,7 @@
 - Consequence: impact of the decision and trade-off that were considered.
 - [ADR](https://adr.github.io/) 
 - [blog](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
+- Archtecture Story Card is another artifact that comes from ADR which provides implemenation details to the developer. Consequences section should give detail acceptance criteria.
 
 ### Business Goals
 - Some business goals are significant on the success of the mission. These are sometimes hidden quality goals which should be exposed and comprehended before starting on architecture. 

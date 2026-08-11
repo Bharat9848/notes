@@ -100,3 +100,22 @@
 
 # NLP
  -- see elasticsearch notes
+
+
+# Transfer Learning
+- Use NN trained on one set of problem for problem for other set of problem. It make sense when both Task A and Task B have same input x. We have more dataset for task A than Task B. Low level features from A could be helpful for B as well.
+
+1. Pretraining with finetuning: Pre-training on differnet set of data. Then do fine-tuning on different problem data. It will tune the all layer weights. 
+2. Randomize the weight of new last layer and retune the weights
+3. Have few extra last layers 
+
+# Multitask Learning
+- Tasks shares same low level features. 
+- Tasks data is similar but some task have less data than the other.
+- Single big NN to work on different tasks than have small NN each work on single task.
+
+# End-to-End Deep Learning
+- Remove all traditional ML pipelines use single end-to-end big NN.
+- There is not much end-to-end data where end-to-end approach will not work. 
+- It requires lot of data than having muliple subtask where each task requires different volume of data. 
+- End-to-end NN may find different pattern to solve the data than dividing problem based on human understanding of the problem.

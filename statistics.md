@@ -3,15 +3,19 @@
 - Applied Linear Statistical Models by Kutner and friends
 - What You Can and Can’t Properly Do with Regression,” Richard Berk
 - Practical Regression and Anova in R by Faraway
-- Section 2.2.4 of Advanced Data Analysis from an Elementary Point of View by Shalizi
+- Section 2.2.4 of Advanced Data Analysis from an Elementary Point of View by Shalizi 1895–1923
 
-1895–1923
+# Basics definition
+- Expectation: True mean of a population which cannot be measure in reality due to sheer number of volume and cost.
+- Standard Error: standard deviation of an aggregate measurement is called standard error. It is difficult to get standard error as it will require lot of aggregate measurements. Therefore its estimated from a standard deviation of single aggregated measurement as 
+`se = std/sqrt(N)`
+- Expected mean is weighted average.
+
 # Distribution
 1. Normal distribution
   - formula `1/(2.Pie.spread)^1/2  * e^(-1/2 * (x-center/spread)^2) `
 2. binomial distribution.
 
-- Expected mean is weighted average.
 
 # Distribution summary
  - mean, median and mode, standard deviation
@@ -31,10 +35,9 @@
 - it is used to calculate probabilty of rare events and queueinng theory. 
 
 # Bias
- - Sampling Bias under different condition resulting into different data.
- - Confounder Bias different results in measurement of interest.
+ - Sampling Bias: Sampling don under different condition resulting into different data.
+ - Confounder Bias : some bias is applied differently and consistently results in different result.
 
-- standard deviation of an aggregate measurement is called standard error.
 
 
 # Central limit theorem
@@ -42,16 +45,24 @@
   - Sample distribution is the distribution of sample statistics like mean over mutliple sampling. Sample statistics from sample distribution is more bell curve than the actual data distribution. Also more the sample size more bell curved the test statistics would be.
   - It has major contribution in hypothesis testing and confidence interval.
   - central limit theorem states that the sampling distribution (the distribution of point estimates) will approach a normal distribution as we increase the number of samples taken. A sampling distribution is a distribution of several point estimates.
-  - Standerd error measures the variablity in sample statistics.
+  - Standerd error measures the variablity in a single sample statistics.
 
 # confidence interval:
   - It covers the central region of a sample statistics data. It signifies that further sampling will likely to produce(some percentage) sample statistic that will lie in same central region. More generally an 95% confidence interval around a sample estimate should on average contain similar sample in 95% of the time. To do true estimate and if you have less data more confident you want to be then you have to choose a wider confidence interval. Confidence interval means how variable a sample estimate might be. A confidence interval is a range of values based on a point estimate that contains the true population parameter at some confidence level. A confidence level does not represent a “probability of being correct”; instead, it represents the frequency that the obtained answer will be accurate.
 
-#  Hypothesis tests framework 
- - to determine whether the observed sample data deviates from what was to be expected from the population itself. A hypothesis test generally looks at two opposing hypotheses about a population. They are called the null hypothesis and the alternative hypothesis. The null hypothesis is the statement being tested and is the default correct answer. The alternative hypothesis is the statement that opposes the null hypothesis. Our test will tell us which hypothesis we should trust and which we should reject.
- - **One sided test**
- - **Two sided test**
- - **Statistically significant**
+#  Hypothesis tests framework
+- Statistical hypothesis testing was invented as a way to protect researcher from crediting random chances to some significance. Null hypothesis test further to the A/B testing. To determine whether the observed sample data deviates from what was to be expected from the population itself. A hypothesis test generally looks at two opposing hypotheses about a population. They are called the null hypothesis and the alternative hypothesis. The null hypothesis is the statement being tested and is the default correct answer. The alternative hypothesis is the statement that opposes the null hypothesis. Our test will tell us which hypothesis we should trust and which we should reject.
+
+- p-value is the probability that results as extreme as observed can occur given the null hypothesis model. p-value does not measure that given hypothesis is true, It alone should be considered as proof for hypothesis.
+
+- **Type 1 error**/False Positive: Consider an hypothesis true but it is purly a chance.  
+- **Type 2 error**/ False Negative: Reject an hypothesis but even if it is true. 
+ 
+- **One sided test**
+ 
+- **Two sided test**
+ 
+- **Statistically significant**: when the result is beyond the realm of chance variation.
 
 # References
  - Dangeti, Pratap. Statistics for machine learning. Packt Publishing Ltd, 2017.
@@ -103,11 +114,7 @@
 
     In constant rate scenario if we want to model the time or space between two subsequent event, we can use exponential distribution- A changing event over time can be modelled with the Weibull distribution.
 
-    Statistical hypothesis testing was invented as a way to protect researcher from crediting random chances to some significance. Null hypothesis test further to the A/B testing. Null hypothesis which is credited to a chance hence called Null. Alternative hypothesis which is opposite of null that we want to prove. Hypothesis tests’ framework to determine whether the observed sample data deviates from what was to be expected from the population itself. Our test will tell us which hypothesis we should trust and which we should reject.
-    Statistically significant when the result is beyond the realm of chance variation.
-    p-value is the probability that results as extreme as observed can occur given the null hypothesis model. p-value does not measure that given hypothesis is true, It alone should be considered as proof for hypothesis.
 
-    Type 1 error means to consider an hypothesis true but it is purly a chance. Type 2 error means to reject an hypothesis but even if it is true.
 
     Chi-square test is used with count data to see how fit it is the expected distribution. Chi-square statistics measure the dispersion between expected and observed data. Chi square distribution is skewed with a long tail to the right.
 

@@ -102,8 +102,7 @@ Written "p(I go sailing | it does not rain)''?
 
 
 The factory quality control department discovers that the conditional probability of making a manufacturing mistake in its precision ball bearing production is 4%
-4%4, percent
- on Tuesday, 4%
+4%on Tuesday, 4%
 4%4, percent
  on Wednesday, 4%
 4%4, percent

@@ -63,20 +63,35 @@ Combinatorial Optimization by Alexander Schrijver.
  - **Classification ML model Assumption** For classification problem GNB make certain assumptions if those assumptions are met, we’d prefer GNB and we’d probably see it perform better classification. If those assumptions arenot met, we can fall back to SVC. From a certain perspective, SVCs make the fewest assumptions of these three models (the DA methods, logistic regression, and SVCs), sothey are the most flexible. However, that means that the other methods may do better when the assumptions are met.
  - **Classification model complexity** As we move from SVCs to logistic regression to DA, we move from (1) minimal assumptions about the data to (2) a primitive data model that relates features and targets to (3) varying degrees of assumptions about how the features are distributed, their relationships to the target, and the base rates of the targets. Logistic regression attempts to capture the relationship between the inputs and the output. In particular, it captures the probability of the output given what we know about the inputs. However, it ignores any self-contained information from the target class. For example, it would ignore knowledge from the data that a particular disease is very, very rare. In contrast, the discriminant analysis methods model both a relationship between inputs and outputs and the base probabilities of the outputs. In particular, they capture the probability of the inputs given what we know about an output and (2) stand-alone information about the output.
 ----
+
 # Data preparation
 ## Data Collection
  - Data from different distribution:  it is not recomended for dev and test data is from different distribution. Though it is ok to have different distributions for training and dev/test dataset. 
  - Also it is fine to add half of new data in training and other half in test/dev set. Or use all of the new data in test/dev only. 
-## Data correction
+## Data correction 
  - missing data 
   1. missing randomly
   2. missing due to some other values - natural usecase
  - categorical data - order is removed then turned into numerical values and get used.
+ - Missing data can be removed if less in volume. it can be applied to rows or columns(done after correlation analysis with target variable). 
+ - Substitute mean/median/mode in place of missing data. It may introduce bias
+ - Use regression model/K-Nearest neighbour/statistical model to fill the missing values.
 ## Data Transformation 
  - **Standardization/ Z-score/ Normalization**: 
   1. helps in standardizing the data between 0 and 1, so that high values do not incur extra weight.
   2. Helps in learning algorithm training to reach its minimum faster.  
+## Data Exploration
+ - Happens after preprocessing of data to gain more insight into the data.
+ - Data visualization
+   1. Explore data relationship between two variables using scatter plot
+   2. Histogram of an variable tells us distribution of data especially dominant bins
+   3. apply techniques like t-SNE and PCA to visualize the data
+
+- Feature engineering
+- statistical analysis
+- Domain knowledge analysis
 -----
+
 # Model Iteration
 
  - Training Set: Model learns the weight from the data.
@@ -101,9 +116,9 @@ Combinatorial Optimization by Alexander Schrijver.
 # Performance
 
 ## Error Analysis
-- Incorrect labels, Noise in data
-- Manual checking of error.
-- Categorized error to find ceiling of achievable accuracy. Pick the category with most return and work on it.
+- Error categories: Incorrect labels, Noise in data, partial pitures etc.
+- Categorized error to find ceiling of achievable accuracy. Pick the category with most return and work on it. First categorize them on dev set and then use sample train-dev set to estimate how big the category on the train set.
+- cost and difficulty of acquiring more data alongwith ceiling of error correction should help priortizing which task to pick next.
 
 ## Bias/Variance analysis
 ## Evaluation metrics
@@ -138,20 +153,13 @@ Combinatorial Optimization by Alexander Schrijver.
 ----
 
 ## Human-level Performance
-- Bayes error: Error that cannot be removed.
-- Human level performance is the proxy of bayes error.
+- Bayes error: Error that cannot be removed. 
+- Human level performance is the proxy of bayes error. Different data distribution might have different human level error.
 - If training error is not at par with human level performance then we should focus on removing bias. It is also termed as avoidable bias.
 - If training error is at par with human level performance then we should focus on removing variance.
 
 ## Score
  - **Accuracy** how often our prediction is correct compared to reality
-
-
-
-
-----
-
-
 
 -----
 # Maitainance
@@ -161,6 +169,10 @@ Combinatorial Optimization by Alexander Schrijver.
 ## Adding more data
 - Adding new data in training set is ok as having different distribution of dev and training is fine, however adding new data to test set can be an issue because data distribution of dev and test should be same.
 - Data from different sources have different distribution may introduces biases in the system.
+- If training data and dev/test data comes from different data distribution we can see data mismatch problem which happen when we see a jump in error from training set error and dev set error. To check if it is true data-mismatch issue, we can carve out training-dev set from the training data. If training-dev set error is similar to dev error then we have an issue of overfitting otherwise it is a data-mismatch error. 
+- Potential solution for correcting Data-mismatch error
+ 1. carry out error analysis manually to find the data difference root causes in training and dev/test set.
+ 2. collect similar data as dev/test set for training as well. Artificial data synthesis can help here. Care should be taken when data from artificial data synthesis is very small subset of natural dataset. 
 
 ----
 # Algorithms

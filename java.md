@@ -31,17 +31,34 @@
   - `openrewrite`
 
 
+## Stream API
+ - Declarative nature of stream API gives more freedom to JVM for optimize just like SQL. Why map/filter methods are not exposed on collection object, because it will unnecessarily create intermediate storage structure. Thats why stream object returned by intermediate operation is lazy.
+ - Stream object are lazy by nature. Terminal operation are eager. Can be used only once. 
+ - source operation:
+ - Intermediate operation:
+   1. statless: Filter and Map
+   2. stateful: `distinct` and `sorted` maintain some data buffer and may required multiple passes over the stream to return final result.
+ - Terminal Operation.
+ - Iterator/Spliterator terminal operation are not eager.
+ - Infinite Stream handling
+ - Stateless behavior
+### Best practice
+ - Should not be stored in field and instance variable as stream can only be used once. It is dangerous if stream is already used and still have a reference somewhere. Therefore it should be consumed on the spot.
+ - Should not modify the source collection or any object outside of stream chaining.
+ 
 ## Java Thread
- - **Thread Groups** are hierarchial. Root thread group is system thread group. System has one child called main thread group. `main` thread which starts the process belongs to `main` thread group. All thread groups which are created part of executor services are child of main thread group.
- - Thread group's `interrupt` function interrupt all the threads of thread group.
- - **Security Manager** authorizes certain operation done by a thread to another thread like interrupt using `checkAccess(thread)`.  
- - Thread/ Thread group have `UncaughtExceptionHandler` to catch all exception thrown during run execution. By default `UncaughtExceptionHandler` prints exception.
- - Thread states - new, Running, blocked, wait
- - Synchronization prevents reordering of statements by compiler and instruction.
- - Java objects act as mutexs, in addition they have `wait()` and `notify()` to provide a thread a parking area and notification mechanism. Note that `wait()` and `notify` should be only called from synchronized block using same object.
- - sleep()/wait()/join() blocks a thread. To wake up a thread which is blocked on some condition, we should call its interrupt() method, it causes it's blocking method to throw `InterruptedException`. It is used for cancelling the task.
- - join() method gives other thread to block on child thread till it completes.
- - `synchronized` allows thread to take a mutex before entering any critical section to prevent race condition. Meanwhile if there is only single call e.g. setting up a flag etc in that case synchronization is unnecessary. Synchronization also ensure visibility among threads.
+ 1. **Thread Groups** 
+  - Thread group are hierarchial. Root thread group is system thread group. System has one child called main thread group. `main` thread which starts the process belongs to `main` thread group. All thread groups which are created part of executor services are child of main thread group.
+  - Thread group's `interrupt` function interrupt all the threads of thread group.
+  - **Security Manager** authorizes certain operation done by a thread to another thread like interrupt using `checkAccess(thread)`.  
+  - Thread/ Thread group have `UncaughtExceptionHandler` to catch all exception thrown during run execution. By default `UncaughtExceptionHandler` prints exception.
+ 2. Thread
+  1. Thread states - new, Running, blocked, wait
+  - Synchronization prevents reordering of statements by compiler and instruction.
+  - Java objects act as mutexs, in addition they have `wait()` and `notify()` to provide a thread a parking area and notification mechanism. Note that `wait()` and `notify` should be only called from synchronized block using same object.
+  - sleep()/wait()/join() blocks a thread. To wake up a thread which is blocked on some condition, we should call its interrupt() method, it causes it's blocking method to throw `InterruptedException`. It is used for cancelling the task.
+  - join() method gives other thread to block on child thread till it completes.
+  - `synchronized` allows thread to take a mutex before entering any critical section to prevent race condition. Meanwhile if there is only single call e.g. setting up a flag etc in that case synchronization is unnecessary. Synchronization also ensure visibility among threads.
  - `volatile` allows visibility of a variable among threads. It should only be used for single variable load and store cpu insturctions   
  - `yield` function hints Os to select some other thread but most of the time OS ignores it.
  - **Green thread model** It was old JVM implementation which abstracts out thread without leveraging native OS threading API. For OS java process is a single thread.
@@ -144,3 +161,15 @@
 - files for specification
 1. `build.gradle` it is just like `pom.xm1`.
 2. `settings.gradle` it is for setting up multiproject
+
+## Rough 
+End-to-End Performance Optimization: Analyze and enhance the performance of Java microservices deployed in Kubernetes environments to ensure scalability, reliability, and minimal resource consumption.
+    Container & Orchestration Performance: Tune Dockerized applications for efficient resource utilization, leveraging Kubernetes features (e.g., Horizontal/Vertical Pod Autoscaling, Cluster Autoscaler, CPU/Memory limits, KEDA).
+    Java Performance Tuning: Optimize JVM performance, garbage collection (GC) tuning, thread management, and memory allocation to minimize latency and maximize throughput.
+    Spring Boot Optimization: Profile and fine-tune Spring Boot applications, including database connections, thread pools, reactive streams, and caching strategies.
+    Database Performance Engineering: Improve query execution times and indexing strategies across relational (PostgreSQL, MySQL, AWS RDS Aurora), NoSQL (Cassandra, DynamoDB), and in-memory databases (Redis, Memcached).
+    Observability & Profiling: Utilize tools like JVM Flight Recorder, JFR, JVisualVM, YourKit, JProfiler, and distributed tracing solutions (Jaeger, Zipkin, OpenTelemetry) to diagnose slowdowns.
+    Load & Stress Testing: Design and execute load, stress, and chaos engineering tests using tools like JMeter, k6 to simulate high-traffic scenarios.
+    Message-Driven Performance: Optimize performance in event-driven architectures using Kafka or RabbitMQ.
+    Cloud-Native Performance Optimization: Work with AWS and GCP to optimize auto-scaling, networking, and service mesh performance (Istio, Linkerd).
+    Automation & Continuous Performance Testing: Develop CI/CD-integrated performance benchmarking suites to proactively identify performance regressions.
