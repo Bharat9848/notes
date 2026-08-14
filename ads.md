@@ -228,7 +228,9 @@
 ------
 
 # Bid Landscape Forecasting
--  how competetive bid is by checking the winning probability by looking at bidding landscape
+-  how competetive bid is by checking the winning probability by looking at bidding landscape.
+- Winning price distribution is a histogram of winning frequency vs bid value bins. Expected wins for a bid b is `w(b) = integration from 0 to b p(z)dz`
+- Cost in case of second price auction : `c(b) = integration from 0 to b(z*p(z)dz)/ integration from 0 to b(p(z)dz)` ??
 
 ----
 

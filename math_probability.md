@@ -23,6 +23,19 @@ Non empty portion of sample space.
  	- P(A union B) = P(A) + P(B)
   5. Complementary Event of an event
   	- Event comprises of sample space not covered in original sample space.	
+-----
+## Complex Counting
+1. Factorial
+2. N choose R
+3. Permutation
+4. with replacement
+5. without replacement
+
+## Counting ways
+1. **Multinomial Distribution** used for Counting ways to choose r classes of n1, n2, n3... nr items from n objects `n!/n1!*n2!*n3!*....*nr!`
+2. **Binomial distribution** used for counting ways to choose 1 class of k items from n object `n!/(n-k)!*k!`
+-----
+# Random variable
 ## Discrete Random Variable
  - a variable that can assume a finite or countably infinite number of potential outcomes. E.g. Random variable can represent a coin toss, or Number of cars passing through toll booth in an hour. In second example number of cars can zero to infinite each represent an outcome. 
  - **Expected** value of a random variable - it is the probability weighted average of all outcome. 
@@ -34,6 +47,7 @@ Non empty portion of sample space.
 ## Continuous Random Variable 
 ### Probability Density Function: 
 - It is for calculating the probability of a continuous random variable within a range.
+
 ### Cumulative Density Function  	
 - relevant for both discrete as well as cumulative random variables
 

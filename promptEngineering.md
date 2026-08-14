@@ -77,7 +77,11 @@
  - convesation history can run out of context window. Techiques like conversation pruning e.g. to include only last N messages or summarize the conversation through llm.
  - turn off reasoning.
  - keep track of input and output token length.
-
+### Context related problems
+- Context poisoning: misinformation or wrong instruction went into the context.
+- Context confusion: Non-useful information made it to the context it creates low quality response.
+- context distraction: Each model have context distraction window beyond which it is distracted with some part of the context that it ignores other part.
+- context clash: Over time or at same time context window gathers conflicting information.
 ----
 
 ## Prompt structure 

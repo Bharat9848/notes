@@ -29,10 +29,10 @@
 
 # Distributions
 1. **Geometric distribution** measures the probability of getting a choice in a given set of trials. 
-
-# Poisson distribution
+2.  Poisson distribution
 - it calculate the probabilty of discrete number of events given the avg rate.
 - it is used to calculate probabilty of rare events and queueinng theory. 
+3. Log-Normal Distrubution
 
 # Bias
  - Sampling Bias: Sampling don under different condition resulting into different data.
@@ -50,7 +50,12 @@
 # confidence interval:
   - It covers the central region of a sample statistics data. It signifies that further sampling will likely to produce(some percentage) sample statistic that will lie in same central region. More generally an 95% confidence interval around a sample estimate should on average contain similar sample in 95% of the time. To do true estimate and if you have less data more confident you want to be then you have to choose a wider confidence interval. Confidence interval means how variable a sample estimate might be. A confidence interval is a range of values based on a point estimate that contains the true population parameter at some confidence level. A confidence level does not represent a “probability of being correct”; instead, it represents the frequency that the obtained answer will be accurate.
 
-#  Hypothesis tests framework
+-----
+# Testing
+## AB Testing
+-- see ABExperiment Notes
+
+##  Hypothesis testing
 - Statistical hypothesis testing was invented as a way to protect researcher from crediting random chances to some significance. Null hypothesis test further to the A/B testing. To determine whether the observed sample data deviates from what was to be expected from the population itself. A hypothesis test generally looks at two opposing hypotheses about a population. They are called the null hypothesis and the alternative hypothesis. The null hypothesis is the statement being tested and is the default correct answer. The alternative hypothesis is the statement that opposes the null hypothesis. Our test will tell us which hypothesis we should trust and which we should reject.
 
 - p-value is the probability that results as extreme as observed can occur given the null hypothesis model. p-value does not measure that given hypothesis is true, It alone should be considered as proof for hypothesis.
@@ -66,9 +71,9 @@
 
 # References
  - Dangeti, Pratap. Statistics for machine learning. Packt Publishing Ltd, 2017.
-
-
-
+ - Introductory Statistics and Analytics: A Resampling Perspective by Peter Bruce
+ - The Drunkard’s Walk by Leonard Mlodinow (Vintage Books, 2008) is a readable survey of the ways in which “randomness rules our lives.”
+ - David Freedman, Robert Pisani, and Roger Purves’s classic statistics text Statistics, 4th ed. (W. W. Norton, 2007) 
 
     Measuring center of dataset : 1. Mean is sensitive to outliers its beneficial to use mean if dataset member are close to each other or variation in dataset is minimum. one minute/hour rollup (???). If it is used for measurement then it can lead to spike erosion as the mean data averages out over the large period of time. sample mean is represented using x-bar and population mean is represented using greek symbol mue. 2. Median: On the other hand median of sorted dataset is not sensitive to outliers, then its a good measurement of center if your dataset is suffering from outliers. median is less sensitive to data than mean. 3. Mode highest frequency value. its mainly used for categorical data or proportional data.
 
