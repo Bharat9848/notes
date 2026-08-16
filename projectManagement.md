@@ -27,6 +27,11 @@
  - adjust the architecture to mitigate the risk
 ## Procurement 	
  - determine technology requirement and see 3rd party solution fit
+
+
+## References
+- Architecture-centric Software Project Management: A Practical Guide by Dan Paulish
+- Project Management Institute (PMI) Standard: A Guide to the Project Management Body of Knowledge, sixth edition [IEEE 17]. 
 ------
 # Rough
 - think through deliverables and milestones setting expectation

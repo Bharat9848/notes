@@ -2,14 +2,17 @@
 
 ##  Actors
  1. Ad Exchange: Talks to multiple ad networks.
- 2. Ad Network
+ 2. Ad Network: Traditional central entity where publisher and advertiser come together to exchange.
  3. Advertiser: They represent agency, Ad-Network, House Advertiser, House Agentcy, Viewability provider.
  4. Publisher
  5. DSP
  6. SSP
  7. Private Market Place(PMP)
  8. Data Management Platform (DMP): It collects and manages the user historical data for both the SSP and DSP to support a better matching between ads and users.
-
+ 9. Relevance problem is to match user with given context with suitable Ad.
+ 10. Revenue problem: Only relevance is not enough bidder wants to show Ad which generates more revenue for the advertiser(CTR).
+ 11. Bidding: Advertiser selected bid range(constraint).
+ 12. Relevance, revenue and bids decides the Ad for the top slots. 
 ----
 # Data model
  1. **Campaign**
@@ -46,6 +49,8 @@
 
 # Types
 ----
+## Search Ad
+ - Search Ad words against the current searched keyword, user past data and contextual data.
 ## Display Ads
  - CPM or vCPM considered for the bidding model
  - first price auction is default.
@@ -60,6 +65,8 @@
 ## Intersitial Ad
 ## Audio Ad
 ## Native Ad
+## Reserved Ad / Over-the-counter Ads:
+- Advertiser directly buy them from the publisher and ignore the context.  
 ----
 
 
@@ -79,6 +86,7 @@
 # Targeting
  - Pre-defined Targeting Rules
 ## Contextual: 
+ - User Relevance and Content relevance
  - It uses the environment data of current callee like webpage keyword user is reading or category pages user is browsing etc. 
 ### Keywords Targeting
   - It is a form of contextual targeting.
@@ -87,7 +95,7 @@
   - Keywords bid can be further categorised into close, loose. substitute and complement matches. Bids can differ based on the sematically closeness to the targetted keywords.
   - **Negative Keyword**: Not to show ads for specified keywords.
 ### Behavioural Targeting: 
-  - User Tracker Cookie tied to a domain and domin set information about user's shopping cart or any other previous browsing activiities along with user identifying information typically ID of the user on that domain. User cookie is stored on web browser under domain name. Managed web page have htmlcode which stores cookie from different service provider like ad exchange, SSP, DSP etc 's domain. When Ad request comes page sends ad-exchange cookie alongwith it. To further send user data to DSP **cookie syncing** is needed. Cookie syncing is achieved via HTTP 302 page redirect functionality.  Process of cookie syncing??
+  - User Tracker Cookie tied to a domain and domain set information about user's shopping cart or any other previous browsing activiities along with user identifying information typically ID of the user on that domain. User cookie is stored on web browser under domain name. Managed web page have htmlcode which stores cookie from different service provider like ad exchange, SSP, DSP etc 's domain. When Ad request comes page sends ad-exchange cookie alongwith it. To further send user data to DSP **cookie syncing** is needed. Cookie syncing is achieved via HTTP 302 page redirect functionality.  Process of cookie syncing??
   - Device or Browser Fingerprinting
  - User browser history, city, state, location etc.
  - Device type, Platform like mweb, app web etc.
@@ -130,8 +138,9 @@
 2. Vickrey-Clarke-Groves auction: 
 3. Generalized Second Price auction: 
 - Incentivize the bidder to reveal the private value, thus second price auction is better suited to bring truthness in the compeition.
-- Most common in ad domain and simple to understand. Highest bid wins but charged price would be second higest bid. `pay(i) = (bid(i+1)*ctr(i+1))/ctr(i)` where i+1 is chosen bid and i is second bid for i+1th slot. ctr represent the quality score. bid represent the calculated bid. In order to take the measurement of performance into account, ad networks usually employ the generalised second price auction (GSP) which allow them to apply bid biases (e.g the quality score) that usually weight the historical clickthrough rate (CTR) or conversion rate (CVR) heavily. Second Price Auction is sealed bid auction only winner advertiser is notified of the winning price. Thus each advertiser only presents local view of the market data(?).
-4. Disadvantage of first price auction: "The reason behind paying the second highest bid is that impressions with same or similar user profiles will continuously appear in ad exchanges. If advertisers pay what they bid (i.e., the first price auction), they would not state their true valuations, but rather keep adjusting their bids in re- sponse to other bidders’ behaviours. Unstable bidding behaviours have been well observed in continuously repeated first price auctions, such as in the search markets [Edelman and Ostrovsky, 2007]. To understand this in RTB, suppose there are two advertisers and the impressions associated with the same targeted user group are worth $6 CPMs (cost per mille impressions, with mille being Latin for thousand) to the first advertiser and $8 CPMs to the second. The floor price (the lowest acceptable bid) is assumed to be $2 CPMs. Thus, when they bid between $2 CPMs and $6 CPMs, each of them tries to outbid each other with a small amount. As a result, the winning price increases continuously until reach $6 CPMs where the second advertiser stops the bidding. Then, without the competition from the sec- ond advertiser, the first advertiser would drop back to the minimum bid $2 CPMs. At that point, the second advertiser comes back and the competition restarts again and the cycling behaviour will continue indefinitely".???
+- Most common in ad domain and simple to understand. Highest bid wins but charged price would be second higest bid. `pay(i) = (second-bidder-bid * second-bidder-quality-score)/first-bidder-quality-score` ctr represent quality score.  In order to take the measurement of performance into account, ad networks usually employ the generalised second price auction (GSP) which allow them to apply bid biases (e.g the quality score) that usually weight the historical clickthrough rate (CTR) or conversion rate (CVR) heavily. Second Price Auction is sealed bid auction only winner advertiser is notified of the winning price. Thus each advertiser only presents local view of the market data(?).
+ - Disadvantage of first price auction: "The reason behind paying the second highest bid is that impressions with same or similar user profiles will continuously appear in ad exchanges. If advertisers pay what they bid (i.e., the first price auction), they would not state their true valuations, but rather keep adjusting their bids in re- sponse to other bidders’ behaviours. Unstable bidding behaviours have been well observed in continuously repeated first price auctions, such as in the search markets [Edelman and Ostrovsky, 2007]. To understand this in RTB, suppose there are two advertisers and the impressions associated with the same targeted user group are worth $6 CPMs (cost per mille impressions, with mille being Latin for thousand) to the first advertiser and $8 CPMs to the second. The floor price (the lowest acceptable bid) is assumed to be $2 CPMs. Thus, when they bid between $2 CPMs and $6 CPMs, each of them tries to outbid each other with a small amount. As a result, the winning price increases continuously until reach $6 CPMs where the second advertiser stops the bidding. Then, without the competition from the second advertiser, the first advertiser would drop back to the minimum bid $2 CPMs. At that point, the second advertiser comes back and the competition restarts again and the cycling behaviour will continue indefinitely".???
+
 
 ----
 
@@ -194,6 +203,8 @@
  - historical behavior
  - Item attributes
  - contextual information
+ - total number of ads on the page
+ - position
 - User behavior modeling is necessary 
 
 ## CVR Model/Action Rate Model(CPA CPI etc)

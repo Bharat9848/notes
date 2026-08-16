@@ -285,6 +285,10 @@ Migrate, AI Code Translator)
 ---
 
 
+## Agent response
+- Pill button/collapsed section(interspersed in the generated response) to allow user to see the reasoning behind the answer. It expands on the tool responses for user to see the reasoning behind the answer. More advanced version let user change the tool response and then regenerate the whole conversation which might be a potentially security risk 
+- Preamble: It is the text a setup after user prompt end and start of the response. It is sometimes structural, 
+
 ## Rough
 - self critique.
 - "Note that while the increased context length impacts the model’s memory footprint, it doesn’t impact the model’s total number of parameters."

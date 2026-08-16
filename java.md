@@ -33,15 +33,19 @@
 
 ## Stream API
  - Declarative nature of stream API gives more freedom to JVM for optimize just like SQL. Why map/filter methods are not exposed on collection object, because it will unnecessarily create intermediate storage structure. Thats why stream object returned by intermediate operation is lazy.
- - Stream object are lazy by nature. Terminal operation are eager. Can be used only once. 
+ - Stream object are lazy by nature and empty object that do not store any data except stateful operation. Terminal operation are eager. Can be used only once. 
  - source operation:
  - Intermediate operation:
    1. statless: Filter and Map
-   2. stateful: `distinct` and `sorted` maintain some data buffer and may required multiple passes over the stream to return final result.
+   2. stateful: `distinct` and `sorted` maintain some data buffer and may required multiple passes over the stream to return final result. The distinct() method can be used on unbounded (infinite) streams, the sorted() method cannot. 
+   3. You need to keep in mind that every time an intermediate method is called on stream, a new stream is created. 
+   4. `dropwhile` and `takewhile` produces different results from unordered stream like stream generated from set.
  - Terminal Operation.
  - Iterator/Spliterator terminal operation are not eager.
  - Infinite Stream handling
  - Stateless behavior
+ - Use `mapMulti` in place of `flatmap` when number of elements to be generated out of the current element is small in number.
+
 ### Best practice
  - Should not be stored in field and instance variable as stream can only be used once. It is dangerous if stream is already used and still have a reference somewhere. Therefore it should be consumed on the spot.
  - Should not modify the source collection or any object outside of stream chaining.

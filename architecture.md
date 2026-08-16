@@ -47,11 +47,11 @@
  - **Errors**: occurs due intermittently or cascading effects of some faults.
 
 ## General 
-- First law of architecture: Everything in software architecture is a tradeoff
+- First law of architecture: Everything in software architecture is a tradeoff.
 - Second law of architecture: Why is more important than how.
 - software architecture consists of the **structure of the system** (microservice, layered or microkernel architecture), combined with **architecture characteristics** (scalability, performance, reliability etc) the system must support, **architecture decisions**(hard rules like db cannot be called through presentation layer etc.), and finally **design principles**.(not-so-hard rules like asynchronous communication etc)
 - The software architecture of a system is the **set of structures** needed to reason about the system. These structures comprise software elements, relations among them, and properties of both.
-
+- Business goals lead to quality attribute requirements, which the architecture’s primary duty is to fulfill
 - A structure is architectural if it supports reasoning about the system and the system’s properties. The reasoning should be about an attribute of the system that is important to some stakeholders meanwhile supressing the non-important attributes. There are three categories of structures: 
    1. Module structures show the system as a set of code or data units that have to be constructed or procured. 
    2. Component-and-connector structures show the system as a set of elements that have runtime behavior (components) and interactions (connectors).

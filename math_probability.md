@@ -59,16 +59,17 @@ Non empty portion of sample space.
 
 # Conditional probability
 
-- It sounds similar to probability intersection of two events(`P(A intesect B)`). Given B happens what is the probability of A. 
-- P(A ∩ B) = P(A and B) = P(A) · P(B|A) Why do we use B|A instead of B? This is because it is possible that B depends on A. If this is the case, then just multiplying P(A) and P(B) does not give us the whole picture. 
-- `P(A|B) = P(A intersect B)/P(B)` for formula try visualizing this using venn diagram. While P(A intersect B) denotes A and B event occuring together. Conditional probability is more conditional, it is P(A intersect B) with B already happend.
-- `P(A|B) = P(A intersect B)/ P(B) = P(B intersect A)/P(B) = P(B|A)*P(A)/P(B)`  
+- It sounds similar to probability intersection of two events(`P(A intesect B)`). Given B happens what is the probability of A or What is the probability of A happening give partial information of B happened.
+- **Multiplication Law** `P(A ∩ B) = P(A and B) = P(A)*P(B|A) = P(A|B)*P(B)` Why do we use B|A instead of B? This is because it is possible that B depends on A. If this is the case, then just multiplying P(A) and P(B) does not give us the whole picture.
+- **Law of total probability** `P(A) = SumAllBi(P(A|Bi)*P(Bi))`  given B0, B1, B2... Bn are disjoint sets.
+- `P(A|B) = P(A intersect B)/P(B)` for formula try visualizing this using venn diagram. While P(A intersect B) denotes A and B event occuring together. Conditional probability is more conditional, it is P(A intersect B) with B already happend. Here we are zooming inside from the universal set Omega to B and check what are the counts where A also happend given we are in B.
 - A and B are independent 
  `P(A and B) = P(A)*P(B) => P(A and B)/P(B) = P(A)*P(B)/P(B) => P(A|B) = P(A) `
 
 -----
 # Bayes rules
- - A is the interested event. P(A) was the prior distribution. P(B|A) ?? P(B) Marginal liklihood
+ - A is expansive to measure and B is the symptom or test result. e.g. probability of a disease given test result/symptom 
+ - A is the interested event. P(A) was the prior distribution. P(B|A) probability of B given A. P(B) is Marginal liklihood.
 	```math
 	P(A|B) = (P(B|A)*P(A))/ P(B)
 	```
@@ -106,38 +107,44 @@ Non empty portion of sample space.
 
 # Rough
 Question 7
-If it rains, I do not go sailing. It rains 10%
-10%10, percent
- of days;  I go sailing 3%
-3%3, percent
- of days.
-If it does not rain, what is the (conditional) probability that I go sailing?
-Written "p(I go sailing | it does not rain)''?
+If it rains, I do not go sailing. It rains 10% percent of days;  I go sailing 3% percent of days. If it does not rain, what is the (conditional) probability that I go sailing?
+Written "p(I go sailing | it does not rain)''? = 
 
 
-The factory quality control department discovers that the conditional probability of making a manufacturing mistake in its precision ball bearing production is 4%
-4%on Tuesday, 4%
-4%4, percent
- on Wednesday, 4%
-4%4, percent
- on Thursday, 8%
-8%8, percent
- on Monday, and 12%
-12%12, percent
- on Friday. 
-The Company manufactures an equal amount of ball bearings (20%
-20%20, percent
-) on each weekday.  What is the probability that a defective ball bearing was manufactured on a Friday?
-
+The factory quality control department discovers that the conditional probability of making a manufacturing mistake in its precision ball bearing production is 4% on Tuesday, 4%, percent on Wednesday, 4% percent on Thursday, 8% percent on Monday, and 12% percent on Friday. The Company manufactures an equal amount of ball bearings (20% percent ) on each weekday.  What is the probability that a defective ball bearing was manufactured on a Friday?
+`P(friday|defective) = P(defective|friday) P(friday) / P(defective|monday) P(mon) +P(defective|tue) P(tue) +P(defective|wed) P(wed) +P(defective|thur) P(thur) +P(defective|friday) P(friday) + P(defective|sat) P(sat) +  P(defective|sun) P(sun)  = (12*1/7) / (8*1/7 +4 *1/7 + 4*1/7 + 4 *1/7 +12 *1/7) = 12/32 =0.375`
 
 Question 1
 What additional statement, added to the three below, forms a probability distribution?
-(1) I missed only my first class today
-(2) I missed only my second class today
-(3) I missed both my first and second class today
+(1) I missed only my first class today P(missed first and attend second)
+(2) I missed only my second class today P(attend second and missed second )
+(3) I missed both my first and second class today P(missed first and missed second)
 
 Question 4
-The probability that I will go sailing today AND the fair six-sided die will come up even on the next roll is .3
-.3point, 3
-. 
- If these events are independent, what is the probability that I will go sailing today?
+The probability that I will go sailing today AND the fair six-sided die will come up even on the next roll is .3. If these events are independent, what is the probability that I will go sailing today?    P(sailing and dice even)  = .3  = P(sailing)* P(even) => 0.3 = P(sailing)* 0.5 => P(sailing) = 0.6
+
+
+
+2. 
+3.
+6. full house = denominator = P(5/52) = 5 choose 52  = 2598960. count of numerator = count of a kind * count of 3 choose 13 * count of second kind * count of 2 choose 13
+8. 
+
+My friend takes 10 cards at random from a 52-card deck, and places them in a box. Then he puts the other 42 cards in a second, identical box. He hands me one of the two boxes and asks me to draw out the top card. What is the probability that the first card I draw will be the Ace of Spades?
+
+Question 11
+What is the probability, if I flip a fair coin with heads and tails ten times in a row, that I get at least 8
+88
+ heads?
+
+ 
+ Question 12
+Suppose I have either a fair coin or a bent coin, and I don’t know which. The bent coin has a 60%
+60%60, percent
+ probability of coming up heads.
+I throw the coin ten times and it comes up heads 8 times. What is the probability I have the fair coin vs. the probability I have the bent coin? 
+Assume at the outset there is an equal (.5,.5)
+(.5,.5)left parenthesis, point, 5, comma, point, 5, right parenthesis
+ prior probability of either coin.
+
+*Please note that in order to fit the entire formula in the feedback, probability has been abbreviated to "prob."
