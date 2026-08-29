@@ -119,3 +119,20 @@
 - There is not much end-to-end data where end-to-end approach will not work. 
 - It requires lot of data than having muliple subtask where each task requires different volume of data. 
 - End-to-end NN may find different pattern to solve the data than dividing problem based on human understanding of the problem.
+
+# Convolution Neural Network
+- used in vision related problems.
+- **Filter**/**Kernel**
+ - Vertical edge detection filter
+ - Horizontal edge detection
+ - Sobel Filter
+ - Scharr filter
+- convolution 
+- Padding
+ - solves shriking and image edges information loss problem
+ - How much to pad: 
+   1. Valid convolution: No padding
+   2. Same Convolution: Pad equivalent such that input image and output image size is equal. It is calculated `n+2p-f+1 = n` f is filter size n
+- striding convolution
+- convolution over volume(3D images e.g RGB image)
+- multiple filter: stack filter output to create multi channel images where each channel is result of each filter application.

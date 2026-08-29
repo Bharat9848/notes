@@ -1,18 +1,14 @@
 # Evaluation
 ----
-## General
-
-### Offline evaluation
+## Offline evaluation
   - Test suite
-
-### Online evaluation
+## Online evaluation
   - Telemetry
   - Tracing with sampling
   - User feedback
-    - Thumbs up and down (with feedback form)
-    - It has disadvantage of users generally do not give feedback
+    - Thumbs up and down (with feedback form).It has disadvantage of users generally do not give feedback
   - Implicit Feedback
-    - Acceptance of Agent answer by the user by some kind of telemetry
+    - Acceptance of Agent answer by the user by some kind of telemetry.
 
 ----
 ## Agent Evaluation
@@ -77,7 +73,7 @@
 - Answer-Relevance: Answer is relevant to the user question. LLM will act as evaluator behind the scene. IT will return additional chain of thought reasoning behind the score. Scores are in b/w 0-1.
 - Groundedness: answer is based on the context provided
 - Context-Relevance: It checks if context is relevant to user query. Each chunk is evaluated against the user input. Final score would be mean of all relevance scores. 
- - **RAG Faithfulness** ??
+ - **RAG Faithfulness** It measures generated answer is based on provided context
 ### General Testing Guidelines
 - generate a high quality dataset - labeled by human,statistically significant,Data diversity
 - check for relevancy when asked broader question. 
@@ -112,30 +108,6 @@
   - answer-correctness: Answer is compared to grounded truth
   - answer-similarity: semantic similarity between grounded truth and answer
 ### Process to generate RAG testing dataset
-1. for each document/chunk generate question using following prompt
-```
-"Context information is below.\n"
-    "---------------------\n"
-    "{context_str}\n"
-    "---------------------\n"
-    "Given the context information and not prior knowledge, "
-    "generate only questions based on the below query.\n"
-    "Query: You are a Teacher/Professor. Your task is to setup {num_questions_per_chunk} questions for an upcoming quiz/examination. The questions should be diverse in nature across the document. Restrict the questions to the context information provided.\n"
-    "Answer: "
-```
-2. Generate reference answer using following prompt
-```
-"Context information is below.\n"
-    "---------------------\n"
-    "{context_str}\n"
-    "---------------------\n"
-    "Given the context information and not prior knowledge, "
-    "answer the below query.\n"
-    "Query: {question}\n"
-    "Answer: "
-```
-3. store the following tuple 
-   `Question, reference answer, context` 
 
 
 ----
@@ -327,3 +299,42 @@ steps to follow below
  - [GPTScorer](paper)
 
  ---
+
+# Generate Golden dataset
+1. for each document/chunk generate question using following prompt
+```
+"Context information is below.\n"
+    "---------------------\n"
+    "{context_str}\n"
+    "---------------------\n"
+    "Given the context information and not prior knowledge, "
+    "generate only questions based on the below query.\n"
+    "Query: You are a Teacher/Professor. Your task is to setup {num_questions_per_chunk} questions for an upcoming quiz/examination. The questions should be diverse in nature across the document. Restrict the questions to the context information provided.\n"
+    "Answer: "
+```
+2. Generate reference answer using following prompt
+```
+"Context information is below.\n"
+    "---------------------\n"
+    "{context_str}\n"
+    "---------------------\n"
+    "Given the context information and not prior knowledge, "
+    "answer the below query.\n"
+    "Query: {question}\n"
+    "Answer: "
+```
+3. store the following tuple 
+   `Question, reference answer, context` 
+
+
+# Rough 
+1. Domain specific data generation paper
+  - Its modular pipeline incorporates seman-
+tic chunking, hierarchical concept extraction,
+multi-chunk retrieval, and curated distractor
+contexts to encourage robust reasoning.
+https://arxiv.org/abs/2410.20878
+Paper Seven failure points when engineering a retrieval
+augmented generation system.
+A revision of bloom’s taxon-
+omy: An overview. Theory into practice

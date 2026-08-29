@@ -11,7 +11,7 @@
  - (Optimizing compute across cluster) [https://www.uber.com/en-IN/blog/compute-cluster-management/?ref=highscalability.com]
  - Book Documenting Software Architectures: Views and Beyond
  - Book Systems and Software Engineering: Architecture Description.
- -  
+ - read about `ISO Standard 42010` architecture specification
  - 
 
 ### Performance
@@ -25,19 +25,8 @@
 
 ----
 ## Architect responsibility
- 1. Architecture decision
-  - Architect should clearly define the rules against the resources used by component if resource is a matter of concern. e.g. if latency is the resource then architect should layout guidelines for each component time budget.
-  - Deciding when changes are essential, determining which change paths have the least risk, assessing the consequences of proposed changes, and arbitrating sequences and priorities for requested changes all require broad insight into the relationships, performance, and behaviors of system software elements.
-  - Architecture decides organizational structure through work-decomposition. Hence it is very costly due to managerial and business aspect once it is fixed.
-  - Software architecture is about making fundamental structural choices which are costly to change once implemented.
- 2. Ensure architecture adherence:
-  - Use tools like fitness function to measure the qualities of the software.
- 3. Continually analyzing the architecture
- 4. Keep current with latest trends
- 5. Diverse exposure and experience
- 6. Have business domain knowledge
- 7. Possess interpersonal skill
- 8. Understand and navigate politics: Most important relationship architect should manage is with Program Manager. Program Manager manages the external stakeholder expectation, risk the progress, priortization while architect work on internal team expectations and keep the channel line open both ways.
+- see staff eng notes
+
 -----
 
 ## Glossary

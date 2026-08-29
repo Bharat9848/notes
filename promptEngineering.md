@@ -17,7 +17,7 @@
   6. Output generation syntax should be clean and demarcated. Using separator in different part of prompt. Using markdown markation to define section and subsection.
   7. Asking model to cite reference text help reduce the halluciantion
   8. Principle for good prompt
-     1. The prompt must closely resemble content from the training set. 
+     1. The prompt must closely resemble content from the training set. More it is differed from the training content more unstable the completion will be. 
      2. The prompt must include all the information relevant to addressing the user's problem.
      3. The prompt must lead the model to generate a completion that addresses the problem.
      4. The completion must have a reasonable end point so that generation comes to a natural stop.
@@ -78,10 +78,16 @@
  - turn off reasoning.
  - keep track of input and output token length.
 ### Context related problems
-- Context poisoning: misinformation or wrong instruction went into the context.
-- Context confusion: Non-useful information made it to the context it creates low quality response.
-- context distraction: Each model have context distraction window beyond which it is distracted with some part of the context that it ignores other part.
+- Context poisoning: misinformation or wrong instruction went into the context and it is being repeatedly used by llm.
+- Context confusion: 
+  - Non-useful information made it to the context making llm generates low quality response.
+- context distraction: Each model have context distraction window beyond which it is distracted with some part of the context that it ignores other part. It let LLM ignore its learning from training.
 - context clash: Over time or at same time context window gathers conflicting information.
+### Solutions 
+ - Number of tools should not exceed more that 20 otherwise allow llm to choose the tools it need.
+ - context pruning through a separate tool.
+ - Context summarization when context reaches its context distraction window.
+ - context offloading to store tools data outside of context via some tool.
 ----
 
 ## Prompt structure 

@@ -381,14 +381,21 @@
 
 # OpenFGA
 ## Glossary 
- - tuple(user:relation#object, condition). condition is optional.
- - type: blueprint of an object
- - type definition: mentions relations between types
- - authorization model: set of type definitions
- - store: set of authorization model files
- - object: single instance of an entity in the system
- - user: can be a object(to represent object can relate to an object), user entity, an optional relation(to represent set of user)
- - relation: arbitrary string
+ - `tuple(user:relation#object, condition)` defines relationship -role between user and object. condition is optional.
+ - `type`: blueprint of an object. type definition-mentions relations between types. e.g. 
+ ```openfga
+ model
+  schema 1.1
+ type user 
+ type folder
+  relations
+    define editor: [user]
+ ```
+ - `authorization model`: set of type definitions. It is kind of sql table schema definition that allow different role between objects. 
+ - `store`: set of authorization model files
+ - `object`: single instance of an entity in the system
+ - `user`: can be a object(to represent object can relate to an object), user entity, an optional relation(to represent set of user)
+ - `relation`: arbitrary string e.g. editor, owner etc.
  - relation definition: different rules for a specific relation depending upon the different user and object.
  - directly related user type: specific user definition syntax mentioned in relation definition.
  - condition: an expression that evaluates to boolean.
@@ -396,7 +403,23 @@
  - checkRequest API returns boolean if specified tuple exisits
  - listObject API returns list of objects for which given user have given relationship.
  - listUser API returns list of users for are in given relationship for a given object.
- - contextual tuples are tuples that are additionally added to the API requests
+ - contextual tuples are tuples that are additionally added to the API requests.
+ - `Cascading relationship` defined role from relationship type using `parent-type-role from current-type-role` e.g. editor of parent folder should be automatically editor of all the files in the folder.
+ ```openfga
+model
+  schema 1.1
+
+type user
+
+type folder
+  relations
+    define editor: [user]
+
+type document
+  relations
+    define parent: [folder]
+    define editor: [user] or editor from parent
+ ```
 ## flow
  ```mermaid
  A[application] --write-> B[openFGA]

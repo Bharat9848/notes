@@ -1,20 +1,20 @@
 # Retrieval Augmented Generation
 
-## RAG Usecases
-Following are some of the usecases of RAG
-- search the web for latest data. 
-- query the database for internal private data. 
-- help in grouding answer to prevent hallucination: relevant search is provided as a context to LLM alongwith user's question
-- RAG helps with facts but doesn’t give the LLM memory across conversations or enable planning and automation.
+## What is RAG
+- RAG is a technique to enrich the prompt with private or more localized information for LLM to generate an answer.
 - RAG to consume data from following resources
   - structured data sources like rdbms
   - unstructured data sources like pdf, images etc.
   - streaming data.
+
+## RAG Usage
+Following are some of the of RAG 
+- help in grouding answer to prevent hallucination: relevant search helps with facts.
 - RAG if runs on LLM training dataset it will help LLM to quickly reach its internal knowledge(Latent retrieval) and consequently it returns a good answer.
   
 
 ----
-
+# RAG Phases
 # Ingestion phase
 - Metadata can help in giving storing source links.
 - increasing vector dimension for richer semantic details.
@@ -55,9 +55,9 @@ Following are some of the usecases of RAG
 - Adding metadata from chunks also add on to effective retrieval. 
 
 ---- 
+# Retrival phase
 
-
-# Pre Retrival phase
+# Pre Retrival Strategies
 
 ## Query preprocessing
 1. **Question transformation**: Rephrasing a vague question can result in more efficient search. It requires an LLM to remove unnecessary details, use synonyms from the domain to better query matching and clear the ambiguity phrases.
@@ -169,6 +169,8 @@ Standalone question:
  - retriever compares user question with generated question vector.
  - Augmentation phase use the original text form the chunk
 ----
+
+
 # Post retrieval phase
 - reranking,
 - keywords
@@ -198,6 +200,8 @@ Standalone question:
   - refernce llamaindex [responseSynthesizer](https://developers.llamaindex.ai/python/framework/module_guides/querying/response_synthesizers/)
   
 ----
+
+
 # vector databases
 Embedding models: `word2vec`, `GLoVE`, `BERT` and `text-embedding-ada-002`.It is best suited for unstructured data. Some vector store needs schema initialization -???.
 

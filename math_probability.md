@@ -37,25 +37,32 @@ Non empty portion of sample space.
 -----
 # Random variable
 ## Discrete Random Variable
- - a variable that can assume a finite or countably infinite number of potential outcomes. E.g. Random variable can represent a coin toss, or Number of cars passing through toll booth in an hour. In second example number of cars can zero to infinite each represent an outcome. 
+ - a Random variable that can assume a finite or countably infinite number of potential outcomes. E.g. Random variable can represent a coin toss, or Number of cars passing through toll booth in an hour. In second example number of cars can zero to infinite each represent an outcome. 
  - **Expected** value of a random variable - it is the probability weighted average of all outcome. 
+  - It provides the summary of all or some values that a random variable can take.
+ - PDF of a random variable allow the modeling of a random process.
+ - It helps in visualizing and compute various function like pdf, Expectation like `P(a<X<=b)`, 
+ - Pdf(X) allow calculation of various complex formulas.
+
 ### Probability Distribution of a Random Variable 
- - For each possiblity of outcomes we assign a probability.
+ -`P(X)` is a function that defined probability distribution of random variable X taking on various value at random.
 ### Probability Mass Function
   - helps in graphical represenation of probability distribution function. PMF is represented using histogram, where each bar represents probability from possible outcomes. Sum of all probabilities should be 1.		
 
 ## Continuous Random Variable 
 ### Probability Density Function: 
-- It is for calculating the probability of a continuous random variable within a range.
+- It is probability curve of a continuous random variable at various values of random varibale X.
 
 ### Cumulative Density Function  	
-- relevant for both discrete as well as cumulative random variables
+- relevant for both discrete as well as cumulative random variables. 
+- It is Probability of X <=x. And it is calculated using integration of probability density function.
 
 ## Maximum Likelihood Estimation
 - Estimate parameters of probability distribution.
 - "The maximum likelihood estimate (MLE) is the parameter vector value that offers the maximum value for the likelihood function across the parameter space."
 
-
+## Transforming function from one random variable to other
+ - We cannot apply transforming function to a PDF of a random variable but we can do the same to the CDF of the variable. We start from CDF of transformed random variable to the equivalent of CDF of given random variable then take derivative of CDF to arrive at PDF of new random variable. 
 
 # Conditional probability
 
@@ -63,7 +70,7 @@ Non empty portion of sample space.
 - **Multiplication Law** `P(A ∩ B) = P(A and B) = P(A)*P(B|A) = P(A|B)*P(B)` Why do we use B|A instead of B? This is because it is possible that B depends on A. If this is the case, then just multiplying P(A) and P(B) does not give us the whole picture.
 - **Law of total probability** `P(A) = SumAllBi(P(A|Bi)*P(Bi))`  given B0, B1, B2... Bn are disjoint sets.
 - `P(A|B) = P(A intersect B)/P(B)` for formula try visualizing this using venn diagram. While P(A intersect B) denotes A and B event occuring together. Conditional probability is more conditional, it is P(A intersect B) with B already happend. Here we are zooming inside from the universal set Omega to B and check what are the counts where A also happend given we are in B.
-- A and B are independent 
+- A and B are independent. Means the happening of event A does not give any information about happening of B.
  `P(A and B) = P(A)*P(B) => P(A and B)/P(B) = P(A)*P(B)/P(B) => P(A|B) = P(A) `
 
 -----
@@ -99,6 +106,53 @@ Non empty portion of sample space.
  ```
  - Bayes theorem combine with binomail theorem.
 ------
+
+# Distributions
+
+ 1. **Binomial**
+ - Variable made of N independent bernouli distributed random variables makes one binomial variable. It is denoted as X~binomial(n,p) where n is number of independent bernouli random variable and p is probability of getting value 1 for the single bernouli random variable. Probablity of bernouli random variable B1, B2, B3 ... BN having K ones is a binomial random varibale X `P(X=k) = (n choose k)*(p^k)*(q^(n-k))`
+
+ 2. **Normal** / **Gaussian**: 
+ - When Number of random variables in binomial distribution is becoming large and term `npq` is not too small then binomial distribution becomes normal distribution. It is denoted by X ~ normal(np, sqrt(npq)) where np is mean and sqrt(npq) is standard deviation. Binomial distribution starts to converge to normal distribution starting from n=30 given p is not very small.
+ - Give X is normally distributed random variable `P(X=x) = (1/sqrt(2*pi)*std)* e ^ (- (x-mu)^2/2*std^2)` where mu is mean and std is standard deviation.
+ - Standard unit normal is a transformation we do to other normal distribution variable to make our calculation easier.
+ 3. **Bernouli**
+  - Bernouli distributed random variable can only take two values(0 or 1). Probability for value 1 is called `p` and probability for value 0 is called `q`. 
+
+ 4. **Poisson**: 
+ - When Number of random variables in binomial distribution is becoming large and term `np` or `nq` is too small then binomial distribution becomes poisson distribution. It helps in calculating probability of rare events. It is denoted by X ~ poisson(lambda) where lambda = `np`.
+ - it calculate the probabilty of discrete number of events given the avg rate.
+ - it is used to calculate probabilty of rare events and queueinng theory. 
+ - `P(X=k) = ((lambda^k)/k!) *e^-lambda where l`
+
+ 5. **Geometric distribution** measures the probability of getting a choice in a given set of trials. 
+ - probability of happening of bernouli random variable event p at exactly nth trial  `P(X = n) = (q^n-1)*P`
+
+ 6. Log-Normal Distrubution
+ 8. Exponential Distribution: 
+ - when an rare event will happen or help in modeling the lifetime of a rare event.
+ - ```math
+ 		P(T = t) = if t>=0 lambda*e^(-lambda*t) else 0
+   ````
+ - Lambda represent the average life of the rare event
+ - memoryless property `P(T>t+s|T>s) = P(T>t)`
+ - Hazard rate is probability of risk event in another dt time period given it survive t.
+   ```math
+   P(T<=t+dt|T >t)=  1 - P(T > t+dt| T>t)
+   = 1 - P(T>dt) // by using memoryless property
+   = 1 - e^(-lambda*dt) // by using cdf
+   = 1 - (1-lamdba*dt + 1/2 * lambda^2 * dt^2 + .....)
+   = lambda*dt
+   OR
+   P(t < T <= t+dt) = lambda * P(T > t) * dt
+   ``` 
+ 9. Gamma Distribution: for random variable to denote the waiting time of rth rare event.
+ 		```math
+ 			T(r, lamdba)
+ 			P(T > t) ~ P(No of poisson process in t time <= r-1) = SumAll k=0 to r-1(poisson for k events)
+ 			pdf = e^(-lambda*t) * lambda^r * t^(r-1) / (r-1)! 
+ 		```
+   
 # References
  - DasGupta, Anirban. Probability for statistics and machine learning: fundamentals and advanced topics. New York: Springer, 2011.
 

@@ -216,7 +216,7 @@
 
 ## CrewAI 
   - enables collaborative, multi-agent systems for specialized teams, but is a newer tool with a smaller community.
-
+## DSPy 
 ---
 
 
@@ -282,12 +282,24 @@ Migrate, AI Code Translator)
 • Creating tests (PentestGPT)
 • Generating commit messages (AI Commits)
 
----
+----
+
+## Log probabilities
+- Sum of log probabilites tells how confident LLM is.
+- Average of log probabilities can be an aggregate measure to check the quality of LLM response.
+- Choosing logit probability by calibration for the classification task.
+- Set `echo` to true return the log probabilities of prompt along with completion. For any log probability going below negative double digit number will be a red flag - it may point to typos, ambiguous things. 
+
+
+----
 
 
 ## Agent response
 - Pill button/collapsed section(interspersed in the generated response) to allow user to see the reasoning behind the answer. It expands on the tool responses for user to see the reasoning behind the answer. More advanced version let user change the tool response and then regenerate the whole conversation which might be a potentially security risk 
-- Preamble: It is the text a setup after user prompt end and start of the response. It is sometimes structural, 
+- Preamble: It is the text a setup after user prompt end and start of the response. It is sometimes structural, fluff and reasoning.
+- Recognizable start and end: It is middle part between of the response with crux of an answer.
+- postscript: wasteful generation or fluff after the answer. It can be cutoff using stop words and cancelling the stream after recognizing the end of actual answer.
+
 
 ## Rough
 - self critique.

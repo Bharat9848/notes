@@ -84,7 +84,17 @@ it have adversarial loop between its components that continues till satisfactory
  - e.g. `gpt-40`, `gpt-3.5-turbo-instruct` 
 
 4. Reasoning model
+
 5. Execution API: OpenAI will call external API interjects the API response in next prompt message. And call LLM again with new information.
+
+ 6. **Masked language model**(MLM): try to predict the missing information in between of a sentence. "well-known example of a masked language model is bidirectional encoder representations from transformers, or BERT (Devlin et al., 2018)". Used for sentiment analysis, text classification.
+  Both REALM and ORQA are built on a clever combination of two components: A Masked Language Model (MLM) and A Differentiable Retriever — a component that fetches relevant documents from a large knowledge source (like Wikipedia) when given a question. The word "differentiable" is key — it means this retriever is not a hard-coded search engine, but a learnable component that improves through training alongside the language model.
+  7. Autoregressive language model: try to predict next word. They are also called **Generative model**
+  8. **Multimodel**: An llm that trained on different type of input other than text like image, audio etc.
+  9. **Embedding Model**:
+  10. **Foundational model**: From specific task to general purpose model.
+  11. Reasoning model: generate reasoning token then returns the output.
+
 ----
 
 ## LLM Tuning configurations
@@ -110,6 +120,7 @@ it have adversarial loop between its components that continues till satisfactory
   9. `stop`: a list of string which makes model stop producing anymore token once it generated any of the stop string.
   10. `top_log probs`: for each token generated return the top candidate and their respective log probs.
   11. `logprobs`: return the probability of each token generated.
+  12. `echo`: return the log probability of prompt as well alongwith log probabilities of completion answwer.
 
 ----
 
@@ -143,15 +154,6 @@ it have adversarial loop between its components that continues till satisfactory
 ## Model distillation?
 - A language model encodes statistical information about one or more languages.
 
-## Type
-  1. **Masked language model**(MLM): try to predict the missing information in between of a sentence. "well-known example of a masked language model is bidirectional encoder representations from transformers, or BERT (Devlin et al., 2018)". Used for sentiment analysis, text classification.
-  Both REALM and ORQA are built on a clever combination of two components: A Masked Language Model (MLM) and A Differentiable Retriever — a component that fetches relevant documents from a large knowledge source (like Wikipedia) when given a question. The word "differentiable" is key — it means this retriever is not a hard-coded search engine, but a learnable component that improves through training alongside the language model.
-  2. Autoregressive language model: try to predict next word. They are also called **Generative model**
-  3. **Multimodel**: An llm that trained on different type of input other than text like image, audio etc.
-  4. **Embedding Model**:
-  5. **Foundational model**: From specific task to general purpose model.
-  6. Reasoning model: generate reasoning token then returns the output.
-
 ----
 # Training
 1. Pretraining: training on lot of data.
@@ -168,7 +170,7 @@ it have adversarial loop between its components that continues till satisfactory
   - Types are instruction models GPT-4 series and reasoning model GPT-o series.
   - LLMs can only “remember” a limited chunk of text at a time. 
 
-  - Low-Rank Adaption(LoRA) and Reinforcement Learning from human feedback(RLHF) are fine-tuning methods
+ 
   - Cost: 100 tokens is approximately 75 words.
     - Pay per API use
     - pay per token 
@@ -246,7 +248,8 @@ it have adversarial loop between its components that continues till satisfactory
 
 # Fine-tuning
 - Domain specific training to create more specialized llms.
-- Fine tuning llms are costly operation as it requires access to powerful hardware and highly curated domain specific data.
+- Fine tuning llms are costly operation as it requires access to powerful hardware and highly curated domain specific data. HuggingFace provides friendly platform to host and train the model
+- loss masking: Masking to allow only specific part of the document rather than other part of the document which can be fluff, background, history around the work.
 - Finetuning API
 - **Model Alignment** is process of fine tuning base-model to meet user expected behaviour - tone, less abusive etc.
 ## Supervised Fine Tuning
@@ -260,7 +263,16 @@ it have adversarial loop between its components that continues till satisfactory
 - Starting from SFT model, it is tasked to complete the prompts. Then the generated answer were judged by the reward model. Based on the score RLHF model weighs are tuned.
 - To stop model to learn nuances on reward model Proximity Policy Optimization algorithm, which involve check that allow score to be used to change weighs only if the answer is not significantly diverged from SFT model output.
 - RLHF model teaches model on how to be uncertain and certain on some answer it generates rather than always certain. 
+## Low-Rank Adaption(LoRA) 
+ - Does not change all the model parameters, instead focus on some key parameter matrices.
+ - LORA dimension: A degree of freedom to the diff you train.
+ - It changes already existing original model capability in certain way which are nuanced to the problem domain.
+ - It requires hundred to thousands of examples.
 
+## Soft Prompting:
+ - using machine learning to learn new model weights. 
+ - It requires hundred of examples.
+ 
 ## Dataset prep
 - supervised fine-tuning:
   - Data with examples responses
@@ -295,6 +307,7 @@ it have adversarial loop between its components that continues till satisfactory
   10. Grade School Math 8k (GSM8K) for mathematical reasoning.
   11. [MTEB](https://huggingface.co/spaces/mteb/leaderboard): helps in model selection have metrics on llm perfromance on diverse tasks and domains.
 
+
 ---
 # Foundation Model
 # General 
@@ -306,6 +319,13 @@ it have adversarial loop between its components that continues till satisfactory
 - **Sampling**: process of choosing the next token given the all the candidate tokens with their probabilities.  
 - **Beam search**: It is a kind of sampling. Before choosing next token it checks whether choosing the token make the next token afterwards more difficult.  In other words it takes few tokens to be generated into account before selecting current token. 
 
+## Limitation
+- Cannot answer facts which occurs after the training.
+- Hard to return facts which are rarely mentioned in training corpus
+
+## Usage
+- Language Modeling Task
+- Question-Answer Task
 
 ---
 ## Rough 

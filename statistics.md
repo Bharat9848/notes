@@ -11,10 +11,6 @@
 `se = std/sqrt(N)`
 - Expected mean is weighted average.
 
-# Distribution
-1. Normal distribution
-  - formula `1/(2.Pie.spread)^1/2  * e^(-1/2 * (x-center/spread)^2) `
-2. binomial distribution.
 
 
 # Distribution summary
@@ -28,11 +24,7 @@
 4. Diagnol Linear DA: same diagonal covariance matrix for all classes.
 
 # Distributions
-1. **Geometric distribution** measures the probability of getting a choice in a given set of trials. 
-2.  Poisson distribution
-- it calculate the probabilty of discrete number of events given the avg rate.
-- it is used to calculate probabilty of rare events and queueinng theory. 
-3. Log-Normal Distrubution
+ -- see probability notes
 
 # Bias
  - Sampling Bias: Sampling don under different condition resulting into different data.
