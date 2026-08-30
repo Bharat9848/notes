@@ -166,6 +166,9 @@
 1. `build.gradle` it is just like `pom.xm1`.
 2. `settings.gradle` it is for setting up multiproject
 
+## Switch Expression
+ - compiler throws an error if you miss adding any enum value compared to switch statement
+ - better readability than switch statement.
 ## Rough 
 End-to-End Performance Optimization: Analyze and enhance the performance of Java microservices deployed in Kubernetes environments to ensure scalability, reliability, and minimal resource consumption.
     Container & Orchestration Performance: Tune Dockerized applications for efficient resource utilization, leveraging Kubernetes features (e.g., Horizontal/Vertical Pod Autoscaling, Cluster Autoscaler, CPU/Memory limits, KEDA).

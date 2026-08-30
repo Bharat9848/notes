@@ -6,6 +6,7 @@
 3. Key-value: Dynamo, redis, memcached, aerospike
 4. graph based: neo4j
 
+
 ## Column based
 - Usecases: Write-large number of small updates Read - read sequentially. 
 
@@ -18,6 +19,14 @@
 
 ## Graph based dbs
 - used for applications where entities have lots many-to-many relationships like social media, research based application etc.
+
+## Concepts 
+### Schema-On-Read
+- There is an implicit schema because the application need some kind of structure but it is not enforced by the database. A more accurate term is schema-on-read(the structure of the data is implicit and only interpreted when data is read) , in contrast to schema on write (the traditional approach of relational database where schema is explicit and the database ensures all written conforms to all).
+- Scheama on read advantages: 
+ - Case1: There are many different type of objects and it is not practical to put each type of object in its own table. 
+ - case2: The structue of data is determined by external systems over which you have no control and which may change at any time.
+
 
 ### NoSql schema designing
 1. When to have multiple collections in nosql.
@@ -39,7 +48,7 @@
   - **Compliance** Suitable where eventual consistency can be tolerated.
   - JSON schema has better locality than the multi table schema.
 
-  cons: 1. Many to one and Many to many relatioships are very weakly supported.. As projects get bigger they tend to have more usecases. And subobjects in a document are queried independently of the main object. As soon as these usecases start to have many-to-many and many-to-one queries. It does not fit well in Json schema. This leads to breaking of hierarchial model(JSON) to relational model.
+  cons: 1. Many to one and Many to many relatioships are very weakly supported.. As projects get bigger they tend to have more usecases. And subobjects in a document are queried independently of the main object. As soon as these usecases start to have many-to-many and many-to-one queries. It does not fit well in Json schema. This leads to breaking of hierarchial model(JSON) to relational model. 
   2. querying a small piece of data from a big document will fetch the whole document.
   3. updation of document size form some update in  some field require rewritten of whole document again. information.
 
@@ -52,14 +61,8 @@
        
   cons:
         Does not scale well in horizontal scalability bcause of ACID rules
-
-Notes : For highly interconnected data the document model is awkward, the relational model is acceptable and graph model are most neutral.
-
-There is an implicit schema because the application need some kind of structure but it is not enforced by the database. A more accurate term is schema-on-read(the structure of the data is implicit and only interpreted when data is read) , in contrast to schema on write (the traditional approach of relational database where schema is explicit and the database ensures all written conforms to all).
-
-Scheama on read advantages:
-Case1: there are many different type of objects and it is not practical to put each type of object in its own table.
-case2:The structue of data is determined by external systems over which you have no control and which may change at any time.
+3. Graph based
+ - For highly interconnected data the document model is awkward, the relational model is acceptable and graph model are most neutral.
 
 ### Famous Non sql Database
 Cassandra: Records are sharded based on partition keys. Within same partition key records are sorted based on a key. 
@@ -76,4 +79,5 @@ HDFS/GlusterFS: Distributed File storage system.Suggested for Video binary stroa
 ---
 
 ### Questions:
-- how read and write can happen without interruption when compactions are happening 
+- how read and write can happen without interruption when compactions are happening.
+- which type of columnar, rdbms, document and key-value based to use in which situation

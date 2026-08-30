@@ -74,7 +74,7 @@
 
 
 - **Request routing**
-  - How did it work when rebalancing is in progress?
+
   - How to make sure that there are no two different cluster view because this would lead to data corruption.
   - **Service discovery**:
     1. Client-aware routing: client is intelligent and cached partition assignment to the nodes. 
@@ -121,6 +121,7 @@
 
  ### Hybrid partitioning
   - it make use of compound keys where one part is used for partition and other for sort ordering to support range queries.
+  
 ## Request/data partitioning
 ### Shuffle partitioning
  - More useful in case of stateless load balancing.

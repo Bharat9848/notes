@@ -76,20 +76,38 @@ Combinatorial Optimization by Alexander Schrijver.
  - Missing data can be removed if less in volume. it can be applied to rows or columns(done after correlation analysis with target variable). 
  - Substitute mean/median/mode in place of missing data. It may introduce bias
  - Use regression model/K-Nearest neighbour/statistical model to fill the missing values.
+ - remove duplicates
 ## Data Transformation 
  - **Standardization/ Z-score/ Normalization**: 
   1. helps in standardizing the data between 0 and 1, so that high values do not incur extra weight.
-  2. Helps in learning algorithm training to reach its minimum faster.  
+  2. Helps in learning algorithm training to reach its minimum faster.
+  3. prevent large values to dominant the analysis and easy features comparison.
+ - min-max scaling
+  1. `xNew = (x-min(X))/(max(X) - min(X))`
+ - Log traformation
+  - helps in reducing the effect of outliers and skewness in the data.
+  - But it will change the distribution of data    
+ - Handling outlier
+  - Explain the outlier by checking if it is genuine or some error.
+  - It may affect the ML algorithm performance.
+  - Removal of genuine outlier might cause bias in ML algorithm.
+  - Removal, log/sqrt transformation, winsorizing(substituting with some near max or min value), imputing(replacing with some central aggregate of data) 
 ## Data Exploration
  - Happens after preprocessing of data to gain more insight into the data.
  - Data visualization
    1. Explore data relationship between two variables using scatter plot
    2. Histogram of an variable tells us distribution of data especially dominant bins
    3. apply techniques like t-SNE and PCA to visualize the data
+   4. Clustering algorithm can help in finding error in the data
+   5. statistical analysis and Domain knowledge analysis
 
-- Feature engineering
-- statistical analysis
-- Domain knowledge analysis
+## Feature engineering
+ - Feature selection:
+   - select a good amount of features
+   - Filtering feaures
+     1. Rank features according corelation b/w target variable and feature.
+     2. Chi-Square Test see stats notes
+
 -----
 
 # Model Iteration

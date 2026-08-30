@@ -12,7 +12,8 @@
  - Book Documenting Software Architectures: Views and Beyond
  - Book Systems and Software Engineering: Architecture Description.
  - read about `ISO Standard 42010` architecture specification
- - 
+ - Joseph Ingeno, in Software Architect’s Handbook
+ - (architecture paper list)[https://icsa-conferences.org/series/most-influential-papers/]
 
 ### Performance
  - Foundations of Software and System Performance Engineering: Process, Performance Modeling, Requirements, Testing, Scalability, and Practice [Bondi 14].
@@ -53,7 +54,8 @@
    3. Architectural: effects the fundamental way elements interact with each other.
 
  - Architecture focuses on why part of system, while design focuses on how part of the system.
- - Difference between architecture and design, where the former is structural and the latter is more easily changed
+ ## Difference between architecture and design
+  -  former is structural and the latter is more easily changed
 
  - Documentation of quality attribute using architecture pattern tactics should document where tactics are present, assumptions and rationale behind using or not using it.
 ----
@@ -262,29 +264,7 @@
  - Server Sent events 
 
 ## Publisher/subscibe
-- Temporal decouplng: producer and consumer are not actively participating in communication in timely manner.
-- Entity decoupling: producer and consumer should not be aware of each other.
-- Synchronization decoupling: publisher/Subscribe should not need to block producer and consumer thread.
-- Routing logic
-  - simple topic based
-  - regex topic based
-  - message's data/metadata field based.
-- correctness is based on delievery semantics and ordering guarntees.
-  - Delievery semantics: check `delievery semantic` in DistributedSystem.md
-  - Ordering gurantees:
-    - No order
-    - Partition-order: casual ordering is maintained at a partition level but not across partitions
-    - Total order: Ordering across all partitions
-  - latency: calculated by time between message entering and message leaving the pub/sub infra.
-    - compute cycles for metadata handling e.g. validation, routing etc.   
-    - compute cycles for packet copy
-    - storage class access - write vs read, DRAM vs disk, seq vs random access
-    - persistence and ordering overhead
-    - dequeuing latency: dependent on consumer speed
- ### Activemq
-  - Disadvantage
-    1. heavy penality of random access in case queue extend beyond RAM
-    2. separate queue for each consumer.   
+ -- see MessagingQueue.md 
 
 
 ## Famous Tradeoff???

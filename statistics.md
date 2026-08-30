@@ -50,7 +50,7 @@
 ##  Hypothesis testing
 - Statistical hypothesis testing was invented as a way to protect researcher from crediting random chances to some significance. Null hypothesis test further to the A/B testing. To determine whether the observed sample data deviates from what was to be expected from the population itself. A hypothesis test generally looks at two opposing hypotheses about a population. They are called the null hypothesis and the alternative hypothesis. The null hypothesis is the statement being tested and is the default correct answer. The alternative hypothesis is the statement that opposes the null hypothesis. Our test will tell us which hypothesis we should trust and which we should reject.
 
-- p-value is the probability that results as extreme as observed can occur given the null hypothesis model. p-value does not measure that given hypothesis is true, It alone should be considered as proof for hypothesis.
+- p-value is the probability that results as extreme as observed can occur given the null hypothesis model. p-value does not measure that given hypothesis is true, It alone should be considered as proof for hypothesis. A P-value less than or equal to 0.05 leads to the rejection of the null hypothesis, considering it highly improbable. Conversely, a P-value greater than 0.05 results in accepting or “failing to reject” thenull hypothesis. When the P-value hovers around 0.05, further scrutiny of the hypothesis is warranted.
 
 - **Type 1 error**/False Positive: Consider an hypothesis true but it is purly a chance.  
 - **Type 2 error**/ False Negative: Reject an hypothesis but even if it is true. 
@@ -60,6 +60,13 @@
 - **Two sided test**
  
 - **Statistically significant**: when the result is beyond the realm of chance variation.
+
+## Chi-square test
+ - Very effective of categorical features.
+ - It is used with count data to see how fit it is the expected distribution. Chi-square statistics measure the dispersion between expected and observed data. Chi square distribution is skewed with a long tail to the right.
+ - provides p-values that signify dependence between two random variable
+ - Chisquare score `X^2 =  SumAll(Osubi - Esubi)^2/Esubi`
+ - "categorical data, especially where the relationship between features and the target variable is non-linear, chi-squared proves to be a valuable method for feature selection. However, its suitability diminishes for continuous or highly correlated features, where alternative feature selection methods may be more fitting."
 
 # References
  - Dangeti, Pratap. Statistics for machine learning. Packt Publishing Ltd, 2017.
@@ -113,7 +120,7 @@
 
 
 
-    Chi-square test is used with count data to see how fit it is the expected distribution. Chi-square statistics measure the dispersion between expected and observed data. Chi square distribution is skewed with a long tail to the right.
+
 
 (RMSE), - Residual standard error (RSE) is same as Root mean square error(RMSE) as but have additional degree of freedom in the denominator. - R2 (R-square) is the matrics for seeing how fit the data is fit to the model is. its R2=1- Sum(actual(y)-predicted(y))/ sum(actual(y)-mean(y)). - t-statistics is (coficient)/standard error(cofficient) tells the significance level of cofficient. Higher the t value is more significant the predictor is. Stepwise regression is a way to automatically determine which variable should be included in model.Confidence intervals quantify uncertainty around regression Prediction.coefficients intervals quantify uncertainty in individual predictions. - Correlation of multi-variate variables: When predicator variables are highly correlated with each other (e.g. houseSize and noOfBedroom in regression to estimate house price ) then its very difficult to interpret correlation cofficients. When predictor variables are perfect or near-perfect correlated to each other, then regression is very difficult to compute this is called Multicollinearnity.This is equivalent to include a predictor multiple times in regression equation. B. Cofounding variable if we forgot to include an important varaiable (e.g. location in equation of house price) in regression equation then this can lead to unstable predictions. C. Main effect(Predictor variables) often have intractions which should also be included in the regression material.
 

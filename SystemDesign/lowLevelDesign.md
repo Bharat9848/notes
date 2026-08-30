@@ -70,11 +70,13 @@
   4. History rule: any immutability or other principle in return type should hold.
 
 4. **Interface segragation principle**: 
+ - It is to thought from user of the interface point of view. If user is exposed to unnessary functionality then we can segregate them in separate interfaces and prevent unnecessary coupling. Segregated interfaces may evolve separately
  - Dividing of interfaces can have following reasons
     - multiple actor needs access to subset of functionality.
     - different policy require for subset of functionality.
     - different supporting interfaces for debuggabilty
     - same functionality for non-authenticated users etc. 
+
 
 5. **Dependency Inversion**
   - higher class module should dependent upon lower class module through abstraction, instead of knowing internal details of lower module classes.
@@ -600,7 +602,11 @@ Evaluation criteria: Demoable & functionally correct code, Code readability, Pro
 You are not allowed to use any external databases like MySQL. Use only in memory data structures.
 No need to create any UX"
 
-- "Design Stack Overflow like service-"
+
+
+## Practice
+- design Try implementing the Game of Life Kata.
+- Design Stack Overflow like service
 
 
 
