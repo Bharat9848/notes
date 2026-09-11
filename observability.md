@@ -16,11 +16,25 @@
 ## Production deployment
  - communication to stakeholders
 
+-----
+
 ## Incident
  - detect the incident
  - notify the stakeholders
  - fix the incident before it lead to custom escalation.
+### Incident handling process
+ 1. Incident detection: By defining SLO and SLI 
+ 2. Incident logging: By defining SLO and SLI
+ 3. Incident classification
+ 4. Incident prioritization
+ 5. Incident response
+  1. Intial diagnosis
+  2. incident escalation : Escalation policy
+  3. Investigation and diagnosis: Analyzing SLO breaches 
+  4. resolution and recovery: Fixes and action items
+  5. incident closure
 
+-----  
 ## Post Mortem
 - blameless
 - from user prespective

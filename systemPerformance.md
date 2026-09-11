@@ -14,14 +14,14 @@ Remeber following number in terms of O notation metrics. nsec, usec and msec are
 12. Send packet CA->Netherlands->CA - 150,000,000 nsec ~ O(100) msec
 
 ## Glossary
+ - **Little Law**: Server system scalability is governed by Little law which relates throughput, latency and concurrency. It says that for a server application to grow with rate of arrival of request with constraint on request processing latency to be within some limit have to grow in proportion in parallel handling of requests.
  - **Offered Load**: how many transactions per second a service can take and be responsive in acceptable limit of latency. Transactions rate above offered load can cause jitter in responses and increase in latency.
  - **Transaction**: A sizeable/logical piece of work.
  - Latency is a probability distribution. p99 value is the time which marks 99% of  transactions have less latency than the value.
  - for Batch software hardware utilization is more important than average latency. For transaction software average and P99 latencies matters. 
  - for Batch software 98% CPU usage is good whereas for trasactional software the 50% CPU usage is disaster as it leads to increase in latency whenever there is increase in load over offered load even for few seconds.
  - **Always slow transactions**: we need to determine transaction which are inherntly slow due to their nature.
- - it is also economical to have some non-user-facing batch programs to run when
-there are otherwise idle processors.
+ - it is also economical to have some non-user-facing batch programs to run when there are otherwise idle processors.
 - In datacenter  server also run supervisory programs alongwith user serving programs and batch programs. 
 - For a set of parallel executions, the term **execution skew** describes the variation in completion times.
 - **Thought framework**: the framework expects developer to do latency estimation for some system under test on some offered load then do reasoning for the fixes.
@@ -63,6 +63,8 @@ there are otherwise idle processors.
  - Uncontended synchronization takes in tune of 100ns 
  - Synchronization vs atomic variables give best performance in tune of milli when contention is very less. As soon as contention increases the difference between the performance start decreasing. 
 
+# Reference
+- little [law](Reference[https://en.wikipedia.org/wiki/Little's_law])
 
 # Explore
 ## Compression

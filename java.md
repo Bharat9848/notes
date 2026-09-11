@@ -68,10 +68,16 @@
  - **Green thread model** It was old JVM implementation which abstracts out thread without leveraging native OS threading API. For OS java process is a single thread.
 ----
 ### Virtual Threads
+- Prior to virtual thread, thread implementation is wrapper over OS thread which is limited in number, beyond which application will not scale even when other resources like CPU, memory etc are still underutilized.
+- Alternate to VT is to choose reactive programming where a piece of task is distributed to some subtask and each subtask handled by different thread. While it is fine to use reactive programming for a some logical chunk of work but for a complete request handling will not harminous to java platform. As it will break stack trace and other java tool etc as they were build on a notion of a Thread as a unit of concurrency and a unit of handling a single request.
+- VT provide solution above two drawback while preserving thread per request model, it scales by sharing OS thread among VTs. 
 - Useful for concurrent tasks which are network IO based. Calling block methods like `sleep`,`wait`, `join` or `future.get()` unmounts virtual thread from platform thread. 
 - Though since virtual threads are not pooled it can cause unnecessary pressure on the called API server. Called API server need to deploy some rate-limiting mechanism.
-- There are a few differences. In particular, all virtual threads: 1. Are in a single thread group 2. Have priority NORM_PRIORITY 3. Are daemon threads.
-
+- There are a few differences in VT vs Platform thread. In particular, all virtual threads: 
+  1. Are in a single thread group 
+  2. Have priority NORM_PRIORITY 
+  3. Are daemon threads.
+  4. VTs have shallow call stack while platform thread stack is deep.
 
 
 ----
