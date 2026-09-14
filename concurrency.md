@@ -18,7 +18,8 @@
 ## locks
  ## Type
   - Mutex
-  - semaphores
+  - Semaphores: 
+    - Alternative of thread or connection pooling from caller side. use for resource sharing on the callee side.
   - circular barrier
  
  ## Pessimistic locking

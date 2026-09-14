@@ -56,13 +56,14 @@
 # Guarnteed Ads/Premium Contracts
  - Cost: CPM/CPTime Bids
 ----
+# Dynamic Allocation
 
+----
 
 # Ad Network Ads
 -----
 
 # Types
-----
 ## Search Ad
  - Search Ad words against the current searched keyword, user past data and contextual data.
 ## Display Ads
@@ -102,7 +103,7 @@
 # Targeting
  - Pre-defined Targeting Rules
 ## Contextual: 
- - User Relevance and Content relevance
+ - Content relevance
  1. Textual medium
   - It uses the environment data of current callee like webpage keyword user is reading or category pages user is browsing etc. 
   - Extract contextual data from web page content using TF-IDF etc.
@@ -188,7 +189,7 @@
   1. Quality score in ranking order
   2. lower the relevance
   3. reranking 
-  4. substite keyword by finding more matching keywords and high bid amount.
+  4. substiute keyword by finding more matching keywords and high bid amount.
 
 
 -----
@@ -312,6 +313,12 @@
   
 ----
 
+# For Publisher
+- allocation between premium vs programmatic ads.
+- If allocation decides for premium then Ad server needs to decide from contract with overlapping targeting rules.
+- If programmatic ads pays more then care would be taken to not to breach the premium contract otherwise it might invoke penality contract.
+
+-----
 
 
 ## Budget constraint bidder
@@ -332,7 +339,7 @@
 -----
 
 ## Rough
- 1. Soft floor price
+ 1. Soft floor price: setting of soft floor price in the current RTB systems puts advertisers in a less favourable position.
  2. When discussing the bidding strategy in second-price auctions in previous sections, we first demonstrate that truth-telling is the dominant strategy for utility maximizers, and for value maximizers with constraints, the optimal bidding function is derived as a linear form that does not require the knowledge of auction landscape explicitly. However, for first-price auctions, there is no trivial optimal bidding formula for both utility maximizers and value maximizers. The analytic form can only be derived with the landscape assumed explicitly, resulting in a seemingly more complex problem.
  3. The bid for bidder i for a given keyword in the above scenario becomes b0(i) = bid(i)quality-score(i). The payment to the search engine becomes `p(i) = q(i + 1)/q(i)p(i + 1)`. Therefore, if advertisers are able to get a higher quality-based score, they can reduce their cost. However, one should note that ADX also use quality-based scores to set limitations, meaning that advertisers may have to bid more to get in the competition, even if there is no competitor. For example, if the minimum allowed quality score × bid is 10 in Google AdWords, company A now has to bid at least $1 × 10 8 = $1.25 for their ad to be displayed. from paper - Internet Advertising: An Interplay among Advertisers, Online Publishers, Ad Exchanges and Web Users 
  4.
@@ -343,3 +350,4 @@
 ## References
 - [papers](https://github.com/wnzhang/rtb-papers)
 
+27 25 15

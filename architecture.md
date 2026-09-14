@@ -14,7 +14,11 @@
  - read about `ISO Standard 42010` architecture specification
  - Joseph Ingeno, in Software Architect’s Handbook
  - (architecture paper list)[https://icsa-conferences.org/series/most-influential-papers/]
-
+ - Technical Debt: How to Find It and Fix It, Designing Software
+ - Architectures: A Practical Approach, 
+ - Evaluating Software Architectures: Methods and Case Studies
+ - Ultra-Large-Scale Systems: The Software Challenge of the Future.
+  
 ### Performance
  - Foundations of Software and System Performance Engineering: Process, Performance Modeling, Requirements, Testing, Scalability, and Practice [Bondi 14].
  - Software Performance and Scalability: A Quantitative Approach [Liu 09].
@@ -235,6 +239,31 @@
   - Abstract data sources
   - Sandboxing
   - executatble assertion
+
+#### Modularity
+##### Coupling
+- Afferent Coupling: Number of incoming connection to a component or class
+- Efferent(E-exit) Coupling: Number of outgoing connection from a component or class.
+- Reference[1](Edward Yourdon and Larry Constantine published Structured Design: Fundamentals of a Discipline of Computer Program and Systems Design Prentice-Hall)
+- Abstractness: Ration of number of abstract classes/interfaces to concrete classes. In one extreme it highlights no structure in the code. And in other extreme it highlights too much abstraction which make code difficult to understand.
+- Instabilty: If a class have too much efferent/outgoing coupling then module is instable. As it depends too much on others. It is measure as proportion of outgoing connections.
+- Distance from main sequence: It is equal to `abstractness + instability -1`. Closer to zero means a class/component is a mix of balancing forces abstratness and instability. Value too much greater than zero means class/component is uselessness (too much abstraction). Other extreme marks the zone of pain too much implementation without abstraction.
+##### Cohesion
+- Best practice
+  - "Attempting to divide a cohesive module will result in increase in coupling and decreased readability"
+- Types from best to worst
+ 1. Functional - all the things related to a particular function
+ 2. Sequential - One module output become input to other
+ 3. Communicational - modules form a communication chain where each operate on some information and/or contribute to some output.
+ 4. Procedural - Two modules in a single module because of their execution in particular order.
+ 5. Temporal - coupled becuase of timing dependencies e.g all the things required at startup.
+ 6. Logical - related logically not functionally quite different e.g. all the util classes.
+ 7. Coincidental
+- Metrics: 
+ - [Chidamber and Kemerer Object-oriented metrics suite](https://en.wikipedia.org/wiki/Programming_complexity)
+ - Cyclomatic complexity: cannot distinguish between essential complexity vs accidental complexity.
+ - Lack of Cohestion in Method(LOCM): It reflects structural lack of cohesion by measuring the use of shared variables by different method of class, though methods can be perfectly cohesive. So it should be used case to case bases. It helps in refactoring.
+##### Cossance
 
 
 ## Client side error

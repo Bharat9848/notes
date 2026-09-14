@@ -32,19 +32,39 @@
 
 
 ## Stream API
+ ### Why
  - Declarative nature of stream API gives more freedom to JVM for optimize just like SQL. Why map/filter methods are not exposed on collection object, because it will unnecessarily create intermediate storage structure. Thats why stream object returned by intermediate operation is lazy.
+ ### Behavior
  - Stream object are lazy by nature and empty object that do not store any data except stateful operation. Terminal operation are eager. Can be used only once. 
- - source operation:
- - Intermediate operation:
+ - Stream processes each element one by one from all the intermediate operation to the terminal operation. Consequently stream can have short circuit method like `limit`.
+ - Stream object is a empty object. Any itermediate operation creates a new stream object.
+ - If source of stream is ordered then you get a ordered stream. 
+ - **Capturing lambda expression**: One antipattern to code is to capture a variable which is outside of stream and modify it. It takes a performance hit(???). Parallel stream might cause the race condition.
+ - Internally uses `spliterator` object which provides iteration and splitting for parallel processing of stream.
+ - Splitertor internally maintains the characteristics of stream which are `ORDERED`, `DISTINCT`, `NONNULL`(no null element in the stream), `SORTED`, `SIZED` the number of elements are known, `SUBSIZED`(splitting this stream produces two sized stream), `IMMUTABLE` and `CONCURRENT`.
+ - `ORDERED` stream internally maintains the ordinal of the element. Thats why calling `findfirst` on an ordered stream return the same element no matter number of tries. `unordered` operation deletes the maintainence of ordinal internally.
+ ### Operations
+ 1. source operation:
+  - Stream creation are available on Regex matching, Files and httpresponse. These are memory effecient as they will never use intermediatory collection to hold the data, it will be collected from the source as per the need of the source.
+ - Stream is a IO resource and It will automatically close underlying file, response etc when it is created in try-with-resource. 
+ - Iterator/Spliterator terminal operation are not eager.
+ - Infinite Stream handling
+ - Stateless behavior
+ 2. Intermediate operation:
    1. statless: Filter and Map
    2. stateful: `distinct` and `sorted` maintain some data buffer and may required multiple passes over the stream to return final result. The distinct() method can be used on unbounded (infinite) streams, the sorted() method cannot. 
    3. You need to keep in mind that every time an intermediate method is called on stream, a new stream is created. 
    4. `dropwhile` and `takewhile` produces different results from unordered stream like stream generated from set.
- - Terminal Operation.
- - Iterator/Spliterator terminal operation are not eager.
- - Infinite Stream handling
- - Stateless behavior
- - Use `mapMulti` in place of `flatmap` when number of elements to be generated out of the current element is small in number.
+   5. Use `mapMulti` in place of `flatmap` when number of elements to be generated out of the current element is small in number.
+ 3. Terminal Operation
+  - "A given stream instance can only have one intermediate(???) or terminal operation call. You cannot reuse a stream; if you try to do that, you will get an IllegalStateException."
+  - Terminal operation in parallel stream
+    - Associativity:  split elements boundaries of your streams should have no impact on the result of the computation.
+    - have an identity element
+  - `...collect(collectors.toList)` returns arraylist while `..toList()` returns an immutable list. If we know number of elements we expect in a stream we can use `...collect(Collectors.toCollection(()-> new <>List(size))`  
+  - Finding first `findFirst()` in a parallel stream of ordered stream always return the first element even in repeated retry(Rhere are some precautions taken in the implementation of the parallel stream to track which element is the first. This constitutes an overhead, so in this case, you should only call findFirst() if you really need it. Use `findAny` instead). 
+ 
+
 
 ### Best practice
  - Should not be stored in field and instance variable as stream can only be used once. It is dangerous if stream is already used and still have a reference somewhere. Therefore it should be consumed on the spot.
@@ -66,12 +86,18 @@
  - `volatile` allows visibility of a variable among threads. It should only be used for single variable load and store cpu insturctions   
  - `yield` function hints Os to select some other thread but most of the time OS ignores it.
  - **Green thread model** It was old JVM implementation which abstracts out thread without leveraging native OS threading API. For OS java process is a single thread.
+
+### Fork Join Pool
+ - Used in implementation of virtual thread schedular which schedules VT to platform thread in fifo mode. Also Forkjoin pool is used in internal implementation of parallel stream which operates in LIFO mode.
 ----
 ### Virtual Threads
 - Prior to virtual thread, thread implementation is wrapper over OS thread which is limited in number, beyond which application will not scale even when other resources like CPU, memory etc are still underutilized.
 - Alternate to VT is to choose reactive programming where a piece of task is distributed to some subtask and each subtask handled by different thread. While it is fine to use reactive programming for a some logical chunk of work but for a complete request handling will not harminous to java platform. As it will break stack trace and other java tool etc as they were build on a notion of a Thread as a unit of concurrency and a unit of handling a single request.
 - VT provide solution above two drawback while preserving thread per request model, it scales by sharing OS thread among VTs. 
-- Useful for concurrent tasks which are network IO based. Calling block methods like `sleep`,`wait`, `join` or `future.get()` unmounts virtual thread from platform thread. 
+- Useful for concurrent tasks which are network IO based. Calling block methods like `sleep`,`wait`, `join` or `future.get()` unmounts virtual thread from platform thread. Thread dumps will not show the carrier's stack frames in the virtual thread's stack, and vice-versa.Thread-local variables of the carrier are unavailable to the virtual thread, and vice-versa.
+- Stack for VTs are allocated on heap as Stack Chunk object.
+- Pinning of platform thread to virtual thread is exceptional. It is currently happen in case of any blocking call happen inside synchronized block(might be removed in future version of java) and in case of foreign function invocation.  
+ 
 - Though since virtual threads are not pooled it can cause unnecessary pressure on the called API server. Called API server need to deploy some rate-limiting mechanism.
 - There are a few differences in VT vs Platform thread. In particular, all virtual threads: 
   1. Are in a single thread group 
@@ -140,7 +166,6 @@
 
 ## Java 7
  - Read about phasers
- - read about fork-join
 
 
 ## JAVA 8
@@ -175,6 +200,11 @@
 ## Switch Expression
  - compiler throws an error if you miss adding any enum value compared to switch statement
  - better readability than switch statement.
+
+
+## References
+- [forkjoin](https://docs.oracle.com/en/java/javase/18/docs/api/java.base/java/util/concurrent/ForkJoinPool.html)
+
 ## Rough 
 End-to-End Performance Optimization: Analyze and enhance the performance of Java microservices deployed in Kubernetes environments to ensure scalability, reliability, and minimal resource consumption.
     Container & Orchestration Performance: Tune Dockerized applications for efficient resource utilization, leveraging Kubernetes features (e.g., Horizontal/Vertical Pod Autoscaling, Cluster Autoscaler, CPU/Memory limits, KEDA).
