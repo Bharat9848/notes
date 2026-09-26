@@ -1,8 +1,10 @@
+
+
 # Experiments
 - High Measurement cost: 
  1. Duration of a cost: running an experiment might take weeks or months based on the nature of domain 
  2. One experiment will may have goodwill risk for the system.
- 3. One experiment will may have cost risk for the system.
+ 3. One experiment will may have cost risk for the system.(?)
 
 
 
@@ -15,16 +17,19 @@
 ------
 
 # Stage
-## Design 
-- Calculate the number of individual element in aggregate needed to decided upon decision of experiment A and experiment B.
-- Assuming 5% error chance or false positive rate. Following equation is from analyze stage
+1. Design 
+- Calculate the minimum number of sample to take what is needed to decided upon decision of experiment A and experiment B.
+- Assuming 5% error chance or false positive rate. Delta is difference between the value of B and A. Negative value indicated B is better than A. Following equation is from analyze stage. For a normal distribution with mean zero and standard deviation one (a unit normal), 5% of the distribution falls below -1.64.
  ```math 
- 		z < -1.64
-       delta/standardError_delta < -1.64
-       standardError_delta = StandardDeviation_delta / sqrt(N)
+       delta = aggregate_B - aggregate_A                                                                       // aggregate_X = np.list(measurements).mean 
+       Standard_deviation(delta) = np.sqrt(aggregate_B^2 + aggregate_A^2)
+
+ 		 zscore of delta < -1.64                                                                                 // for difference b/w A and B to be statistically significant.  
+       delta/standardError_delta < -1.64                                                                      // z score = x-mean(X)/std(X)
+       standardError_delta = Standard_deviation(delta) / sqrt(N)
        N > (1.64 * standardDeviation_delta/delta)^2	
   ``` 
-- It will require 2N individual measurement. 
+- It will require N individual measurement for each A and B experiment. 
 - Since at design phase we do not know delta and standard deviation of delta we can assume these quantities. For delta we can assume minimum difference b/w A and B from practical business point of view. For standardDeviation_delta we must already have some data for A since system is already on A. For B's standard deviation we can assume that it will be equal to A or if we think it can be very varying from B then we can do a **pilot study** for experiment B.
 - Conventionally for A/B tesing False Negative rate of 20% and false postive rate of 5% is choosen. false negative rate which is more tolerant than false positive rate because of opportunity cost in case of false negative rate is less risky than the explicit cost of switching whole system from A to B to find that B was no better. 
 - **Power Analysis** considers false positive and false negative rate together to calculate the number of individual measurement needed for AB experiment. Imagine two bell curve for one representing expectation for delta for choosing A which should be centered at 0 and other bell curve representing expectation for delta for choosing B at least 1.64 distance away to the left A delta center. It have 20% overlap with bell curve A.
@@ -36,11 +41,11 @@
     N > (2.48 * standardDeviation_delta/delta)^2	
  ```   
 
+2. Measure
+ - Take N number of individual measurements of business metrics using randomization and replication.
+ - Calculate standard error from standard deviation of the measurements.
 
-## Measure
- - Take multiple individual measurements of business metrics using randomization and replication
-
-## Analyze
+3. Analyze
 - Expectation: True mean of a population. Though impossible to get the expectation A/B tesing strive to make decision by estimating the expection.
 - **Decision Logic**
  1. Null hypothesis: A and B are no different, the expectaion of difference is value of A and value of B is zero. Z-score is also zero.
@@ -65,3 +70,55 @@
 
 # Practical
 - Simulator
+
+
+
+# Multi-Arm Bandit
+- In AB experiment traffic is statically send traffic to A and B. If B is costly then we have to bear the cost. To make this more cheaper, multi-arm bandit algorithm entails for system to keep sending traffic to better alternative  while occasionally sends traffic to less benificial one.
+- **Regret**: after running A/B test, overall system gain is avg of A and B if system would have already chosed the better alternative than the system gain would be more. This lost opportunity is called regret. Instead if we have run Multi-Arm bandit the regret would be less. 
+- **interaction effect** when changes are not independent and have an effect on each other. It results in more than two experiments
+----
+## **Thompson Sampling**: 
+ - Use better statistic to choose better aleternative. It calculate Probability for each arm to signify if it is the best one. Then choose the arm based on the calculated probability. 
+ - 
+
+----
+## Epsilon-Greedy
+ - Uses summary statistic to choose better alternative.
+ - A variable - epsilon is used to tune scale at which to run MAB test:
+  1. complete turn-on(epsilon=0) exploit 
+  2. complete turn-off(epsilon=1) explore or
+  3. exploit at probability of (1-epsilon) versus explore at epsilon which can be some static value or A/B test.
+ - Algorithm
+ ```
+  MAP_epislon_greedy(epsilon){
+   select = null
+   if(random(0,1) < (1 - epsilon)){
+      // exploit
+      if (A_aggregate > B_aggregate) {
+         select = A
+      } else {
+         select = B
+      }
+
+   } else {
+      // explore
+      if(random(0,1) < 0.5){
+         select = A
+      } else {
+         select = B
+      }
+   }
+   return select
+  } 
+   
+ ```  
+ - when to stop the test we can choose some very low value of epsilon where epsilon value is dynamic - optimal asymptotic regret and based on the formula. Epsilor is multiplication of `noOfArms * explore_boost_factor * decaying_factor`. P.S. explore_boost_factor should be determined through experiment.
+  ```math
+   epsilon = number_of_arms * c * (BMmax/PS)/n
+   where n is number of iteration
+   BMmax is plausible max value of summary aggregate
+   PS is practical significance smallest change which is worthy to allow changes in the system.
+   c metaparameter to control how much epsilon to above 1 to make system explore more.
+  ```
+

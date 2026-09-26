@@ -2,8 +2,7 @@
 - Trial or Experiment: experiment defined which result in random outcome.
 - Sample Space: count of all the possible outcomes
 - Probabilty distribution: probability collection of statement/samples which are exclusive(no more than one statement can be true) and exhaustive(at least one statement can be true).
-- joint probability: P(A and B)
-- Marginal probability P(y2) = P(x1, y2) + P(x2, y2) + P(x3, y2) given x1,x2,x3 makes probability distribution for X. y2 belongs to event Y.
+
 
 ## Event
 Non empty portion of sample space.
@@ -114,9 +113,9 @@ Non empty portion of sample space.
 
  2. **Normal** / **Gaussian**: 
  - When Number of random variables in binomial distribution is becoming large and term `npq` is not too small then binomial distribution becomes normal distribution. It is denoted by X ~ normal(np, sqrt(npq)) where np is mean and sqrt(npq) is standard deviation. Binomial distribution starts to converge to normal distribution starting from n=30 given p is not very small.
- - Give X is normally distributed random variable `P(X=x) = (1/sqrt(2*pi)*std)* e ^ (- (x-mu)^2/2*std^2)` where mu is mean and std is standard deviation.
+ - Give X is standard normally distributed random variable `P(X=x) = (1/sqrt(2*pi)*std)* e ^ (- (x-mu)^2/2*std^2)` where mu is mean and std is standard deviation. Non-standard normal distribution is `P(X=x) = (1/sqrt(2*pi))* e^(- x^2/2)` 
  - Standard unit normal is a transformation we do to other normal distribution variable to make our calculation easier.
- 3. **Bernouli**
+ 3. **Bernouli**/
   - Bernouli distributed random variable can only take two values(0 or 1). Probability for value 1 is called `p` and probability for value 0 is called `q`. 
 
  4. **Poisson**: 
@@ -152,7 +151,32 @@ Non empty portion of sample space.
  			P(T > t) ~ P(No of poisson process in t time <= r-1) = SumAll k=0 to r-1(poisson for k events)
  			pdf = e^(-lambda*t) * lambda^r * t^(r-1) / (r-1)! 
  		```
-   
+ 10. Chi-Square distribution
+   - see statistic notes 
+
+-----
+
+## Joint Distribution
+- Probability of occuring together independent/dependent multiple random variable.
+- joint probability of independent variable : `P(X=x and Y=y) = P(X=x) * P(Y=y)` 
+- If variables are guassian then joint variable also make guassian in higer dimension.
+
+## Marginal Distribution 
+- It is defined for joint distribution or joint variables.
+- marginal probability 
+`P(y2) = P(x1, y2) + P(x2, y2) + P(x3, y2) given x1,x2,x3 makes probability distribution for X. y2 belongs to event Y`
+- Marginal probability is eliminating one of the joint variable by summing of probability of other variable for all the possible values of eliminated variable.
+
+## Conditional Distribution
+- Basis of inverse probability
+- Conditional probability of X given Y = Joint probability/ marginal probability(Y)
+`P(X=x|Y=y) = P(X,Y)/P(Y)`
+
+
+## Laplace transform
+ - ??
+
+----- 
 # References
  - DasGupta, Anirban. Probability for statistics and machine learning: fundamentals and advanced topics. New York: Springer, 2011.
 

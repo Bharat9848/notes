@@ -6,11 +6,26 @@
 - Section 2.2.4 of Advanced Data Analysis from an Elementary Point of View by Shalizi 1895–1923
 
 # Basics definition
-- Expectation: True mean of a population which cannot be measure in reality due to sheer number of volume and cost.
-- Standard Error: standard deviation of an aggregate measurement is called standard error. It is difficult to get standard error as it will require lot of aggregate measurements. Therefore its estimated from a standard deviation of single aggregated measurement as 
+ 
+- Standard Error: standard deviation of aggregate measurements is called standard error. It is difficult to get standard error as it will require lot of aggregate measurements. Therefore its estimated from a standard deviation of single aggregated measurement as 
 `se = std/sqrt(N)`
-- Expected mean is weighted average.
 
+- The z-score is a way of telling us how far away a single data value is from the mean. By replacing each value with its z-score which is `x-mean(X)/std(X)`is same as original data value. It is a very effective way of normalizing data that exists on very different scales, and also to put data in context of their mean. It makes the mean zero and std of resulting distribution as one.
+- **Statistically significant**: when the experimentation result is beyond the realm of chance variation.
+
+## Expected Value
+- Expectation: True mean of a population which cannot be measure in reality due to sheer number of volume and cost.
+- Expected mean is weighted average.
+- Properties of expected value
+ 1. E(X + Y) = E(X) + E(Y)
+ 2. Given X and Y are independent variable `E(X*Y) = E(X)* E(Y)`
+ 3. `Y = g(X) then E(Y) = E(g(X)) => Summation over x(g(x)*P(x))`
+- Mean is called first moment of data
+## Variance
+ - `Var(X) = E((X-mu)^2) mu is mean` 
+ - `Var(X) = E(X^2) - mu^2`
+ - if X and Y are independent random variable then `Var(X + Y) = Var(X) + Var(Y)`
+ - If `Var(2X) = 4 Var(X)`
 
 
 # Distribution summary
@@ -18,7 +33,7 @@
  - Summary metrics are sensitive to outliers we should consider inter-quartile range.
  - Correlation: Covariance becomes easier to understand when we normalize it by the variance of its parts i.e. `cov(X,Y)/ sqrt(var(X) * var(Y))` . It tells the linear relationship between X and Y.
 # classification problem = Discriment analysis 
-1. Quadaratic DA: possibly different covariance matrices per class,
+1. Quadaratic DA: possibly different cova riance matrices per class,
 2. Linear DA: same covariance matrix for all classes,
 3. Gaussian Naive Bayes: different diagonal covariance matrices per class, and
 4. Diagnol Linear DA: same diagonal covariance matrix for all classes.
@@ -27,7 +42,8 @@
  -- see probability notes
 
 # Bias
- - Sampling Bias: Sampling don under different condition resulting into different data.
+ - Sampling Bias: Sampling done under different condition resulting into different data. 
+ - Sample bias is when bad data is choosen which does not represent all the members of population equally or proportionaly.
  - Confounder Bias : some bias is applied differently and consistently results in different result.
 
 
@@ -59,14 +75,21 @@
  
 - **Two sided test**
  
-- **Statistically significant**: when the result is beyond the realm of chance variation.
+
 
 ## Chi-square test
- - Very effective of categorical features.
- - It is used with count data to see how fit it is the expected distribution. Chi-square statistics measure the dispersion between expected and observed data. Chi square distribution is skewed with a long tail to the right.
- - provides p-values that signify dependence between two random variable
- - Chisquare score `X^2 =  SumAll(Osubi - Esubi)^2/Esubi`
+ - It is used with count data(categorical features) to see how fit it is the expected distribution. Chi-square statistics measure the dispersion between expected and observed data. Chi square distribution is skewed with a long tail to the right.
+ - provides p-values that signify dependence between two random variable ???
+ - Chisquare score `X^2 =  SumAll(Osubi - Esubi)^2/Esubi`  
+ - Calculate error from expected distribution and obtained values `error = Expected value - obtained value` and squaring the error should follow normal distribution. Sum of the square of the error should follow Chi-square distribution. `P(X=x) = (1/sqrt(2*pi))* (x^(-1/2) * e^(-x/2)`
  - "categorical data, especially where the relationship between features and the target variable is non-linear, chi-squared proves to be a valuable method for feature selection. However, its suitability diminishes for continuous or highly correlated features, where alternative feature selection methods may be more fitting."
+
+## Sampling
+1. Bootstrap Sampling
+2. permutation tests. In permutation test multiple dataset are combined and resuffled. Then datasets are again choosen in same numbers as the original size and statistics of interest again completed.
+    The number of degree of freedom forms the calculation to standerdize test statistics so that they can be compared to reference distribution e.g. t-distribution and F-distribtion. The concept of Degree of freedom lies behind factoring of categorical variables into n-1 indicator or dummy variables when doing regression (to avoid multicollinearity)
+3. Sampling with replacement : choosing an element from the population for the sample but also put copy of element again in the popultion to get rechoosen again.
+4. Stratified Sampling: Sample bias is when bad data is choosen which does not represent all the members of population equally or proportionaly. It results into wrong predictions. Stratified Sampling is used to solve sample bias. Given a population with homogenous subgroup then sampling according to proportion of a strata is what entails the stratified sampling
 
 # References
  - Dangeti, Pratap. Statistics for machine learning. Packt Publishing Ltd, 2017.
@@ -74,6 +97,7 @@
  - The Drunkard’s Walk by Leonard Mlodinow (Vintage Books, 2008) is a readable survey of the ways in which “randomness rules our lives.”
  - David Freedman, Robert Pisani, and Roger Purves’s classic statistics text Statistics, 4th ed. (W. W. Norton, 2007) 
 
+## Rough
     Measuring center of dataset : 1. Mean is sensitive to outliers its beneficial to use mean if dataset member are close to each other or variation in dataset is minimum. one minute/hour rollup (???). If it is used for measurement then it can lead to spike erosion as the mean data averages out over the large period of time. sample mean is represented using x-bar and population mean is represented using greek symbol mue. 2. Median: On the other hand median of sorted dataset is not sensitive to outliers, then its a good measurement of center if your dataset is suffering from outliers. median is less sensitive to data than mean. 3. Mode highest frequency value. its mainly used for categorical data or proportional data.
 
     Measuring tail of dataset: 1. Quantile is a flexible tool that offers an alternative to the classical summary statistics which is less susceptible to outliers.The (empirical) cumulative distribution function CDF(y) for dataset X, at a value y, is the ratio of samples that are lower than the value y.
@@ -82,7 +106,7 @@
 
     The coefficient of variation is defined as the ratio of the data’s standard deviation to its mean.We use this measure frequently when attempting to compare means, and it spreads across populations that exist at different scales.
 
-    The z-score is a way of telling us how far away a single data value is from the mean. By replacing each value with its z-score is same as original data value. It is a very effective way of normalizing data that exists on very different scales, and also to put data in context of their mean.
+
 
     Assumption : Many statistical tests and hypotheses require the underlying data to come from a normally distributed population.
 
@@ -105,11 +129,7 @@
     Correlation matrix is a matrix representaion of two or more random variables correlation cofficients e.g. X Y {{1.00 0.67} {0.67 1.00}}. Note correlation cofficient is 1 for a variable with itself since its perfectly correlatable with itself.
 
     Sampling
-    Big data use cases are when not only data is in big quantity but also when its sparse enough.
-    Two main type of resampling technique : Bootstating and permutation tests. In permutation test multiple dataset are combined and resuffled. Then datasets are again choosen in same numbers as the original size and statistics of interest again completed.
-    The number of degree of freedom forms the calculation to standerdize test statistics so that they can be compared to reference distribution e.g. t-distribution and F-distribtion. The concept of Degree of freedom lies behind factoring of categorical variables into n-1 indicator or dummy variables when doing regression (to avoid multicollinearity)
-    Sampling with replacement : choosing an element from the population for the sample but also put copy of element again in the popultion to get rechoosen again.
-    Sample bias is when bad data is choosen which does not represent all the members of population equally or proportionaly. It results into wrong predictions. Stratified Sampling is used to solve sample bias. Given a population with homogenous subgroup then sampling according to proportion of a strata is what entails the stratified sampling
+
 
     Error bias is other form of bias in which data is incorrect due to incorrect sampling process.
 

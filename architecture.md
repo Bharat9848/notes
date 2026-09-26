@@ -263,7 +263,8 @@
  - [Chidamber and Kemerer Object-oriented metrics suite](https://en.wikipedia.org/wiki/Programming_complexity)
  - Cyclomatic complexity: cannot distinguish between essential complexity vs accidental complexity.
  - Lack of Cohestion in Method(LOCM): It reflects structural lack of cohesion by measuring the use of shared variables by different method of class, though methods can be perfectly cohesive. So it should be used case to case bases. It helps in refactoring.
-##### Cossance
+##### Cossascence
+ - Definition: two component is cossascence if change in one require the change in other to be modified in order to maintain the overall correctness of the system.
 
 
 ## Client side error
