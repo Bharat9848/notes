@@ -1,93 +1,118 @@
 # Evaluation
+
 ----
+# Type
 ## Offline evaluation
   - Test suite
 ## Online evaluation
   - Telemetry
   - Tracing with sampling
   - User feedback
-    - Thumbs up and down (with feedback form).It has disadvantage of users generally do not give feedback
+    - Thumbs up and down (with feedback form). Sentiment analysis on user feedback. It has disadvantage of users generally do not give feedback.
+    - Net promoter score: Ask user to score on how likely he/she recommends the system to other user for a given task. High score of 9 or 10 is called promotor and low score of 0 to 6 is called detractor. NPS is `%promoter - %detractor`. 
   - Implicit Feedback
     - Acceptance of Agent answer by the user by some kind of telemetry.
+    - AB testing can be used to evaluate different version of prompt.
 
 ----
-## Agent Evaluation
-- complex to test so it also required LLM tracing
+# Type
+## Agent/Component Evaluation
+- It require LLM tracing to know about all in b/w steps.
+1. Evaluate tools:
+  - unit/integration test cases for tools and test the deterministic part.
+2. Evaluate planning/Orchestrator
+  - sequencing of tool calls.
+  - decision based on conditional cases.
+  - Stop early based on execution result. 
 
-## Metrics
- - **correctness**: llm answer is based on a fact.
- - **relevance**: llm able to interpret the input and return answer which is informative and concise.
- - **semantic similarity**
- - **hallucination**: llm fakes the answer.
+## End-to-End/System Evaluation
+- Goal is to test complex interactions, emergent behaviors(unexpected behavior) and end-to-end issues
+- constructing representative workflows or user journeys.
+- Simulated convesation for multi-turn conversations.
+- both LLM and human evaluation is needed in case of multi-agent application.
 
- - **responsible metrics**
 
- - **Agent Completion**
- 
- - **custom task specific metrics**: 
- 1. Task Completion: 
-  - requires tracing input to LLM as a judge
-  - [tracing](https://deepeval.com/docs/evaluation-llm-tracing)
-  - [task completion](https://deepeval.com/docs/metrics-task-completion)
- 2. Plan Quality
-  - requires tracing input to LLM-as-a-judge
-  - checks for agent reasoning and soundedness for task completion
- 3. Plan Adherence:
-  - checks whether LLM is adhering to its plan
- 4. Step Efficiency:
-  - checks for any redundant steps.
+-----
+
+# Failure Modes
+ 1. Hallucination:
+  - Factually incorrect statement: 
+  - "When exact ground-truth data isn’t accessible, one alternative strategy is conducting consistency checks across multiple generations of the model’s responses to detect contradictions or instability." ???
+  - In RAG based system, hallucination are due to low-quality and wrong document fetched during retriever phase.
+ 2. Prompt regression:
+  - happen due to even minor changes in prompt cause degradation of quality of response generation.
+ 3. Latency Spikes:
+ 4. Data drift
+  - User behavior changes over time changing the input.
+  - relevance of RAG document decline over time.
+ 5. Inconsistent Behavior
+ 6. Ethical and Compliance fixes  
+
+
+# Metrics
+## Agent Metrics
+ 1. Answer Quality 
+ - **Correctness** or **Factualness**: Agent/System answer is based on a fact. Its answer is not a hallucination. Its providing enough references.
+ - **Relevance**: Agent/system able to interpret the input and returned answer which is informative, concise and relevant to the question.
+ - **Completeness**: Answer is a complete response to the input
+ - **Consistency**: System answer is consistent with the expectation all the time.
+ 2. Generative metrics
+ - **Coherence**: Agent remembers context and conversation provide contextually relevant answer. It is especially measured in case of long conversation multi-turn scenarios.
+ - Fluency: Answer is grammatically correct and readable.
+## Multi-Agent metrics 
+ 1. **custom task specific metrics**: 
+  1. Task Completion: 
+   - requires tracing input to LLM as a judge
+   - [tracing](https://deepeval.com/docs/evaluation-llm-tracing)
+   - [task completion](https://deepeval.com/docs/metrics-task-completion)
+  2. Plan Quality
+   - requires tracing input to LLM-as-a-judge
+   - checks for agent reasoning and soundedness for task completion
+  3. Plan Adherence:
+   - checks whether LLM is adhering to its plan
+  4. Step Efficiency:
+   - checks for any redundant steps.
+ 2. complex metrics
+  - formatting and injection metrics
+ 3. Performance metrics for LLMs
+ 4. RAG metrics
+ 5. output json/schema conformance metrics
+ 6. User feedback metrics  
     
-- **Tool related metrics**: 
+## Tool related metrics 
  1. Argument Correctness
   - Based on LLM input argument generation for tool call was correct or not.
   - tested using LLM as a judge
 
  2. Tool correctness metrics
   - deterministic test whether LLM was able to choose the right tool. 
-
-## Testing type
-- End to End
-- component level testing: valid only in case of multi agent design
-  
-## Testing scenarios
-- fault tool call
-- infinite loops
-- hallucination
-- instruction drift
-- wrong tool selection
+## LLM Metrics
+  - Some LLMs are very sensitive the input tone if it particularly matches the training data. E.g. Some LLM do better when asked politely while other do better when asked to think step by step[paper](https://oreil.ly/YIrYf).
+  - Benchmark score for general tasks.
+  - LLM paraphrase the part of the question in the answer to generate a false sense of relevancy but overall quality of answer is low. 
 
 ----
 
-## LLM Evaluation
- - LLM Metrics 
-  1. cohrence - collective quality of all sentences in the actual output.
-  2. consistency
-  3. Fluency
-  4. Relevance
-  5. AVG
-
-----
-
-## RAG Evaluation
-### Metrics
+# RAG Evaluation
+## Metrics
 - Answer-Relevance: Answer is relevant to the user question. LLM will act as evaluator behind the scene. IT will return additional chain of thought reasoning behind the score. Scores are in b/w 0-1.
 - Groundedness: answer is based on the context provided
 - Context-Relevance: It checks if context is relevant to user query. Each chunk is evaluated against the user input. Final score would be mean of all relevance scores. 
  - **RAG Faithfulness** It measures generated answer is based on provided context
-### General Testing Guidelines
+## General Testing Guidelines
 - generate a high quality dataset - labeled by human,statistically significant,Data diversity
 - check for relevancy when asked broader question. 
   1. Questions that can span multiple documents.
 - check for relevancy when asked specific question 
 
-### Component Testing
+## Component Testing
 1. Retriever testing
- - context-relevance measures the context suitness with the user query
- - Context precision/Hit rate: Document retrieved from the search how relevant they are to query.
+ - context-relevance measures the context suitness with the user query. Harmonic mean of precision and recall.
+ - Context precision/Hit rate: Document retrieved from the search how relevant they are to query. Measured as percentage.
  - context recall: of all the documents that are relevant to query, how many of those are fetched
- - Mean Average Precision(MAP@K): sum of scores of relevant document only, divided by number of relevant documents.
- - Reciprocal rank measure the position of first relevant document and is calculated by `1/position`.
- - Mean Reciprocal Rank: average of many reciprocal ranks.
+ - Mean Average Precision(MAP@K): sum of scores(score definition ??) of relevant document only, divided by number of relevant documents.
+ - Mean Reciprocal Rank: Reciprocal rank measure the position of first relevant document and is calculated by `1/position`. average of many reciprocal ranks.
+ - Embedding similarity Drift detection: Statistical distribution difference between the documents and the query. Drift detection requires retraining of document and reindexing. 
 
 2. Generator testing
   - see LLM benchmark in ai-llm.md
@@ -107,8 +132,6 @@
 5. end-to-end 
   - answer-correctness: Answer is compared to grounded truth
   - answer-similarity: semantic similarity between grounded truth and answer
-### Process to generate RAG testing dataset
-
 
 ----
 
@@ -122,35 +145,79 @@
 ### Model based
 1. Natural Language Inference (NLI) scorer measures entailment, contradictory or irrelevant b/w llm answer and given reference text.
 2. BiLingual Evaluation Understudy with Representation from Transformer: uses pre-trained BERT model to score LLM and some reference text
-3. G-Eval framework:
+3. G-Eval framework: LLM based checking of fluency, grammatically and factual correctness.
 4. DAG based framework: useful in usecases where some kind of order or priortization of output feature. High priority output feature are tested before and based on success output is evaluated of lower priority feature of output. Finaly each leaf node is marked with hardcoded score that was returned.
 5. Prometheus: Uses reference text and score ruberic to return final score. 
-
+6. GPTScore: see paper
+7. UniEval: Use an ensamble of LLMs to check fluency, grammatically and factual correctness.
+8. TRUE: Uses other LLMs to assess factual correctness and identify potential factual hallucinations.
 ### Statistical and model based
-- BERTScore: compares reference text and llm output.
+- BERTScore: compares reference text and llm output for overlap and fluency.
 - MoverScore: calculate score by measuring minimum distance between reference text and llm output.
 - QAG score: Very useful for calculating faithfulness. First it generates all the claims from the output and generate close ended question for each claim. Claim is then checked against given grounded truth for its existance.
-- GPTScore: see paper
-- SelfCheckGPT: see paper. Can only be used for hallucination detection
+- SelfCheckGPT: see paper. Can only be used for hallucination detection.
+- SemScore: Checks whether the output and reference text convey the same meaning and intent as the reference text.
+
+
 
 ----
+## Observability matureness
+Stage1: Threshold based alerts
+stage2: Statistical anomaly detection
+  - Statistical calculation of Z-score and moving average can help find the anomalies that cannot be detected using threshold based alerts.
+Stage3: Drift detection:
+  - overtime plotting of drift in user input against retrieval documents
+Stage4: Human feedback signal.
 
-## Evaluation pipeline
+# Evaluation pipeline
+1. **Metric Selection**
  - Not to use more than 5 LLM evaluation metrics in your evaluation pipeline. Otherwise you will be measuring lot of things which will good as not measuring at all.
   - use 1-2 custom metrics (G-Eval or DAG) that are use case specific
   - 2-3 generic metrics (RAG, agentic, or conversational) that are system specific
- - regression suite to test all the functionalities.
- - user feedback of like/dislike if possible with detail rejection reasoning.
+  - Metrics can be based on qualitatative like user staisfaction or quantative measurement like latency, accuracy etc. 
+2. Framing high priority use cases as scenario.
+  - Scenario should cover wide variety of usecases.
+  - It should evolve with changing behaviour and target.
+  - Production logs can be scanned to check wide variety of scenarios.
+  - Scenario should be present in structured format.
+  - LLM can be used to introduce ambiguity, inject rare idiom etc.
+  - Add advance scenario for subtle scenario
+    - Adversarial prompting: find a user message that causes the agent to contradict itself.
+    - Counterfactual prompting: change the word in the prompt and see if agent fails.
+    - distributional interpolation: blend two prompts to create ambiguous request.
+3. Metric measurement
+ - For subtle metrics like user satisfaction
+   1. user feedback of like/dislike if possible with detail rejection reasoning.
+   2. Human in the loop review
  - What
-   1. Evaluation can happen at different levels: per-task, per-turn and per-intermediate output.
-   2. per-turn should evaluate quality to each output.
-   3. per-task should evaluate no of iterations model took to solve the problem.
-   4. define what inputs are out of the scope of your application, how to detect them and how your application should respond to them. 
-   5. test queries, ideally real user queries test on relvance, factual correctness and safety.
-   6. On this scoring system, create a rubric with examples. What does a response with a score of 1 look like and why does it deserve a 1? Validate your rubric with humans: yourself, coworkers, friends, etc. 
-   7. business metrics
+   1. Evaluation can happen at different levels: per-task, per-turn and per-intermediate output. per-turn should evaluate quality to each output. per-task should evaluate no of iterations model took to solve the problem.
+   2. define what inputs are out of the scope of your application, how to detect them and how your application should respond to them. 
+   3. test queries, ideally real user queries test on relvance, factual correctness and safety.
+   4. On this scoring system, create a rubric with examples. What does a response with a score of 1 look like and why does it deserve a 1? Validate your rubric with humans: yourself, coworkers, friends, etc. 
+   5. business metrics
+   6. Prompt evaluation: 
+      1. Sytatically valid, free from error and correctly formatted.
+      2. semantically correct provide clear unambiguous instructions that aligned with model expeced input
+      3. Every prompt should be traced back to its version.
+   7. See Rag evaluation notes above.
+   8. Output validation
+     - Fluency
+     - Hallucination rate ??
+     - Latency
+   9. Token tracking: 
+     - Input/output token usage to detect any truncation
+     - Abrupt shift in completion length indicate truncation error or latent internal failures.
+  10. "Self-consistency checks, which compare multiple generations of the same prompt, can identify outputs that are superficially fluent but inconsistent or contradictory"
+  11. confidence scores derived from auxiliary evaluators or specialized classifiers help flag outputs that deviate from the expected factual or ethical standards.
+  12. postprocessing final out Json schema validation
+
  - Human feeback [linkedin](https://www.linkedin.com/blog/engineering/generative-ai/musings-on-building-a-generative-ai-product)
  - [examples](https://arxiv.org/abs/2306.09479) 
+
+## regression 
+- Test suite to test all the functionalities.
+
+------
 
 ### Model selection
  - prompt engineering might start with the strongest model overall to evaluate feasibility and then work backward to see if smaller models would work.
@@ -169,7 +236,7 @@
   5. Bit-per-byte: How much bits language model uses for a training set byte.
 
 
-
+------
 
 ### Model quality framework
 - Evaluation criteria based on application
@@ -297,10 +364,21 @@ steps to follow below
  - [trulens](https://www.trulens.org/getting_started/core_concepts/feedback_functions/)
  - [SelfcheckGPT](paper)
  - [GPTScorer](paper)
+ - CoreWeave. n.d. [Weights & Biases](https://wandb.ai/site), accessed May 21, 2025.
+ - Hendrycks, Dan, et al. “Measuring Massive Multitask Language Understanding”(https://oreil.ly/0xT-x), arXiv, January 2021.
+ - Honovich, Or, et al. “TRUE: Re-Evaluating Factual Consistency Evaluation”(https://oreil.ly/UwZvJ), arXiv, May 2022.
+ - LangSmith. n.d. “Get Started with LangSmith”(https://oreil.ly/F8EVF), accessed May 21, 2025.
+ - Lin, Stephanie, et al. “TruthfulQA: Measuring How Models Mimic Human False‐ hoods”(https://oreil.ly/adQ-N), arXiv, May 2022.
+ - Wang, Alex, et al. “GLUE: A Multi-Task Benchmark and Analysis Platform for Natural Language Understanding”(https://oreil.ly/rcLR4), arXiv, February 2019.
+ - Wang, Alex, et al. “SuperGLUE: A Stickier Benchmark for General-Purpose Language Understanding Systems”(https://oreil.ly/mpepc), arXiv, February 2020.
+ - Wei, Jason, et al. [“Chain-of-Thought Prompting Elicits Reasoning in Large Language Models”](https://oreil.ly/YIrYf), arXiv, January 2023.
+ - Zellers, Rowan, et al. [“HellaSwag: Can a Machine Really Finish Your Sentence?”](https://oreil.ly/2VpX9), arXiv, May 2019.
+ - Zhong, Ming, et al. [“Towards a Unified Multi-Dimensional Evaluator for Text Generation”](https://oreil.ly/nMMsh), arXiv, October 2022.
 
  ---
 
 # Generate Golden dataset
+
 1. for each document/chunk generate question using following prompt
 ```
 "Context information is below.\n"

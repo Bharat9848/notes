@@ -80,8 +80,11 @@
 ----
 ## **Thompson Sampling**: 
  - Use better statistic to choose better aleternative. It calculate Probability for each arm to signify if it is the best one. Then choose the arm based on the calculated probability. 
- - 
-
+ - Bootstrap sampling can be used to calculate for each arm to get the aggregate measures. But it is expensive each time we want to choose the data as it is of O(T)^2.
+ - Online Bootstrap algorithm helps in performance improvement it maintains the number of bootstrap samples as it process the new data. It choose randomly from already maintained samples.
+ - Number of bootstrap samples is usually in tune of 100 or it can be large but it will be less faster.
+ - estimate of CTR should be precise enough to the required practical significance. Fixing discretization error we can calculate the size of sample in single bootstrap aggregate sample .
+ - O. Chapelle and L. Li, “An empirical evaluation of Thompson sampling,” in Proc. 24th Int. Conf. on Neural Information Processing Systems, 2011, pp. 2249-2257).
 ----
 ## Epsilon-Greedy
  - Uses summary statistic to choose better alternative.

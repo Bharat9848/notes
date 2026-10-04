@@ -265,6 +265,21 @@
  - Lack of Cohestion in Method(LOCM): It reflects structural lack of cohesion by measuring the use of shared variables by different method of class, though methods can be perfectly cohesive. So it should be used case to case bases. It helps in refactoring.
 ##### Cossascence
  - Definition: two component is cossascence if change in one require the change in other to be modified in order to maintain the overall correctness of the system.
+ - It is of two types: Dyanmic and static.
+ - Static cossascence: 
+  - Connascence of Name: Name of a method
+  - Connascence of Type:
+  - Connascence of Meaning/convention:
+  - Connascence of Position
+  - Connascence of algorithm
+ - Dynamic Cossascence:
+  - Connascence of execution
+  - Connascence of Timing
+  - Connascence of Values
+  - Connascence of identity
+ - Some connascence are desirable like connascence of name and type other connascenece should be refactored to connascence of name and type. e.g. A magic number in multiple classes can be refactored to connascence of name by making magic number by declaring it a public constant. Order of connascnece from the undesirable to desirable as following - identity, value, timing, execution, position, algorithm, meaning, type and name.
+ - Connascence also affected by locality - more local the connasence location is more better it is than connascence at some remote location.
+ - Connascence is guide for coupling.
 
 
 ## Client side error

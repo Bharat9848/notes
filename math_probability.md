@@ -62,6 +62,7 @@ Non empty portion of sample space.
 
 ## Transforming function from one random variable to other
  - We cannot apply transforming function to a PDF of a random variable but we can do the same to the CDF of the variable. We start from CDF of transformed random variable to the equivalent of CDF of given random variable then take derivative of CDF to arrive at PDF of new random variable. 
+ - See expectation notes in statistics for change in mean and variation of new random variable.
 
 # Conditional probability
 
@@ -172,10 +173,15 @@ Non empty portion of sample space.
 - Conditional probability of X given Y = Joint probability/ marginal probability(Y)
 `P(X=x|Y=y) = P(X,Y)/P(Y)`
 
-
+----
 ## Laplace transform
  - ??
+----
+## Markov Inequality
+ - if X >= 0 then P(X >= a) <= E(X)/a
 
+## ChebySgev Inequality
+ - P(|X - mu| >= a) <= sigma^2/a^2
 ----- 
 # References
  - DasGupta, Anirban. Probability for statistics and machine learning: fundamentals and advanced topics. New York: Springer, 2011.

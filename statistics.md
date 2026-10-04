@@ -19,7 +19,7 @@
 - Properties of expected value
  1. E(X + Y) = E(X) + E(Y)
  2. Given X and Y are independent variable `E(X*Y) = E(X)* E(Y)`
- 3. `Y = g(X) then E(Y) = E(g(X)) => Summation over x(g(x)*P(x))`
+ 3. `Y = g(X) then E(Y) = E(g(X)) => Summation over x(g(x)*P(x)) or calculus(g(x)*f(x)dx)`
 - Mean is called first moment of data
 ## Variance
  - `Var(X) = E((X-mu)^2) mu is mean` 
