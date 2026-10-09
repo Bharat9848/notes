@@ -19,7 +19,7 @@
  - Evaluating Software Architectures: Methods and Case Studies
  - Ultra-Large-Scale Systems: The Software Challenge of the Future.
   
-### Performance
+### Performance Books
  - Foundations of Software and System Performance Engineering: Process, Performance Modeling, Requirements, Testing, Scalability, and Practice [Bondi 14].
  - Software Performance and Scalability: A Quantitative Approach [Liu 09].
  - Performance Solutions: A Practical Guide to Creating Responsive, Scalable Software[Smith 01].
@@ -59,7 +59,7 @@
 
  - Architecture focuses on why part of system, while design focuses on how part of the system.
  ## Difference between architecture and design
-  -  former is structural and the latter is more easily changed
+  -  former is structural and the latter is more easily change
 
  - Documentation of quality attribute using architecture pattern tactics should document where tactics are present, assumptions and rationale behind using or not using it.
 ----
@@ -68,7 +68,7 @@
  - They are guidance not rules.
  - Examples
   - application silos: database belongs to an application cannot be changed/accessed by other teams.
-  - 
+   
 
 # Tools
 
@@ -88,92 +88,22 @@
  - Separation of concern
  - information hiding module should hide the changeable aspect and expose the well defined interface to other module.
 
-#### Microservices
+-----
+# Microservices
   - Size of microservices
   - Bounded contexts are microservices design principle which make transactionality its primary concern.
   - microservices granalurity vs deployability tradeoff
 
+# Microkernel
+ - Supprt customizability better because of plugin architecture
+ - microkernel vs template method ??
+------
+
 ### Component and connectors structure
 
-### non functional qualities
-#### Modifiability 
-  - producer should be separated from consumer. Contract changes between modules should happen incremently. Changes should affect minimum modules. 
-  - Measure: wall clock time required to build, test and deploy the changes
-  - Changing part frequently without introducing modifiability mechanism can incur technical debt.
-  - high cohesion, low coupling, size of the system and binding time of modification are properties which helps in modifiability of the system.
-  - For high cohesion - splitting module cohesively and putting similar functionality in a single module, are tactics.
-  - For reduce coupling - encapsulation, use an intermediary, abstract common service and restrict dependencies are some of the tactics.
-  - For defer binding - component replacemnt, compile-time parameterization, Aspects, configuration-time binding, resouce files, discovery, interpret parameters, shared repositories and polymorphism.
-
-
-#### Performance 
-  - Response time comprises of two major factor - processing time and blocking time.
-  - Blocking time can be futher attributed to some resource contention, non-availability of resource or dependency on some other computation.
-  - critical path should be analyzed for unnecessary memory allocation, make batch calls wherever possible and minimum no of system call and good concurrency model. 
-  - small data structured should be copied from stack to stack, whereas big data structure are allocated on heap and shared by reference.
-  - Tactics can be characterized by controlling the demand on resource or managing resource more effectively.
-    1. controlling the demand
-     - SLAs constraint the client as well as server. It defines the processing of X messages within Y amount of time. If client sends more than X messages than it breaks the SLA.
-     - Reduce Event Sampling : Given there is some quality degradation but it is still good enough. System can reduce or sample requests.
-     - limit event response: log and discard extra events
-     - priortize events
-     - increse computational effeiciency: reduce use of intermediaries, co-locating components and periodic cleanup.
-     - Bound execution time: can be time bound on intermediatory computations or no of loops in data driven algorithms
-     - Improve algorithms to make more efficient programs. 
-    2. Manage resource:
-     - increase resources, use concurrency, Caching and replication, bound queue size, and schedule resources. 
-  - Pattern for performance
-    1. service mesh: side car deployed with microsevices for implementation, management and maintainence of cross cutting concerns like interservice communication, security, monitoring etc.
-
-  1. **Latency**: 
-    - time each component, use of shared resources, inter element communication frequency and volume.
-    - e.g. Stock exchange etc
-  2. **Throughput**
-    - Batching of messages in messages exchange system like kafka
-    - binary messaging alongwith compression
-    - no copy of data in different system in between intermediateries.
-       
-#### Security
- - security are defined using three common principle - Confidentiality, Integrity and Availability.
- - introduce safeguards against your critical data. 
- - special authorization policy.
- - **Attack Tree** that defines from the root - successful attact to leave nodes - shows breakdown on CIA properties of the system as a result of the attack.
- - Tactics includes - Detect, resist, react and recover
- - Detect
-  - detect some malicious pattern in data or traffic.
-  - Detect service denial compares current network of traffic to historical traffic pattern.
-  - Checksum to check message integrity
-  - Detect man-in-the-middle attack by comparing message delivery times or abnormal connection drops.
- - Resist
-  - Authenticate, Authorize, Encryption
-  - Limit accessibility using limited allowed API, internal firewall, validate input, regular security settings updation
-  - Limit exposure - resources are siloed in such a way that demage from a attack is minimum
- - React
-  - Revoke access, lock an account and inform actual user.
-
-
-#### Safety
- - keep part of the system functional even though part of system is under fault.
- - keep the system out of hazardous state.
- - occurs due to wrong timing of event or series of events, omission or commission of right or wrong event respectively.
- - safety tactics broadly classified in unsafe state avoidance, unsafe state detected and unsafe state remediation.
- - Subsitution - removing something complicated and dangerous requirement with simple solution like hardware instead of software solution
- - Predictive model runs to figure out unhealthy state before its occurance.
- - Substitution and predictive model are tatics for unsafe state avoidance.
- - Unsafe state detection tatics include timeout, timestamp, condition monitoring (assumption checking using assertions etc), sanity checking and comparison( with redundant components).
- - Containment tactics include replication, functional redundancy(to counter software implementation error by having different implementation), analytical redundancy (to counter implementation and specification error).
- - Limit consequences tactics include abort, degradation and masking (masking by overriding redundant voting participents)
- - Barrier tatics include firewall and interlock
- - Recovery tactics include repair, rollback and reconfiguration. 
- - **Redundant sensor** 
- - **Monitor/actuator** are software elements actuator controller calculate the values before sending it to physical actuator and monitor do the testing of value before sending it to physical actuator.
- - **Separate safety** In safety critical systems it is best to have separate safety critical and non critical part of system. safety critical system should be certified from some authorized agency. In safety critical system component-safety are divided into categories based on hazardous level.
-
-#### Reliability
-- It is quality which enables a service to able perform some action in specified time.
-- Mean time to repair(MTTR) and Mean Time Between Failure are the reliability measures. 
-
-#### Availability
+# Non Functional Qualities/Architecture Characteristics
+## Operational Characteristics
+### Availability
  - It encompasses reliability, failure recovery and robustness.
  - It prevents fault manifestion into failure with lot of intermediatory/cascading errors. 
  - Fault can be prevented, tolerated, removed and forecast.
@@ -199,14 +129,79 @@
      7. graceful degradation - circuit breaker and throttling
      8. Reconfiguration it tries to switch to non-fault one
 
-#### Usability
- - Anticipate user behaviour or human friendly feedbacks.
- - support user initiative: includes cancel, undo, aggregate, pause/resume
- - support system initiative: maintain task model, maintain user model and maintain system model.
- - Pattern of usability includes Model-view-controller, observer and memento. see designPattern.md for more details
+### Continuity
+ - Disaster recovery capability.
+ - Business continuity requirement: have backing strategy and requirement for duplicated hardware.
+
+### Performance 
+  - Response time comprises of two major factor - processing time and blocking time.
+  - Blocking time can be futher attributed to some resource contention, non-availability of resource or dependency on some other computation.
+  - critical path should be analyzed for unnecessary memory allocation, make batch calls wherever possible and minimum no of system call and good concurrency model. 
+  - small data structured should be copied from stack to stack, whereas big data structure are allocated on heap and shared by reference.
+  - Tactics can be characterized by controlling the demand on resource or managing resource more effectively.
+    1. controlling the demand
+     - SLAs constraint the client as well as server. It defines the processing of X messages within Y amount of time. If client sends more than X messages than it breaks the SLA.
+     - Reduce Event Sampling : Given there is some quality degradation but it is still good enough. System can reduce or sample requests.
+     - limit event response: log and discard extra events
+     - priortize events
+     - increse computational effeiciency: reduce use of intermediaries, co-locating components and periodic cleanup.
+     - Bound execution time: can be time bound on intermediatory computations or no of loops in data driven algorithms
+     - Improve algorithms to make more efficient programs. 
+    2. Manage resource:
+     - increase resources, use concurrency, Caching and replication, bound queue size, and schedule resources. 
+  - Pattern for performance
+    1. service mesh: side car deployed with microsevices for implementation, management and maintainence of cross cutting concerns like interservice communication, security, monitoring etc.
+
+  1. **Latency**: 
+    - time each component, use of shared resources, inter element communication frequency and volume.
+    - e.g. Stock exchange etc
+  2. **Throughput**
+    - Batching of messages in messages exchange system like kafka
+    - binary messaging alongwith compression
+    - no copy of data in different system in between intermediateries.
+  - Performance Testing: See testing notes
+
+### Reliability/Safety/Robustness
+ - It is quality which enables a service to able perform some action in specified time.
+ - Mean time to repair(MTTR) and Mean Time Between Failure are the reliability measures. 
+ - keep part of the system functional even though part of system is under fault.
+ - keep the system out of hazardous state.
+ - occurs due to wrong timing of event or series of events, omission or commission of right or wrong event respectively.
+ - safety tactics broadly classified in 
+   - unsafe state avoidance, 
+     1. Subsitution - removing something complicated and dangerous requirement with simple solution like hardware instead of software solution
+     2. Predictive model runs to figure out unhealthy state before its occurance.
+   - unsafe state detected
+     1. Unsafe state detection tatics include timeout, timestamp, condition monitoring (assumption checking using assertions etc), sanity checking and comparison( with redundant components).
+   - unsafe state remediation.
+     1. Containment tactics include replication, functional redundancy(to counter software implementation error by having different implementation), analytical redundancy (to counter implementation and specification error).
+     2. Limit consequences tactics include abort, degradation and masking (masking by overriding redundant voting participents)
+     3. Barrier tatics include firewall and interlock
+     4. Recovery tactics include repair, rollback and reconfiguration. 
+     5. **Redundant sensor** 
+     6. **Monitor/actuator** are software elements actuator controller calculate the values before sending it to physical actuator and monitor do the testing of value before sending it to physical actuator.
+ - **Separate safety** In safety critical systems it is best to have separate safety critical and non critical part of system. safety critical system should be certified from some authorized agency. In safety critical system component-safety are divided into categories based on hazardous level.
+ - Integration with other system like map services etc can degrade system reliability.
+
+### Scalability
+- Operate system to perform and operate under increase in load.
+- concurrent users.
+
+### Elasticity
+- It is different from scalability as it is system's ability to stretch/shrink in short span of time. 
 
 
-#### Deployability
+## Structural Characteristics
+### Modifiability 
+  - producer should be separated from consumer. Contract changes between modules should happen incremently. Changes should affect minimum modules. 
+  - Measure: wall clock time required to build, test and deploy the changes
+  - Changing part frequently without introducing modifiability mechanism can incur technical debt.
+  - high cohesion, low coupling, size of the system and binding time of modification are properties which helps in modifiability of the system.
+  - For high cohesion - splitting module cohesively and putting similar functionality in a single module, are tactics.
+  - For reduce coupling - encapsulation, use an intermediary, abstract common service and restrict dependencies are some of the tactics.
+  - For defer binding - component replacemnt, compile-time parameterization, Aspects, configuration-time binding, resouce files, discovery, interpret parameters, shared repositories and polymorphism.
+
+### Deployability
   - Manage Deployment pipeline
     1. scripted commands
     2. scale/incremental rollout
@@ -221,9 +216,9 @@
   - Architectural quantum is independent deployable unit with high functional cohesion, high static coupling and synchronus dynamic coupling.  
 
 
-  9. Portability
+### Portability
 
-  10. Integrability
+### Integrability
    - A system can depend on other through various paradigm
     1. syntatically: module A uses B or A inherits B or A calls B
     2. temporally: time based dependency
@@ -232,23 +227,15 @@
    - Intermediatries like publisher-subscriber remove the syntatic barrier, discovery-service removes the syntatic barrier
    - **Restricting communication pattern** to adhere/force to a common protocol among components.
   
-#### Testability
-1. Increase observable state/reporting
-  - record/playback : Especially helpful in case of highly parallel system.
-  - Localize state storage
-  - Abstract data sources
-  - Sandboxing
-  - executatble assertion
-
-#### Modularity
-##### Coupling
+### Modularity
+1. **Coupling**
 - Afferent Coupling: Number of incoming connection to a component or class
 - Efferent(E-exit) Coupling: Number of outgoing connection from a component or class.
 - Reference[1](Edward Yourdon and Larry Constantine published Structured Design: Fundamentals of a Discipline of Computer Program and Systems Design Prentice-Hall)
 - Abstractness: Ration of number of abstract classes/interfaces to concrete classes. In one extreme it highlights no structure in the code. And in other extreme it highlights too much abstraction which make code difficult to understand.
 - Instabilty: If a class have too much efferent/outgoing coupling then module is instable. As it depends too much on others. It is measure as proportion of outgoing connections.
 - Distance from main sequence: It is equal to `abstractness + instability -1`. Closer to zero means a class/component is a mix of balancing forces abstratness and instability. Value too much greater than zero means class/component is uselessness (too much abstraction). Other extreme marks the zone of pain too much implementation without abstraction.
-##### Cohesion
+2. **Cohesion**
 - Best practice
   - "Attempting to divide a cohesive module will result in increase in coupling and decreased readability"
 - Types from best to worst
@@ -263,7 +250,7 @@
  - [Chidamber and Kemerer Object-oriented metrics suite](https://en.wikipedia.org/wiki/Programming_complexity)
  - Cyclomatic complexity: cannot distinguish between essential complexity vs accidental complexity.
  - Lack of Cohestion in Method(LOCM): It reflects structural lack of cohesion by measuring the use of shared variables by different method of class, though methods can be perfectly cohesive. So it should be used case to case bases. It helps in refactoring.
-##### Cossascence
+3. **Cossascence**
  - Definition: two component is cossascence if change in one require the change in other to be modified in order to maintain the overall correctness of the system.
  - It is of two types: Dyanmic and static.
  - Static cossascence: 
@@ -281,13 +268,74 @@
  - Connascence also affected by locality - more local the connasence location is more better it is than connascence at some remote location.
  - Connascence is guide for coupling.
 
+### Customizability
+ - Plugin new local functionality
 
+## Cross-Cutting archictecture Characterisitics
+### Testability
+1. Increase observable state/reporting
+  - record/playback : Especially helpful in case of highly parallel system.
+  - Localize state storage
+  - Abstract data sources
+  - Sandboxing
+  - executatble assertion 
+       
+### Security
+ - Requirement like payment etc have implicit requirement for security.
+ - security are defined using three common principle 
+    1. Confidentiality: Data is only accessed to authorized individual.
+    2. Integrity: System is not modified by individual having unauthorized access.
+    3. Accountability: User actions can be traced.
+    4. Authenticity: system is able to prove the identity of the user.
+ - introduce safeguards against your critical data. 
+ - special authorization policy.
+ - **Attack Tree** that defines from the root - successful attact to leave nodes - shows breakdown on CIA(confidentiality, Integrity and Availability) properties of the system as a result of the attack.
+ - Tactics includes - Detect, resist, react and recover
+ - Detect
+  - detect some malicious pattern in data or traffic.
+  - Detect service denial compares current network of traffic to historical traffic pattern.
+  - Checksum to check message integrity
+  - Detect man-in-the-middle attack by comparing message delivery times or abnormal connection drops.
+ - Resist
+  - Authenticate, Authorize, Encryption
+  - Limit accessibility using limited allowed API, internal firewall, validate input, regular security settings updation
+  - Limit exposure - resources are siloed in such a way that demage from a attack is minimum
+ - React
+  - Revoke access, lock an account and inform actual user.
+
+
+## Misc archictecture Characterisitics
+### Usability
+ - Anticipate user behaviour or human friendly feedbacks.
+ - support user initiative: includes cancel, undo, aggregate, pause/resume
+ - support system initiative: maintain task model, maintain user model and maintain system model.
+ - Pattern of usability includes Model-view-controller, observer and memento. see designPattern.md for more details
+ - Learnability: how easily user can figure out the various features of the system.
+ - User error protection: protection against user error.
+ - Accessibility: widest range of characteristics
+
+### Maintainability
+ - includes 
+  1. modularity: see above
+  2. Reusability: one component used by multiple system.
+  3. Analyzability: How module is analyzable.
+  4. Modifiability: see above
+  5. Testability: see above
+
+------
+
+### Internationalization
+
+------
 ## Client side error
 - We cannot observe client side errors at a server, as mostly in these error client is not able to reach servers. 
 - They are mainly ISP or route related errors. 
 - Clients are embedded with agents those gather localized error and send error reports to collector service. Error can be Unknown host exception, Third party CDN errors and timeouts etc.
 - Collector service provides API to agents to send error reports. Collector service are deployed independently from main service. It deployed near to client as much as possible.
 - Agent can be browser based or application based. In case of browser based it is crucial to not to use any user specific information including traceroute etc.
+
+
+------
 
 
 ## Scheduling algorithm
@@ -319,9 +367,9 @@
 
 
 ----
-## Architecture Documentation
+# Architecture Documentation
 
-### Architectural Decision record
+## Architectural Decision record
 ```template
   <status>
   <title>
@@ -337,10 +385,20 @@
 - [blog](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
 - Archtecture Story Card is another artifact that comes from ADR which provides implemenation details to the developer. Consequences section should give detail acceptance criteria.
 
-### Business Goals
-- Some business goals are significant on the success of the mission. These are sometimes hidden quality goals which should be exposed and comprehended before starting on architecture. 
-### Architecture Significant Requirement
+### Architecture Significant Requirement/ Non-Functional requirement / Quality requirement
+- Some business goals are significant on the success of the mission. These are sometimes hidden quality goals which should be exposed and comprehended before starting on architecture. It should be discussed with other domain stakeholders.
+- Architect should strive to prepare minimal possible list and priortize them according to their importance.
 - These are the main architecture driver serving some important and significant business needs.
+- An architecture significant requirement
+  1. have an impact on structure of the system.
+  2. It is a non-domain requirement
+  3. Critical to application success.
+- E.g. Performance for servers - like latency, throughput etc. Or Safety and security for banking application etc.  
+- How to figure out architecture significant NFRs
+  1. find domain concerns 
+  2. requirements
+  3. implicit domain knowledge
+
 ### Architecture Diagrams
  - Different view of architecture should be chosen based on quality attributes. 
 1. **Context diagram**
@@ -381,6 +439,7 @@
 ### Documenting the Rationale
  - documenting the (design decision and location) vs (rationale and Assumption including discarded alternative. 
 ### Attribute Driven Design
+
 -----
 ## Architecture Stakeholders
 1. Project Managers: 

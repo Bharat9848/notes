@@ -16,6 +16,12 @@
  	- impelement the missing functionality to pass the failing test
  	- run all test 
 
+## Performance Testing
+ 1. Stress Test
+ 2. Peak Analysis
+ 3. Capacity Required 
+ 
+
 ## Rough
 Test suite
 Test harness
