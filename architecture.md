@@ -18,6 +18,8 @@
  - Architectures: A Practical Approach, 
  - Evaluating Software Architectures: Methods and Case Studies
  - Ultra-Large-Scale Systems: The Software Challenge of the Future.
+ - [architecture-kata website](https://nealford.com/katas/random.html)
+ - [big ball of mud](https://oreil.ly/usx7p)
   
 ### Performance Books
  - Foundations of Software and System Performance Engineering: Process, Performance Modeling, Requirements, Testing, Scalability, and Practice [Bondi 14].
@@ -75,9 +77,18 @@
 ### Fitness Functions 
  - part of build and continous deployment. 
  - Checks for performance criterias like performance and scalability.
-- Fitness function `jdepends`, `SonarQube` and `ArchUnit` 
+- Fitness function 
+  - `jdepends` 
+    - finds the cyclic dependency between the code. 
+    - find coupling measure(distance from the main sequence)
+  - `SonarQube` 
+  - `ArchUnit`
+   - can be used to check different layers are not crisscrossing like controller can call service, service can call persistance etc.
+- `crap4j` to measure cyclomatic complexity. 
+
 ### Chaos Testing Framework
  - checks reliability and resiliance
+ - Simian army[link](https://github.com/Netflix/SimianArmy)
 
 ----
 
@@ -248,7 +259,7 @@
  7. Coincidental
 - Metrics: 
  - [Chidamber and Kemerer Object-oriented metrics suite](https://en.wikipedia.org/wiki/Programming_complexity)
- - Cyclomatic complexity: cannot distinguish between essential complexity vs accidental complexity.
+ - Cyclomatic complexity: cannot distinguish between essential complexity vs accidental complexity. Value less than 5 is good for less complex domain while value less than 10 is acceptable for more complex domain.
  - Lack of Cohestion in Method(LOCM): It reflects structural lack of cohesion by measuring the use of shared variables by different method of class, though methods can be perfectly cohesive. So it should be used case to case bases. It helps in refactoring.
 3. **Cossascence**
  - Definition: two component is cossascence if change in one require the change in other to be modified in order to maintain the overall correctness of the system.
@@ -387,7 +398,7 @@
 
 ### Architecture Significant Requirement/ Non-Functional requirement / Quality requirement
 - Some business goals are significant on the success of the mission. These are sometimes hidden quality goals which should be exposed and comprehended before starting on architecture. It should be discussed with other domain stakeholders.
-- Architect should strive to prepare minimal possible list and priortize them according to their importance.
+- Architect should strive to prepare minimal possible list and priortize them according to their importance. A general rule of thumb is to use only top three.
 - These are the main architecture driver serving some important and significant business needs.
 - An architecture significant requirement
   1. have an impact on structure of the system.
@@ -395,9 +406,25 @@
   3. Critical to application success.
 - E.g. Performance for servers - like latency, throughput etc. Or Safety and security for banking application etc.  
 - How to figure out architecture significant NFRs
-  1. find domain concerns 
-  2. requirements
-  3. implicit domain knowledge
+  1. Create raw list of characteristics from following sources
+    1. find domain concerns 
+     - domain experts have following domain concern and following are some corresponding characteristics
+       |domain concern| Characteristics |
+       |--------------|-----------------|
+       | Mergers and acquisitions | interoperability, scalability, adaptability, extensibility |
+       | Time to Market | Agility, testability, deployability |
+       | User Satisfaction | Performance, availability, fault tolerance, testability, deployability, agility, security |
+       | competitive Advantage | Agility, testability, scalability, availability, fault tolerance |
+       | Time and budget | simplicity, feasibility |
+       | compliance | availability, scalability, performane, auditability, reliability|
+    2. requirements:
+      - explicit number of user, RPS etc.
+    3. implicit domain knowledge
+      - traffic due to seasonality e.g. resturant recieve burst of traffic at lunch times.
+      - user behaviour based on his/her type like student do things at the very last minute etc. 
+      - news like sales event
+  2. Look for characteristics which might have structural impact.
+  
 
 ### Architecture Diagrams
  - Different view of architecture should be chosen based on quality attributes. 

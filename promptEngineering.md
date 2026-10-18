@@ -302,6 +302,8 @@ It includes **few-shot learning** with **chain of thought** in the prompt to mak
   17. [prompt hero](https://oreil.ly/q1EHt)
   18. [cursor dir](https://oreil.ly/J3Crv)
   19. [brex guide](https://github.com/brexhq/prompt-engineering?tab=readme-ov-file)
+  20. [Reflexion](https://arxiv.org/abs/2303.11366)
+  21. [Autogen](https://arxiv.org/abs/2308.08155.pdf)
 
 ---
 

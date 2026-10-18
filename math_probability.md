@@ -182,6 +182,13 @@ Non empty portion of sample space.
 
 ## ChebySgev Inequality
  - P(|X - mu| >= a) <= sigma^2/a^2
+
+## Law of large number
+ - variance goes smaller and smaller as N goes large.
+ - Sample mean will converge to actual mean of the distribution as N goes large.
+
+## Central Limit Theorem  
+- Irrespective of probability distribution of a random variable. 
 ----- 
 # References
  - DasGupta, Anirban. Probability for statistics and machine learning: fundamentals and advanced topics. New York: Springer, 2011.

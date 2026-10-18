@@ -194,9 +194,12 @@
 6. workflow-parallelization: Many LLM pitch in some substask
   1. sectioning: aggregation needs to aggregate subsection response 
   2. voting: Aggregation require choosing the best one.
-7. workflow-orchestrator-workers: In the orchestrator-workers workflow, a central LLM dynamically breaks down tasks, delegates them to worker LLMs, and synthesizes their results.
+7. workflow-orchestrator-workers:
+ - In the orchestrator-workers workflow, a central LLM dynamically breaks down tasks, delegates them to worker LLMs, and synthesizes their results.
+ - Orchestrator can dynamically create a coversational prompt along with list of tools appropriate for the task from the tool list.
+ - Or orchestrator have specified set of task it can invoke which in turn is a worker agent.
 8. workflow-Evaluator-optimizer: In the evaluator-optimizer workflow, one LLM call generates a response while another provides evaluation and feedback in a loop.  
-
+9. Subagent stateful or stateless ??
 ---
 
 # Frameworks

@@ -1,4 +1,8 @@
 # API
+
+## Best 
+- Public api should not change
+
 ## Implicit API 
 - more general method 
 - requires more documentation

@@ -1,4 +1,9 @@
 # Evaluation
+-----
+# Why
+- Test model you use, test prompts, test interaction.
+- For subtle effects you might need to check hundred or thousands of example.
+- 
 
 ----
 # Type
@@ -29,6 +34,8 @@
 - Goal is to test complex interactions, emergent behaviors(unexpected behavior) and end-to-end issues
 - constructing representative workflows or user journeys.
 - Simulated convesation for multi-turn conversations.
+  1. canned conversation: A script to simulate multi-turn conversation
+  2. Or LLM to act as a user proxy.
 - both LLM and human evaluation is needed in case of multi-agent application.
 
 
@@ -53,9 +60,10 @@
 ## Agent Metrics
  1. Answer Quality 
  - **Correctness** or **Factualness**: Agent/System answer is based on a fact. Its answer is not a hallucination. Its providing enough references.
- - **Relevance**: Agent/system able to interpret the input and returned answer which is informative, concise and relevant to the question.
+ - **Relevancy**: Agent/system able to interpret the input and returned answer which is informative, concise and relevant to the question.
  - **Completeness**: Answer is a complete response to the input
  - **Consistency**: System answer is consistent with the expectation all the time.
+ <!-- - **Instruction Adherence** -->
  2. Generative metrics
  - **Coherence**: Agent remembers context and conversation provide contextually relevant answer. It is especially measured in case of long conversation multi-turn scenarios.
  - Fluency: Answer is grammatically correct and readable.
@@ -158,8 +166,6 @@
 - SelfCheckGPT: see paper. Can only be used for hallucination detection.
 - SemScore: Checks whether the output and reference text convey the same meaning and intent as the reference text.
 
-
-
 ----
 ## Observability matureness
 Stage1: Threshold based alerts
@@ -169,6 +175,30 @@ Stage3: Drift detection:
   - overtime plotting of drift in user input against retrieval documents
 Stage4: Human feedback signal.
 
+
+## regression 
+- Test suite to test all the functionalities.
+
+------
+
+### Model selection
+ - prompt engineering might start with the strongest model overall to evaluate feasibility and then work backward to see if smaller models would work.
+ - If you decide to do finetuning, you might start with a small model to test your code and move toward the biggest model that fits your hardware constraints (e.g., one GPU).
+- When looking at models, it’s important to differentiate between hard attributes (what is impossible or impractical for you to change) and soft attributes (what you can and are willing to change).
+- Check public benchmarks: Benchmark results help you identify promising models for your use cases. Aggregating benchmark results to rank models gives you a leaderboard. 
+- references 
+  1. [benchmark link](https://github.com/EleutherAI/lm-evaluation-harness/blob/master/docs/task_table.md)
+  2. [huggingface leaderboard](https://oreil.ly/-uhru)
+  2. [stanford leaderboard](https://oreil.ly/CQ52G)
+#### model selection metrics
+  1. cross entropy: see cross entropy in machineLearningMaths.md
+  2. perplexity: exponential of cross entropy. perplexity measures the amount of uncertainty it has when predicting the next token. Perplexity is 2^(cross-entropy). Structured data, simple text like children book and context length have lower perplexity. Post-Training and quantization increase the perplexity.
+  3. small set of go-to prompts
+  4. Bit-per-character: How much bits language model uses for a training set character.
+  5. Bit-per-byte: How much bits language model uses for a training set byte.
+
+
+------
 # Evaluation pipeline
 1. **Metric Selection**
  - Not to use more than 5 LLM evaluation metrics in your evaluation pipeline. Otherwise you will be measuring lot of things which will good as not measuring at all.
@@ -214,30 +244,6 @@ Stage4: Human feedback signal.
  - Human feeback [linkedin](https://www.linkedin.com/blog/engineering/generative-ai/musings-on-building-a-generative-ai-product)
  - [examples](https://arxiv.org/abs/2306.09479) 
 
-## regression 
-- Test suite to test all the functionalities.
-
-------
-
-### Model selection
- - prompt engineering might start with the strongest model overall to evaluate feasibility and then work backward to see if smaller models would work.
- - If you decide to do finetuning, you might start with a small model to test your code and move toward the biggest model that fits your hardware constraints (e.g., one GPU).
-- When looking at models, it’s important to differentiate between hard attributes (what is impossible or impractical for you to change) and soft attributes (what you can and are willing to change).
-- Check public benchmarks: Benchmark results help you identify promising models for your use cases. Aggregating benchmark results to rank models gives you a leaderboard. 
-- references 
-  1. [benchmark link](https://github.com/EleutherAI/lm-evaluation-harness/blob/master/docs/task_table.md)
-  2. [huggingface leaderboard](https://oreil.ly/-uhru)
-  2. [stanford leaderboard](https://oreil.ly/CQ52G)
-#### model selection metrics
-  1. cross entropy: see cross entropy in machineLearningMaths.md
-  2. perplexity: exponential of cross entropy. perplexity measures the amount of uncertainty it has when predicting the next token. Perplexity is 2^(cross-entropy). Structured data, simple text like children book and context length have lower perplexity. Post-Training and quantization increase the perplexity.
-  3. small set of go-to prompts
-  4. Bit-per-character: How much bits language model uses for a training set character.
-  5. Bit-per-byte: How much bits language model uses for a training set byte.
-
-
-------
-
 ### Model quality framework
 - Evaluation criteria based on application
   1. domain specific capability
@@ -282,9 +288,12 @@ Stage4: Human feedback signal.
 1. Functional correctness
   - Need to do fact check, reasoning, check domain expertise
   - Solutions
-    1. **AI as a judge** 
-      - can compare reference answer, two different answer and do naive comparison. 
-      - Experiment on different criteria prompts with each prompt a separate call. 
+    1. **LLM as a judge** 
+      - A/B Testing 
+        1. can compare reference answer, two different answer and do naive comparison. 
+      - Direct Assessment: Score the generated answer and provide feedback.
+
+      - Experimention different criteria prompts with each prompt a separate call. 
       - cost can be reduced if responses are sampled.
       - LLM-as-judge evaluations should use well-defined rubrics and discrete scoring rather than arbitrary continuous scores that are difficult to trace or justify.
       - Asynchronously evaluating the answers
@@ -297,6 +306,13 @@ Stage4: Human feedback signal.
         | Ragas | Faithfulness, answer relevance|
       - which model to use
         1. self evaluation and nudging for answer correction ?
+      - [LLM-as-a-judge: a complete guide to using LLMs for evaluations](https://www.evidentlyai.com/llm-guide/llm-as-a-judge)
+      - [llm as a judge resource hub](https://llm-as-a-judge.github.io/)
+      - [From Generation to Judgment: Opportunities and Challenges of LLM-as-a-judge (2024)](https://arxiv.org/abs/2411.16594)
+      - [LLMs-as-Judges: A Comprehensive Survey on LLM-based Evaluation Methods](https://arxiv.org/abs/2412.05579)
+      - [Judge’s Verdict: A Comprehensive Analysis of LLM Judge Capability Through Human Agreement](https://arxiv.org/abs/2510.09738v1)
+      - [Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena](https://arxiv.org/abs/2306.05685)
+      - [Judge arena board](https://docs.spring.io/spring-ai/reference/guides/llm-as-judge.html)
     2. Human as a judge: Already we are at a stage where we require an expert to judge AI result.
     3. deterministic tests
     4. Similarity search with exact, lexical and semantic scores on generated answer when compared with referenced answer.
@@ -376,8 +392,13 @@ steps to follow below
  - Zhong, Ming, et al. [“Towards a Unified Multi-Dimensional Evaluator for Text Generation”](https://oreil.ly/nMMsh), arXiv, October 2022.
 
  ---
+# Test Data
 
-# Generate Golden dataset
+1. Find the test data in wild.
+2. Created by your live project.
+3. Syntatically generate through LLM. It is the easiest route but test can be oversimple or exaggerated cases. One caveat is to not to use the same LLM which is used in the application as it will create bias in the question. 
+
+## Generate Golden dataset from RAG chunks
 
 1. for each document/chunk generate question using following prompt
 ```
