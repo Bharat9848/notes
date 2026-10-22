@@ -316,3 +316,6 @@ It includes **few-shot learning** with **chain of thought** in the prompt to mak
 
 ## tools
 ### Prompt flow
+
+## Rough
+- System messages are strong suggestion nothing else

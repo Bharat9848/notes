@@ -67,99 +67,18 @@ it have adversarial loop between its components that continues till satisfactory
 - learn to remove noise and reconstruct distorted examples
 - it relies on statistical properties 
 
-----
-
-## Model type
-1. Instruct Model:
- - The RLHF model were called instruct models. They are confused with completion mode or instruct mode. Plain user question were confused to be either completed like completion model or return answer by assuming model in instruct mode. 
-
-2. Chat Model
- - Sets a clear demarcation of instructions and chat in `system`, `user`, `assitant` and `function` message.
- - Tuned for to and fro kind of chats.
- - internally different message are translated to a markup language which makes llm easier to understand and fill.
- - Not mixing System and User messages in a single message prevents prompt injection. 
-
-3. Completion model
- - Tuned to complete a sentence. 
- - e.g. `gpt-40`, `gpt-3.5-turbo-instruct` 
-
-4. Reasoning model
-
-5. Execution API: OpenAI will call external API interjects the API response in next prompt message. And call LLM again with new information.
-
- 6. **Masked language model**(MLM): try to predict the missing information in between of a sentence. "well-known example of a masked language model is bidirectional encoder representations from transformers, or BERT (Devlin et al., 2018)". Used for sentiment analysis, text classification.
-  Both REALM and ORQA are built on a clever combination of two components: A Masked Language Model (MLM) and A Differentiable Retriever — a component that fetches relevant documents from a large knowledge source (like Wikipedia) when given a question. The word "differentiable" is key — it means this retriever is not a hard-coded search engine, but a learnable component that improves through training alongside the language model.
-  7. Autoregressive language model: try to predict next word. They are also called **Generative model**
-  8. **Multimodel**: An llm that trained on different type of input other than text like image, audio etc.
-  9. **Embedding Model**:
-  10. **Foundational model**: From specific task to general purpose model.
-  11. Reasoning model: generate reasoning token then returns the output.
 
 ----
-
-## LLM Tuning configurations
-
-  1. Temperature
-    - it further adjusts the llm response probability vector by increasing or decreasing the probability of some of the token which have implication of creativity adjustment. Using formula `adjusted_probability(𝑝𝑖)=exp(log(𝑝𝑖)/temperature)/SumAll(exp(log(𝑝𝑖)/temperature))`
-    - higher temperature decrease the probabilities of common words and increase the probabilities of rare words. Hence increase the creativity of responses.
-    - Its value range from 0 to 2. 
-    1. 0: Setting temperature to zero makes the model deterministic.
-    2. 0.1-0.4: Useful when you want 2-3 different completion and each one are highly probable and you want to chose the best one. Or maybe you want single solution but which is creative at the same time.  
-    3. 0.5-0.7 is the recommendation for sweet spot in creativity and predicatability. Some completion might be inaccurate. If you want large range of different solution.
-    4. 1 : Makes the model return mirror of training set probabilities
-    5. >1 : Make the model more random just trying to follow word after another. 
-    - **Greed decoding**- choosing temparature 0 which increases the probability of top word very high.
-     
-  2. Top-p
-  3. Top-k
-  4. Repeation-penalty: It penalises on repeating words or phrases.
-  5. logit biasing: Override some tokens probability and make model biased to the token.
-  6. max_token: LLM stops generating response till some special token is generated or `max_token` limit is reached.
-  7. `n`: for number of completion you want from the model. Default is 1.
-  8. `stream`: returns the token as they are generated. It helps in good user experience.
-  9. `stop`: a list of string which makes model stop producing anymore token once it generated any of the stop string.
-  10. `top_log probs`: for each token generated return the top candidate and their respective log probs.
-  11. `logprobs`: return the probability of each token generated.
-  12. `echo`: return the log probability of prompt as well alongwith log probabilities of completion answwer.
-
-----
-
-## Model properties
-  - **context-window**: Maximum number of token llm can process across input and output.
-  - Model size: Number of parameters which defines model. Small model have 1-10 billion parameter while large one have 100-500 billion.
-  - model parameters: 
-    1. increasing model parameter increasing its capacity to learn. 
-    2. `model parameter * parameter size` gives the GPU memory needed to make inference
-    3. Model parameter is not good enough in case(for what ??) model is sparse means most of the parameters are zero.
-  - model generation: signifies new version of model.
-  - training dataset: 
-    - measured in number of token to gauge the potency of dataset. 
-    - Quantity, quality and diversity of token is proxy of potency of a model.
-  - FLOPs: floating point operations required is a measure of the model cost.
-  - Cost: fixed set of cost per million tokens.
-  - Performance metrics:
-    1. time to first token
-    2. token per second.
-  - Training cutoff date
-  - When logprobs are available, use them. Logprobs can be used to measure how confident a model is about a generated token.
-
 
 ----
 ## Model quality
   - Benchmarks - Automated, human graded and LLM as a judge.
 ----
-## Model API
-- Inference service hosted by **Model API**
 
 ## Model distillation?
 - A language model encodes statistical information about one or more languages.
 
 ----
-# Training
-1. Pretraining: training on lot of data.
-2. Supervised Finetuning: training on high quality data
-3. Reward modeling: Model learns to distinguish between good and bad answer.
-4. Reinforcement learning: Refining of responses based on human feedback.
 
 ## Basic  
 1. Test-time compute - Allocating more compute which allows LLM to generate multiple outputs which can be further sampled using some strategies.
@@ -179,7 +98,7 @@ it have adversarial loop between its components that continues till satisfactory
   - self reflection and error correction
   - plan generation vs reflection
   - Tool selection: no foolproof quide
-  - Mixture of expert model: Model diviedes parameter into groups called expert and while inferencing only one expert is activated. Mixtral 8x7B means there are 8 experts each of 7B size. 
+  - 
 
 ---
 ## Hallucination: 
@@ -204,12 +123,8 @@ it have adversarial loop between its components that continues till satisfactory
   - Caching: claude model supports caching of system, user, tools messages it prevents cached prompt to token conversion. Hence it helps in saving tokens and letency. E.g. Anthropic provides system message caching. 
 
 ----
-
-## Post-training
-  - It have a goal to tune the model to have conversation and removed any racist,sexist commentary from its internet
-  - alignment training
-  - Supervised finetuning(SFT)
-  - Preference finetuning based on reinforcement learning from human feedback (RLHF) or Direct Preference Optimization(DPO)
+# Open weight model
+# Locally hostable model: NVIDIA NIM
 
 ----
 
@@ -244,6 +159,11 @@ it have adversarial loop between its components that continues till satisfactory
 
 
 ---
+# Training
+1. Pretraining: training on lot of data. Data can be word or token. More quality data is more effecient the model would be. Size of the corpus of 14.8 trillion token.
+2. Supervised Fine Tuning(SFT): training on high quality data to improve on instruction following capability and generate high quality responses. Data is curated and prepared from highly technical and specialized human experts and end product is mixture of expert people. End model divides parameter into groups called expert and while inferencing only one expert is activated. For example Mixtral 8x7B means there are 8 experts each of 7B size. 
+3. Reinforcement learning: Refining of responses based on human feedback. Model from SFT returns few sample answer and human feeback refines the model to human expectation.
+4. Reward modeling: Model learns to distinguish between good and bad answer.
 
 
 # Fine-tuning
@@ -281,6 +201,13 @@ it have adversarial loop between its components that continues till satisfactory
 - partial finetuning
 - full finetuning
 
+
+## Post-training
+  - It have a goal to tune the model to have conversation and removed any racist,sexist commentary from its internet
+  - alignment training
+  - Supervised finetuning(SFT)
+  - Preference finetuning based on reinforcement learning from human feedback (RLHF) or Direct Preference Optimization(DPO)
+
 ---
 # Quantization
 - reduces Model's parameters precision from 16 bit to 8 bit or 4 bit.
@@ -316,8 +243,7 @@ it have adversarial loop between its components that continues till satisfactory
 - all capital words and all smallcase words are tokenized differently.
 - End-of-text token are special reserved tokens for LLM to stop producing anymore text.
 - LLM are autoreggresives mean last token is input for next input generation. It have two consequences - one Once LLM is committed to some token it can't take back. It will continue to extend on already generated token even though they can be wrong. Second is that if LLM generates a pattern by chance then it will continue to repeat the pattern for quite some time as the next most probable token for pattern token is continue the pattern.
-- **Sampling**: process of choosing the next token given the all the candidate tokens with their probabilities.  
-- **Beam search**: It is a kind of sampling. Before choosing next token it checks whether choosing the token make the next token afterwards more difficult.  In other words it takes few tokens to be generated into account before selecting current token. 
+
 
 ## Limitation
 - Cannot answer facts which occurs after the training.
@@ -327,6 +253,22 @@ it have adversarial loop between its components that continues till satisfactory
 - Language Modeling Task
 - Question-Answer Task
 
+## Model internal properties
+  - **context-window**: Maximum number of token llm can process across input and output.
+  - Model size: Number of parameters which defines model. Small model have 1-10 billion parameter while large one have 100-500 billion.
+  - model parameters: 
+    1. increasing model parameter increasing its capacity to learn. 
+    2. `model parameter * parameter size` gives the GPU memory needed to make inference
+    3. Model parameter is not good enough in case(for what ??) model is sparse means most of the parameters are zero.
+  - model generation: signifies new version of model.
+  - training dataset: 
+    - measured in number of token to gauge the potency of dataset. 
+    - Quantity, quality and diversity of token is proxy of potency of a model.
+  - FLOPs: floating point operations required is a measure of the model cost.
+  - Cost: fixed set of cost per million tokens.
+  - **Sampling**: process of choosing the next token given the all the candidate tokens with their probabilities.  
+     1. **Beam search**: It is a kind of sampling. Before choosing next token it checks whether choosing the token make the next token afterwards more difficult.  In other words it takes few tokens to be generated into account before selecting current token. 
+     2. Greedy Sampling: Choosing the most probable token.
 ---
 ## Rough 
 - single head attention model

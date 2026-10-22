@@ -140,6 +140,48 @@
 5. end-to-end 
   - answer-correctness: Answer is compared to grounded truth
   - answer-similarity: semantic similarity between grounded truth and answer
+----
+
+## Metrics 
+1. Performance
+  - Latency
+  - agent cost
+  - no of avg steps to complete the task
+  - per action latency
+  - system metrics like latency throughput.  
+  - llm performance metrics.
+2. Quality metrics
+  1. LLM subcomponent
+  - llm response quality metrics like faithfulness, response accuracy etc
+  - citation quality
+  - noise filtering
+  - input tokens
+  - input token division between think, generation and output formatting
+  - output tokens
+  - RAGA's library
+  2. RAG subcomponent
+  - recall and precision metrics using human annotated dataset.
+  - contextual relevancy
+  - answer relevancy: predicts weather llm is able to use context more effectively or not.
+  3. Agent/tool subcomponent
+  - Valid plan percentage
+  - invalid tool call frequency in last X sec window
+  - valid tool call percentage.
+  - no of iterations from invalid plan to valid plan.
+  - tool wise invocation failures
+  - tool response rejection by llm.
+  4. Overall system metrics
+  - Human feedback with thumb up and down with optional text box for feedback.
+  - Response error metrics
+  - successful response metrics
+
+### Logging
+  - tool invocation failure, input and output   
+  - Each stage input/output.
+  - plan steps
+### Trace
+### References
+- Phoenix by arize - observability tool.
 
 ----
 

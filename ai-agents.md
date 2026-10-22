@@ -1,17 +1,79 @@
+## Model type
+1. Instruct Model:
+ - The RLHF model were called instruct models. They are confused with completion mode or instruct mode. Plain user question were confused to be either completed like completion model or return answer by assuming model in instruct mode. 
+
+2. Chat Model
+ - Sets a clear demarcation of instructions and chat in `system`, `user`, `assitant` and `function` message.
+ - Tuned for to and fro kind of chats.
+ - internally different message are translated to a markup language which makes llm easier to understand and fill.
+ - Not mixing System and User messages in a single message prevents prompt injection. 
+
+3. Completion model
+ - Tuned to complete a sentence. 
+ - e.g. `gpt-40`, `gpt-3.5-turbo-instruct` 
+
+4. Reasoning model: generate reasoning token then returns the output.
+
+5. Execution API: OpenAI will call external API interjects the API response in next prompt message. And call LLM again with new information.
+
+ 6. **Masked language model**(MLM): try to predict the missing information in between of a sentence. "well-known example of a masked language model is bidirectional encoder representations from transformers, or BERT (Devlin et al., 2018)". Used for sentiment analysis, text classification.
+  Both REALM and ORQA are built on a clever combination of two components: A Masked Language Model (MLM) and A Differentiable Retriever — a component that fetches relevant documents from a large knowledge source (like Wikipedia) when given a question. The word "differentiable" is key — it means this retriever is not a hard-coded search engine, but a learnable component that improves through training alongside the language model.
+  7. Autoregressive language model: try to predict next word. They are also called **Generative model**
+  8. **Multimodel**: An llm that trained on different type of input other than text like image, audio etc.
+  9. **Embedding Model**:
+  10. **Foundational model**: From specific task to general purpose model.
+
+## LLM Tuning configurations
+
+  1. Temperature
+    - it further adjusts the llm response probability vector by increasing or decreasing the probability of some of the token which have implication of creativity adjustment. Using formula `adjusted_probability(𝑝𝑖)=exp(log(𝑝𝑖)/temperature)/SumAll(exp(log(𝑝𝑖)/temperature))`
+    - higher temperature decrease the probabilities of common words and increase the probabilities of rare words. Hence increase the creativity of responses.
+    - Its value range from 0 to 2. 
+    1. 0: Setting temperature to zero makes the model deterministic.
+    2. 0.1-0.4: Useful when you want 2-3 different completion and each one are highly probable and you want to chose the best one. Or maybe you want single solution but which is creative at the same time.  
+    3. 0.5-0.7 is the recommendation for sweet spot in creativity and predicatability. Some completion might be inaccurate. If you want large range of different solution.
+    4. 1 : Makes the model return mirror of training set probabilities
+    5. >1 : Make the model more random just trying to follow word after another. 
+    - **Greed decoding**- choosing temparature 0 which increases the probability of top word very high.
+     
+  2. Top-p
+  3. Top-k
+  4. Repeation-penalty: It penalises on repeating words or phrases.
+  5. logit biasing: Override some tokens probability and make model biased to the token.
+  6. max_token: LLM stops generating response till some special token is generated or `max_token` limit is reached.
+  7. `n`: for number of completion you want from the model. Default is 1.
+  8. `stream`: returns the token as they are generated. It helps in good user experience.
+  9. `stop`: a list of string which makes model stop producing anymore token once it generated any of the stop string.
+  10. `top_log probs`: for each token generated return the top candidate and their respective log probs.
+  11. `logprobs`: return the probability of each token generated.
+  12. `echo`: return the log probability of prompt as well alongwith log probabilities of completion answwer.
+
+----
+
+
 # Agent
 - Agent is autonomous agent capable to follow ReAct pattern. It reacts to tool response and retry some actions till the desired task is achieved or some errornous condition is breached.
+- Agent behavioral properties 
+  1. Goal orientation: sticking to personality and overarching goal
+  2. planning and reasoning: Internal logic to execute a task
+  3. Preceive and action: displays in tool calling
+  4. Adaptability and learning: re-evaluate past steps and retry.
 ----
 
 # Agentic workflow
  - Static agentic workflow is different from fully autonomous agent, it follows a difinite workflow and unlike AI agent is not dynamic in nature.
  - Controller-worker pattern: LLM act as a controller and chooses from the fixed set of option. Option can be a tool or other LLM worker.
+
+
+
 ----
-
-
 
 ## Question
  - how to make LLM specialize in some area of problem statement ?
+  1. Fix the input and output
+  2. encode how part in the system message 
  - which LLM to choose
+ 
  - how to restrict model to answer using context only.
 
 
@@ -38,46 +100,7 @@
 
 
 # Observability  
-## Metrics 
-1. Performance
-  - Latency
-  - agent cost
-  - no of avg steps to complete the task
-  - per action latency
-  - system metrics like latency throughput.  
-  - llm performance metrics.
-2. Quality metrics
-  1. LLM subcomponent
-  - llm response quality metrics like faithfulness, response accuracy etc
-  - citation quality
-  - noise filtering
-  - input tokens
-  - input token division between think, generation and output formatting
-  - output tokens
-  - RAGA's library
-  2. RAG subcomponent
-  - recall and precision metrics using human annotated dataset.
-  - contextual relevancy
-  - answer relevancy: predicts weather llm is able to use context more effectively or not.
-  3. Agent/tool subcomponent
-  - Valid plan percentage
-  - invalid tool call frequency in last X sec window
-  - valid tool call percentage.
-  - no of iterations from invalid plan to valid plan.
-  - tool wise invocation failures
-  - tool response rejection by llm.
-  4. Overall system metrics
-  - Human feedback with thumb up and down with optional text box for feedback.
-  - Response error metrics
-  - successful response metrics
-
-### Logging
-  - tool invocation failure, input and output   
-  - Each stage input/output.
-  - plan steps
-### Trace
-### References
-- Phoenix by arize - observability tool.
+- see ai-eval.md
 
 ----
 
@@ -259,14 +282,17 @@
 
 
 # Cost control
+ - Speculative decoding
+ - prompt caching
+ - template generation
  - guardrails to check if user is not diverting from the domain.
- - experiment with smaller quantized model.
+ - Model distillation: experiment with smaller quantized model.
  - fine tune smaller model to one specific task
  - retrieve fewer document.
  - stricter prompt size
  - At scale switch from cost per token to cost per hour of dedicated hardware by any cloud provider
  - Vector use multi-tenancy database.
- - Dynamic model selection: Based on number of messages in conversation increasing some threshold we can override model fo complex model from same family.
+ - Dynamic model selection: Based on number of messages in conversation increasing some threshold we can override model to complex model from same family.
 
 ---
 
@@ -312,3 +338,6 @@ Migrate, AI Code Translator)
       2. Question Answering:
       3. Entity extraction
 https://github.com/bahree/GenAIBook/blob/main/papers/readme.md#chapter-11---scaling-up-best-practices-for-production-deployment-
+
+
+Omar Sanseviero et al.’s Hands-On Generative AI with Transformers and Diffusion Models (O’Reilly), which covers the underlying technology; Chris Fregly et al.’s Generative AI on AWS (O’Reilly), which covers hyperscaler offerings; and Leonid Kuligin et al.’s Generative AI on Google Cloud with LangChain (Packt), which covers an open source GenAI framework.
