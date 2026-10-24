@@ -36,8 +36,8 @@
     5. >1 : Make the model more random just trying to follow word after another. 
     - **Greed decoding**- choosing temparature 0 which increases the probability of top word very high.
      
-  2. Top-p
-  3. Top-k
+  2. Top-P/ Nucleus Sampling: LLM considers top probability tokens till their probability sum reaches the value P. Top-P is used more often than Top-K.  
+  3. Top-K: LLM use only top K propability tokens for generation. how to use ?? 
   4. Repeation-penalty: It penalises on repeating words or phrases.
   5. logit biasing: Override some tokens probability and make model biased to the token.
   6. max_token: LLM stops generating response till some special token is generated or `max_token` limit is reached.
@@ -46,7 +46,16 @@
   9. `stop`: a list of string which makes model stop producing anymore token once it generated any of the stop string.
   10. `top_log probs`: for each token generated return the top candidate and their respective log probs.
   11. `logprobs`: return the probability of each token generated.
-  12. `echo`: return the log probability of prompt as well alongwith log probabilities of completion answwer.
+      - what is logit internally present???. LLM runs softmax probability function over it `prob(token)=e^logit(i)/sumall(e^logit)`
+      - Sum of log probabilites tells how confident LLM is.
+     - Average of log probabilities can be an aggregate measure to check the quality of LLM response.
+     - Choosing logit probability by calibration for the classification task.   
+  12. `echo`: return the log probability of prompt as well alongwith log probabilities of completion answer. For any log probability going below negative double digit number will be a red flag - it may point to typos, ambiguous things.
+  13. Presence Penalty: word/phrase is repeated
+  14. Frequency Penalty
+  15. Length Normalization Penalty
+  16. Maximum length Penalty
+  17. Minimum length Penalty
 
 ----
 
@@ -281,7 +290,7 @@
 ---
 
 
-# Cost control
+# Cost controllogit
  - Speculative decoding
  - prompt caching
  - template generation
@@ -313,11 +322,8 @@ Migrate, AI Code Translator)
 
 ----
 
-## Log probabilities
-- Sum of log probabilites tells how confident LLM is.
-- Average of log probabilities can be an aggregate measure to check the quality of LLM response.
-- Choosing logit probability by calibration for the classification task.
-- Set `echo` to true return the log probabilities of prompt along with completion. For any log probability going below negative double digit number will be a red flag - it may point to typos, ambiguous things. 
+
+ 
 
 
 ----

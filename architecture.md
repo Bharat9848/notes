@@ -173,6 +173,7 @@
   - Performance Testing: See testing notes
 
 ### Reliability/Safety/Robustness
+ - It includes some part of data integrity.
  - It is quality which enables a service to able perform some action in specified time.
  - Mean time to repair(MTTR) and Mean Time Between Failure are the reliability measures. 
  - keep part of the system functional even though part of system is under fault.
@@ -197,6 +198,8 @@
 ### Scalability
 - Operate system to perform and operate under increase in load.
 - concurrent users.
+- Architectural Quantum: includes all the necessary components that needs to be scale together to scale some part of the functionality of an overall system.
+- Dependent component outside of the code-base like database should also scale with the application otherwise system overall will not scale.
 
 ### Elasticity
 - It is different from scalability as it is system's ability to stretch/shrink in short span of time. 
@@ -264,17 +267,21 @@
 3. **Cossascence**
  - Definition: two component is cossascence if change in one require the change in other to be modified in order to maintain the overall correctness of the system.
  - It is of two types: Dyanmic and static.
- - Static cossascence: 
-  - Connascence of Name: Name of a method
-  - Connascence of Type:
-  - Connascence of Meaning/convention:
-  - Connascence of Position
-  - Connascence of algorithm
- - Dynamic Cossascence:
-  - Connascence of execution
-  - Connascence of Timing
-  - Connascence of Values
-  - Connascence of identity
+  1. Static cossascence: 
+   - Connascence of Name: Name of a method
+   - Connascence of Type: same class shared between two components
+   - Connascence of Meaning/convention:
+   - Connascence of Position
+   - Connascence of algorithm
+  2. Dynamic Cossascence:
+   - Connascence of execution: 
+   - Connascence of Timing
+   - Connascence of Values
+   - Connascence of identity
+  3. Quantum Connascence
+   - Synchronous Calls
+   - Asynchronous calls
+
  - Some connascence are desirable like connascence of name and type other connascenece should be refactored to connascence of name and type. e.g. A magic number in multiple classes can be refactored to connascence of name by making magic number by declaring it a public constant. Order of connascnece from the undesirable to desirable as following - identity, value, timing, execution, position, algorithm, meaning, type and name.
  - Connascence also affected by locality - more local the connasence location is more better it is than connascence at some remote location.
  - Connascence is guide for coupling.
@@ -512,6 +519,17 @@
  - Cost: First we calculate person-month required to fix the antipattern.  
  - Benefit: To estimate the savings, we make one assumption: The refactored files will have roughly the same number of bug fixes in the future as the average file had in the past. This is actually a very conservative assumption since the average number of bug fixes in the past was inflated by those files in the identified hotspots. Moreover, this calculation does not consider other significant costs of bugs, such as lost reputation, lost sales, and additional quality assurance and debugging effort.
  
+
+-------
+# Data Modeling 
+1. Best practice
+ - Bounded context: Entity classes is common in a context while opaque to other bounded context. e.g. Customer class in different organization should be different and should only reconcile differences at the integration use
+
+
+
+--------
+
+
 # Rough
 - Documenting patterns. If you employ patterns in your design, as recommended in Chapter 20, these patterns should be identified in the documentation. First, record the fact that the given pattern is being used. Then say why this solution approach was chosen—why the pattern is appropriate for the problem at hand. Using a pattern involves making successive design decisions that eventually result in that pattern’s instantiation. These design decisions may manifest themselves as newly instantiated elements and the relations among them, which in turn should be documented in structural views.
 

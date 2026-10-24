@@ -183,11 +183,15 @@ it have adversarial loop between its components that continues till satisfactory
 - Starting from SFT model, it is tasked to complete the prompts. Then the generated answer were judged by the reward model. Based on the score RLHF model weighs are tuned.
 - To stop model to learn nuances on reward model Proximity Policy Optimization algorithm, which involve check that allow score to be used to change weighs only if the answer is not significantly diverged from SFT model output.
 - RLHF model teaches model on how to be uncertain and certain on some answer it generates rather than always certain. 
-## Low-Rank Adaption(LoRA) 
- - Does not change all the model parameters, instead focus on some key parameter matrices.
+## Parameter effeicient fine-tuning
+### Low-Rank Adaption(LoRA) 
+ - Does not change all the model parameters, instead focus on some key trainable "adapter" parameter matrices.
  - LORA dimension: A degree of freedom to the diff you train.
  - It changes already existing original model capability in certain way which are nuanced to the problem domain.
  - It requires hundred to thousands of examples.
+### Quantization Aware Low-Rank Adaptation
+ - Quantize all the weights of the model.
+ - It is more memory effecient but slower than LoRA 
 
 ## Soft Prompting:
  - using machine learning to learn new model weights. 

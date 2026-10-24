@@ -55,8 +55,11 @@
      - limit the problem domain. 
    - Output Format, 
    - instructions for gathering information, 
-   - instruction about the qualities of answer, 
-   - instruction about the persona and tones.
+   - instruction about the qualities of answer
+     - instruction about the persona and tones.
+     - Vocabulary
+     - reading level
+     - formatting
    - Instruction about using dynamic context: 
      - It should be scored as similar to dynamic content. It is optional to add depending upon dynamic context presence.
 
